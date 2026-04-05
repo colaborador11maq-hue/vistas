@@ -10382,8 +10382,8 @@ const imgBolsaDeliveryBase = new Image();
                     <div class="orden-field prod-stock-only" data-nat="producto,fabricado"><label for="prodFormMinima">Cantidad minima</label><input id="prodFormMinima" type="number" min="0" step="1"></div>
                     <div class="orden-field prod-stock-only" data-nat="producto,fabricado,insumo"><label for="prodFormExistencias">Existencias</label><input id="prodFormExistencias" type="number" min="0" step="1"></div>
                     <div class="orden-field prod-stock-only" data-nat="producto,fabricado,insumo"><label for="prodFormPrecioCompra">Precio de compra</label><input id="prodFormPrecioCompra" type="number" min="0" step="0.01"></div>
-                    <div class="orden-field productos-field-span3 prod-stock-only" data-nat="producto,fabricado"><label>Procesos asignados <span style="font-weight:400;color:#9ca3af;font-size:0.6rem;">(Ctrl+click para seleccionar varios)</span></label><select id="prodFormProcesos" multiple style="width:100%;min-height:28px;max-height:40px;font-size:0.6rem;"></select></div>
-                    <div class="orden-field productos-field-span3" data-nat="fabricado"><label style="margin-bottom:2px;">🧪 Receta de fabricación <span style="font-weight:400;color:#9ca3af;font-size:0.55rem;">(insumos necesarios para fabricar este producto)</span></label><div id="prodFormRecetaBox" style="border:1px solid #e5e7eb;border-radius:6px;padding:6px;background:#fafbfc;"><div id="prodFormRecetaList" style="font-size:0.65rem;color:#6b7280;">Sin insumos asignados</div><div style="display:flex;gap:4px;margin-top:4px;align-items:center;"><select id="prodFormRecetaInsumoSel" style="flex:1;font-size:0.68rem;padding:4px 6px;border:1px solid #d8dde6;border-radius:5px;"><option value="">Seleccionar insumo...</option></select><input id="prodFormRecetaCantidad" type="number" min="0.001" step="0.001" value="1" placeholder="Cantidad" style="width:80px;font-size:0.68rem;padding:4px 6px;border:1px solid #d8dde6;border-radius:5px;"><button type="button" id="prodFormRecetaAdd" class="productos-btn" style="padding:4px 8px;">+ Agregar</button></div></div></div>
+                    <div class="orden-field productos-field-span3 prod-stock-only" data-nat="producto,fabricado"><label style="margin-bottom:2px;">⚙️ Procesos asignados</label><div style="display:flex;align-items:center;gap:6px;"><button type="button" id="prodFormProcesosBtn" class="productos-btn" style="padding:6px 14px;font-size:0.62rem;background:#6366f1;color:#fff;border:none;border-radius:6px;">⚙️ Seleccionar procesos</button><span id="prodFormProcesosResumen" style="font-size:0.55rem;color:#9ca3af;flex:1;">Sin procesos asignados</span></div><div id="prodFormProcesosPreview" style="margin-top:4px;font-size:0.6rem;"></div></div>
+                    <div class="orden-field productos-field-span3" data-nat="fabricado"><label style="margin-bottom:2px;">🧪 Receta de fabricación</label><div style="display:flex;align-items:center;gap:6px;"><button type="button" id="prodFormRecetaBtn" class="productos-btn" style="padding:6px 14px;font-size:0.62rem;background:#f07a00;color:#fff;border:none;border-radius:6px;">🧪 Configurar receta</button><span id="prodFormRecetaResumen" style="font-size:0.55rem;color:#9ca3af;flex:1;">Sin insumos en la receta</span></div><div id="prodFormRecetaPreview" style="margin-top:4px;max-height:45px;overflow-y:auto;font-size:0.6rem;"></div></div>
                     <div class="orden-field prod-stock-only" data-nat="producto,fabricado,insumo"><label for="prodFormProveedor">Proveedor</label><div style="display:flex;gap:4px;align-items:center;"><select id="prodFormProveedor" style="flex:1;"><option value="">Seleccionar...</option></select><button type="button" id="prodFormProveedorAdd" class="productos-btn" style="padding:4px 8px;font-size:0.7rem;white-space:nowrap;" title="Agregar proveedor" onclick="abrirPopupProveedorDesdeProductos()">+</button></div></div>
                     <div class="orden-field prod-stock-only" id="prodFormVentaWrap" data-nat="producto,fabricado,insumo,servicio"><label for="prodFormVenta">Precio unitario venta general</label><input id="prodFormVenta" type="number" min="0" step="0.01"></div>
                     <div class="orden-field prod-stock-only" data-nat="producto,fabricado"><label for="prodFormRevendedor">Precio unitario revendedor</label><input id="prodFormRevendedor" type="number" min="0" step="0.01"></div>
@@ -10551,6 +10551,147 @@ const imgBolsaDeliveryBase = new Image();
         </div>
     </div>
 </div>
+
+<!-- ============ POPUP: RECETA DE FABRICACIÓN ============ -->
+<div id="popupRecetaFabricacion" class="productos-modal-overlay" aria-hidden="true" style="z-index:2200;">
+    <div class="productos-modal-card wide" role="dialog" aria-modal="true" style="max-width:980px;padding:0;overflow:hidden;border:1px solid #e5e7eb;max-height:92dvh;display:flex;flex-direction:column;">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;border-bottom:2px solid #f07a00;background:#fff;">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:1rem;">🧪</span>
+                <h3 style="margin:0;font-size:0.82rem;font-weight:900;color:#1f2937;text-transform:uppercase;letter-spacing:0.2px;">Receta de fabricación</h3>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <span id="recetaBadgeCount" style="background:#fff3e6;color:#d76700;padding:2px 10px;border-radius:20px;font-size:0.58rem;font-weight:700;border:1px solid #f07a00;">0 insumos</span>
+                <button type="button" id="recetaPopupClose" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:#6b7280;padding:4px;">✕</button>
+            </div>
+        </div>
+        <!-- Body: two columns -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;min-height:0;overflow:hidden;">
+            <!-- LEFT: Buscador de insumos -->
+            <div style="display:flex;flex-direction:column;border-right:1px solid #e5e7eb;overflow:hidden;">
+                <div style="padding:8px 12px;background:#f9fafb;border-bottom:1px solid #eee;">
+                    <div style="font-size:0.68rem;font-weight:800;color:#374151;margin-bottom:4px;">🔍 Buscar insumos disponibles</div>
+                    <input id="recetaSearchInput" type="text" placeholder="Buscar por nombre, código o categoría..." style="width:100%;padding:6px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:0.65rem;">
+                </div>
+                <div style="flex:1;overflow-y:auto;min-height:0;">
+                    <table style="width:100%;border-collapse:collapse;">
+                        <thead style="position:sticky;top:0;background:#f3f4f6;z-index:1;">
+                            <tr>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:left;color:#6b7280;border-bottom:1px solid #e5e7eb;">Código</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:left;color:#6b7280;border-bottom:1px solid #e5e7eb;">Insumo</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#6b7280;border-bottom:1px solid #e5e7eb;">Existencias</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#6b7280;border-bottom:1px solid #e5e7eb;">U. Compra</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#6b7280;border-bottom:1px solid #e5e7eb;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recetaInsumosTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- RIGHT: Insumos confirmados en receta -->
+            <div style="display:flex;flex-direction:column;overflow:hidden;">
+                <div style="padding:8px 12px;background:#fef9f0;border-bottom:1px solid #fde68a;">
+                    <div style="font-size:0.68rem;font-weight:800;color:#92400e;">✅ Insumos en la receta</div>
+                </div>
+                <div style="flex:1;overflow-y:auto;min-height:0;">
+                    <table style="width:100%;border-collapse:collapse;">
+                        <thead style="position:sticky;top:0;background:#fef3c7;z-index:1;">
+                            <tr>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:left;color:#92400e;border-bottom:1px solid #fde68a;">Insumo</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#92400e;border-bottom:1px solid #fde68a;">Cantidad</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#92400e;border-bottom:1px solid #fde68a;">Unidad</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#92400e;border-bottom:1px solid #fde68a;">Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recetaConfirmadosTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="recetaConfirmadosEmpty" style="flex:1;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:0.65rem;padding:20px;">
+                    Agrega insumos desde la tabla de la izquierda
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid #e5e7eb;background:#f9fafb;">
+            <span id="recetaTotalInfo" style="font-size:0.6rem;color:#6b7280;">0 insumos en la receta</span>
+            <div style="display:flex;gap:6px;">
+                <button type="button" id="recetaAceptar" class="productos-btn primary" style="padding:6px 18px;font-size:0.68rem;">Aceptar</button>
+                <button type="button" id="recetaCancelar" class="productos-btn gray" style="padding:6px 18px;font-size:0.68rem;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ============ POPUP: PROCESOS ASIGNADOS ============ -->
+<div id="popupProcesosAsignados" class="productos-modal-overlay" aria-hidden="true" style="z-index:2200;">
+    <div class="productos-modal-card wide" role="dialog" aria-modal="true" style="max-width:820px;padding:0;overflow:hidden;border:1px solid #e5e7eb;max-height:88dvh;display:flex;flex-direction:column;">
+        <!-- Header -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px 10px;border-bottom:2px solid #6366f1;background:#fff;">
+            <div style="display:flex;align-items:center;gap:8px;">
+                <span style="font-size:1rem;">⚙️</span>
+                <h3 style="margin:0;font-size:0.82rem;font-weight:900;color:#1f2937;text-transform:uppercase;letter-spacing:0.2px;">Procesos asignados</h3>
+            </div>
+            <div style="display:flex;gap:6px;align-items:center;">
+                <span id="procesosBadgeCount" style="background:#eef2ff;color:#4338ca;padding:2px 10px;border-radius:20px;font-size:0.58rem;font-weight:700;border:1px solid #a5b4fc;">0 procesos</span>
+                <button type="button" id="procesosPopupClose" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:#6b7280;padding:4px;">✕</button>
+            </div>
+        </div>
+        <!-- Body: two columns -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;flex:1;min-height:0;overflow:hidden;">
+            <!-- LEFT: Lista de procesos disponibles -->
+            <div style="display:flex;flex-direction:column;border-right:1px solid #e5e7eb;overflow:hidden;">
+                <div style="padding:8px 12px;background:#f9fafb;border-bottom:1px solid #eee;">
+                    <div style="font-size:0.68rem;font-weight:800;color:#374151;margin-bottom:4px;">🔍 Procesos disponibles</div>
+                    <input id="procesosSearchInput" type="text" placeholder="Buscar proceso..." style="width:100%;padding:6px 10px;border:1px solid #d1d5db;border-radius:6px;font-size:0.65rem;">
+                </div>
+                <div style="flex:1;overflow-y:auto;min-height:0;">
+                    <table style="width:100%;border-collapse:collapse;">
+                        <thead style="position:sticky;top:0;background:#f3f4f6;z-index:1;">
+                            <tr>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:left;color:#6b7280;border-bottom:1px solid #e5e7eb;">Proceso</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:left;color:#6b7280;border-bottom:1px solid #e5e7eb;">Descripción</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#6b7280;border-bottom:1px solid #e5e7eb;">Acción</th>
+                            </tr>
+                        </thead>
+                        <tbody id="procesosDisponiblesTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- RIGHT: Procesos confirmados -->
+            <div style="display:flex;flex-direction:column;overflow:hidden;">
+                <div style="padding:8px 12px;background:#eef2ff;border-bottom:1px solid #c7d2fe;">
+                    <div style="font-size:0.68rem;font-weight:800;color:#3730a3;">✅ Procesos seleccionados</div>
+                </div>
+                <div style="flex:1;overflow-y:auto;min-height:0;">
+                    <table style="width:100%;border-collapse:collapse;">
+                        <thead style="position:sticky;top:0;background:#e0e7ff;z-index:1;">
+                            <tr>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:left;color:#3730a3;border-bottom:1px solid #c7d2fe;">Proceso</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#3730a3;border-bottom:1px solid #c7d2fe;">Costo</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#3730a3;border-bottom:1px solid #c7d2fe;">Notas</th>
+                                <th style="padding:6px 8px;font-size:0.58rem;text-align:center;color:#3730a3;border-bottom:1px solid #c7d2fe;">Quitar</th>
+                            </tr>
+                        </thead>
+                        <tbody id="procesosConfirmadosTableBody"></tbody>
+                    </table>
+                </div>
+                <div id="procesosConfirmadosEmpty" style="flex:1;display:flex;align-items:center;justify-content:center;color:#9ca3af;font-size:0.65rem;padding:20px;">
+                    Selecciona procesos desde la tabla de la izquierda
+                </div>
+            </div>
+        </div>
+        <!-- Footer -->
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 18px;border-top:1px solid #e5e7eb;background:#f9fafb;">
+            <span id="procesosTotalInfo" style="font-size:0.6rem;color:#6b7280;">0 procesos seleccionados</span>
+            <div style="display:flex;gap:6px;">
+                <button type="button" id="procesosAceptar" class="productos-btn primary" style="padding:6px 18px;font-size:0.68rem;background:#6366f1;">Aceptar</button>
+                <button type="button" id="procesosCancelar" class="productos-btn gray" style="padding:6px 18px;font-size:0.68rem;">Cancelar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div id="popupProdTabulador" class="productos-modal-overlay" aria-hidden="true">
     <div class="productos-modal-card wide" role="dialog" aria-modal="true" aria-labelledby="prodTabSelTitulo">
         <h3 id="prodTabSelTitulo" class="productos-modal-title">Paso 2: Tabulador y precios</h3>
@@ -15656,15 +15797,9 @@ document.addEventListener('DOMContentLoaded', () => {
             prodFormTitulo.textContent = (isEditing ? 'Editar ' : 'Agregar ') + (titles[nat] || 'producto');
         }
 
-        // Populate Procesos select from productosData (productos with naturaleza=proceso)
-        const procSel = document.getElementById('prodFormProcesos');
-        if (procSel && (nat === 'producto' || nat === 'fabricado')) {
-            const prev = Array.from(procSel.selectedOptions).map(o => o.value);
-            const procesos = productosData.filter(p => p.naturaleza === 'proceso');
-            procSel.innerHTML = procesos.length === 0
-                ? '<option value="" disabled>No hay procesos creados</option>'
-                : procesos.map(p => '<option value="' + prodEscape(p.producto) + '">' + prodEscape(p.producto) + '</option>').join('');
-            Array.from(procSel.options).forEach(o => { if (prev.includes(o.value)) o.selected = true; });
+        // Update procesos/receta summary when switching type
+        if (nat === 'producto' || nat === 'fabricado') {
+            updateProcesosResumen();
         }
 
         // Populate insumos list for proceso form
@@ -15682,7 +15817,6 @@ document.addEventListener('DOMContentLoaded', () => {
         const descWrap = descField?.closest('.orden-field');
         const insumosBox = document.getElementById('prodFormProcesoInsumos');
         const insumosWrap = insumosBox?.closest('.orden-field');
-        const procesosSelect = document.getElementById('prodFormProcesos');
         const grid = prodFormCard?.querySelector('.productos-modal-grid');
         const nombreWrap = document.getElementById('prodFormNombreWrap');
         const pvWrap = document.getElementById('prodFormVentaWrap');
@@ -15692,7 +15826,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (descWrap) { descWrap.style.cssText = ''; }
         if (insumosBox) { insumosBox.style.maxHeight = '60px'; insumosBox.style.minHeight = ''; }
         if (insumosWrap) { insumosWrap.style.cssText = ''; }
-        if (procesosSelect) { procesosSelect.style.cssText = 'width:100%;min-height:28px;max-height:40px;font-size:0.6rem;'; }
+        // procesosSelect replaced with popup
         if (nombreWrap) nombreWrap.style.gridColumn = '';
         if (pvWrap) pvWrap.style.gridColumn = '';
         if (grid) { grid.style.alignContent = ''; grid.style.gridTemplateRows = ''; }
@@ -15735,12 +15869,10 @@ document.addEventListener('DOMContentLoaded', () => {
             if (grid) { grid.style.gridTemplateRows = 'repeat(5, auto) 1fr'; }
         } else if (nat === 'fabricado') {
             // FABRICADO: como producto pero con receta
-            if (procesosSelect) { procesosSelect.style.cssText = 'width:100%;min-height:32px;max-height:50px;font-size:0.6rem;'; }
             if (grid) { grid.style.alignContent = 'start'; }
-            renderRecetaInsumosSelector();
+            updateRecetaResumen();
         } else {
             // PRODUCTO: muchos campos — dejar compacto
-            if (procesosSelect) { procesosSelect.style.cssText = 'width:100%;min-height:32px;max-height:50px;font-size:0.6rem;'; }
             if (grid) { grid.style.alignContent = 'start'; }
         }
     };
@@ -16059,10 +16191,12 @@ document.addEventListener('DOMContentLoaded', () => {
         { const pic = document.getElementById('prodFormProcesoInsumos'); if (pic) { pic._selectedInsumos = []; } }
         if (prodFormProveedor) prodFormProveedor.value = '';
         if (prodFormDescripcion) prodFormDescripcion.value = '';
-        recetaDraft = [];
+        recetaDraft = []; procesosDraft = [];
         // receta cleared via recetaDraft = []
         const costoFieldClear = document.getElementById('prodFormPrecioCompra');
         if (costoFieldClear) { costoFieldClear.readOnly = false; costoFieldClear.style.background = ''; costoFieldClear.title = ''; }
+        updateRecetaResumen();
+        updateProcesosResumen();
         if (prodGfCobroTipo) prodGfCobroTipo.value = 'm2';
         if (prodGfPrecioGeneralM2) prodGfPrecioGeneralM2.value = '0';
         if (prodGfPrecioRevM2) prodGfPrecioRevM2.value = '0';
@@ -16102,7 +16236,10 @@ document.addEventListener('DOMContentLoaded', () => {
         { const psel = document.getElementById('prodFormProcesos'); if (psel && Array.isArray(row.procesos)) { Array.from(psel.options).forEach(o => { o.selected = row.procesos.includes(o.value); }); } }
         if (prodFormProveedor) prodFormProveedor.value = row.proveedor || '';
         if (prodFormDescripcion) prodFormDescripcion.value = row.descripcion || '';
-        recetaDraft = Array.isArray(row.recetaInsumos) ? row.recetaInsumos.map(r => ({insumoId: r.insumoId || '', insumoNombre: r.insumoNombre || r.insumoId || '', cantidad: Number(r.cantidad || 1)})) : [];
+        recetaDraft = Array.isArray(row.recetaInsumos) ? row.recetaInsumos.map(r => ({insumoId: r.insumoId || '', insumoNombre: r.insumoNombre || r.insumoId || '', insumoCode: r.insumoCode || r.insumoId || '', cantidad: Number(r.cantidad || 1), unidad: r.unidad || 'Pza'})) : [];
+        procesosDraft = Array.isArray(row.procesosDetalle) ? row.procesosDetalle.map(p => ({procesoId: p.procesoId || '', procesoNombre: p.procesoNombre || p.procesoId || '', costo: Number(p.costo || 0), notas: p.notas || ''})) : (Array.isArray(row.procesos) ? row.procesos.map(id => ({procesoId: id, procesoNombre: id, costo: 0, notas: ''})) : []);
+        updateRecetaResumen();
+        updateProcesosResumen();
         // recetaDraft loaded above
 
         // Bloquear campo costo si ya tiene promedio bloqueado
@@ -16157,7 +16294,8 @@ document.addEventListener('DOMContentLoaded', () => {
             minima: Math.max(0, Number(prodFormMinima?.value || 0)),
             existencias: Math.max(0, Number(prodFormExistencias?.value || 0)),
             precioCompra: Math.max(0, Number(prodFormPrecioCompra?.value || 0)),
-            procesos: Array.from(document.getElementById('prodFormProcesos')?.selectedOptions || []).map(o => o.value).filter(v => v),
+            procesos: procesosDraft.map(p => p.procesoId).filter(Boolean),
+            procesosDetalle: [...procesosDraft],
             desgastePorUso: Math.max(0, Number(document.getElementById('prodFormDesgastePorUso')?.value || 0)),
             insumosProceso: (document.getElementById('prodFormProcesoInsumos')?._selectedInsumos || []),
             proveedor: String(prodFormProveedor?.value || '').trim(),
@@ -18223,27 +18361,43 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Receta add button for fabricado
-    const recetaAddBtn = document.getElementById('prodFormRecetaAdd');
-    if (recetaAddBtn) {
-        recetaAddBtn.addEventListener('click', () => {
-            const sel = document.getElementById('prodFormRecetaInsumoSel');
-            const cantInput = document.getElementById('prodFormRecetaCantidad');
-            const insumoId = sel?.value;
-            const cantidad = Math.max(0.001, Number(cantInput?.value || 1));
-            if (!insumoId) return;
-            const insumoNombre = sel.options[sel.selectedIndex]?.textContent || insumoId;
-            const existing = recetaDraft.find(r => r.insumoId === insumoId);
-            if (existing) {
-                existing.cantidad += cantidad;
-            } else {
-                recetaDraft.push({ insumoId, insumoNombre: insumoNombre.replace(/\s*\(.*\)$/, ''), cantidad });
-            }
-            sel.value = '';
-            if (cantInput) cantInput.value = '1';
-            renderRecetaList();
-        });
-    }
+    // Receta popup button
+    const recetaBtn = document.getElementById('prodFormRecetaBtn');
+    if (recetaBtn) recetaBtn.addEventListener('click', () => openRecetaPopup());
+
+    // Receta popup close/accept/cancel
+    const recetaPopupClose = document.getElementById('recetaPopupClose');
+    const recetaCancelar = document.getElementById('recetaCancelar');
+    const recetaAceptar = document.getElementById('recetaAceptar');
+    if (recetaPopupClose) recetaPopupClose.addEventListener('click', () => closeRecetaPopup(false));
+    if (recetaCancelar) recetaCancelar.addEventListener('click', () => closeRecetaPopup(false));
+    if (recetaAceptar) recetaAceptar.addEventListener('click', () => closeRecetaPopup(true));
+
+    // Receta search
+    const recetaSearchInput = document.getElementById('recetaSearchInput');
+    if (recetaSearchInput) recetaSearchInput.addEventListener('input', () => renderRecetaInsumosTable());
+
+    // Procesos popup button
+    const procesosBtn = document.getElementById('prodFormProcesosBtn');
+    if (procesosBtn) procesosBtn.addEventListener('click', () => openProcesosPopup());
+
+    // Procesos popup close/accept/cancel
+    const procesosPopupClose = document.getElementById('procesosPopupClose');
+    const procesosCancelar = document.getElementById('procesosCancelar');
+    const procesosAceptar = document.getElementById('procesosAceptar');
+    if (procesosPopupClose) procesosPopupClose.addEventListener('click', () => closeProcesosPopup(false));
+    if (procesosCancelar) procesosCancelar.addEventListener('click', () => closeProcesosPopup(false));
+    if (procesosAceptar) procesosAceptar.addEventListener('click', () => closeProcesosPopup(true));
+
+    // Procesos search
+    const procesosSearchInput = document.getElementById('procesosSearchInput');
+    if (procesosSearchInput) procesosSearchInput.addEventListener('input', () => renderProcesosDisponiblesTable());
+
+    // Click overlay to close popups
+    const popupReceta = document.getElementById('popupRecetaFabricacion');
+    const popupProcesos = document.getElementById('popupProcesosAsignados');
+    if (popupReceta) popupReceta.addEventListener('click', (e) => { if (e.target === popupReceta) closeRecetaPopup(false); });
+    if (popupProcesos) popupProcesos.addEventListener('click', (e) => { if (e.target === popupProcesos) closeProcesosPopup(false); });
 
     // Urgente surtir tab in insumos module
     const insumosTabUrgente = document.getElementById('insumosTabUrgente');
@@ -18649,40 +18803,285 @@ document.addEventListener('DOMContentLoaded', () => {
 
 
 
-    // === Receta de fabricación para Producto Fabricado ===
-    let recetaDraft = []; // [{insumoId, insumoNombre, cantidad}]
+    // === Receta de fabricación — Popup-based ===
+    let recetaDraft = []; // [{insumoId, insumoNombre, insumoCode, cantidad, unidad}]
+    let recetaDraftBackup = [];
 
-    function renderRecetaInsumosSelector() {
-        const sel = document.getElementById('prodFormRecetaInsumoSel');
-        const listDiv = document.getElementById('prodFormRecetaList');
-        if (!sel) return;
-        // Populate select with insumos from productosData (naturaleza=insumo)
-        const insumos = (typeof productosData !== 'undefined' ? productosData : []).filter(p => p.naturaleza === 'insumo');
-        sel.innerHTML = '<option value="">Seleccionar insumo...</option>' +
-            insumos.map(ins => '<option value="' + (ins.codigo || ins.id || '') + '">' + prodEscape(ins.producto || ins.id || '') + ' (' + (ins.umCompra || 'Ud') + ')</option>').join('');
-        renderRecetaList();
+    function openRecetaPopup() {
+        const popup = document.getElementById('popupRecetaFabricacion');
+        if (!popup) return;
+        recetaDraftBackup = JSON.parse(JSON.stringify(recetaDraft));
+        popup.style.display = 'flex';
+        popup.setAttribute('aria-hidden', 'false');
+        renderRecetaInsumosTable();
+        renderRecetaConfirmadosTable();
     }
 
-    function renderRecetaList() {
-        const listDiv = document.getElementById('prodFormRecetaList');
-        if (!listDiv) return;
-        if (!recetaDraft.length) {
-            listDiv.innerHTML = '<span style="color:#9ca3af;font-size:0.6rem;">Sin insumos asignados a la receta</span>';
+    function closeRecetaPopup(accept) {
+        const popup = document.getElementById('popupRecetaFabricacion');
+        if (!popup) return;
+        if (!accept) recetaDraft = recetaDraftBackup;
+        popup.style.display = 'none';
+        popup.setAttribute('aria-hidden', 'true');
+        updateRecetaResumen();
+    }
+
+    function renderRecetaInsumosTable(filter) {
+        const tbody = document.getElementById('recetaInsumosTableBody');
+        if (!tbody) return;
+        const term = (filter || document.getElementById('recetaSearchInput')?.value || '').trim().toLowerCase();
+        const insumos = productosData.filter(p => p.naturaleza === 'insumo');
+        const filtered = term ? insumos.filter(p =>
+            [p.codigo, p.producto, p.categoria].some(v => String(v || '').toLowerCase().includes(term))
+        ) : insumos;
+        if (!filtered.length) {
+            tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;padding:20px;color:#9ca3af;font-size:0.6rem;">No se encontraron insumos</td></tr>';
             return;
         }
-        listDiv.innerHTML = recetaDraft.map((r, idx) =>
-            '<div style="display:flex;align-items:center;gap:6px;padding:3px 0;border-bottom:1px solid #f1f5f9;">' +
-            '<span style="flex:1;font-size:0.65rem;font-weight:700;color:#1f2937;">' + prodEscape(r.insumoNombre || r.insumoId) + '</span>' +
-            '<span style="font-size:0.62rem;color:#6b7280;">\u00d7' + r.cantidad + '</span>' +
-            '<button type="button" onclick="removeRecetaItem(' + idx + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.7rem;padding:2px 4px;">\u2715</button>' +
-            '</div>'
-        ).join('');
+        tbody.innerHTML = filtered.map(ins => {
+            const code = ins.codigo || ins.id || '';
+            const nombre = ins.producto || ins.id || '';
+            const exist = Number(ins.existencias || 0);
+            const um = ins.umCompra || ins.umVenta || 'Pza';
+            const alreadyIn = recetaDraft.some(r => r.insumoId === code);
+            return '<tr style="cursor:pointer;' + (alreadyIn ? 'background:#f0fdf4;' : '') + '" data-insumo-code="' + prodEscape(code) + '">' +
+                '<td style="padding:5px 8px;font-size:0.6rem;color:#6b7280;border-bottom:1px solid #f1f5f9;">' + prodEscape(code) + '</td>' +
+                '<td style="padding:5px 8px;font-size:0.62rem;font-weight:700;color:#1f2937;border-bottom:1px solid #f1f5f9;">' + prodEscape(nombre) + '</td>' +
+                '<td style="padding:5px 8px;font-size:0.6rem;text-align:center;color:' + (exist < 0 ? '#dc2626' : '#059669') + ';font-weight:700;border-bottom:1px solid #f1f5f9;">' + exist + '</td>' +
+                '<td style="padding:5px 8px;font-size:0.58rem;text-align:center;color:#6b7280;border-bottom:1px solid #f1f5f9;">' + prodEscape(um) + '</td>' +
+                '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #f1f5f9;">' +
+                    (alreadyIn
+                        ? '<span style="color:#16a34a;font-size:0.58rem;font-weight:700;">\u2713 Agregado</span>'
+                        : '<button type="button" onclick="addInsumoToReceta(\'' + prodEscape(code).replace(/'/g, "\\'") + '\')" class="productos-btn" style="padding:3px 10px;font-size:0.58rem;background:#f07a00;color:#fff;border:none;border-radius:4px;">+ Agregar</button>'
+                    ) +
+                '</td></tr>';
+        }).join('');
     }
 
-    window.removeRecetaItem = function(idx) {
-        recetaDraft.splice(idx, 1);
-        renderRecetaList();
+    window.addInsumoToReceta = function(code) {
+        const ins = productosData.find(p => p.naturaleza === 'insumo' && (p.codigo === code || p.id === code));
+        if (!ins) return;
+        if (recetaDraft.some(r => r.insumoId === code)) return;
+        recetaDraft.push({
+            insumoId: code,
+            insumoNombre: ins.producto || ins.id || code,
+            insumoCode: code,
+            cantidad: 1,
+            unidad: ins.umCompra || ins.umVenta || 'Pza'
+        });
+        renderRecetaInsumosTable();
+        renderRecetaConfirmadosTable();
     };
+
+    window.removeInsumoFromReceta = function(idx) {
+        recetaDraft.splice(idx, 1);
+        renderRecetaInsumosTable();
+        renderRecetaConfirmadosTable();
+    };
+
+    window.updateRecetaCantidad = function(idx, val) {
+        if (recetaDraft[idx]) recetaDraft[idx].cantidad = Math.max(0.001, Number(val || 1));
+        renderRecetaConfirmadosTable();
+    };
+
+    window.updateRecetaUnidad = function(idx, val) {
+        if (recetaDraft[idx]) recetaDraft[idx].unidad = val;
+    };
+
+    function renderRecetaConfirmadosTable() {
+        const tbody = document.getElementById('recetaConfirmadosTableBody');
+        const emptyDiv = document.getElementById('recetaConfirmadosEmpty');
+        const badge = document.getElementById('recetaBadgeCount');
+        const totalInfo = document.getElementById('recetaTotalInfo');
+        if (!tbody) return;
+        if (!recetaDraft.length) {
+            tbody.innerHTML = '';
+            if (emptyDiv) emptyDiv.style.display = 'flex';
+            if (badge) badge.textContent = '0 insumos';
+            if (totalInfo) totalInfo.textContent = '0 insumos en la receta';
+            return;
+        }
+        if (emptyDiv) emptyDiv.style.display = 'none';
+        tbody.innerHTML = recetaDraft.map((r, idx) => {
+            const umOpts = buildUMOptionsHTML(r.unidad);
+            return '<tr>' +
+                '<td style="padding:5px 8px;font-size:0.62rem;font-weight:700;color:#1f2937;border-bottom:1px solid #fde68a;">' + prodEscape(r.insumoNombre) + '<div style="font-size:0.5rem;color:#6b7280;">' + prodEscape(r.insumoCode || r.insumoId) + '</div></td>' +
+                '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #fde68a;"><input type="number" min="0.001" step="0.001" value="' + r.cantidad + '" onchange="updateRecetaCantidad(' + idx + ',this.value)" style="width:70px;font-size:0.62rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;text-align:center;"></td>' +
+                '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #fde68a;"><select onchange="updateRecetaUnidad(' + idx + ',this.value)" style="font-size:0.6rem;padding:3px 6px;border:1px solid #d1d5db;border-radius:5px;">' + umOpts + '</select></td>' +
+                '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #fde68a;"><button type="button" onclick="removeInsumoFromReceta(' + idx + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.75rem;padding:2px 6px;" title="Quitar">\u2715</button></td>' +
+                '</tr>';
+        }).join('');
+        if (badge) badge.textContent = recetaDraft.length + ' insumo' + (recetaDraft.length !== 1 ? 's' : '');
+        if (totalInfo) totalInfo.textContent = recetaDraft.length + ' insumo' + (recetaDraft.length !== 1 ? 's' : '') + ' en la receta';
+    }
+
+    function buildUMOptionsHTML(selected) {
+        // Get the configured UM list
+        const opts = (typeof umBuildOptions === 'function') ? umBuildOptions() : [];
+        if (!opts.length) {
+            return ['Pza', 'Caja', 'Docena', 'Kg', 'Lt', 'Mt', 'Rollo', 'Millar'].map(u =>
+                '<option value="' + u + '"' + (u === selected ? ' selected' : '') + '>' + u + '</option>'
+            ).join('');
+        }
+        let html = '';
+        let lastGroup = '';
+        opts.forEach(o => {
+            if (o.grupo && o.grupo !== lastGroup) {
+                if (lastGroup) html += '</optgroup>';
+                html += '<optgroup label="' + prodEscape(o.grupo) + '">';
+                lastGroup = o.grupo;
+            }
+            html += '<option value="' + prodEscape(o.value) + '"' + (o.value === selected ? ' selected' : '') + '>' + prodEscape(o.label) + '</option>';
+        });
+        if (lastGroup) html += '</optgroup>';
+        return html;
+    }
+
+    function updateRecetaResumen() {
+        const resumen = document.getElementById('prodFormRecetaResumen');
+        const preview = document.getElementById('prodFormRecetaPreview');
+        if (resumen) {
+            resumen.textContent = recetaDraft.length
+                ? recetaDraft.length + ' insumo' + (recetaDraft.length !== 1 ? 's' : '') + ' en la receta'
+                : 'Sin insumos en la receta';
+            resumen.style.color = recetaDraft.length ? '#059669' : '#9ca3af';
+            resumen.style.fontWeight = recetaDraft.length ? '700' : '400';
+        }
+        if (preview) {
+            preview.innerHTML = recetaDraft.map(r =>
+                '<span style="display:inline-block;padding:2px 8px;margin:1px 2px;background:#fff3e6;border:1px solid #fed7aa;border-radius:12px;font-size:0.55rem;font-weight:600;color:#92400e;">' +
+                prodEscape(r.insumoNombre) + ' \u00d7' + r.cantidad + ' ' + prodEscape(r.unidad || '') + '</span>'
+            ).join('');
+        }
+    }
+
+    // Keep old function name for compatibility
+    function renderRecetaInsumosSelector() { updateRecetaResumen(); }
+
+    
+    // === Procesos Asignados — Popup-based ===
+    let procesosDraft = []; // [{procesoId, procesoNombre, costo, notas}]
+    let procesosDraftBackup = [];
+
+    function openProcesosPopup() {
+        const popup = document.getElementById('popupProcesosAsignados');
+        if (!popup) return;
+        procesosDraftBackup = JSON.parse(JSON.stringify(procesosDraft));
+        popup.style.display = 'flex';
+        popup.setAttribute('aria-hidden', 'false');
+        renderProcesosDisponiblesTable();
+        renderProcesosConfirmadosTable();
+    }
+
+    function closeProcesosPopup(accept) {
+        const popup = document.getElementById('popupProcesosAsignados');
+        if (!popup) return;
+        if (!accept) procesosDraft = procesosDraftBackup;
+        popup.style.display = 'none';
+        popup.setAttribute('aria-hidden', 'true');
+        updateProcesosResumen();
+    }
+
+    function renderProcesosDisponiblesTable(filter) {
+        const tbody = document.getElementById('procesosDisponiblesTableBody');
+        if (!tbody) return;
+        const term = (filter || document.getElementById('procesosSearchInput')?.value || '').trim().toLowerCase();
+        const procesos = productosData.filter(p => p.naturaleza === 'proceso');
+        const filtered = term ? procesos.filter(p =>
+            [p.producto, p.descripcion, p.codigo].some(v => String(v || '').toLowerCase().includes(term))
+        ) : procesos;
+        if (!filtered.length) {
+            tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:20px;color:#9ca3af;font-size:0.6rem;">No se encontraron procesos</td></tr>';
+            return;
+        }
+        tbody.innerHTML = filtered.map(proc => {
+            const id = proc.producto || proc.id || '';
+            const nombre = proc.producto || '';
+            const desc = proc.descripcion || '-';
+            const alreadyIn = procesosDraft.some(r => r.procesoId === id);
+            return '<tr style="cursor:pointer;' + (alreadyIn ? 'background:#eef2ff;' : '') + '">' +
+                '<td style="padding:5px 8px;font-size:0.62rem;font-weight:700;color:#1f2937;border-bottom:1px solid #f1f5f9;">' + prodEscape(nombre) + '</td>' +
+                '<td style="padding:5px 8px;font-size:0.58rem;color:#6b7280;border-bottom:1px solid #f1f5f9;">' + prodEscape(desc.substring(0, 60)) + '</td>' +
+                '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #f1f5f9;">' +
+                    (alreadyIn
+                        ? '<span style="color:#4338ca;font-size:0.58rem;font-weight:700;">\u2713 Asignado</span>'
+                        : '<button type="button" onclick="addProcesoToDraft(\'' + prodEscape(id).replace(/'/g, "\\'") + '\')" class="productos-btn" style="padding:3px 10px;font-size:0.58rem;background:#6366f1;color:#fff;border:none;border-radius:4px;">+ Asignar</button>'
+                    ) +
+                '</td></tr>';
+        }).join('');
+    }
+
+    window.addProcesoToDraft = function(id) {
+        if (procesosDraft.some(r => r.procesoId === id)) return;
+        const proc = productosData.find(p => p.naturaleza === 'proceso' && (p.producto === id || p.id === id));
+        procesosDraft.push({
+            procesoId: id,
+            procesoNombre: proc?.producto || id,
+            costo: Number(proc?.precioVenta || 0),
+            notas: ''
+        });
+        renderProcesosDisponiblesTable();
+        renderProcesosConfirmadosTable();
+    };
+
+    window.removeProcesoFromDraft = function(idx) {
+        procesosDraft.splice(idx, 1);
+        renderProcesosDisponiblesTable();
+        renderProcesosConfirmadosTable();
+    };
+
+    window.updateProcesoCosto = function(idx, val) {
+        if (procesosDraft[idx]) procesosDraft[idx].costo = Math.max(0, Number(val || 0));
+    };
+
+    window.updateProcesoNotas = function(idx, val) {
+        if (procesosDraft[idx]) procesosDraft[idx].notas = val;
+    };
+
+    function renderProcesosConfirmadosTable() {
+        const tbody = document.getElementById('procesosConfirmadosTableBody');
+        const emptyDiv = document.getElementById('procesosConfirmadosEmpty');
+        const badge = document.getElementById('procesosBadgeCount');
+        const totalInfo = document.getElementById('procesosTotalInfo');
+        if (!tbody) return;
+        if (!procesosDraft.length) {
+            tbody.innerHTML = '';
+            if (emptyDiv) emptyDiv.style.display = 'flex';
+            if (badge) badge.textContent = '0 procesos';
+            if (totalInfo) totalInfo.textContent = '0 procesos seleccionados';
+            return;
+        }
+        if (emptyDiv) emptyDiv.style.display = 'none';
+        tbody.innerHTML = procesosDraft.map((r, idx) =>
+            '<tr>' +
+            '<td style="padding:5px 8px;font-size:0.62rem;font-weight:700;color:#1f2937;border-bottom:1px solid #c7d2fe;">' + prodEscape(r.procesoNombre) + '</td>' +
+            '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #c7d2fe;"><input type="number" min="0" step="0.01" value="' + r.costo + '" onchange="updateProcesoCosto(' + idx + ',this.value)" style="width:70px;font-size:0.62rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;text-align:center;"></td>' +
+            '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #c7d2fe;"><input type="text" value="' + prodEscape(r.notas) + '" onchange="updateProcesoNotas(' + idx + ',this.value)" placeholder="Notas..." style="width:100%;font-size:0.58rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;"></td>' +
+            '<td style="padding:5px 8px;text-align:center;border-bottom:1px solid #c7d2fe;"><button type="button" onclick="removeProcesoFromDraft(' + idx + ')" style="background:none;border:none;color:#ef4444;cursor:pointer;font-size:0.75rem;padding:2px 6px;" title="Quitar">\u2715</button></td>' +
+            '</tr>'
+        ).join('');
+        if (badge) badge.textContent = procesosDraft.length + ' proceso' + (procesosDraft.length !== 1 ? 's' : '');
+        if (totalInfo) totalInfo.textContent = procesosDraft.length + ' proceso' + (procesosDraft.length !== 1 ? 's' : '') + ' seleccionados';
+    }
+
+    function updateProcesosResumen() {
+        const resumen = document.getElementById('prodFormProcesosResumen');
+        const preview = document.getElementById('prodFormProcesosPreview');
+        if (resumen) {
+            resumen.textContent = procesosDraft.length
+                ? procesosDraft.length + ' proceso' + (procesosDraft.length !== 1 ? 's' : '') + ' asignados'
+                : 'Sin procesos asignados';
+            resumen.style.color = procesosDraft.length ? '#4338ca' : '#9ca3af';
+            resumen.style.fontWeight = procesosDraft.length ? '700' : '400';
+        }
+        if (preview) {
+            preview.innerHTML = procesosDraft.map(r =>
+                '<span style="display:inline-block;padding:2px 8px;margin:1px 2px;background:#eef2ff;border:1px solid #c7d2fe;border-radius:12px;font-size:0.55rem;font-weight:600;color:#3730a3;">' +
+                prodEscape(r.procesoNombre) + (r.costo ? ' $' + Number(r.costo).toFixed(2) : '') + '</span>'
+            ).join('');
+        }
+    }
+
 
     // === Costo promedio automático para insumos ===
     function calcularCostoPromedio(existenciasAnt, costoAnt, nuevaCantidad, nuevoCosto) {
