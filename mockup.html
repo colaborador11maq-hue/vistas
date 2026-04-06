@@ -6627,6 +6627,10 @@
                 <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/leaf.png" alt="Bolsas Kraft">
                 <span>Bolsas Kraft</span>
             </div>
+            <div class="landing-card" onclick="seleccionarProducto('BOLSAS KRAFT BLANCAS')">
+                <img class="landing-icon-img" src="https://i.postimg.cc/nrNDjDJS/bolsa-blanca.png" alt="Bolsas Kraft Blancas" style="object-fit:contain;">
+                <span>Bolsas Kraft Blancas</span>
+            </div>
             <div class="landing-card" onclick="seleccionarProducto('DELIVERY KRAFT')">
                 <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/leaf.png" alt="Delivery Kraft">
                 <span>Delivery Kraft</span>
@@ -7530,14 +7534,15 @@ function abrirPopupProveedorDesdeProductos() {
     let orientacionActual = 'horizontal'; // vertical o horizontal
     let logoManualOffsetX = 0, logoManualOffsetY = 0;
     const ajusteLogoKraft = { scale: 1, orientacionLogo: 'vertical' };
-    const esProductoKraft = (p = productoActual) => p === 'BOLSAS KRAFT' || p === 'DELIVERY KRAFT';
-    const getMedidasKraftActivas = (p = productoActual) => (p === 'DELIVERY KRAFT' ? MEDIDAS_DELIVERY_KRAFT : MEDIDAS_KRAFT);
+    const esProductoKraft = (p = productoActual) => p === 'BOLSAS KRAFT' || p === 'DELIVERY KRAFT' || p === 'BOLSAS KRAFT BLANCAS';
+    const getMedidasKraftActivas = (p = productoActual) => (p === 'DELIVERY KRAFT' ? MEDIDAS_DELIVERY_KRAFT : MEDIDAS_KRAFT);  // BOLSAS KRAFT BLANCAS uses same MEDIDAS_KRAFT
     const esProductoTarjeta = (p = productoActual) => p === 'TARJETAS DE PRESENTACIÓN' || p === 'VOLANTES';
 
     const CM_TO_PX = 50; // Escala de centímetros a píxeles para mantener proporciones
     const CM_TO_PX_VOLANTES = 39; // Escala volantes (sin incremento extra)
     const CM_TO_PX_KRAFT = 100; // Equivalencia estándar para bolsa kraft: 100 px = 1 cm
     const URL_BOLSA_KRAFT_BASE = 'https://i.postimg.cc/7YTdkNtf/BOLSACAFE.png';
+    const URL_BOLSA_KRAFT_BLANCA = 'https://i.postimg.cc/nrNDjDJS/bolsa-blanca.png';
     const URL_BOLSA_DELIVERY_BASE = 'https://i.postimg.cc/nrD8ZnNb/Chat-GPT-Image-1-abr-2026-03-07-15-p-m.png';
     const KRAFT_BAG_NAME = 'KRAFT';
     const KRAFT_BAG_HEX = '#9C7443';
@@ -7868,6 +7873,11 @@ function abrirPopupProveedorDesdeProductos() {
     imgBolsaKraftBase.crossOrigin = 'anonymous';
     imgBolsaKraftBase.src = URL_BOLSA_KRAFT_BASE;
     imgBolsaKraftBase.onload = actualizar;
+
+    const imgBolsaKraftBlanca = new Image();
+    imgBolsaKraftBlanca.crossOrigin = 'anonymous';
+    imgBolsaKraftBlanca.src = URL_BOLSA_KRAFT_BLANCA;
+    imgBolsaKraftBlanca.onload = actualizar;
 const imgBolsaDeliveryBase = new Image();
     imgBolsaDeliveryBase.crossOrigin = 'anonymous';
     imgBolsaDeliveryBase.src = URL_BOLSA_DELIVERY_BASE;
@@ -7876,6 +7886,7 @@ const imgBolsaDeliveryBase = new Image();
 
     function getBolsaImageForIndex(colorIdx) {
         if (productoActual === 'DELIVERY KRAFT') return imgBolsaDeliveryBase;
+        if (productoActual === 'BOLSAS KRAFT BLANCAS') return imgBolsaKraftBlanca;
         if (esProductoKraft(productoActual)) return imgBolsaKraftBase;
         return imgCache[colorIdx];
     }
@@ -11608,6 +11619,13 @@ document.addEventListener('DOMContentLoaded', () => {
         {
             nombre: 'Bolsas Kraft',
             modulo: 'BOLSAS KRAFT',
+            colores: ['Kraft Natural', 'Kraft Claro', 'Kraft Oscuro', 'Blanco', 'Negro'],
+            medidas: ['MINI', 'CHICA', 'MEDIANA', 'GRANDE'],
+            extras: []
+        },
+        {
+            nombre: 'Bolsas Kraft Blancas',
+            modulo: 'BOLSAS KRAFT BLANCAS',
             colores: ['Kraft Natural', 'Kraft Claro', 'Kraft Oscuro', 'Blanco', 'Negro'],
             medidas: ['MINI', 'CHICA', 'MEDIANA', 'GRANDE'],
             extras: []
@@ -21215,6 +21233,7 @@ document.addEventListener('DOMContentLoaded', function() {
     var PRODUCTOS_DISPONIBLES = [
         'BOLSA BOUTIQUE TROQUELADA',
         'BOLSAS KRAFT',
+        'BOLSAS KRAFT BLANCAS',
         'TARJETAS DE PRESENTACIÓN',
         'VOLANTES'
     ];
@@ -21232,6 +21251,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function moduloFromTipoProducto(tipoProducto) {
         var t = String(tipoProducto || '').trim().toUpperCase();
+        if (t.indexOf('KRAFT') >= 0 && t.indexOf('BLANCA') >= 0) return 'BOLSAS KRAFT BLANCAS';
         if (t.indexOf('KRAFT') >= 0) return 'BOLSAS KRAFT';
         if (t.indexOf('TARJETA') >= 0) return 'TARJETAS DE PRESENTACIÓN';
         if (t.indexOf('VOLANTE') >= 0) return 'VOLANTES';
@@ -21630,6 +21650,7 @@ window.pushMensajeChatCliente = pushMensajeChatCliente;
 
 function mapProductoParaProduccion(textoProducto) {
     var t = String(textoProducto || '').trim().toUpperCase();
+    if (t.indexOf('KRAFT') >= 0 && t.indexOf('BLANCA') >= 0) return 'Bolsas Kraft Blancas';
     if (t.indexOf('KRAFT') >= 0) return 'Bolsas Kraft';
     if (t.indexOf('TARJETA') >= 0) return 'Tarjetas de Presentación';
     if (t.indexOf('VOLANTE') >= 0) return 'Volantes';
@@ -21946,7 +21967,8 @@ function enviarMuestraDigitalAlCliente() {
     }
     if (!modulo) {
         var tipo = String(clienteChatActual.tipoProducto || '').trim().toUpperCase();
-        if (tipo.indexOf('KRAFT') >= 0) modulo = 'BOLSAS KRAFT';
+        if (tipo.indexOf('KRAFT') >= 0 && tipo.indexOf('BLANCA') >= 0) modulo = 'BOLSAS KRAFT BLANCAS';
+        else if (tipo.indexOf('KRAFT') >= 0) modulo = 'BOLSAS KRAFT';
         else if (tipo.indexOf('TARJETA') >= 0) modulo = 'TARJETAS DE PRESENTACIÓN';
         else if (tipo.indexOf('VOLANTE') >= 0) modulo = 'VOLANTES';
         else modulo = 'BOLSA BOUTIQUE TROQUELADA';
@@ -22178,6 +22200,7 @@ document.addEventListener('DOMContentLoaded', function() {
                         <select id="prodProducto">
                             <option>Bolsa Boutique Troquelada</option>
                             <option>Bolsas Kraft</option>
+                            <option>Bolsas Kraft Blancas</option>
                             <option>Bolsa Ecológica</option>
                             <option>Tarjetas de Presentación</option>
                             <option>Volantes</option>
@@ -22462,7 +22485,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var detalle = '';
         if (producto === 'Bolsa Boutique Troquelada') {
             detalle = document.getElementById('prodTamanoBolsa').value.trim();
-        } else if (producto === 'Bolsas Kraft') {
+        } else if (producto === 'Bolsas Kraft' || producto === 'Bolsas Kraft Blancas') {
             var selK = document.getElementById('prodTamanoKraft');
             var tk = selK ? String(selK.options[selK.selectedIndex]?.text || '').trim() : '';
             if (tk === '-- Selecciona medida --') tk = '';
@@ -22489,7 +22512,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var faltantes = [];
         if (producto === 'Bolsa Boutique Troquelada') {
             if (!document.getElementById('prodTamanoBolsa').value.trim()) faltantes.push('tamaño de la bolsa');
-        } else if (producto === 'Bolsas Kraft') {
+        } else if (producto === 'Bolsas Kraft' || producto === 'Bolsas Kraft Blancas') {
             if (!document.getElementById('prodTamanoKraft').value.trim()) faltantes.push('tamaño bolsa kraft');
             if (!document.getElementById('prodMaterialKraft').value.trim()) faltantes.push('material kraft');
         } else if (producto === 'Bolsa Ecológica') {
@@ -22516,7 +22539,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
         var target = 'secProductoOtro';
         if (producto === 'Bolsa Boutique Troquelada') target = 'secProductoBoutique';
-        else if (producto === 'Bolsas Kraft') target = 'secProductoKraft';
+        else if (producto === 'Bolsas Kraft' || producto === 'Bolsas Kraft Blancas') target = 'secProductoKraft';
         else if (producto === 'Bolsa Ecológica') target = 'secProductoEcologica';
         else if (producto === 'Tarjetas de Presentación') target = 'secProductoTarjeta';
         else if (producto === 'Volantes') target = 'secProductoVolante';
@@ -22526,11 +22549,11 @@ document.addEventListener('DOMContentLoaded', function() {
             colorWrap.style.display = (producto === 'Tarjetas de Presentación' || producto === 'Volantes') ? 'none' : '';
         }
         if (prodColorLabel) {
-            prodColorLabel.textContent = (producto === 'Bolsas Kraft') ? 'TINTA' : 'COLOR';
+            prodColorLabel.textContent = (producto === 'Bolsas Kraft' || producto === 'Bolsas Kraft Blancas') ? 'TINTA' : 'COLOR';
         }
         var prodColorInput = document.getElementById('prodColor');
         if (prodColorInput) {
-            prodColorInput.placeholder = (producto === 'Bolsas Kraft') ? 'Ej: DORADO / NEGRO' : 'Ej: Rosa pastel';
+            prodColorInput.placeholder = (producto === 'Bolsas Kraft' || producto === 'Bolsas Kraft Blancas') ? 'Ej: DORADO / NEGRO' : 'Ej: Rosa pastel';
         }
     }
 
