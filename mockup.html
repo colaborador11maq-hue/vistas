@@ -7763,13 +7763,20 @@ function abrirPopupProveedorDesdeProductos() {
         actualizar();
     }
 
+    let _moverLogoRaf = false;
     function moverLogoManual(dir) {
         const paso = 0.015;
         if (dir === 'up')    logoManualOffsetY -= paso;
         if (dir === 'down')  logoManualOffsetY += paso;
         if (dir === 'left')  logoManualOffsetX -= paso;
         if (dir === 'right') logoManualOffsetX += paso;
-        actualizar();
+        // Limitar offset para no exceder bordes de la bolsa
+        logoManualOffsetX = Math.max(-0.45, Math.min(0.45, logoManualOffsetX));
+        logoManualOffsetY = Math.max(-0.45, Math.min(0.45, logoManualOffsetY));
+        if (!_moverLogoRaf) {
+            _moverLogoRaf = true;
+            requestAnimationFrame(function() { _moverLogoRaf = false; actualizar(); });
+        }
     }
 
     function reiniciarPosicionLogoManual() {
@@ -8269,6 +8276,17 @@ const imgBolsaDeliveryBase = new Image();
     }
 
     function seleccionarProducto(p, skipReload = false) {
+        // Cerrar cualquier popup que pudiera estar abierto encima
+        ['popupCaja','popupCalendario','popupClientesModulo','popupProveedoresModulo',
+         'popupInsumosModulo','popupAlmacenModulo','popupReportesModulo','popupMisPedidos',
+         'popupProductos','popupAjustesTabuladores','popupProdTabulador','popupListado',
+         'popupAccess','popupDesignTracking'].forEach(function(id){
+            var el = document.getElementById(id);
+            if (el) { el.style.display = 'none'; el.setAttribute('aria-hidden','true'); }
+        });
+        document.body.classList.remove('popup-open');
+        document.documentElement.classList.remove('popup-open');
+
         // Limpiar imágenes y estado antes de cambiar de producto
         imgLogoBolsa = null; imgLogoOriginalBolsa = null;
         imgLogoFrente = null; imgLogoOriginalFrente = null;
@@ -9013,8 +9031,8 @@ const imgBolsaDeliveryBase = new Image();
             ctx.save();
             ctx.beginPath();
             if (kraftVertical) {
-                // Para KRAFT vertical el clip se centra en el punto de dibujo real
-                ctx.rect(cX - areaW / 2, cY - areaH / 2, areaW, areaH);
+                // Para KRAFT vertical: clip amplio usando los bordes de la bolsa
+                ctx.rect(cX - bW / 2, cY - bH / 2, bW, bH);
             } else if (productoActual === 'DELIVERY KRAFT') {
                 // Delivery Kraft: clip amplio usando los bordes de la bolsa
                 ctx.rect(cX - bW / 2, cY - bH / 2, bW, bH);
