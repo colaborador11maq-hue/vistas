@@ -8918,10 +8918,10 @@ const imgBolsaDeliveryBase = new Image();
             const sideMarginCm = layoutHorizontal ? 0.5 : 0.8;
             const sideMarginPx = sideMarginCm * scaleCm * scaleFit;
             const kraftVertical = esKraftBolsa() && !logoHorizontalKraft;
-            const safeAreaW = kraftVertical ? bW * 1.22 : bW * 1.10;
-            const safeAreaH = kraftVertical ? bH * 1.12 : bH * 0.90;
+            const safeAreaW = kraftVertical ? bW * 1.22 : bW * 0.85;
+            const safeAreaH = kraftVertical ? bH * 1.12 : bH * 0.65;
             const userScale = esKraftBolsa()
-                ? ajusteLogoKraft.scale * (logoHorizontalKraft ? 2.8 : 5.6)
+                ? ajusteLogoKraft.scale * (logoHorizontalKraft ? 1 : 5.6)
                 : 1;
             const rawAreaW = baseAreaW * userScale;
             const rawAreaH = baseAreaH * userScale;
@@ -9758,7 +9758,19 @@ const imgBolsaDeliveryBase = new Image();
                 tCtx.globalCompositeOperation = 'source-over';
                 const imgX = colX + (colW - canvasW) / 2;
                 const imgY = pieY + margin;
-                ctx.drawImage(temp, imgX, imgY, canvasW, canvasH);
+                // Rotar 90° a la izquierda si orientación vertical
+                const rotarPie = orientacionActual === 'vertical';
+                if (rotarPie) {
+                    const cx = imgX + canvasW / 2;
+                    const cy = imgY + canvasH / 2;
+                    ctx.save();
+                    ctx.translate(cx, cy);
+                    ctx.rotate(-Math.PI / 2);
+                    ctx.drawImage(temp, -canvasW / 2, -canvasH / 2, canvasW, canvasH);
+                    ctx.restore();
+                } else {
+                    ctx.drawImage(temp, imgX, imgY, canvasW, canvasH);
+                }
                 logoInfo = { x: imgX, y: imgY, w: canvasW, h: canvasH };
             }
 
