@@ -4077,7 +4077,21 @@
             padding: 8px 10px;
         }
 
-        /* ID selector — máxima especificidad CSS para fijar tamaño */
+        /* ID selectors — máxima especificidad CSS para fijar tamaño */
+        #prodTabCard {
+            width: min(98vw, 1120px) !important;
+            height: min(96vh, 780px) !important;
+            height: min(96dvh, 780px) !important;
+            min-height: min(96vh, 780px) !important;
+            min-height: min(96dvh, 780px) !important;
+            max-height: min(96vh, 780px) !important;
+            max-height: min(96dvh, 780px) !important;
+            overflow: hidden !important;
+            box-sizing: border-box !important;
+            display: flex !important;
+            flex-direction: column !important;
+        }
+
         #prodFormCard {
             width: min(98vw, 1120px) !important;
             height: min(96vh, 780px) !important;
@@ -4148,6 +4162,7 @@
         .prod-photo-pane {
             background: linear-gradient(160deg, #f07a00 0%, #d76700 100%);
             border-radius: 10px;
+            overflow-y: auto;
             padding: 8px;
             display: flex;
             flex-direction: column;
@@ -4362,14 +4377,19 @@
         .prod-tab-step-layout {
             display: grid;
             grid-template-columns: 180px minmax(0, 1fr);
-            gap: 10px;
+            gap: 8px;
             align-items: stretch;
+            flex: 1 1 0;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .prod-tab-step-main {
             min-width: 0;
-            display: grid;
-            gap: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            overflow: auto;
         }
 
         .prod-color-section {
@@ -4442,14 +4462,17 @@
         .prod-tabulador-layout {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            gap: 8px;
+            flex: 1 1 0;
+            min-height: 0;
         }
 
         .prod-tabulador-section {
             border: 1px solid #dbe4f2;
             border-radius: 8px;
-            overflow: hidden;
+            overflow: auto;
             background: #fff;
+            min-height: 0;
         }
 
         .prod-tabulador-section h4 {
@@ -11033,7 +11056,7 @@ const imgBolsaDeliveryBase = new Image();
 </div>
 
 <div id="popupProdTabulador" class="productos-modal-overlay" aria-hidden="true">
-    <div class="productos-modal-card wide" role="dialog" aria-modal="true" aria-labelledby="prodTabSelTitulo">
+    <div id="prodTabCard" class="productos-modal-card wide" role="dialog" aria-modal="true" aria-labelledby="prodTabSelTitulo">
         <h3 id="prodTabSelTitulo" class="productos-modal-title">Paso 2: Tabulador y precios</h3>
         <div class="prod-tab-step-layout">
             <aside class="prod-photo-pane">
@@ -18838,10 +18861,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupSelIns = document.getElementById('popupSeleccionInsumoProc');
     if (popupSelIns) popupSelIns.addEventListener('click', (e) => { if (e.target === popupSelIns) cancelSeleccionInsumoProc(); });
 
-    // Ubicación de almacén — auto update code
+    // Ubicación de almacén — auto update code + select-all on focus
     ['prodFormUbiPasillo', 'prodFormUbiRack', 'prodFormUbiNivel', 'prodFormUbiContenedor'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.addEventListener('input', () => updateUbicacionCodigo());
+        if (el) {
+            el.addEventListener('input', () => updateUbicacionCodigo());
+            el.addEventListener('focus', () => { setTimeout(() => el.select(), 0); });
+        }
     });
     const etiquetaContBtn = document.getElementById('prodFormEtiquetaContenedor');
     const etiquetaProdBtn = document.getElementById('prodFormEtiquetaProducto');
@@ -18860,7 +18886,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (confirmUbiCancelar) confirmUbiCancelar.addEventListener('click', () => closeConfirmUbicacion(false));
     ['confirmUbiPasillo', 'confirmUbiRack', 'confirmUbiNivel', 'confirmUbiContenedor'].forEach(id => {
         const el = document.getElementById(id);
-        if (el) el.addEventListener('input', () => updateConfirmUbiPreview());
+        if (el) {
+            el.addEventListener('input', () => updateConfirmUbiPreview());
+            el.addEventListener('focus', () => { setTimeout(() => el.select(), 0); });
+        }
     });
     const popupConfirmUbi = document.getElementById('popupConfirmarUbicacion');
     if (popupConfirmUbi) popupConfirmUbi.addEventListener('click', (e) => { if (e.target === popupConfirmUbi) closeConfirmUbicacion(false); });
@@ -19830,75 +19859,68 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function _labelCSS() {
         return `
-@media print { body { margin: 0; } .no-print { display: none !important; } }
+@media print { body { margin: 0; padding: 0; } .no-print { display: none !important; } @page { margin: 2mm; } }
 * { margin: 0; padding: 0; box-sizing: border-box; }
-body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 20px; background: #f3f4f6; }
-.label-card { width: 90mm; border: 2px solid #1f2937; border-radius: 8px; padding: 10px; background: #fff; page-break-after: always; }
-.label-header { text-align: center; border-bottom: 2px solid #1f2937; padding-bottom: 6px; margin-bottom: 8px; }
-.label-empresa { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; color: #f07a00; }
-.label-titulo { font-size: 8px; color: #6b7280; margin-top: 2px; }
-.label-ubicacion { text-align: center; font-family: 'Courier New', monospace; font-size: 22px; font-weight: 900; letter-spacing: 2px; padding: 6px 0; color: #1f2937; }
-.label-ubicacion-desc { display: flex; justify-content: center; gap: 8px; font-size: 7px; color: #6b7280; margin-bottom: 6px; flex-wrap: wrap; }
-.label-ubicacion-desc span { background: #f3f4f6; padding: 2px 5px; border-radius: 3px; }
-.label-producto { text-align: center; font-size: 11px; font-weight: 800; color: #1f2937; padding: 6px 0; border-top: 1px dashed #d1d5db; border-bottom: 1px dashed #d1d5db; text-transform: uppercase; word-break: break-word; }
-.label-codigo { text-align: center; font-family: 'Courier New', monospace; font-size: 13px; letter-spacing: 2px; padding: 6px 0; color: #374151; }
-.label-barcode { text-align: center; font-family: 'Libre Barcode 39', 'Courier New', monospace; font-size: 36px; letter-spacing: 4px; color: #000; }
-.label-footer { text-align: center; font-size: 7px; color: #9ca3af; margin-top: 6px; border-top: 1px solid #e5e7eb; padding-top: 4px; }
-.btn-print { margin-top: 16px; padding: 10px 30px; font-size: 14px; font-weight: 700; background: #f07a00; color: #fff; border: none; border-radius: 8px; cursor: pointer; }
-.btn-print:hover { background: #d76700; }
-.label-tipo { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; padding: 3px 10px; border-radius: 4px; display: inline-block; margin-top: 4px; }
-.label-tipo.contenedor { background: #fef3c7; color: #92400e; border: 1px solid #fbbf24; }
-.label-tipo.producto { background: #ede9fe; color: #5b21b6; border: 1px solid #a78bfa; }`;
+body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction: column; align-items: center; padding: 4px; background: #fff; }
+.label-card { width: 72mm; border: 1px solid #000; padding: 4mm; background: #fff; }
+.label-header { text-align: center; border-bottom: 1px solid #000; padding-bottom: 3px; margin-bottom: 4px; }
+.label-empresa { font-size: 9px; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; }
+.label-tipo-tag { font-size: 8px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; border: 1px solid #000; padding: 1px 6px; display: inline-block; margin-top: 2px; }
+.label-ubicacion { text-align: center; font-family: 'Courier New', monospace; font-size: 22px; font-weight: 900; letter-spacing: 2px; padding: 4px 0; }
+.label-desc-row { display: flex; justify-content: center; gap: 6px; font-size: 7px; margin-bottom: 4px; }
+.label-desc-row span { border: 1px solid #999; padding: 1px 4px; border-radius: 2px; }
+.label-producto { text-align: center; font-size: 10px; font-weight: 800; padding: 4px 0; border-top: 1px dashed #000; border-bottom: 1px dashed #000; text-transform: uppercase; word-break: break-word; }
+.label-codigo { text-align: center; font-family: 'Courier New', monospace; font-size: 12px; letter-spacing: 2px; padding: 3px 0; }
+.label-barcode { text-align: center; font-family: 'Libre Barcode 39', 'Courier New', monospace; font-size: 40px; letter-spacing: 3px; }
+.label-footer { text-align: center; font-size: 6px; margin-top: 3px; border-top: 1px solid #ccc; padding-top: 2px; }
+.btn-print { margin-top: 12px; padding: 8px 24px; font-size: 13px; font-weight: 700; background: #000; color: #fff; border: none; border-radius: 6px; cursor: pointer; }`;
     }
 
     function _ubicDescHTML(v) {
         let h = '';
-        if (v.p) h += '<span>Pasillo ' + prodEscape(v.p.replace(/^P/i,'')) + '</span>';
-        if (v.r) h += '<span>Rack ' + prodEscape(v.r.replace(/^R/i,'')) + '</span>';
-        if (v.n) h += '<span>Nivel ' + prodEscape(v.n.replace(/^N/i,'')) + '</span>';
-        if (v.c) h += '<span>Cont. ' + prodEscape(v.c.replace(/^C/i,'')) + '</span>';
+        if (v.p) h += '<span>P' + prodEscape(v.p.replace(/^P/i,'')) + '</span>';
+        if (v.r) h += '<span>R' + prodEscape(v.r.replace(/^R/i,'')) + '</span>';
+        if (v.n) h += '<span>N' + prodEscape(v.n.replace(/^N/i,'')) + '</span>';
+        if (v.c) h += '<span>C' + prodEscape(v.c.replace(/^C/i,'')) + '</span>';
         return h;
     }
 
     function generarEtiquetaContenedor() {
         const v = _getUbiFormValues();
         const ubicacionCode = buildUbiCode(v.p, v.r, v.n, v.c) || 'SIN-UBICACION';
-        const fecha = new Date().toLocaleDateString('es-MX') + ' ' + new Date().toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit'});
-        const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Contenedor - ' + prodEscape(ubicacionCode) + '</title><style>' + _labelCSS() + '</style><link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet"></head><body>' +
+        const fecha = new Date().toLocaleDateString('es-MX');
+        const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + prodEscape(ubicacionCode) + '</title><style>' + _labelCSS() + '</style><link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet"></head><body>' +
             '<div class="label-card">' +
-            '<div class="label-header"><div class="label-empresa">MAQUILEROS PUBLICIDAD</div><div class="label-titulo">ETIQUETA DE CONTENEDOR</div></div>' +
-            '<div style="text-align:center;"><span class="label-tipo contenedor">\ud83d\udce6 CONTENEDOR</span></div>' +
+            '<div class="label-header"><div class="label-empresa">MAQUILEROS PUBLICIDAD</div><div class="label-tipo-tag">CONTENEDOR</div></div>' +
             '<div class="label-ubicacion">' + prodEscape(ubicacionCode) + '</div>' +
-            '<div class="label-ubicacion-desc">' + _ubicDescHTML(v) + '</div>' +
-            '<div style="border-top:1px dashed #d1d5db;padding-top:6px;text-align:center;font-size:9px;color:#6b7280;">Este contenedor puede albergar m\u00faltiples productos.<br>Escanea el c\u00f3digo para identificar la ubicaci\u00f3n.</div>' +
+            '<div class="label-desc-row">' + _ubicDescHTML(v) + '</div>' +
             '<div class="label-barcode">*' + prodEscape(ubicacionCode.replace(/-/g,'')) + '*</div>' +
-            '<div class="label-footer">Generada: ' + fecha + '</div>' +
+            '<div class="label-footer">' + fecha + '</div>' +
             '</div>' +
-            '<button class="btn-print no-print" onclick="window.print()">\ud83d\udda8\ufe0f Imprimir etiqueta</button></body></html>';
-        const w = window.open('', '_blank', 'width=450,height=600');
+            '<button class="btn-print no-print" onclick="window.print()">Imprimir</button></body></html>';
+        const w = window.open('', '_blank', 'width=380,height=480');
         if (w) { w.document.write(html); w.document.close(); }
     }
 
     function generarEtiquetaProducto() {
         const v = _getUbiFormValues();
         const ubicacionCode = buildUbiCode(v.p, v.r, v.n, v.c) || 'SIN-UBICACION';
-        const fecha = new Date().toLocaleDateString('es-MX') + ' ' + new Date().toLocaleTimeString('es-MX', {hour:'2-digit',minute:'2-digit'});
-        const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>Producto - ' + prodEscape(v.nombre) + '</title><style>' + _labelCSS() + '</style><link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet"></head><body>' +
+        const fecha = new Date().toLocaleDateString('es-MX');
+        const html = '<!DOCTYPE html><html><head><meta charset="utf-8"><title>' + prodEscape(v.nombre) + '</title><style>' + _labelCSS() + '</style><link href="https://fonts.googleapis.com/css2?family=Libre+Barcode+39&display=swap" rel="stylesheet"></head><body>' +
             '<div class="label-card">' +
-            '<div class="label-header"><div class="label-empresa">MAQUILEROS PUBLICIDAD</div><div class="label-titulo">ETIQUETA DE PRODUCTO</div></div>' +
-            '<div style="text-align:center;"><span class="label-tipo producto">\ud83c\udff7\ufe0f PRODUCTO</span></div>' +
+            '<div class="label-header"><div class="label-empresa">MAQUILEROS PUBLICIDAD</div><div class="label-tipo-tag">PRODUCTO</div></div>' +
             '<div class="label-producto">' + prodEscape(v.nombre) + '</div>' +
             '<div class="label-codigo">' + prodEscape(v.codigo) + '</div>' +
             '<div class="label-barcode">*' + prodEscape(v.codigo) + '*</div>' +
-            '<div style="border-top:1px dashed #d1d5db;padding:6px 0 2px;text-align:center;">' +
-            '<div style="font-size:8px;font-weight:800;color:#6b7280;text-transform:uppercase;margin-bottom:2px;">Ubicaci\u00f3n en almac\u00e9n</div>' +
-            '<div style="font-family:monospace;font-size:16px;font-weight:900;letter-spacing:2px;color:#1f2937;">' + prodEscape(ubicacionCode) + '</div>' +
-            '<div class="label-ubicacion-desc" style="margin-top:4px;">' + _ubicDescHTML(v) + '</div>' +
+            '<div style="border-top:1px dashed #000;padding:3px 0;text-align:center;">' +
+            '<div style="font-size:7px;font-weight:800;text-transform:uppercase;">UBICACI\u00d3N</div>' +
+            '<div style="font-family:monospace;font-size:14px;font-weight:900;letter-spacing:1px;">' + prodEscape(ubicacionCode) + '</div>' +
+            '<div class="label-desc-row" style="margin-top:2px;">' + _ubicDescHTML(v) + '</div>' +
             '</div>' +
-            '<div class="label-footer">Generada: ' + fecha + '</div>' +
+            '<div class="label-footer">' + fecha + '</div>' +
             '</div>' +
-            '<button class="btn-print no-print" onclick="window.print()">\ud83d\udda8\ufe0f Imprimir etiqueta</button></body></html>';
-        const w = window.open('', '_blank', 'width=450,height=600');
+            '<button class="btn-print no-print" onclick="window.print()">Imprimir</button></body></html>';
+        const w = window.open('', '_blank', 'width=380,height=480');
         if (w) { w.document.write(html); w.document.close(); }
     }
 
