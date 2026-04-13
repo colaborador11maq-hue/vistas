@@ -6752,7 +6752,6 @@
 
 <div id="inicioSistema" class="inicio-sistema-overlay" aria-hidden="true">
     <div class="inicio-sistema-box" style="position:relative">
-        <button id="btnAjustesMain" class="ajustes-main-btn" type="button" title="Ajustes de tabuladores" aria-label="Ajustes de tabuladores">⚙</button>
         <!-- Dropdown REGISTROS eliminado: Proveedores y Configuraciones ahora en cuadricula principal -->
         <div class="inicio-logo">
             <img src="https://i.postimg.cc/WzY3mk57/Copia-de-Copia-de-Post-Instagram-catalogo-de-productos-escolares-comercial-promocional-azul-(11).png" alt="Logo Maquileros">
@@ -8620,6 +8619,8 @@ const imgBolsaDeliveryBase = new Image();
         const inicio = document.getElementById('inicioSistema');
         const landing = document.getElementById('landing');
         const chatFab = document.getElementById('btnOpenClientChatMini');
+        const loginOv = document.getElementById('loginOverlay');
+        if (loginOv && localStorage.getItem('logged_user_email')) loginOv.style.display = 'none';
         if (landing) landing.style.display = 'none';
         if (inicio) {
             inicio.style.display = 'flex';
@@ -10158,7 +10159,7 @@ const imgBolsaDeliveryBase = new Image();
                     <h2 id="popupListadoTitulo" class="orden-title">CREAR ORDEN DE TRABAJO</h2>
                     <div class="orden-actions-row">
                         <button id="ordenRegistrarCliente" class="orden-btn">REGISTRAR CLIENTE <span class="shortcut-hint">F2</span></button>
-                        <button id="ordenSeleccionarCliente" class="orden-btn">SELECCIONAR CLIENTE <span class="shortcut-hint">F3</span></button>
+                        <button id="ordenSeleccionarCliente" class="orden-btn">SELECCIONAR CLIENTE</button>
                     </div>
                 </div>
                 <div class="orden-id-box">
@@ -10253,29 +10254,29 @@ const imgBolsaDeliveryBase = new Image();
             <div class="orden-kpi"><label>Ganancia</label><span id="ordenGanancia">$0.00</span></div>
 
             <div class="orden-resumen-actions">
-                <button id="ordenBtnImpuestos" class="orden-btn orden-action-square">IMPUESTOS</button>
-                <button id="ordenBtnDescuento" class="orden-btn orden-action-square">DESCUENTO</button>
-                <button id="ordenBtnCotizacion" class="orden-btn primary orden-action-square">COTIZACIÓN</button>
+                <button id="ordenBtnImpuestos" class="orden-btn orden-action-square">IMPUESTOS <span class="shortcut-hint">CTRL+I</span></button>
+                <button id="ordenBtnDescuento" class="orden-btn orden-action-square">DESCUENTO <span class="shortcut-hint">CTRL+D</span></button>
+                <button id="ordenBtnCotizacion" class="orden-btn primary orden-action-square">COTIZACIÓN <span class="shortcut-hint">CTRL+C</span></button>
             </div>
 
             <div class="orden-ticket-tools">
                 <div id="ordenTicketTabs" class="orden-ticket-tabs" aria-label="Tickets en espera">
                     <button class="orden-ticket-tab active" type="button" data-ticket-index="0">TICKET 1</button>
-                    <button id="ordenTicketAdd" class="orden-ticket-add" type="button" title="Agregar ticket" aria-label="Agregar ticket">+</button>
+                    <button id="ordenTicketAdd" class="orden-ticket-add" type="button" title="Agregar ticket (F8)" aria-label="Agregar ticket">+ <span class="shortcut-hint">F8</span></button>
                 </div>
             </div>
 
             <div class="orden-mini">MÉTODOS DE PAGO</div>
             <div class="orden-pagos-grid">
-                <button data-pay="EFECTIVO" class="orden-btn orden-pay-btn" title="Efectivo" aria-label="Efectivo"><span class="orden-pay-icon">◉</span><span class="orden-pay-label">EFECTIVO</span></button>
-                <button data-pay="TARJETA" class="orden-btn orden-pay-btn" title="Tarjeta" aria-label="Tarjeta"><span class="orden-pay-icon">▣</span><span class="orden-pay-label">TARJETA</span></button>
-                <button data-pay="TRANSFERENCIA" class="orden-btn orden-pay-btn" title="Transferencia" aria-label="Transferencia"><span class="orden-pay-icon">⇄</span><span class="orden-pay-label">TRANSFERENCIA</span></button>
-                <button data-pay="DEPOSITO" class="orden-btn orden-pay-btn" title="Depósito" aria-label="Depósito"><span class="orden-pay-icon">↓</span><span class="orden-pay-label">DEPÓSITO</span></button>
-                <button data-pay="GUARDAR SIN ANTICIPO" class="orden-btn orden-pay-btn" title="Sin anticipo" aria-label="Sin anticipo"><span class="orden-pay-icon">◎</span><span class="orden-pay-label">SIN ANTICIPO</span></button>
-                <button id="ordenBtnLimpiar" class="orden-btn warn" title="Limpiar ticket" aria-label="Limpiar ticket"><span class="orden-pay-icon">✕</span><span class="orden-pay-label">LIMPIAR</span></button>
+                <button data-pay="EFECTIVO" class="orden-btn orden-pay-btn" title="Efectivo (F3)" aria-label="Efectivo"><span class="orden-pay-icon">◉</span><span class="orden-pay-label">EFECTIVO</span><span class="shortcut-hint">F3</span></button>
+                <button data-pay="TARJETA" class="orden-btn orden-pay-btn" title="Tarjeta (F4)" aria-label="Tarjeta"><span class="orden-pay-icon">▣</span><span class="orden-pay-label">TARJETA</span><span class="shortcut-hint">F4</span></button>
+                <button data-pay="TRANSFERENCIA" class="orden-btn orden-pay-btn" title="Transferencia (F5)" aria-label="Transferencia"><span class="orden-pay-icon">⇄</span><span class="orden-pay-label">TRANSFERENCIA</span><span class="shortcut-hint">F5</span></button>
+                <button data-pay="DEPOSITO" class="orden-btn orden-pay-btn" title="Depósito (F6)" aria-label="Depósito"><span class="orden-pay-icon">↓</span><span class="orden-pay-label">DEPÓSITO</span><span class="shortcut-hint">F6</span></button>
+                <button data-pay="GUARDAR SIN ANTICIPO" class="orden-btn orden-pay-btn" title="Sin anticipo (F7)" aria-label="Sin anticipo"><span class="orden-pay-icon">◎</span><span class="orden-pay-label">SIN ANTICIPO</span><span class="shortcut-hint">F7</span></button>
+                <button id="ordenBtnLimpiar" class="orden-btn warn" title="Limpiar ticket (Supr)" aria-label="Limpiar ticket"><span class="orden-pay-icon">✕</span><span class="orden-pay-label">LIMPIAR</span><span class="shortcut-hint">SUPR</span></button>
             </div>
 
-            <button id="ordenBtnVentaRapida" class="orden-btn orden-btn-venta-rapida" type="button">VENDER COMO VENTA RÁPIDA</button>
+            <button id="ordenBtnVentaRapida" class="orden-btn orden-btn-venta-rapida" type="button">VENDER COMO VENTA RÁPIDA <span class="shortcut-hint">F9</span></button>
         </div>
     </div>
 </div>
@@ -17921,21 +17922,33 @@ document.addEventListener('DOMContentLoaded', () => {
     if (refs.tablaBody) {
         refs.tablaBody.addEventListener('click', (ev) => {
             const qtyCell = ev.target.closest('[data-orden-qty]');
-            if (qtyCell) {
+            if (qtyCell && !qtyCell.querySelector('input')) {
                 const idxQty = Number(qtyCell.getAttribute('data-orden-qty'));
                 if (!Number.isFinite(idxQty) || idxQty < 0 || idxQty >= ordenLineas.length) return;
                 const actual = Math.max(1, Number(ordenLineas[idxQty].cantidad || 1));
-                const val = prompt('Nueva cantidad:', String(actual));
-                if (val === null) return;
-                const n = Math.floor(Number(val));
-                if (!Number.isFinite(n) || n <= 0) {
-                    notifyError('Cantidad inválida.', 'Cantidad');
-                    return;
-                }
-                ordenLineas[idxQty].cantidad = n;
-                ordenLineaActiva = idxQty;
-                renderTabla();
-                saveTicketActivo();
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.min = '1';
+                input.value = String(actual);
+                input.style.cssText = 'width:60px;text-align:center;font-size:inherit;font-weight:900;border:2px solid #FF8C00;border-radius:4px;outline:none;padding:2px 4px;background:#fff3e0;';
+                qtyCell.textContent = '';
+                qtyCell.appendChild(input);
+                input.focus();
+                input.select();
+                const applyQty = () => {
+                    const n = Math.floor(Number(input.value));
+                    if (Number.isFinite(n) && n > 0) {
+                        ordenLineas[idxQty].cantidad = n;
+                    }
+                    ordenLineaActiva = idxQty;
+                    renderTabla();
+                    saveTicketActivo();
+                };
+                input.addEventListener('blur', applyQty);
+                input.addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') { e.preventDefault(); input.blur(); }
+                    if (e.key === 'Escape') { e.preventDefault(); input.value = String(actual); input.blur(); }
+                });
                 return;
             }
             const tr = ev.target.closest('tr[data-orden-row]');
@@ -21432,6 +21445,7 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
     if (configBack) {
         configBack.addEventListener('click', () => {
             closeConfiguracionesPopup();
+            if (typeof mostrarInicioSistema === 'function') mostrarInicioSistema();
         });
     }
 
@@ -24324,17 +24338,27 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Show logged user role badge
+        // Show logged user role badge (only if role differs from label context)
         const vendedorInput = document.getElementById('ordenVendedor');
         if (vendedorInput && vendedorInput.parentElement) {
-            let badge = vendedorInput.parentElement.querySelector('.login-user-badge');
-            if (!badge) {
-                badge = document.createElement('span');
+            // Remove any existing badge to avoid duplicates
+            const existingBadge = vendedorInput.parentElement.querySelector('.login-user-badge');
+            if (existingBadge) existingBadge.remove();
+            // Only show badge if role is NOT vendedor (since the label already says VENDEDOR)
+            if (role !== 'vendedor') {
+                const badge = document.createElement('span');
                 badge.className = 'login-user-badge';
+                const roleLabels = { admin: 'ADMIN', vendedor: 'VENDEDOR', disenador: 'DISENADOR' };
+                badge.textContent = roleLabels[role] || role;
                 vendedorInput.parentElement.appendChild(badge);
             }
-            const roleLabels = { admin: 'ADMIN', vendedor: 'VENDEDOR', disenador: 'DISENADOR' };
-            badge.textContent = roleLabels[role] || role;
+        }
+
+        // For disenador, also clean up badge in diseñador field
+        const disenadorSelect = document.getElementById('ordenDisenador');
+        if (disenadorSelect && disenadorSelect.parentElement) {
+            const existingDisBadge = disenadorSelect.parentElement.querySelector('.login-user-badge');
+            if (existingDisBadge) existingDisBadge.remove();
         }
     };
 
@@ -24747,10 +24771,54 @@ document.addEventListener('DOMContentLoaded', function() {
         const isLoginVisible = loginOverlay && loginOverlay.style.display !== 'none' && loginOverlay.offsetParent !== null;
         if (isLoginVisible) return;
 
+        const popupListado = document.getElementById('popupListado');
+        const isInCotizador = popupListado && popupListado.style.display === 'flex';
+
         if (ev.key === 'F2') { ev.preventDefault(); document.getElementById('ordenRegistrarCliente')?.click(); return; }
-        if (ev.key === 'F3') { ev.preventDefault(); document.getElementById('ordenSeleccionarCliente')?.click(); return; }
-        if (ev.key === 'F5') { ev.preventDefault(); document.getElementById('ordenTicketAdd')?.click(); return; }
+        if (ev.key === 'F3' && isInCotizador) {
+            ev.preventDefault();
+            document.querySelector('.orden-pay-btn[data-pay="EFECTIVO"]')?.click();
+            return;
+        }
+        if (ev.key === 'F4' && isInCotizador) {
+            ev.preventDefault();
+            document.querySelector('.orden-pay-btn[data-pay="TARJETA"]')?.click();
+            return;
+        }
+        if (ev.key === 'F5' && isInCotizador) {
+            ev.preventDefault();
+            document.querySelector('.orden-pay-btn[data-pay="TRANSFERENCIA"]')?.click();
+            return;
+        }
+        if (ev.key === 'F6' && isInCotizador) {
+            ev.preventDefault();
+            document.querySelector('.orden-pay-btn[data-pay="DEPOSITO"]')?.click();
+            return;
+        }
+        if (ev.key === 'F7' && isInCotizador) {
+            ev.preventDefault();
+            document.querySelector('.orden-pay-btn[data-pay="GUARDAR SIN ANTICIPO"]')?.click();
+            return;
+        }
+        if (ev.key === 'F8' && isInCotizador) {
+            ev.preventDefault();
+            document.getElementById('ordenTicketAdd')?.click();
+            return;
+        }
+        if (ev.key === 'F9' && isInCotizador) {
+            ev.preventDefault();
+            document.getElementById('ordenBtnVentaRapida')?.click();
+            return;
+        }
         if (ev.key === 'Delete' && !isInput) { ev.preventDefault(); document.getElementById('ordenBtnLimpiar')?.click(); return; }
+
+        // Ctrl shortcuts (cotizador)
+        if (ev.ctrlKey && isInCotizador) {
+            const k = ev.key.toLowerCase();
+            if (k === 'i') { ev.preventDefault(); document.getElementById('ordenBtnImpuestos')?.click(); return; }
+            if (k === 'd') { ev.preventDefault(); document.getElementById('ordenBtnDescuento')?.click(); return; }
+            if (k === 'c') { ev.preventDefault(); document.getElementById('ordenBtnCotizacion')?.click(); return; }
+        }
 
         if (ev.key === 'Enter' && !isInput) {
             const popups = [
