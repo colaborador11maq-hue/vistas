@@ -1789,11 +1789,11 @@
         }
 
         .orden-stock-table tr:hover {
-            background: rgba(255, 140, 0, 0.1);
+            background: rgba(255, 140, 0, 0.07);
         }
 
         .orden-stock-table tr.active {
-            background: rgba(255, 140, 0, 0.2);
+            background: #fff7ed;
         }
 
         .orden-stock-result-count {
@@ -2155,51 +2155,51 @@
         }
 
         .mispedidos-table-wrap {
-            background: #fff;
-            border: 1px solid #e4e8ef;
-            border-radius: 10px;
+            min-height: 0;
+            border: 1px solid #e5e9f0;
+            border-radius: 9px;
             overflow: auto;
+            background: #fff;
         }
 
         .mispedidos-table {
             width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            min-width: 1220px;
+            border-collapse: collapse;
+            min-width: 100%;
             background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 4px 24px 0 rgba(31,41,55,0.07);
-            overflow: hidden;
-            margin-bottom: 18px;
+            user-select: none;
         }
         .mispedidos-table th {
             position: sticky;
             top: 0;
-            background: #f8fafc;
-            color: #ea580c;
+            background: #f07a00;
+            color: #ffffff;
             text-transform: uppercase;
-            font-size: 0.74rem;
+            font-size: 0.54rem;
             letter-spacing: 0.24px;
             font-weight: 900;
-            padding: 13px 10px;
-            border-bottom: 2px solid #ff9900;
+            padding: 7px;
+            border-bottom: 1px solid #edf1f6;
             z-index: 2;
+            white-space: nowrap;
+            text-align: center;
+            vertical-align: middle;
         }
         .mispedidos-table td {
-            padding: 13px 10px;
-            font-size: 0.92rem;
+            padding: 7px;
+            font-size: 0.62rem;
             color: #273142;
             background: #fff;
-            border-bottom: 1.5px solid #f3f4f6;
+            border-bottom: 1px solid #edf1f6;
             text-align: center;
-            transition: background 0.13s, box-shadow 0.13s;
+            white-space: nowrap;
+            vertical-align: middle;
         }
         .mispedidos-table tr:last-child td {
             border-bottom: none;
         }
         .mispedidos-table tr:hover td {
             background: #fff7ed;
-            box-shadow: 0 2px 12px 0 rgba(255,153,0,0.07);
         }
         .mispedidos-table .badge {
             display: inline-block;
@@ -2224,19 +2224,10 @@
         .mispedidos-table .badge-ganancia { background: #f0fdf4; color: #15803d; border: 1.5px solid #bbf7d0; }
         .mispedidos-table .badge-inversion { background: #e0e7ef; color: #334155; border: 1.5px solid #cbd5e1; }
 
-        .mispedidos-table th {
-            position: sticky;
-            top: 0;
-            background: #f8fafc;
-            color: #6b7280;
-            text-transform: uppercase;
-            font-size: 0.54rem;
-            letter-spacing: 0.24px;
-            font-weight: 900;
+        .mispedidos-row-selected td {
+            background: #fff7ed !important;
         }
-
-        .mispedidos-row-selected {
-            background: #ffedd5;
+        .mispedidos-row-selected td:first-child {
             box-shadow: inset 3px 0 0 #f07a00;
         }
 
@@ -3840,82 +3831,741 @@
             }
         }
 
-        .design-card-layout {
-            display: grid;
-            grid-template-columns: 1.4fr 1fr;
-            gap: 10px;
+        /* ═══════════════════════════════════════════
+           MÓDULO DE DISEÑO - ESTILOS COMPLETOS
+           ═══════════════════════════════════════════ */
+        .design-module-wrap {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
             width: 100%;
+            gap: 0;
+            background: #0d1520;
+            border-radius: 14px;
+            overflow: hidden;
         }
+        .design-module-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #0f1a2e;
+            border-bottom: 1px solid rgba(255,255,255,0.10);
+            flex-shrink: 0;
+        }
+        .design-module-title {
+            font-size: 0.88rem;
+            font-weight: 900;
+            color: #e0ecff;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            flex: 1;
+        }
+        .design-user-badge {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(255,153,0,0.15);
+            border: 1px solid rgba(255,153,0,0.4);
+            border-radius: 20px;
+            padding: 4px 10px;
+            font-size: 0.6rem;
+            font-weight: 800;
+            color: #ffc14d;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .design-user-dot {
+            width: 7px; height: 7px;
+            border-radius: 50%;
+            background: #4ade80;
+            box-shadow: 0 0 5px #4ade80;
+            flex-shrink: 0;
+        }
+        .design-module-tabs {
+            display: flex;
+            gap: 0;
+            background: #0a1220;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
+        }
+        .design-module-tab {
+            padding: 8px 14px;
+            font-size: 0.62rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            color: #7a94b4;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            transition: all 0.15s;
+            white-space: nowrap;
+        }
+        .design-module-tab:hover { color: #c0d4ee; }
+        .design-module-tab.active {
+            color: #ff9900;
+            border-bottom-color: #ff9900;
+            background: rgba(255,153,0,0.06);
+        }
+        .design-module-body {
+            flex: 1;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .design-tab-panel { display: none; flex: 1; overflow: hidden; flex-direction: column; }
+        .design-tab-panel.active { display: flex; }
 
-        .design-zone {
-            border-radius: 10px;
+        /* ─── Filtros / toolbar ─── */
+        .design-toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 6px;
+            padding: 8px 12px;
+            background: #0d1825;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            flex-shrink: 0;
+        }
+        .design-toolbar input[type=text], .design-toolbar select {
+            background: rgba(255,255,255,0.06);
             border: 1px solid rgba(255,255,255,0.12);
-            background: rgba(9, 18, 32, 0.6);
-            padding: 10px;
-            display: grid;
-            gap: 8px;
-            min-height: 420px;
+            border-radius: 6px;
+            color: #c8daf0;
+            font-size: 0.62rem;
+            padding: 5px 9px;
+            outline: none;
+            height: 28px;
+        }
+        .design-toolbar input[type=text]:focus, .design-toolbar select:focus {
+            border-color: #ff9900;
+        }
+        .design-toolbar-label {
+            font-size: 0.58rem;
+            font-weight: 700;
+            color: #6a87aa;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .design-filter-chip {
+            padding: 3px 10px;
+            border-radius: 12px;
+            font-size: 0.58rem;
+            font-weight: 800;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.15);
+            background: transparent;
+            color: #8aabcc;
+            transition: all 0.12s;
+        }
+        .design-filter-chip.active {
+            background: #ff9900;
+            border-color: #ff9900;
+            color: #1a0c00;
         }
 
-        .design-zone-head {
+        /* ─── Tabla de órdenes ─── */
+        .design-orders-grid {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px 12px;
+        }
+        .design-order-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 10px;
+            padding: 9px 11px;
+            margin-bottom: 7px;
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 6px;
+            align-items: start;
+            transition: border-color 0.15s, background 0.15s;
+            cursor: pointer;
+        }
+        .design-order-card:hover {
+            border-color: rgba(255,153,0,0.35);
+            background: rgba(255,153,0,0.04);
+        }
+        .design-order-card.active-session {
+            border-color: #4ade80;
+            background: rgba(74,222,128,0.05);
+        }
+        .design-order-card.locked-by-other {
+            border-color: rgba(239,68,68,0.4);
+            background: rgba(239,68,68,0.04);
+            opacity: 0.75;
+        }
+        .design-order-folio {
+            font-size: 0.68rem;
+            font-weight: 900;
+            color: #f0d080;
+            letter-spacing: 0.2px;
+        }
+        .design-order-cliente {
+            font-size: 0.64rem;
+            font-weight: 700;
+            color: #c8daf0;
+            margin-top: 1px;
+        }
+        .design-order-producto {
+            font-size: 0.58rem;
+            color: #8aabcc;
+            margin-top: 1px;
+        }
+        .design-order-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 4px;
+        }
+        .design-order-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            padding: 2px 7px;
+            border-radius: 10px;
+            font-size: 0.54rem;
+            font-weight: 800;
+            text-transform: uppercase;
+        }
+        .design-order-tag.pendiente { background: #1e3a5f; color: #a0c4ff; }
+        .design-order-tag.en_diseno { background: #1a3a20; color: #7eed9a; }
+        .design-order-tag.en_revision { background: #3a3010; color: #fcd34d; }
+        .design-order-tag.terminada  { background: #1a3a30; color: #6ee7b7; }
+        .design-order-tag.diseñador { background: rgba(255,153,0,0.15); color: #ffb84d; }
+        .design-order-tag.locked { background: rgba(239,68,68,0.2); color: #f87171; }
+        .design-order-tag.mis { background: rgba(255,153,0,0.3); color: #fff3d5; border: 1px solid rgba(255,153,0,0.4); }
+        .design-order-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            align-items: flex-end;
+        }
+        .design-btn {
+            padding: 4px 10px;
+            border-radius: 7px;
+            font-size: 0.58rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            cursor: pointer;
+            border: none;
+            transition: all 0.12s;
+            white-space: nowrap;
+        }
+        .design-btn.primary { background: #ff9900; color: #1a0c00; }
+        .design-btn.primary:hover { background: #ffa726; }
+        .design-btn.secondary { background: rgba(255,255,255,0.1); color: #c8daf0; }
+        .design-btn.secondary:hover { background: rgba(255,255,255,0.17); }
+        .design-btn.danger { background: rgba(239,68,68,0.2); color: #f87171; }
+        .design-btn.danger:hover { background: rgba(239,68,68,0.35); }
+        .design-btn.success { background: rgba(74,222,128,0.2); color: #4ade80; }
+        .design-btn.success:hover { background: rgba(74,222,128,0.35); }
+        .design-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+        .design-empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #4a6a8a;
+            font-size: 0.76rem;
+        }
+        .design-empty-icon { font-size: 2rem; margin-bottom: 8px; }
+
+        /* ─── Popup Comenzar Diseño ─── */
+        .design-comenzar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100100;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5,10,20,0.72);
+            padding: 14px;
+        }
+        .design-comenzar-card {
+            width: min(98vw, 900px);
+            max-height: 90vh;
+            background: #12202f;
+            border: 1px solid rgba(255,153,0,0.3);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .design-comenzar-head {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 14px;
+            background: #0d1820;
+            border-bottom: 1px solid rgba(255,153,0,0.2);
+            flex-shrink: 0;
+        }
+        .design-comenzar-head h3 {
+            flex: 1;
+            margin: 0;
+            font-size: 0.82rem;
+            font-weight: 900;
+            color: #ff9900;
+            text-transform: uppercase;
+        }
+        .design-comenzar-body {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 0;
+            flex: 1;
+            overflow: hidden;
+        }
+        .design-comenzar-left, .design-comenzar-right {
+            overflow-y: auto;
+            padding: 12px;
+        }
+        .design-comenzar-left { border-right: 1px solid rgba(255,255,255,0.08); }
+        .design-comenzar-section { margin-bottom: 12px; }
+        .design-comenzar-section-title {
+            font-size: 0.56rem;
+            font-weight: 900;
+            color: #ff9900;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            margin-bottom: 5px;
+            padding-bottom: 3px;
+            border-bottom: 1px solid rgba(255,153,0,0.2);
+        }
+        .design-comenzar-value {
+            font-size: 0.68rem;
+            color: #c8daf0;
+            line-height: 1.4;
+        }
+        .design-comenzar-value strong { color: #e8f2ff; }
+        .design-imagenes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+            gap: 7px;
+            margin-top: 5px;
+        }
+        .design-imagen-thumb {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.12);
+            background: rgba(0,0,0,0.3);
+            position: relative;
+            cursor: pointer;
+        }
+        .design-imagen-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .design-imagen-thumb:hover::after {
+            content: '🔍';
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.55);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .design-imagen-caption {
+            font-size: 0.5rem;
+            color: #8aabcc;
+            text-align: center;
+            margin-top: 3px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        .design-timer-box {
+            background: rgba(74,222,128,0.1);
+            border: 1px solid rgba(74,222,128,0.35);
+            border-radius: 10px;
+            padding: 8px 12px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 8px;
+            margin-bottom: 10px;
+        }
+        .design-timer-label { font-size: 0.58rem; color: #6adc8a; font-weight: 700; }
+        .design-timer-value {
+            font-size: 1rem;
+            font-weight: 900;
+            color: #4ade80;
+            font-variant-numeric: tabular-nums;
+            letter-spacing: 1px;
+        }
+        .design-timer-inactive {
+            background: rgba(239,68,68,0.12);
+            border-color: rgba(239,68,68,0.4);
+        }
+        .design-timer-inactive .design-timer-label { color: #f87171; }
+        .design-timer-inactive .design-timer-value { color: #ef4444; }
+        .design-comenzar-foot {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 10px 14px;
+            background: #0d1820;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            flex-shrink: 0;
         }
 
-        .design-zone-title {
-            margin: 0;
-            font-size: 0.8rem;
-            font-weight: 800;
-            color: #e9f1ff;
-            letter-spacing: 0.2px;
+        /* ─── Popup Traspasar ─── */
+        .design-traspasar-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100110;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5,10,20,0.72);
+            padding: 14px;
+        }
+        .design-traspasar-card {
+            width: min(95vw, 500px);
+            background: #12202f;
+            border: 1px solid rgba(99,160,255,0.3);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .design-traspasar-head {
+            padding: 10px 14px;
+            background: #0d1820;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .design-traspasar-head h3 {
+            flex: 1; margin: 0;
+            font-size: 0.78rem;
+            font-weight: 900;
+            color: #7cb9ff;
             text-transform: uppercase;
         }
-
-        .design-controls-row {
-            display: grid;
-            grid-template-columns: auto 1fr auto;
-            gap: 8px;
-            align-items: center;
-        }
-
-        .design-status {
-            min-height: 38px;
-            border: 1px solid rgba(126, 173, 255, 0.26);
-            border-radius: 8px;
-            background: rgba(40, 91, 176, 0.15);
-            color: #d6e7ff;
+        .design-traspasar-body { padding: 12px 14px; }
+        .design-traspasar-foot {
+            padding: 8px 14px;
             display: flex;
-            align-items: center;
-            padding: 6px 8px;
-            font-size: 0.76rem;
+            gap: 6px;
+            justify-content: flex-end;
+            border-top: 1px solid rgba(255,255,255,0.08);
         }
-
-        .design-selected-readonly {
-            border: 1px solid rgba(255,255,255,0.18);
-            border-radius: 8px;
+        .design-field { margin-bottom: 10px; }
+        .design-field label {
+            display: block;
+            font-size: 0.56rem;
+            font-weight: 800;
+            color: #7a94b4;
+            text-transform: uppercase;
+            letter-spacing: 0.25px;
+            margin-bottom: 4px;
+        }
+        .design-field select, .design-field textarea, .design-field input {
+            width: 100%;
             background: rgba(255,255,255,0.06);
-            color: #e8f0ff;
-            min-height: 36px;
-            padding: 8px;
-            font-size: 0.78rem;
-            font-weight: 700;
+            border: 1px solid rgba(255,255,255,0.14);
+            border-radius: 7px;
+            color: #c8daf0;
+            font-size: 0.65rem;
+            padding: 7px 9px;
+            outline: none;
+            resize: vertical;
+        }
+        .design-field select:focus, .design-field textarea:focus, .design-field input:focus {
+            border-color: #7cb9ff;
+        }
+        .design-field textarea { min-height: 70px; }
+
+        /* ─── Popup Historial ─── */
+        .design-historial-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100120;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5,10,20,0.72);
+            padding: 14px;
+        }
+        .design-historial-card {
+            width: min(95vw, 600px);
+            max-height: 80vh;
+            background: #12202f;
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 14px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        .design-historial-head {
+            padding: 10px 14px;
+            background: #0d1820;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
             display: flex;
             align-items: center;
+            gap: 8px;
         }
-
-        .design-help {
-            margin: 0;
-            font-size: 0.72rem;
-            color: #b6caea;
+        .design-historial-head h3 {
+            flex: 1; margin: 0;
+            font-size: 0.78rem;
+            font-weight: 900;
+            color: #e0ecff;
+            text-transform: uppercase;
+        }
+        .design-historial-list { flex: 1; overflow-y: auto; padding: 10px 14px; }
+        .design-historial-item {
+            border-left: 2px solid rgba(255,153,0,0.4);
+            padding: 6px 10px;
+            margin-bottom: 8px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 0 8px 8px 0;
+        }
+        .design-historial-meta {
+            font-size: 0.54rem;
+            color: #7a94b4;
+            margin-bottom: 3px;
+            display: flex;
+            gap: 10px;
+        }
+        .design-historial-meta strong { color: #ffc080; }
+        .design-historial-text {
+            font-size: 0.62rem;
+            color: #c0d4ee;
             line-height: 1.35;
         }
+
+        /* ─── KPI Panel ─── */
+        .design-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+            gap: 8px;
+            padding: 10px 12px;
+        }
+        .design-kpi-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 10px;
+            padding: 10px 12px;
+            margin-bottom: 10px;
+        }
+        .design-kpi-title {
+            font-size: 0.7rem; font-weight: 900; color: #ff9900;
+            margin-bottom: 8px; border-bottom: 1px solid rgba(255,255,255,0.08); padding-bottom: 5px;
+        }
+        .design-kpi-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(110px,1fr)); gap: 8px;
+        }
+        .design-kpi-item {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 7px; padding: 6px 8px; text-align: center;
+        }
+        .design-kpi-label {
+            font-size: 0.54rem;
+            font-weight: 800;
+            color: #6a87aa;
+            text-transform: uppercase;
+            letter-spacing: 0.2px;
+            margin-bottom: 4px;
+        }
+        .design-kpi-value {
+            font-size: 1.1rem;
+            font-weight: 900;
+            color: #ff9900;
+        }
+        .design-kpi-sub { font-size: 0.52rem; color: #5a7a99; margin-top: 2px; }
+        .design-penalizacion-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(239,68,68,0.15);
+            border: 1px solid rgba(239,68,68,0.35);
+            border-radius: 6px;
+            padding: 2px 7px;
+            font-size: 0.54rem;
+            font-weight: 800;
+            color: #f87171;
+        }
+
+        /* ─── Biblioteca de Recursos ─── */
+        .design-biblioteca-toolbar {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.07);
+            background: #0d1825;
+            flex-shrink: 0;
+        }
+        .design-biblioteca-search {
+            flex: 1;
+            background: rgba(255,255,255,0.07);
+            border: 1px solid rgba(255,255,255,0.13);
+            border-radius: 7px;
+            color: #c8daf0;
+            font-size: 0.65rem;
+            padding: 6px 10px;
+            outline: none;
+            height: 30px;
+        }
+        .design-biblioteca-search:focus { border-color: #ff9900; }
+        .design-biblioteca-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 10px;
+            padding: 10px 12px;
+            overflow-y: auto;
+            flex: 1;
+        }
+        .design-recurso-card {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.09);
+            border-radius: 9px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: border-color 0.15s;
+        }
+        .design-recurso-card:hover { border-color: rgba(255,153,0,0.5); }
+        .design-recurso-img {
+            width: 100%;
+            aspect-ratio: 1;
+            object-fit: cover;
+            display: block;
+            background: rgba(0,0,0,0.3);
+        }
+        .design-recurso-info {
+            padding: 5px 6px;
+        }
+        .design-recurso-nombre {
+            font-size: 0.54rem;
+            font-weight: 700;
+            color: #c0d4ee;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .design-recurso-tags {
+            font-size: 0.48rem;
+            color: #607a94;
+            margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .design-recurso-subidor {
+            font-size: 0.48rem;
+            color: #ff9900;
+            margin-top: 1px;
+        }
+        /* Popup subir recurso */
+        .design-subir-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100130;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(5,10,20,0.72);
+            padding: 14px;
+        }
+        .design-subir-card {
+            width: min(95vw, 480px);
+            background: #12202f;
+            border: 1px solid rgba(255,153,0,0.3);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+        .design-subir-head {
+            padding: 10px 14px;
+            background: #0d1820;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .design-subir-head h3 { flex:1;margin:0;font-size:0.78rem;font-weight:900;color:#ff9900;text-transform:uppercase; }
+        .design-subir-body { padding: 12px 14px; }
+        .design-subir-foot { padding: 8px 14px; display:flex;gap:6px;justify-content:flex-end;border-top:1px solid rgba(255,255,255,0.08); }
+        .design-tag-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px;
+            margin-top: 5px;
+        }
+        .design-tag-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: rgba(255,153,0,0.15);
+            border: 1px solid rgba(255,153,0,0.3);
+            border-radius: 10px;
+            padding: 2px 7px;
+            font-size: 0.56rem;
+            font-weight: 700;
+            color: #ffcc7a;
+        }
+        .design-tag-chip button {
+            background: none;
+            border: none;
+            color: #ff9900;
+            cursor: pointer;
+            font-size: 0.7rem;
+            padding: 0;
+            line-height: 1;
+        }
+        .design-preview-upload {
+            width: 100%;
+            max-height: 120px;
+            object-fit: contain;
+            border-radius: 8px;
+            background: rgba(0,0,0,0.3);
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        /* ─── imagen fullscreen ─── */
+        .design-imgfull-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100150;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(0,0,0,0.9);
+            cursor: zoom-out;
+        }
+        .design-imgfull-overlay img {
+            max-width: 92vw;
+            max-height: 92vh;
+            border-radius: 8px;
+            object-fit: contain;
+        }
+
+        /* ─── Responsive ─── */
+        @media (max-width:720px) {
+            .design-comenzar-body { grid-template-columns: 1fr; }
+            .design-comenzar-left { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        }
+
+        /* Legacy design-zone preserved for backwards compat */
+        .design-card-layout { display:none; }
+        .design-zone { display:none; }
+        .design-zone-head { display:none; }
+        .design-zone-title { display:none; }
+        .design-controls-row { display:none; }
+        .design-status { display:none; }
+        .design-selected-readonly { display:none; }
+        .design-help { display:none; }
 
         .notify-overlay {
             position: fixed;
             inset: 0;
-            z-index: 2300;
+            z-index: 100200;
             display: none;
             align-items: center;
             justify-content: center;
@@ -11216,7 +11866,7 @@ const imgBolsaDeliveryBase = new Image();
                     <div class="orden-field">
                         <label>ENTREGA</label>
                         <div class="orden-entrega-control">
-                            <input id="ordenEntregaDias" type="number" min="1" max="90" value="3">
+                            <input id="ordenEntregaDias" type="number" min="1" max="365" value="3">
                             <span>días</span>
                         </div>
                     </div>
@@ -11262,11 +11912,13 @@ const imgBolsaDeliveryBase = new Image();
                 </table>
             </div>
 
-            <div class="orden-field">
-                <label>COMENTARIOS GENERALES</label>
-                <textarea id="ordenComentarios" rows="2" placeholder="Comentarios visibles para todos"></textarea>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+            <!-- Comentarios + Notas en fila -->
+            <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:2px;">
+                <div id="comentariosGeneralesWrap" class="orden-field" style="cursor:pointer;position:relative;" title="Clic para agregar comentarios generales">
+                    <label>💬 COMENTARIOS GENERALES</label>
+                    <div id="comentariosGeneralesPreview" style="min-height:42px;border:1px solid #e5e9f0;border-radius:6px;padding:7px 10px;font-size:0.6rem;color:#9ca3af;background:#f9fafb;cursor:pointer;overflow:hidden;white-space:pre-line;line-height:1.5;">Clic para agregar comentarios…</div>
+                    <input type="hidden" id="ordenComentarios" value="">
+                </div>
                 <div class="orden-field" style="cursor:pointer;" id="notasProduccionWrap" title="Clic para abrir editor de notas">
                     <label>📝 NOTAS PARA PRODUCCIÓN</label>
                     <textarea id="ordenNotasProduccion" rows="2" placeholder="Clic aquí para agregar notas e imágenes..." style="border-color:#fde8c8;background:#fffbf5;cursor:pointer;" readonly></textarea>
@@ -11279,12 +11931,12 @@ const imgBolsaDeliveryBase = new Image();
                 </div>
             </div>
 
-            <div class="orden-extras-checks">
-                <label><input id="ordenRequiereEnvio" type="checkbox"> Requiere envío</label>
-                <label><input id="ordenRequiereInstalacion" type="checkbox"> Requiere instalación</label>
+            <div class="orden-extras-checks" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
+                <label style="display:flex;align-items:center;gap:5px;"><input id="ordenRequiereEnvio" type="checkbox"> Requiere envío</label>
+                <label style="display:flex;align-items:center;gap:5px;"><input id="ordenRequiereInstalacion" type="checkbox"> Requiere instalación</label>
             </div>
 
-            <div class="orden-inline-fields">
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end;">
                 <div class="orden-field">
                     <label>DISEÑADOR ASIGNADO</label>
                     <select id="ordenDisenador"></select>
@@ -11317,7 +11969,7 @@ const imgBolsaDeliveryBase = new Image();
             <div class="orden-ticket-tools">
                 <div id="ordenTicketTabs" class="orden-ticket-tabs" aria-label="Tickets en espera">
                     <button class="orden-ticket-tab active" type="button" data-ticket-index="0">TICKET 1</button>
-                    <button id="ordenTicketAdd" class="orden-ticket-add" type="button" title="Agregar ticket (F9)" aria-label="Agregar ticket">+ <span class="shortcut-hint">F9</span></button>
+                    <button id="ordenTicketAdd" class="orden-ticket-add" type="button" title="Agregar ticket" aria-label="Agregar ticket">+</button>
                 </div>
             </div>
 
@@ -11328,7 +11980,7 @@ const imgBolsaDeliveryBase = new Image();
                 <button data-pay="TRANSFERENCIA" class="orden-btn orden-pay-btn" title="Transferencia (F6)" aria-label="Transferencia"><span class="orden-pay-icon">⇄</span><span class="orden-pay-label">TRANSFERENCIA</span><span class="shortcut-hint">F6</span></button>
                 <button data-pay="DEPOSITO" class="orden-btn orden-pay-btn" title="Depósito (F7)" aria-label="Depósito"><span class="orden-pay-icon">↓</span><span class="orden-pay-label">DEPÓSITO</span><span class="shortcut-hint">F7</span></button>
                 <button data-pay="GUARDAR SIN ANTICIPO" class="orden-btn orden-pay-btn" title="Sin anticipo (F8)" aria-label="Sin anticipo"><span class="orden-pay-icon">◎</span><span class="orden-pay-label">SIN ANTICIPO</span><span class="shortcut-hint">F8</span></button>
-                <button id="ordenBtnLimpiar" class="orden-btn warn" title="Limpiar ticket (Supr)" aria-label="Limpiar ticket"><span class="orden-pay-icon">✕</span><span class="orden-pay-label">LIMPIAR</span><span class="shortcut-hint">SUPR</span></button>
+                <button id="ordenBtnLimpiar" class="orden-btn warn" title="Limpiar ticket (F9)" aria-label="Limpiar ticket"><span class="orden-pay-icon">✕</span><span class="orden-pay-label">LIMPIAR</span><span class="shortcut-hint">F9</span></button>
             </div>
 
             <button id="ordenBtnVentaRapida" class="orden-btn orden-btn-venta-rapida" type="button">VENDER COMO VENTA RÁPIDA <span class="shortcut-hint">F10</span></button>
@@ -11420,12 +12072,11 @@ const imgBolsaDeliveryBase = new Image();
     <div class="orden-quote-card" role="dialog" aria-modal="true" aria-labelledby="ordenCotizacionTitulo">
         <h3 id="ordenCotizacionTitulo" style="margin:0;font-size:0.95rem;font-weight:800;color:#1f1f1f;">SELECIONA LA OPCIÓN QUE QUIERES REALIZAR</h3>
         <div class="orden-quote-actions-grid">
-            <button id="ordenQuoteGuardar" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">💾</span></span><span>Guardar</span></button>
-            <button id="ordenQuoteWhatsapp" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">🟢</span></span><span>WhatsApp</span></button>
-            <button id="ordenQuoteTicket" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">🧾</span></span><span>Ticket</span></button>
-            <button id="ordenQuotePdf" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">📄</span></span><span>PDF</span></button>
-            <button id="ordenQuoteVenta" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">✅</span></span><span>Pasar a venta</span></button>
-            <button id="ordenQuoteVerCotizaciones" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">📚</span></span><span>Ver cotizaciones</span></button>
+            <button id="ordenQuoteGuardar" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">💾</span></span><span>Solo Guardar</span></button>
+            <button id="ordenQuoteWhatsapp" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">🟢</span></span><span>Enviar Cotización por WhatsApp</span></button>
+            <button id="ordenQuoteTicket" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">🧾</span></span><span>Imprimir Cotización en Ticket</span></button>
+            <button id="ordenQuotePdf" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">📄</span></span><span>Exportar Cotización en PDF</span></button>
+            <button id="ordenQuoteVenta" class="orden-quote-action" type="button"><span class="orden-quote-icon-box"><span class="icon">✅</span></span><span>Pasar Cotización a Venta</span></button>
         </div>
     </div>
 </div>
@@ -11483,7 +12134,7 @@ const imgBolsaDeliveryBase = new Image();
 
             <div class="orden-stock-result-bar">
                 <div id="ordenStockResultCount" class="orden-stock-result-count">0 resultados</div>
-                <button id="ordenStockTabuladorBtn" class="orden-stock-tabulador-btn" type="button">TABULADOR</button>
+                <button id="ordenStockTabuladorBtn" class="orden-stock-tabulador-btn" type="button">TABULADOR <span class="shortcut-hint">ALT+T</span></button>
             </div>
         </div>
 
@@ -11492,6 +12143,7 @@ const imgBolsaDeliveryBase = new Image();
             <h3 id="ordenStockTitle" style="margin:0;font-size:0.86rem;font-weight:900;letter-spacing:0.25px;text-transform:uppercase;">Detalle del producto</h3>
 
             <div id="ordenStockPhoto" class="orden-stock-photo">Selecciona un producto</div>
+            <div id="ordenStockEntregaInfo" style="font-size:0.5rem;font-weight:800;color:#f07a00;text-align:center;margin-top:4px;display:none;">📅 <span id="ordenStockEntregaText"></span></div>
 
             <div class="orden-stock-colors">
                 <h4>Colores disponibles</h4>
@@ -11514,6 +12166,11 @@ const imgBolsaDeliveryBase = new Image();
             </div>
 
             <div class="orden-stock-total">Total a pagar<b id="ordenStockTotal">$0.00</b></div>
+            <div style="margin-top:10px;">
+                <div style="font-size:0.5rem;font-weight:800;color:#64748b;text-transform:uppercase;margin-bottom:3px;">📅 Fecha de entrega estimada</div>
+                <input id="ordenStockFechaEntrega" type="date" style="width:100%;border:1px solid #d8dde6;border-radius:5px;padding:5px 8px;font-size:0.68rem;color:#1f2937;background:#fff;">
+                <div style="font-size:0.46rem;color:#9ca3af;margin-top:2px;">Se ajusta sola si el producto tiene días de entrega</div>
+            </div>
             <button id="ordenStockAccept" class="orden-stock-accept" type="button">Aceptar</button>
         </aside>
     </div>
@@ -11531,8 +12188,8 @@ const imgBolsaDeliveryBase = new Image();
                     <button id="mispedidosTabCot" class="mispedidos-tab" type="button" data-tab="cotizacion">Cotizaciones emitidas</button>
                 </div>
                 <div class="mispedidos-toolbar">
-                    <button id="mpEditarSeleccion" class="mispedidos-tool-btn" type="button">Editar selección</button>
                     <button id="mpExportarSeleccion" class="mispedidos-tool-btn" type="button"><span class="excel-icon">📗</span>Exportar selección</button>
+                    <button id="mpRecordatorioSeleccion" class="mispedidos-tool-btn" type="button">⏰ Recordatorio</button>
                 </div>
             </div>
         </div>
@@ -11616,7 +12273,7 @@ const imgBolsaDeliveryBase = new Image();
 
         <div class="mispedidos-table-wrap">
             <table class="mispedidos-table">
-                <thead>
+                <thead id="mpTablaThead">
                     <tr>
                         <th>Folio</th>
                         <th>Nombre del cliente</th>
@@ -11648,88 +12305,88 @@ const imgBolsaDeliveryBase = new Image();
 
 <!-- POPUP DETALLE ORDEN/COTIZACION -->
 <div id="popupDetalleOrden" class="popup-overlay" aria-hidden="true" style="z-index:100010;">
-    <div class="popup-card wide" role="dialog" aria-modal="true" style="max-width:980px;max-height:95vh;overflow-y:auto;padding:0;border-radius:16px;border:none;">
-        <!-- HEADER limpio con folio -->
-        <div style="background:#fff;padding:22px 32px 14px 32px;display:flex;justify-content:space-between;align-items:end;border-bottom:2px solid #ff9900;border-radius:18px 18px 0 0;box-shadow:0 2px 12px 0 rgba(255,153,0,0.07);">
-            <div style="display:flex;flex-direction:column;gap:2px;">
-                <div id="mpDetTipoLabel" style="font-size:0.72rem;font-weight:900;color:#ff9900;letter-spacing:1.5px;text-transform:uppercase;">ORDEN DE TRABAJO</div>
-                <div style="display:flex;align-items:center;gap:18px;margin-top:2px;">
-                    <div id="mpDetFolio" style="font-size:2.1rem;font-weight:900;color:#1f2937;line-height:1.1;background:#fff7ed;padding:2px 22px;border-radius:16px;border:2px solid #ff9900;letter-spacing:2px;"></div>
-                    <div id="mpDetFechaEmitida" style="font-size:0.82rem;color:#64748b;font-weight:700;background:#f3f4f6;padding:2px 14px;border-radius:12px;border:1.5px solid #e4e8ef;"></div>
+    <div class="popup-card wide" role="dialog" aria-modal="true" style="width:80vw;height:80vh;max-width:none;max-height:none;overflow:hidden;padding:0;border-radius:14px;border:none;display:flex;flex-direction:column;">
+        <!-- HEADER -->
+        <div style="background:#fff;padding:12px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:2px solid #ff9900;border-radius:14px 14px 0 0;flex-shrink:0;">
+            <div style="display:flex;align-items:center;gap:12px;">
+                <div style="display:flex;flex-direction:column;gap:1px;">
+                    <div id="mpDetTipoLabel" style="font-size:0.48rem;font-weight:900;color:#ff9900;letter-spacing:1.2px;text-transform:uppercase;">ORDEN DE TRABAJO</div>
+                    <div id="mpDetFolio" style="font-size:1.25rem;font-weight:900;color:#1f2937;line-height:1.15;background:#fff7ed;padding:1px 14px;border-radius:10px;border:2px solid #ff9900;letter-spacing:1.5px;"></div>
                 </div>
+                <div id="mpDetFechaEmitida" style="font-size:0.58rem;color:#64748b;font-weight:700;background:#f3f4f6;padding:3px 10px;border-radius:8px;border:1px solid #e4e8ef;"></div>
             </div>
-            <div style="display:flex;align-items:center;gap:16px;">
-                <div id="mpDetEstatus" style="font-size:0.74rem;font-weight:900;padding:7px 22px;border-radius:22px;display:inline-block;background:#fff7ed;color:#ff9900;border:2px solid #ff9900;box-shadow:0 1px 6px 0 rgba(255,153,0,0.07);text-transform:uppercase;letter-spacing:1px;"></div>
-                <button id="mpDetCerrar" style="background:#fff;border:2px solid #d4dae4;color:#1f2937;width:38px;height:38px;border-radius:50%;cursor:pointer;font-size:1.2rem;font-weight:900;box-shadow:0 1px 4px 0 rgba(0,0,0,0.04);">✕</button>
+            <div style="display:flex;align-items:center;gap:10px;">
+                <div id="mpDetEstatus" style="font-size:0.58rem;font-weight:900;padding:4px 14px;border-radius:16px;display:inline-block;background:#fff7ed;color:#ff9900;border:1.5px solid #ff9900;text-transform:uppercase;letter-spacing:0.8px;"></div>
+                <button id="mpDetCerrar" style="background:#f3f4f6;border:1px solid #d4dae4;color:#6b7280;width:30px;height:30px;border-radius:8px;cursor:pointer;font-size:0.9rem;font-weight:900;display:flex;align-items:center;justify-content:center;">✕</button>
             </div>
         </div>
-        <div style="display:grid;grid-template-columns:1fr 300px;gap:0;background:#fff;">
+        <div style="display:grid;grid-template-columns:1fr 270px;gap:0;background:#fff;flex:1;min-height:0;overflow:hidden;">
             <!-- LEFT: Client + Products -->
-            <div style="padding:18px 24px;border-right:1px solid #f0f0f0;">
+            <div style="padding:12px 16px;border-right:1px solid #f0f0f0;display:flex;flex-direction:column;overflow-y:auto;">
                 <!-- Client info -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:16px;">
-                    <div><div style="font-size:0.5rem;color:#ff9900;font-weight:800;text-transform:uppercase;">Cliente</div><div id="mpDetCliente" style="font-weight:800;font-size:0.72rem;color:#1f2937;"></div></div>
-                    <div><div style="font-size:0.5rem;color:#ff9900;font-weight:800;text-transform:uppercase;">Teléfono</div><div id="mpDetTelefono" style="font-weight:600;font-size:0.68rem;color:#374151;"></div></div>
-                    <div><div style="font-size:0.5rem;color:#ff9900;font-weight:800;text-transform:uppercase;">Fecha Entrega</div><div id="mpDetFechaEntrega" style="font-weight:600;font-size:0.68rem;color:#374151;"></div></div>
-                    <div id="mpDetMetodoPagoWrap"><div style="font-size:0.5rem;color:#ff9900;font-weight:800;text-transform:uppercase;">Método de Pago</div><div id="mpDetMetodoPago" style="font-weight:700;font-size:0.68rem;color:#374151;background:#fff7ed;display:inline-block;padding:2px 10px;border-radius:6px;border:1px solid #fed7aa;"></div></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f3f4f6;">
+                    <div><div style="font-size:0.44rem;color:#ff9900;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Cliente</div><div id="mpDetCliente" style="font-weight:800;font-size:0.62rem;color:#1f2937;"></div></div>
+                    <div><div style="font-size:0.44rem;color:#ff9900;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Teléfono</div><div id="mpDetTelefono" style="font-weight:600;font-size:0.62rem;color:#374151;"></div></div>
+                    <div><div style="font-size:0.44rem;color:#ff9900;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Fecha Entrega</div><div id="mpDetFechaEntrega" style="font-weight:600;font-size:0.62rem;color:#374151;"></div></div>
+                    <div id="mpDetMetodoPagoWrap"><div style="font-size:0.44rem;color:#ff9900;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Método de Pago</div><div id="mpDetMetodoPago" style="font-weight:700;font-size:0.62rem;color:#374151;background:#fff7ed;display:inline-block;padding:1px 8px;border-radius:5px;border:1px solid #fed7aa;"></div></div>
                 </div>
                 <!-- Products table -->
-                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-                    <div style="font-size:0.55rem;font-weight:800;color:#ff9900;text-transform:uppercase;letter-spacing:0.5px;">Productos Solicitados</div>
-                    <div id="mpDetProdAcciones" style="display:none;gap:4px;display:none;">
-                        <button id="mpDetAgregarProdBtn" type="button"
-                            style="padding:3px 9px;font-size:0.52rem;font-weight:800;background:#fff7ed;color:#92400e;border:1px solid #fde8c8;border-radius:5px;cursor:pointer;">＋ Agregar</button>
-                        <button id="mpDetEliminarProdBtn" type="button"
-                            style="padding:3px 9px;font-size:0.52rem;font-weight:800;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:5px;cursor:pointer;">− Eliminar</button>
+                <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:5px;">
+                    <div style="font-size:0.48rem;font-weight:900;color:#ff9900;text-transform:uppercase;letter-spacing:0.4px;">Productos Solicitados</div>
+                    <div id="mpDetProdAcciones" style="display:none;gap:4px;">
+                        <button id="mpDetAgregarProdBtn" type="button" class="orden-btn" style="font-size:0.5rem;padding:4px 10px;">＋ Agregar</button>
+                        <button id="mpDetEliminarProdBtn" type="button" class="orden-btn" style="font-size:0.5rem;padding:4px 10px;background:#fef2f2;color:#dc2626;border-color:#fecaca;">− Eliminar</button>
                     </div>
                 </div>
+                <div style="border:1px solid #edf1f6;border-radius:8px;overflow:auto;flex:1;min-height:0;">
                 <table style="width:100%;border-collapse:collapse;font-size:0.6rem;">
                     <thead>
-                        <tr style="background:#fff7ed;">
-                            <th style="padding:8px 10px;text-align:left;border-bottom:2px solid #ff9900;color:#92400e;font-weight:800;font-size:0.55rem;">PRODUCTO</th>
-                            <th style="padding:8px 10px;text-align:left;border-bottom:2px solid #ff9900;color:#92400e;font-weight:800;font-size:0.55rem;">MEDIDA</th>
-                            <th style="padding:8px 10px;text-align:left;border-bottom:2px solid #ff9900;color:#92400e;font-weight:800;font-size:0.55rem;">MATERIAL</th>
-                            <th style="padding:8px 10px;text-align:center;border-bottom:2px solid #ff9900;color:#92400e;font-weight:800;font-size:0.55rem;">CANT.</th>
-                            <th style="padding:8px 10px;text-align:right;border-bottom:2px solid #ff9900;color:#92400e;font-weight:800;font-size:0.55rem;">PRECIO</th>
-                            <th style="padding:8px 10px;text-align:right;border-bottom:2px solid #ff9900;color:#92400e;font-weight:800;font-size:0.55rem;">IMPORTE</th>
+                        <tr style="background:#f07a00;">
+                            <th style="padding:6px 8px;text-align:left;color:#fff;font-weight:800;font-size:0.5rem;white-space:nowrap;">PRODUCTO</th>
+                            <th style="padding:6px 8px;text-align:left;color:#fff;font-weight:800;font-size:0.5rem;white-space:nowrap;">MEDIDA</th>
+                            <th style="padding:6px 8px;text-align:left;color:#fff;font-weight:800;font-size:0.5rem;white-space:nowrap;">MATERIAL</th>
+                            <th style="padding:6px 8px;text-align:center;color:#fff;font-weight:800;font-size:0.5rem;white-space:nowrap;">CANT.</th>
+                            <th style="padding:6px 8px;text-align:right;color:#fff;font-weight:800;font-size:0.5rem;white-space:nowrap;">PRECIO</th>
+                            <th style="padding:6px 8px;text-align:right;color:#fff;font-weight:800;font-size:0.5rem;white-space:nowrap;">IMPORTE</th>
                         </tr>
                     </thead>
                     <tbody id="mpDetProductosBody"></tbody>
                 </table>
-                <div id="mpDetComentarios" style="margin-top:14px;font-size:0.6rem;color:#4b5563;display:none;background:#fffbeb;padding:10px 14px;border-radius:8px;border:1px solid #fde68a;">
-                    <div style="font-weight:700;color:#92400e;margin-bottom:4px;">📝 NOTAS / COMENTARIOS:</div>
+                </div>
+                <div id="mpDetComentarios" style="margin-top:10px;font-size:0.58rem;color:#4b5563;display:none;background:#fffbeb;padding:8px 12px;border-radius:7px;border:1px solid #fde68a;">
+                    <div style="font-weight:700;color:#92400e;margin-bottom:3px;">📝 NOTAS / COMENTARIOS:</div>
                     <div id="mpDetComentariosTxt"></div>
                 </div>
                 <!-- Vendedor/Diseñador below table -->
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px;padding-top:14px;border-top:1px solid #f0f0f0;">
-                    <div><div style="font-size:0.5rem;color:#ff9900;font-weight:800;text-transform:uppercase;">Vendedor</div><div id="mpDetVendedor" style="font-weight:700;font-size:0.68rem;color:#374151;"></div></div>
-                    <div><div style="font-size:0.5rem;color:#ff9900;font-weight:800;text-transform:uppercase;">Diseñador Asignado</div><div id="mpDetDisenador" style="font-weight:700;font-size:0.68rem;color:#374151;"></div></div>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid #f0f0f0;">
+                    <div><div style="font-size:0.44rem;color:#ff9900;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Vendedor</div><div id="mpDetVendedor" style="font-weight:700;font-size:0.62rem;color:#374151;"></div></div>
+                    <div><div style="font-size:0.44rem;color:#ff9900;font-weight:800;text-transform:uppercase;margin-bottom:2px;">Diseñador Asignado</div><div id="mpDetDisenador" style="font-weight:700;font-size:0.62rem;color:#374151;"></div></div>
                 </div>
-                <!-- Acciones secundarias: historial, whatsapp, pdf, estatus -->
-                <div id="mpDetAccionesSecundarias" style="display:flex;flex-wrap:wrap;gap:5px;margin-top:12px;">
-                    <button id="mpDetPagosBtn" type="button" style="flex:1;min-width:120px;font-size:0.55rem;padding:7px 8px;background:#fff;color:#92400e;border:1px solid #fde8c8;border-radius:7px;cursor:pointer;font-weight:700;">💰 Historial de pagos</button>
-                    <button id="mpDetWhatsapp" type="button" style="flex:1;min-width:120px;font-size:0.55rem;padding:7px 8px;background:#dcfce7;color:#15803d;border:1px solid #86efac;border-radius:7px;cursor:pointer;font-weight:700;">📱 Enviar por WhatsApp</button>
-                    <button id="mpDetPdf" type="button" style="flex:1;min-width:120px;font-size:0.55rem;padding:7px 8px;background:#fff;color:#374151;border:1px solid #e5e7eb;border-radius:7px;cursor:pointer;font-weight:700;">📄 Exportar PDF</button>
-                    <button id="mpDetStatusWA" type="button" style="flex:1;min-width:120px;font-size:0.55rem;padding:7px 8px;background:#fff;color:#374151;border:1px solid #e5e7eb;border-radius:7px;cursor:pointer;font-weight:700;">📩 Estatus por WhatsApp</button>
+                <!-- Acciones secundarias -->
+                <div id="mpDetAccionesSecundarias" style="display:flex;gap:6px;margin-top:10px;flex-shrink:0;">
+                    <button id="mpDetPagosBtn" type="button" class="orden-btn" style="font-size:0.52rem;padding:9px 10px;background:#fff7ed;color:#92400e;border-color:#fde8c8;font-weight:700;flex:1;white-space:nowrap;border-radius:3px;">💰 Historial de pagos</button>
+                    <button id="mpDetWhatsapp" type="button" class="orden-btn" style="font-size:0.52rem;padding:9px 10px;background:#dcfce7;color:#15803d;border-color:#86efac;font-weight:700;flex:1;white-space:nowrap;border-radius:3px;">📱 WhatsApp</button>
+                    <button id="mpDetPdf" type="button" class="orden-btn" style="font-size:0.52rem;padding:9px 10px;font-weight:700;flex:1;white-space:nowrap;border-radius:3px;">📄 Exportar PDF</button>
+                    <button id="mpDetStatusWA" type="button" class="orden-btn" style="font-size:0.52rem;padding:9px 10px;font-weight:700;flex:1;white-space:nowrap;border-radius:3px;">📩 Estatus WA</button>
                 </div>
             </div>
             <!-- RIGHT: Totals + Actions -->
-            <div style="padding:18px 20px;background:#fefce8;background:#fff7ed;">
-                <div style="font-size:0.55rem;font-weight:800;color:#92400e;margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px;">Resumen Financiero</div>
-                <div style="display:flex;flex-direction:column;gap:6px;font-size:0.62rem;color:#374151;">
+            <div style="padding:12px 14px;background:#fff7ed;display:flex;flex-direction:column;gap:0;overflow-y:auto;">
+                <div style="font-size:0.44rem;font-weight:900;color:#92400e;margin-bottom:8px;text-transform:uppercase;letter-spacing:0.5px;border-bottom:1px solid #fde8c8;padding-bottom:6px;">Resumen Financiero</div>
+                <div style="display:flex;flex-direction:column;gap:4px;font-size:0.6rem;color:#374151;">
                     <div style="display:flex;justify-content:space-between;"><span>Subtotal</span><span id="mpDetSubtotal" style="font-weight:700;"></span></div>
                     <div style="display:flex;justify-content:space-between;"><span>Impuestos</span><span id="mpDetImpuestos" style="font-weight:700;"></span></div>
                     <div style="display:flex;justify-content:space-between;"><span>Descuento</span><span id="mpDetDescuento" style="font-weight:700;color:#dc2626;"></span></div>
-                    <div style="display:flex;justify-content:space-between;border-top:3px solid #ff9900;padding-top:10px;margin-top:6px;font-size:0.85rem;font-weight:900;color:#92400e;"><span>TOTAL</span><span id="mpDetTotal"></span></div>
+                    <div style="display:flex;justify-content:space-between;border-top:2px solid #ff9900;padding-top:7px;margin-top:4px;font-size:0.75rem;font-weight:900;color:#92400e;"><span>TOTAL</span><span id="mpDetTotal"></span></div>
                     <div id="mpDetPagosSection">
-                        <div style="display:flex;justify-content:space-between;margin-top:10px;"><span>Anticipo recibido</span><span id="mpDetAnticipo" style="font-weight:700;color:#15803d;"></span></div>
-                        <div style="display:flex;justify-content:space-between;font-weight:800;color:#dc2626;font-size:0.7rem;background:#fef2f2;padding:6px 8px;border-radius:6px;margin-top:4px;"><span>RESTANTE</span><span id="mpDetAdeudo"></span></div>
+                        <div style="display:flex;justify-content:space-between;margin-top:7px;"><span>Anticipo recibido</span><span id="mpDetAnticipo" style="font-weight:700;color:#15803d;"></span></div>
+                        <div style="display:flex;justify-content:space-between;font-weight:800;color:#dc2626;font-size:0.62rem;background:#fef2f2;padding:5px 7px;border-radius:6px;margin-top:3px;"><span>RESTANTE</span><span id="mpDetAdeudo"></span></div>
                     </div>
-                    <div style="display:flex;justify-content:space-between;margin-top:10px;border-top:1px solid #fde8c8;padding-top:8px;"><span style="color:#9ca3af;">Inversión</span><span id="mpDetInversion" style="font-weight:700;"></span></div>
+                    <div style="display:flex;justify-content:space-between;margin-top:7px;border-top:1px solid #fde8c8;padding-top:6px;"><span style="color:#9ca3af;">Inversión</span><span id="mpDetInversion" style="font-weight:700;"></span></div>
                     <div style="display:flex;justify-content:space-between;color:#b45309;font-weight:700;"><span>Ganancia</span><span id="mpDetGanancia"></span></div>
                 </div>
                 <!-- Abono section: método de pago (ventas only) -->
-                <div id="mpDetAbonoWrap" style="margin-top:12px;">
+                <div id="mpDetAbonoWrap" style="margin-top:10px;">
                     <div style="font-size:0.5rem;font-weight:800;color:#9ca3af;margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px;">Registrar abono</div>
                     <div id="mpDetPayGrid" class="orden-pagos-grid" style="grid-template-columns:repeat(2,1fr);">
                         <button class="orden-btn orden-pay-btn" data-mp-pay="EFECTIVO" type="button" title="Efectivo"><span class="orden-pay-icon">◉</span><span class="orden-pay-label">EFECTIVO</span><span class="shortcut-hint">F4</span></button>
@@ -11993,6 +12650,30 @@ const imgBolsaDeliveryBase = new Image();
                 <div style="display:flex;gap:10px;margin-top:16px;justify-content:flex-end;">
                     <button id="paqNuevaCancelar" type="button" style="padding:10px 24px;background:#fff;color:#ff9900;border:2px solid #ff9900;border-radius:10px;font-size:0.58rem;font-weight:800;cursor:pointer;">CANCELAR</button>
                     <button id="paqNuevaGuardar" type="button" style="padding:10px 24px;background:#ff9900;color:#fff;border:none;border-radius:10px;font-size:0.58rem;font-weight:900;cursor:pointer;">GUARDAR PAQUETERÍA</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══ POPUP COMENTARIOS GENERALES ═══ -->
+<div id="popupComentariosGenerales" class="popup-overlay" aria-hidden="true" style="z-index:100021;display:none;">
+    <div role="dialog" aria-modal="true" style="background:#ffffff;width:640px;max-width:94vw;border-radius:14px;border:2px solid #ff9900;box-shadow:0 20px 60px rgba(0,0,0,0.3);display:flex;flex-direction:column;overflow:hidden;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:16px 22px 12px;border-bottom:2px solid #ff9900;background:#fff7ed;border-radius:14px 14px 0 0;flex-shrink:0;">
+            <div>
+                <div style="font-size:0.82rem;font-weight:900;color:#ff9900;letter-spacing:0.5px;">💬 COMENTARIOS GENERALES</div>
+                <div style="font-size:0.5rem;color:#92400e;margin-top:2px;">Visibles para todos — cliente, producción y diseño</div>
+            </div>
+            <button id="comentariosPopupCerrar" type="button" style="background:#f3f4f6;border:1px solid #d4dae4;color:#6b7280;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:0.9rem;font-weight:900;display:flex;align-items:center;justify-content:center;">✕</button>
+        </div>
+        <div style="padding:20px 22px;display:flex;flex-direction:column;gap:12px;">
+            <textarea id="comentariosPopupTexto" rows="7" placeholder="Escribe aquí los comentarios visibles para todos los departamentos…"
+                style="width:100%;border:1.5px solid #fde8c8;border-radius:8px;padding:12px 14px;font-size:0.68rem;color:#1f2937;background:#fffbf5;resize:vertical;font-family:inherit;line-height:1.6;box-sizing:border-box;"></textarea>
+            <div style="display:flex;align-items:center;justify-content:space-between;">
+                <div style="font-size:0.48rem;color:#9ca3af;">Los comentarios se guardan junto con la orden</div>
+                <div style="display:flex;gap:8px;">
+                    <button id="comentariosPopupLimpiar" type="button" style="padding:8px 18px;background:#fef2f2;color:#dc2626;border:1px solid #fecaca;border-radius:6px;cursor:pointer;font-size:0.58rem;font-weight:700;">✕ Limpiar</button>
+                    <button id="comentariosPopupGuardar" type="button" style="padding:8px 22px;background:#ff9900;color:#fff;border:none;border-radius:6px;cursor:pointer;font-size:0.6rem;font-weight:800;">✓ Guardar</button>
                 </div>
             </div>
         </div>
@@ -12696,6 +13377,14 @@ const imgBolsaDeliveryBase = new Image();
                     <div class="productos-modal-grid">
                         <div class="orden-field prod-stock-only" id="prodFormVentaWrap" data-nat="producto,fabricado,insumo,servicio"><label for="prodFormVenta">Precio unitario venta general</label><input id="prodFormVenta" type="number" min="0" step="0.01"></div>
                         <div class="orden-field prod-stock-only" data-nat="producto,fabricado"><label for="prodFormRevendedor">Precio unitario revendedor</label><input id="prodFormRevendedor" type="number" min="0" step="0.01"></div>
+                        <div class="orden-field prod-stock-only productos-field-span3" data-nat="producto,fabricado,insumo,servicio" style="background:#fffbf0;border:1px solid #fde8a0;border-radius:8px;padding:8px 10px;">
+                            <label style="font-weight:900;color:#92400e;font-size:0.58rem;margin-bottom:4px;display:block;">🧾 IMPUESTO (IVA)</label>
+                            <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.62rem;color:#374151;">
+                                <input type="checkbox" id="prodFormIncluyeIVA" style="width:14px;height:14px;accent-color:#f07a00;">
+                                Los precios ya incluyen IVA (16%)
+                            </label>
+                            <div style="font-size:0.5rem;color:#9ca3af;margin-top:3px;">Si se activa IVA en el cotizador y este producto ya incluye IVA, se mostrará una nota en la cotización.</div>
+                        </div>
                         <div class="orden-field productos-field-span3 prod-stock-only" data-nat="producto,fabricado">
                             <label style="margin-bottom:2px;">Variantes del producto</label>
                             <div style="display:flex;align-items:center;gap:6px;">
@@ -13322,47 +14011,278 @@ const imgBolsaDeliveryBase = new Image();
     </div>
 </div>
 
-<div id="popupDesignTracking" class="popup-overlay" aria-hidden="true">
-    <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupDesignTrackingTitulo" style="max-width: 1320px;">
-        <div class="design-card-layout">
-            <div class="design-zone">
-                <div class="design-zone-head">
-                    <h3 id="popupDesignTrackingTitulo" class="design-zone-title">Pedidos pendientes de diseño</h3>
+<div id="popupDesignTracking" class="popup-overlay" aria-hidden="true" style="padding:8px;">
+    <div class="popup-card" role="dialog" aria-modal="true" aria-labelledby="popupDesignTrackingTitulo"
+         style="max-width:1380px;width:min(100%,1380px);height:min(92vh,860px);padding:0;background:#0d1520;border:1px solid rgba(255,153,0,0.2);display:flex;flex-direction:column;overflow:hidden;">
+
+        <!-- HEADER -->
+        <div class="design-module-header">
+            <span style="font-size:1rem;">🎨</span>
+            <h3 id="popupDesignTrackingTitulo" class="design-module-title">Módulo de Diseño</h3>
+            <div id="designUserBadge" class="design-user-badge">
+                <span class="design-user-dot"></span>
+                <span id="designUserName">—</span>
+            </div>
+            <div id="designSaturationAlert" style="display:none;align-items:center;gap:5px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.4);border-radius:10px;padding:4px 10px;font-size:0.58rem;font-weight:800;color:#f87171;">
+                ⚠ Saturación detectada
+            </div>
+            <button id="btnDesignBiblioteca" class="design-btn secondary" type="button" style="margin-left:4px;">📚 Biblioteca</button>
+            <button id="btnDesignClose" class="design-btn danger" type="button" style="margin-left:4px;">✕ Cerrar</button>
+        </div>
+
+        <!-- TABS -->
+        <div class="design-module-tabs">
+            <button class="design-module-tab active" data-dtab="mis-ordenes">✏️ Mis Órdenes</button>
+            <button class="design-module-tab" data-dtab="todas">📋 Todas Pendientes</button>
+            <button class="design-module-tab" data-dtab="en-diseno">🟢 En Diseño</button>
+            <button class="design-module-tab" data-dtab="kpis">📊 KPIs &amp; Métricas</button>
+        </div>
+
+        <!-- BODY -->
+        <div class="design-module-body">
+
+            <!-- PANEL: Mis Órdenes -->
+            <div class="design-tab-panel active" id="dtab-mis-ordenes" data-dtab="mis-ordenes">
+                <div class="design-toolbar">
+                    <span class="design-toolbar-label">Buscar:</span>
+                    <input type="text" id="designSearchMis" placeholder="Folio, cliente, producto…" style="min-width:180px;">
+                    <span class="design-toolbar-label" style="margin-left:8px;">Estado:</span>
+                    <button class="design-filter-chip active" data-dfilter-mis="todos">Todos</button>
+                    <button class="design-filter-chip" data-dfilter-mis="pendiente">Pendiente</button>
+                    <button class="design-filter-chip" data-dfilter-mis="en_diseno">En diseño</button>
+                    <button class="design-filter-chip" data-dfilter-mis="en_revision">En revisión</button>
+                    <div style="flex:1;"></div>
+                    <span id="designMisCount" style="font-size:0.58rem;color:#607a94;font-weight:700;"></span>
                 </div>
-                <div class="design-controls-row">
-                    <label for="designLimitInput" style="font-size:0.72rem;color:#c8d9f2;font-weight:700;">Límite</label>
-                    <input id="designLimitInput" type="number" min="1" max="500" value="150" style="max-width:130px;">
-                    <button id="btnDesignRefresh" class="popup-btn primary" type="button">Actualizar</button>
+                <div class="design-orders-grid" id="designListMis"></div>
+            </div>
+
+            <!-- PANEL: Todas Pendientes -->
+            <div class="design-tab-panel" id="dtab-todas" data-dtab="todas">
+                <div class="design-toolbar">
+                    <span class="design-toolbar-label">Buscar:</span>
+                    <input type="text" id="designSearchTodas" placeholder="Folio, cliente, producto…" style="min-width:180px;">
+                    <span class="design-toolbar-label" style="margin-left:8px;">Diseñador:</span>
+                    <select id="designFilterDisenador" style="min-width:120px;">
+                        <option value="">Todos</option>
+                    </select>
+                    <div style="flex:1;"></div>
+                    <span id="designTodasCount" style="font-size:0.58rem;color:#607a94;font-weight:700;"></span>
                 </div>
-                <div id="designStatus" class="design-status">Listo para consultar pedidos pendientes.</div>
-                <div id="designTableWrap" style="overflow:auto; border:1px solid rgba(255,255,255,0.08); border-radius:10px; background:rgba(0,0,0,0.2); min-height:320px;">
-                    <div style="padding:12px; color:#b8c8db; font-size:0.86rem;">No hay datos cargados.</div>
+                <div class="design-orders-grid" id="designListTodas"></div>
+            </div>
+
+            <!-- PANEL: En Diseño (activas) -->
+            <div class="design-tab-panel" id="dtab-en-diseno" data-dtab="en-diseno">
+                <div class="design-toolbar">
+                    <span class="design-toolbar-label">Órdenes actualmente en proceso</span>
+                    <div style="flex:1;"></div>
+                    <button id="btnDesignRefresh" class="design-btn primary" type="button">↻ Actualizar</button>
+                </div>
+                <div class="design-orders-grid" id="designListActivas"></div>
+            </div>
+
+            <!-- PANEL: KPIs -->
+            <div class="design-tab-panel" id="dtab-kpis" data-dtab="kpis">
+                <div class="design-orders-grid" style="overflow-y:auto;padding:10px 12px;" id="designKpiBody"></div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- POPUP: Comenzar Diseño -->
+<div id="popupDesignComenzar" class="design-comenzar-overlay" aria-hidden="true">
+    <div class="design-comenzar-card" role="dialog" aria-modal="true">
+        <div class="design-comenzar-head">
+            <span style="font-size:1.1rem;">🎨</span>
+            <h3 id="designComenzarTitulo">Comenzar Diseño</h3>
+            <span id="designComenzarFolio" style="font-size:0.62rem;color:#ffc080;font-weight:800;"></span>
+            <button id="btnDesignComenzarClose" class="design-btn danger" type="button" style="flex-shrink:0;">✕</button>
+        </div>
+        <div class="design-comenzar-body">
+            <div class="design-comenzar-left">
+                <!-- Timer -->
+                <div id="designTimerBox" class="design-timer-box" style="display:none;">
+                    <div>
+                        <div class="design-timer-label">⏱ TIEMPO ACTIVO</div>
+                        <div style="font-size:0.5rem;color:#4a8a64;margin-top:1px;" id="designTimerSubLabel">Iniciado al comenzar</div>
+                    </div>
+                    <div class="design-timer-value" id="designTimerDisplay">00:00:00</div>
+                </div>
+                <!-- Info de la orden -->
+                <div class="design-comenzar-section">
+                    <div class="design-comenzar-section-title">📋 Información del pedido</div>
+                    <div class="design-comenzar-value" id="designComenzarInfo">–</div>
+                </div>
+                <!-- Notas del diseñador -->
+                <div class="design-comenzar-section">
+                    <div class="design-comenzar-section-title">📝 Indicaciones para diseño</div>
+                    <div class="design-comenzar-value" id="designComenzarNotasD" style="white-space:pre-wrap;">–</div>
+                </div>
+                <!-- Notas de producción -->
+                <div class="design-comenzar-section">
+                    <div class="design-comenzar-section-title">🏭 Notas de producción</div>
+                    <div class="design-comenzar-value" id="designComenzarNotasP" style="white-space:pre-wrap;">–</div>
+                </div>
+                <!-- Comentarios generales -->
+                <div class="design-comenzar-section">
+                    <div class="design-comenzar-section-title">💬 Comentarios generales</div>
+                    <div class="design-comenzar-value" id="designComenzarComentarios" style="white-space:pre-wrap;">–</div>
+                </div>
+                <!-- Líneas del pedido -->
+                <div class="design-comenzar-section">
+                    <div class="design-comenzar-section-title">📦 Productos en la orden</div>
+                    <div id="designComenzarLineas" style="font-size:0.62rem;color:#c0d4ee;"></div>
                 </div>
             </div>
-            <div class="design-zone">
-                <div class="design-zone-head">
-                    <h3 class="design-zone-title">Carga de archivos</h3>
+            <div class="design-comenzar-right">
+                <!-- Imágenes de referencia -->
+                <div class="design-comenzar-section">
+                    <div class="design-comenzar-section-title">🖼 Imágenes de referencia</div>
+                    <div class="design-imagenes-grid" id="designComenzarImagenes">
+                        <div style="color:#4a6a8a;font-size:0.62rem;">Sin imágenes de referencia.</div>
+                    </div>
                 </div>
-                <div class="orden-field">
-                    <label>Pedido seleccionado (solo lectura)</label>
-                    <div id="designSelectedOrder" class="design-selected-readonly">Ninguno</div>
+                <!-- Inactividad alerta -->
+                <div id="designInactividadAlert" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);border-radius:9px;padding:8px 10px;margin-top:10px;">
+                    <div style="font-size:0.6rem;font-weight:900;color:#f87171;">⚠ INACTIVIDAD DETECTADA</div>
+                    <div style="font-size:0.56rem;color:#f0a0a0;margin-top:3px;" id="designInactividadMsg">El sistema ha marcado un período de inactividad.</div>
                 </div>
-                <div class="orden-field">
-                    <label for="designFileFront">Archivo frente</label>
-                    <input id="designFileFront" type="file" accept="image/*,.pdf,.ai,.eps,.psd,.cdr">
-                </div>
-                <div class="orden-field">
-                    <label for="designFileBack">Archivo reverso</label>
-                    <input id="designFileBack" type="file" accept="image/*,.pdf,.ai,.eps,.psd,.cdr">
-                </div>
-                <p class="design-help">Primero selecciona un pedido en la tabla. Después sube frente y reverso, y finaliza con "Subir diseño".</p>
-                <div class="popup-actions" style="margin-top:auto;">
-                    <button id="btnDesignUpload" class="popup-btn primary" type="button">Subir diseño</button>
-                    <button id="btnDesignClose" class="popup-btn cancel" type="button">Cerrar</button>
+                <!-- Estado de bloqueo -->
+                <div id="designLockInfo" style="display:none;background:rgba(239,68,68,0.12);border:1px solid rgba(239,68,68,0.4);border-radius:9px;padding:8px 10px;margin-top:10px;">
+                    <div style="font-size:0.6rem;font-weight:900;color:#f87171;">🔒 ORDEN BLOQUEADA</div>
+                    <div style="font-size:0.56rem;color:#f0a0a0;margin-top:3px;" id="designLockMsg">Otro diseñador está trabajando en esta orden.</div>
                 </div>
             </div>
         </div>
+        <div class="design-comenzar-foot">
+            <button id="btnDesignDoComenzar" class="design-btn primary" type="button">▶ COMENZAR</button>
+            <button id="btnDesignPausar" class="design-btn secondary" type="button" style="display:none;">⏸ Pausar</button>
+            <button id="btnDesignValidar" class="design-btn success" type="button" style="display:none;">✅ VALIDAR → PRODUCCIÓN</button>
+            <div style="flex:1;"></div>
+            <button id="btnDesignHistorial" class="design-btn secondary" type="button">📋 Historial</button>
+            <button id="btnDesignTraspasar" class="design-btn secondary" type="button">↔ Traspasar</button>
+            <button id="btnDesignDescargar" class="design-btn secondary" type="button">⬇ Descargar imágenes</button>
+        </div>
     </div>
+</div>
+
+<!-- POPUP: Traspasar Orden -->
+<div id="popupDesignTraspasar" class="design-traspasar-overlay" aria-hidden="true">
+    <div class="design-traspasar-card" role="dialog" aria-modal="true">
+        <div class="design-traspasar-head">
+            <span>↔</span>
+            <h3>Traspasar Orden de Diseño</h3>
+            <button id="btnTraspasarClose" class="design-btn danger" type="button">✕</button>
+        </div>
+        <div class="design-traspasar-body">
+            <div id="designTraspasarOrdenInfo" style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:8px 10px;margin-bottom:10px;font-size:0.64rem;color:#c8daf0;font-weight:700;"></div>
+            <div class="design-field">
+                <label>De (diseñador actual):</label>
+                <input type="text" id="designTraspasarDe" readonly style="background:rgba(255,255,255,0.03);">
+            </div>
+            <div class="design-field">
+                <label>Para (nuevo diseñador): *</label>
+                <select id="designTraspasarPara"></select>
+            </div>
+            <div class="design-field">
+                <label>Motivo del traspaso: *</label>
+                <select id="designTraspasarMotivo">
+                    <option value="">Seleccionar motivo…</option>
+                    <option value="carga_alta">Carga alta de trabajo</option>
+                    <option value="especialidad">Requiere especialidad de otro diseñador</option>
+                    <option value="urgencia">Urgencia — necesita atención inmediata</option>
+                    <option value="ausencia">Diseñador original ausente</option>
+                    <option value="cliente_solicita">Cliente solicita cambio</option>
+                    <option value="otro">Otro motivo</option>
+                </select>
+            </div>
+            <div class="design-field">
+                <label>Comentario adicional:</label>
+                <textarea id="designTraspasarComentario" placeholder="Detalla el motivo del traspaso…"></textarea>
+            </div>
+            <div style="font-size:0.54rem;color:#f87171;margin-top:4px;">* El traspaso quedará registrado en el historial de la orden.</div>
+        </div>
+        <div class="design-traspasar-foot">
+            <button id="btnTraspasarCancelar" class="design-btn secondary" type="button">Cancelar</button>
+            <button id="btnTraspasarConfirmar" class="design-btn primary" type="button">↔ Confirmar Traspaso</button>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP: Historial de Diseño -->
+<div id="popupDesignHistorial" class="design-historial-overlay" aria-hidden="true">
+    <div class="design-historial-card" role="dialog" aria-modal="true">
+        <div class="design-historial-head">
+            <span>📋</span>
+            <h3>Historial de la Orden</h3>
+            <span id="designHistorialFolio" style="font-size:0.6rem;color:#ffc080;font-weight:800;"></span>
+            <button id="btnHistorialClose" class="design-btn danger" type="button">✕</button>
+        </div>
+        <div class="design-historial-list" id="designHistorialList">
+            <div style="color:#4a6a8a;font-size:0.7rem;text-align:center;padding:20px;">Sin registros de historial.</div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP: Biblioteca de Recursos -->
+<div id="popupDesignBiblioteca" class="design-historial-overlay" aria-hidden="true" style="z-index:100125;">
+    <div class="design-historial-card" role="dialog" aria-modal="true" style="width:min(98vw,820px);max-height:88vh;">
+        <div class="design-historial-head">
+            <span>📚</span>
+            <h3>Biblioteca de Recursos Compartida</h3>
+            <span style="font-size:0.56rem;color:#7a94b4;">Acceso para todos los diseñadores</span>
+            <button id="btnBibliotecaClose" class="design-btn danger" type="button">✕</button>
+        </div>
+        <div class="design-biblioteca-toolbar">
+            <input type="text" id="designBibliotecaSearch" class="design-biblioteca-search" placeholder="Buscar por nombre o tag…">
+            <button id="btnBibliotecaSubir" class="design-btn primary" type="button">⬆ Subir recurso</button>
+        </div>
+        <div class="design-biblioteca-grid" id="designBibliotecaGrid">
+            <div style="color:#4a6a8a;font-size:0.7rem;grid-column:1/-1;text-align:center;padding:30px;">Sin recursos en la biblioteca.</div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP: Subir recurso a biblioteca -->
+<div id="popupDesignSubirRecurso" class="design-subir-overlay" aria-hidden="true">
+    <div class="design-subir-card" role="dialog" aria-modal="true">
+        <div class="design-subir-head">
+            <span>⬆</span>
+            <h3>Subir Recurso a Biblioteca</h3>
+            <button id="btnSubirRecursoClose" class="design-btn danger" type="button">✕</button>
+        </div>
+        <div class="design-subir-body">
+            <img id="designSubirPreview" class="design-preview-upload" src="" alt="Vista previa" style="display:none;">
+            <div class="design-field">
+                <label>Archivo (JPG o PNG): *</label>
+                <input type="file" id="designSubirArchivo" accept="image/jpeg,image/png">
+            </div>
+            <div class="design-field">
+                <label>Nombre del recurso: *</label>
+                <input type="text" id="designSubirNombre" placeholder="Ej: Logo Facebook Blanco">
+            </div>
+            <div class="design-field">
+                <label>Agregar tag (mínimo 5 obligatorios):</label>
+                <div style="display:flex;gap:6px;align-items:center;">
+                    <input type="text" id="designSubirTagInput" placeholder="Escribe un tag y presiona Enter…" style="flex:1;">
+                    <button class="design-btn secondary" id="btnAgregarTag" type="button">+ Agregar</button>
+                </div>
+                <div id="designSubirTagChips" class="design-tag-chips" style="margin-top:6px;"></div>
+                <div id="designSubirTagCounter" style="font-size:0.52rem;color:#f87171;margin-top:3px;">0/5 tags mínimos requeridos</div>
+            </div>
+        </div>
+        <div class="design-subir-foot">
+            <button id="btnSubirRecursoCancelar" class="design-btn secondary" type="button">Cancelar</button>
+            <button id="btnSubirRecursoGuardar" class="design-btn primary" type="button">💾 Guardar en biblioteca</button>
+        </div>
+    </div>
+</div>
+
+<!-- LIGHTBOX: Imagen fullscreen -->
+<div id="designImgFull" class="design-imgfull-overlay" aria-hidden="true">
+    <img id="designImgFullSrc" src="" alt="Imagen en pantalla completa">
 </div>
 
 <div id="popupNotify" class="notify-overlay" aria-hidden="true">
@@ -14079,15 +14999,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const accessStatus = document.getElementById('accessStatus');
     const accessTableWrap = document.getElementById('accessTableWrap');
     const popupDesignTracking = document.getElementById('popupDesignTracking');
-    const btnDesignClose = document.getElementById('btnDesignClose');
-    const btnDesignRefresh = document.getElementById('btnDesignRefresh');
-    const btnDesignUpload = document.getElementById('btnDesignUpload');
-    const designLimitInput = document.getElementById('designLimitInput');
-    const designStatus = document.getElementById('designStatus');
-    const designTableWrap = document.getElementById('designTableWrap');
-    const designSelectedOrder = document.getElementById('designSelectedOrder');
-    const designFileFront = document.getElementById('designFileFront');
-    const designFileBack = document.getElementById('designFileBack');
     const popupNotify = document.getElementById('popupNotify');
     const notifyTitle = document.getElementById('notifyTitle');
     const notifyMessage = document.getElementById('notifyMessage');
@@ -14644,7 +15555,11 @@ document.addEventListener('DOMContentLoaded', () => {
         const disenador = el('ordenDisenador');
         const vendedor = el('ordenVendedor');
         renderDisenadoresSelect();
-        if (comentarios) comentarios.value = String(safe.comentarios || '');
+        if (comentarios) {
+            comentarios.value = String(safe.comentarios || '');
+            // Actualizar preview del popup de comentarios
+            if (typeof window._ordenUpdateComentariosPreview === 'function') window._ordenUpdateComentariosPreview();
+        }
         if (disenador) disenador.value = String(safe.disenador || '');
         if (vendedor) vendedor.value = String(safe.vendedor || getUsuarioLogeado());
 
@@ -14679,9 +15594,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!ordenTicketTabs) return;
         const tabsHtml = ordenTickets.map((_, idx) => {
             const active = idx === ordenTicketActivo ? ' active' : '';
-            return `<button class="orden-ticket-tab${active}" type="button" data-ticket-index="${idx}">TICKET ${idx + 1} <span class="shortcut-hint">SUPR</span></button>`;
+            return `<button class="orden-ticket-tab${active}" type="button" data-ticket-index="${idx}">TICKET ${idx + 1} <span class="shortcut-hint">F9</span></button>`;
         }).join('');
-        ordenTicketTabs.innerHTML = `${tabsHtml}<button id="ordenTicketAdd" class="orden-ticket-add" type="button" title="Agregar ticket" aria-label="Agregar ticket">+ <span class="shortcut-hint">F9</span></button>`;
+        ordenTicketTabs.innerHTML = `${tabsHtml}<button id="ordenTicketAdd" class="orden-ticket-add" type="button" title="Agregar ticket" aria-label="Agregar ticket">+</button>`;
     };
 
     const switchTicket = (idx) => {
@@ -19073,7 +19988,9 @@ document.addEventListener('DOMContentLoaded', () => {
                     ganancia: Number(r.ganancia || (total - Number(r.inversion || 0))),
                     anticipo,
                     adeudoCliente: Number(r.adeudoCliente != null ? r.adeudoCliente : (total - anticipo)),
-                    estatusProduccion: r.estatusProduccion || r.estatus || 'pendiente'
+                    estatusProduccion: r.tipo === 'cotizacion' ? (r.estatusProduccion || '') : (r.estatusProduccion || r.estatus || 'pendiente'),
+                    lineas: (Array.isArray(r.lineas) && r.lineas.length > 0) ? r.lineas
+                        : (r.producto ? [{ producto: r.producto, medida: r.medida || '', material: r.material || r.color || '', cantidad: Number(r.cantidad || 1), precio: Number(r.precio || (total / Math.max(Number(r.cantidad || 1), 1))) }] : [])
                 };
             }) : [];
         } catch (_) {
@@ -19119,7 +20036,8 @@ document.addEventListener('DOMContentLoaded', () => {
             medida: String(row.medida || ''),
             material: String(row.material || ''),
             precio: Math.max(0, Number(row.precio || 0)),
-            cantidad: Math.max(1, Number(row.cantidad || 1))
+            cantidad: Math.max(1, Number(row.cantidad || 1)),
+            fechaEntrega: String(row.fechaEntrega || '')
         }));
         const productoPrincipal = lineas[0]?.producto || 'Sin producto';
         const productoResumen = lineas.length > 1 ? `${productoPrincipal} +${lineas.length - 1}` : productoPrincipal;
@@ -19144,6 +20062,8 @@ document.addEventListener('DOMContentLoaded', () => {
             vendedor,
             fechaEmitida: todayISO(),
             fechaEntrega,
+            modoEntrega: String(document.getElementById('ordenModoEntrega')?.value || 'junto'),
+            resguardoDias: Number(document.getElementById('ordenResguardoDias')?.value || 7),
             estatusProduccion: 'pendiente',
             anticipo,
             adeudoCliente,
@@ -19163,7 +20083,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
     };
 
-    const mpInput = (v) => String(v || '').toLowerCase();
+    const mpInput = (v) => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     const mpMatch = (src, term) => mpInput(src).includes(mpInput(term));
 
     const MP_STATUSES_KEY = 'config_produccion_statuses';
@@ -19258,31 +20178,68 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!mpTablaBody) return;
         const rows = getMisPedidosFiltrados();
         const selectedRows = getSelectedMisPedidos(rows);
+        const esCot = misPedidosTab === 'cotizacion';
+        const colCount = esCot ? 8 : 12;
 
         mispedidosTabVentas?.classList.toggle('active', misPedidosTab === 'venta');
         mispedidosTabCot?.classList.toggle('active', misPedidosTab === 'cotizacion');
         if (mpConteoLabel) {
-            mpConteoLabel.textContent = misPedidosTab === 'venta' ? 'Número de órdenes' : 'Número de cotizaciones';
+            mpConteoLabel.textContent = esCot ? 'Número de cotizaciones' : 'Número de órdenes';
         }
         if (mpConteoValor) mpConteoValor.textContent = String(rows.length);
 
+        // Actualizar thead según tab
+        const mpThead = document.getElementById('mpTablaThead');
+        if (mpThead) {
+            if (esCot) {
+                mpThead.innerHTML = '<tr><th>Folio</th><th>Nombre del cliente</th><th>Fecha de emisión</th><th>Subtotal</th><th>Descuento</th><th>Total</th><th>Inversión</th><th>Ganancia</th></tr>';
+            } else {
+                mpThead.innerHTML = '<tr><th>Folio</th><th>Nombre del cliente</th><th>Fecha emitida</th><th>Fecha de entrega</th><th>Diseñador</th><th>Vendedor</th><th>Inversión</th><th>Ganancia</th><th>Total</th><th>Anticipo</th><th>Adeudo</th><th>Estatus</th></tr>';
+            }
+        }
+
         if (!rows.length) {
-            mpTablaBody.innerHTML = '<tr><td colspan="12" style="text-align:center;color:#6b7280;padding:14px;">Sin registros para los filtros actuales.</td></tr>';
+            mpTablaBody.innerHTML = `<tr><td colspan="${colCount}" style="text-align:center;color:#6b7280;padding:14px;">Sin registros para los filtros actuales.</td></tr>`;
         } else {
-            mpTablaBody.innerHTML = rows.map((row) => `<tr data-mp-id="${escapeHtml(row.id)}" class="${mpSelectedIds.has(row.id) ? 'mispedidos-row-selected' : ''}">
-                <td>${escapeHtml(row.folio)}</td>
-                <td>${escapeHtml(row.clienteNombre)}</td>
-                <td>${escapeHtml(row.fechaEmitida)}</td>
-                <td>${escapeHtml(row.fechaEntrega)}</td>
-                <td>${escapeHtml(row.disenador || '-')}</td>
-                <td>${escapeHtml(row.vendedor || '-')}</td>
-                <td><span class="badge badge-inversion">${formatMoney(Number(row.inversion || 0))}</span></td>
-                <td><span class="badge badge-ganancia">${formatMoney(Number(row.ganancia || 0))}</span></td>
-                <td style="font-weight:900;color:#ea580c;">${formatMoney(Number(row.total || 0))}</td>
-                <td><span class="badge badge-anticipo">${formatMoney(Number(row.anticipo || 0))}</span></td>
-                <td><span class="badge badge-adeudo">${formatMoney(Number(row.adeudoCliente || 0))}</span></td>
-                <td><span class="badge badge-${(row.estatusProduccion||'otro').replace(/[^a-zA-Z0-9]/g,'-').toLowerCase()}">${escapeHtml((row.estatusProduccion || '').replace('-', ' '))}</span></td>
-            </tr>`).join('');
+            mpTablaBody.innerHTML = rows.map((row, i) => {
+                const sel = mpSelectedIds.has(row.id) ? 'mispedidos-row-selected' : '';
+                if (esCot) {
+                    return `<tr data-mp-id="${escapeHtml(row.id)}" data-mp-index="${i}" class="${sel}">
+                    <td>${escapeHtml(row.folio)}</td>
+                    <td>${escapeHtml(row.clienteNombre)}</td>
+                    <td>${escapeHtml(row.fechaEmitida)}</td>
+                    <td><span class="badge badge-inversion">${formatMoney(Number(row.subtotal || row.total || 0))}</span></td>
+                    <td>${row.descuento ? `<span style="color:#dc2626;font-weight:700;">-${formatMoney(Number(row.descuento))}</span>` : '<span style="color:#9ca3af;">—</span>'}</td>
+                    <td style="font-weight:900;color:#ea580c;">${formatMoney(Number(row.total || 0))}</td>
+                    <td><span class="badge badge-inversion">${formatMoney(Number(row.inversion || 0))}</span></td>
+                    <td><span class="badge badge-ganancia">${formatMoney(Number(row.ganancia || 0))}</span></td>
+                </tr>`;
+                } else {
+                    const hoy = new Date(); hoy.setHours(0,0,0,0);
+                    return `<tr data-mp-id="${escapeHtml(row.id)}" data-mp-index="${i}" class="${sel}">
+                    <td>${escapeHtml(row.folio)}${(() => {
+                        if (!row.fechaEntrega) return '';
+                        const rd = Number(row.resguardoDias || 7);
+                        const fp = row.fechaEntrega.split('-');
+                        const fe = new Date(Number(fp[0]), Number(fp[1])-1, Number(fp[2]));
+                        fe.setDate(fe.getDate() + rd);
+                        const sinRecoger = fe < hoy && (row.estatusProduccion || '') !== 'entregado';
+                        return sinRecoger ? ' <span title="El cliente no ha recogido su pedido" style="color:#dc2626;font-weight:900;font-size:0.6rem;">⚠️</span>' : '';
+                    })()}</td>
+                    <td>${escapeHtml(row.clienteNombre)}</td>
+                    <td>${escapeHtml(row.fechaEmitida)}</td>
+                    <td>${escapeHtml(row.fechaEntrega)}</td>
+                    <td>${escapeHtml(row.disenador || '-')}</td>
+                    <td>${escapeHtml(row.vendedor || '-')}</td>
+                    <td><span class="badge badge-inversion">${formatMoney(Number(row.inversion || 0))}</span></td>
+                    <td><span class="badge badge-ganancia">${formatMoney(Number(row.ganancia || 0))}</span></td>
+                    <td style="font-weight:900;color:#ea580c;">${formatMoney(Number(row.total || 0))}</td>
+                    <td><span class="badge badge-anticipo">${formatMoney(Number(row.anticipo || 0))}</span></td>
+                    <td><span class="badge badge-adeudo">${formatMoney(Number(row.adeudoCliente || 0))}</span></td>
+                    <td><span class="badge badge-${(row.estatusProduccion||'otro').replace(/[^a-zA-Z0-9]/g,'-').toLowerCase()}">${escapeHtml((row.estatusProduccion || '').replace('-', ' '))}</span></td>
+                </tr>`;
+                }
+            }).join('');
         }
 
         const adeudoPendiente = rows.reduce((acc, r) => acc + Number(r.adeudoCliente || 0), 0);
@@ -19296,7 +20253,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (mpTotalGanancia) mpTotalGanancia.textContent = formatMoney(totalGanancia);
 
         if (mpEditarSeleccion) mpEditarSeleccion.textContent = `Editar selección (${selectedRows.length})`;
-        if (mpExportarSeleccion) mpExportarSeleccion.innerHTML = `<span class="excel-icon">📗</span>Exportar selección (${selectedRows.length})`;
+        if (mpExportarSeleccion) mpExportarSeleccion.innerHTML = `<span class="excel-icon">📗</span>${selectedRows.length ? `Exportar (${selectedRows.length}) ${misPedidosTab === 'venta' ? 'orden' + (selectedRows.length !== 1 ? 'es' : '') : 'cotizaci' + (selectedRows.length !== 1 ? 'ones' : 'ón')}` : 'Exportar selección'}`;
     };
 
     const exportRowsAsCsv = (rows = []) => {
@@ -19377,6 +20334,7 @@ document.addEventListener('DOMContentLoaded', () => {
         popupMisPedidos.setAttribute('aria-hidden', 'false');
         document.body.classList.add('popup-open');
         document.documentElement.classList.add('popup-open');
+        mpSelectedIds = new Set();
         populateMpEstatusFilter();
         populateMpDisenadorFilter();
         loadMisPedidos();
@@ -20037,6 +20995,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     document.getElementById('notasProduccionWrap')?.addEventListener('click', () => openNotasPopup('produccion'));
     document.getElementById('notasDisenadorWrap')?.addEventListener('click', () => openNotasPopup('disenador'));
+
+    // ── Popup Comentarios Generales ──
+    const _comentariosPopup = document.getElementById('popupComentariosGenerales');
+    const _comentariosTexto = document.getElementById('comentariosPopupTexto');
+    const _comentariosPreview = document.getElementById('comentariosGeneralesPreview');
+    const _comentariosHidden = document.getElementById('ordenComentarios');
+
+    const _updateComentariosPreview = () => {
+        if (!_comentariosPreview || !_comentariosHidden) return;
+        const val = String(_comentariosHidden.value || '').trim();
+        if (val) {
+            _comentariosPreview.textContent = val;
+            _comentariosPreview.style.color = '#1f2937';
+            _comentariosPreview.style.background = '#fffbf5';
+            _comentariosPreview.style.borderColor = '#fde8c8';
+        } else {
+            _comentariosPreview.textContent = 'Clic para agregar comentarios…';
+            _comentariosPreview.style.color = '#9ca3af';
+            _comentariosPreview.style.background = '#f9fafb';
+            _comentariosPreview.style.borderColor = '#e5e9f0';
+        }
+    };
+    // exponer globalmente para que applyOrdenState pueda actualizarla
+    window._ordenUpdateComentariosPreview = _updateComentariosPreview;
+
+    document.getElementById('comentariosGeneralesWrap')?.addEventListener('click', () => {
+        if (!_comentariosPopup) return;
+        if (_comentariosTexto) _comentariosTexto.value = _comentariosHidden?.value || '';
+        _comentariosPopup.style.display = 'flex';
+        _comentariosPopup.setAttribute('aria-hidden', 'false');
+        setTimeout(() => _comentariosTexto?.focus(), 50);
+    });
+
+    const _closeComentariosPopup = () => {
+        if (!_comentariosPopup) return;
+        _comentariosPopup.style.display = 'none';
+        _comentariosPopup.setAttribute('aria-hidden', 'true');
+    };
+
+    document.getElementById('comentariosPopupCerrar')?.addEventListener('click', _closeComentariosPopup);
+    _comentariosPopup?.addEventListener('click', (ev) => { if (ev.target === _comentariosPopup) _closeComentariosPopup(); });
+
+    document.getElementById('comentariosPopupGuardar')?.addEventListener('click', () => {
+        if (_comentariosHidden && _comentariosTexto) {
+            _comentariosHidden.value = _comentariosTexto.value;
+            _updateComentariosPreview();
+        }
+        _closeComentariosPopup();
+    });
+
+    document.getElementById('comentariosPopupLimpiar')?.addEventListener('click', () => {
+        if (_comentariosTexto) _comentariosTexto.value = '';
+    });
 
     const prodEscape = window._escHtml;
 
@@ -20853,6 +21864,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ubiCClear) ubiCClear.value = '';
         if (notasInternasClear) notasInternasClear.value = '';
         if (activoClear) activoClear.checked = true;
+        const _ivaCheckClear = document.getElementById('prodFormIncluyeIVA');
+        if (_ivaCheckClear) _ivaCheckClear.checked = false;
         { const mSelC = document.getElementById('prodFormMuestrarioAsociado'); if (mSelC) mSelC.value = ''; }
         { const revGratisC = document.getElementById('prodFormRevisionesGratis'); if (revGratisC) revGratisC.value = '2'; }
         { const cobroRevC = document.getElementById('prodFormCobroRevision'); if (cobroRevC) cobroRevC.value = '0'; }
@@ -20949,6 +21962,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prodGfAjusteAncho) prodGfAjusteAncho.value = row.gfAjusteAncho || 'sin';
         if (prodFormRevendedor) prodFormRevendedor.value = String(Number(row.precioRevendedor || 0));
         if (prodFormVenta) prodFormVenta.value = String(Number(row.precioVenta || 0));
+        const _prodIvaCheck = document.getElementById('prodFormIncluyeIVA');
+        if (_prodIvaCheck) _prodIvaCheck.checked = !!row.incluyeIVA;
         if (prodFormFotoPrincipal) prodFormFotoPrincipal.value = '';
         prodMainPhotoData = row.fotoPrincipal || '';
         prodColorDraftList = Array.isArray(row.coloresSubproductos) ? row.coloresSubproductos.map((c) => ({ ...c })) : [];
@@ -21005,6 +22020,7 @@ document.addEventListener('DOMContentLoaded', () => {
             tabuladorId: prodPendingTabuladorId,
             precioRevendedor: Math.max(0, Number(prodFormRevendedor?.value || 0)),
             precioVenta: Math.max(0, Number(prodFormVenta?.value || 0)),
+            incluyeIVA: document.getElementById('prodFormIncluyeIVA')?.checked || false,
             ubicacion: updateUbicacionCodigo() || '',
             ubiPasillo: (document.getElementById('prodFormUbiPasillo')?.value || '').trim().toUpperCase(),
             ubiRack: (document.getElementById('prodFormUbiRack')?.value || '').trim().toUpperCase(),
@@ -21593,7 +22609,6 @@ document.addEventListener('DOMContentLoaded', () => {
             recalcResumen();
             return;
         }
-
         refs.tablaBody.innerHTML = ordenLineas.map((row, idx) => {
             const importe = Number(row.precio) * Number(row.cantidad);
             const cls = idx === ordenLineaActiva ? ' class="orden-row-selected"' : '';
@@ -21607,7 +22622,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 <td>${formatMoney(importe)}</td>
             </tr>`;
         }).join('');
-
         recalcResumen();
     };
     window._ordenRenderTabla = renderTabla;
@@ -21782,6 +22796,33 @@ document.addEventListener('DOMContentLoaded', () => {
         if (ordenStockGanancia) ordenStockGanancia.textContent = formatMoney(ganancia);
         if (ordenStockTotal) ordenStockTotal.textContent = formatMoney(total);
         if (ordenStockAccept) ordenStockAccept.disabled = false;
+
+        // Pre-fill fecha entrega del producto si tiene diasEntrega definido
+        const fechaInput = document.getElementById('ordenStockFechaEntrega');
+        const entregaInfo = document.getElementById('ordenStockEntregaInfo');
+        const entregaText = document.getElementById('ordenStockEntregaText');
+        const d = Number(producto.diasEntrega || producto.tiempoEntrega || 0);
+        if (fechaInput) {
+            if (d > 0) {
+                const base = new Date();
+                base.setDate(base.getDate() + d);
+                const yy = base.getFullYear();
+                const mm = String(base.getMonth() + 1).padStart(2, '0');
+                const dd = String(base.getDate()).padStart(2, '0');
+                fechaInput.value = `${yy}-${mm}-${dd}`;
+            } else if (!fechaInput.value) {
+                fechaInput.value = document.getElementById('ordenFechaEntrega')?.value || '';
+            }
+        }
+        // Mostrar info de entrega estimada
+        if (entregaInfo && entregaText) {
+            if (d > 0) {
+                entregaText.textContent = `Entrega estimada: ${d} día${d === 1 ? '' : 's'}`;
+                entregaInfo.style.display = 'block';
+            } else {
+                entregaInfo.style.display = 'none';
+            }
+        }
     };
 
     const renderOrdenStockTabla = () => {
@@ -21796,9 +22837,11 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (!ordenStockSelectedId || !rows.some((p) => p.id === ordenStockSelectedId)) {
-            ordenStockSelectedId = rows[0].id;
+        // Si había una selección pero ya no está en los resultados (filtro), auto-seleccionar primera
+        if (ordenStockSelectedId && !rows.some((p) => p.id === ordenStockSelectedId)) {
+            ordenStockSelectedId = rows[0]?.id || '';
         }
+        // Si no hay selección (deselect explícito), no forzar ninguna
 
         ordenStockTableBody.innerHTML = rows.map((p) => {
             const active = p.id === ordenStockSelectedId ? ' class="active"' : '';
@@ -21825,7 +22868,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const _cliSel = getClientesOrdenSelectable().find(c => c.id === ordenClienteSeleccionadoId);
             if (_cliSel?.tipoCliente === 'Revendedor') ordenStockPriceMode = 'revendedor';
         }
-        ordenStockSelectedId = '';
+        // Pre-seleccionar primer producto disponible al abrir
+        const _initialStock = getProductosStockOrden();
+        ordenStockSelectedId = _initialStock[0]?.id || '';
         setOrdenStockQty(1);
         closeOrdenStockQtyPopup();
         if (ordenStockSearch) {
@@ -21887,10 +22932,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 mpRefreshProductos();
             } else {
                 ordenLineas.push(linea);
+                recalcFechaEntregaOrden();
                 renderTabla();
                 closeOrdenStockPopup();
             }
         };
+
+        // Capturar fecha de entrega del campo del popup
+        const stFecha = document.getElementById('ordenStockFechaEntrega')?.value || '';
 
         if (tieneProcesoConInsumos) {
             // Prompt user to select insumo for each proceso
@@ -21901,6 +22950,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     material: producto.material || '-',
                     precio: getPrecioProductoStockOrden(producto),
                     cantidad: qty,
+                    fechaEntrega: stFecha,
                     productoId: producto.sourceType === 'producto' ? producto.id : '',
                     sourceType: producto.sourceType || 'producto',
                     linkedInsumoId: producto.linkedInsumoId || '',
@@ -21916,6 +22966,7 @@ document.addEventListener('DOMContentLoaded', () => {
             material: producto.material || '-',
             precio: getPrecioProductoStockOrden(producto),
             cantidad: qty,
+            fechaEntrega: stFecha,
             productoId: producto.sourceType === 'producto' ? producto.id : '',
             sourceType: producto.sourceType || 'producto',
             linkedInsumoId: producto.linkedInsumoId || ''
@@ -21951,6 +23002,18 @@ document.addEventListener('DOMContentLoaded', () => {
         ordenTickets[ordenTicketActivo] = limpio;
         applyOrdenState(limpio);
         renderTicketTabs();
+    };
+
+    // Recalcula la fecha global de la orden tomando la más tardada de los productos
+    const recalcFechaEntregaOrden = () => {
+        // Calcular la fecha más tardada entre todos los productos por diasEntrega
+        const fechas = ordenLineas.map(l => l.fechaEntrega).filter(f => f && /^\d{4}-\d{2}-\d{2}$/.test(f));
+        if (!fechas.length) return;
+        const maxFecha = [...fechas].sort().pop();
+        if (refs.fechaEntrega && refs.fechaEntrega.value !== maxFecha) {
+            refs.fechaEntrega.value = maxFecha;
+            ajustarFechaEntrega('fecha');
+        }
     };
 
     const ajustarFechaEntrega = (source = 'dias') => {
@@ -22116,10 +23179,27 @@ document.addEventListener('DOMContentLoaded', () => {
     if (ordenStockTableBody) {
         ordenStockTableBody.addEventListener('click', (ev) => {
             const tr = ev.target.closest('tr[data-orden-stock-id]');
-            if (!tr) return;
+            if (!tr) {
+                // click en zona sin fila → deseleccionar
+                ordenStockSelectedId = '';
+                renderOrdenStockTabla();
+                return;
+            }
             ordenStockSelectedId = String(tr.dataset.ordenStockId || '');
             renderOrdenStockTabla();
         });
+
+        // Deseleccionar al hacer click fuera de la tabla de productos
+        const stockTableWrap = document.querySelector('.orden-stock-table-wrap');
+        if (stockTableWrap) {
+            stockTableWrap.addEventListener('click', (ev) => {
+                const tr = ev.target.closest('tr[data-orden-stock-id]');
+                if (!tr) {
+                    ordenStockSelectedId = '';
+                    renderOrdenStockTabla();
+                }
+            });
+        }
     }
 
     if (ordenStockQtyInput) {
@@ -22180,8 +23260,16 @@ document.addEventListener('DOMContentLoaded', () => {
             if (ordenStockPopup.style.display !== 'flex') return;
             if (ev.key === 'Enter' && ev.target !== ordenStockQtyInput) {
                 ev.preventDefault();
-                const p = getProductoStockSeleccionadoOrden();
-                if (!p) return;
+                let p = getProductoStockSeleccionadoOrden();
+                if (!p) {
+                    // Si no hay selección, tomar el primero de los resultados actuales
+                    const rows = getProductosStockOrden();
+                    if (!rows.length) return;
+                    ordenStockSelectedId = rows[0].id;
+                    renderOrdenStockTabla();
+                    p = getProductoStockSeleccionadoOrden();
+                    if (!p) return;
+                }
                 openOrdenStockQtyPopup();
             }
         });
@@ -22253,6 +23341,17 @@ document.addEventListener('DOMContentLoaded', () => {
             btnImpuestos.classList.toggle('active', ordenTaxRate > 0);
             recalcResumen();
             saveTicketActivo();
+            // Advertir si algún producto ya incluye IVA
+            if (ordenTaxRate > 0) {
+                const lineasConIVA = ordenLineas.filter(l => {
+                    const p = productosData?.find(pd => pd.id === l.productoId);
+                    return p?.incluyeIVA;
+                });
+                if (lineasConIVA.length) {
+                    const nombres = lineasConIVA.map(l => l.producto).join(', ');
+                    notifyInfo(`Nota: los siguientes productos ya incluyen IVA en su precio:\n${nombres}\n\nSe mostrará una nota en la cotización.`, 'IVA ya incluido');
+                }
+            }
         };
     }
 
@@ -23367,25 +24466,52 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     if (mpTablaBody) {
+        let _mpLastIndex = -1;
         let _mpClickTimer = null;
-        let _mpDblClicked = false;
+        let _mpPendingAction = null;
+
         mpTablaBody.addEventListener('click', (ev) => {
             const tr = ev.target.closest('tr[data-mp-id]');
             if (!tr) return;
             const id = tr.dataset.mpId;
             if (!id) return;
-            _mpDblClicked = false;
-            clearTimeout(_mpClickTimer);
-            _mpClickTimer = setTimeout(() => {
-                if (_mpDblClicked) return;
+            const idx = Number(tr.dataset.mpIndex);
+            const filteredRows = getMisPedidosFiltrados();
+
+            // Calcular la nueva selección sin renderizar aún
+            if (ev.shiftKey && _mpLastIndex >= 0) {
+                const lo = Math.min(idx, _mpLastIndex);
+                const hi = Math.max(idx, _mpLastIndex);
+                for (let i = lo; i <= hi; i++) {
+                    if (filteredRows[i]) mpSelectedIds.add(filteredRows[i].id);
+                }
+            } else if (ev.ctrlKey || ev.metaKey) {
+                if (mpSelectedIds.has(id)) mpSelectedIds.delete(id);
+                else mpSelectedIds.add(id);
+                _mpLastIndex = idx;
+            } else {
                 mpSelectedIds.clear();
                 mpSelectedIds.add(id);
-                renderMisPedidos();
-            }, 250);
-        });
-        mpTablaBody.addEventListener('dblclick', (ev) => {
-            _mpDblClicked = true;
+                _mpLastIndex = idx;
+            }
+
+            // Actualizar clases directamente en el DOM sin re-renderizar
+            mpTablaBody.querySelectorAll('tr[data-mp-id]').forEach(row => {
+                row.classList.toggle('mispedidos-row-selected', mpSelectedIds.has(row.dataset.mpId));
+            });
+            // Actualizar conteo en botón exportar
+            const selRows = getSelectedMisPedidos(filteredRows);
+            if (mpExportarSeleccion) mpExportarSeleccion.innerHTML = `<span class="excel-icon">📗</span>${selRows.length ? `Exportar (${selRows.length}) ${misPedidosTab === 'venta' ? 'orden' + (selRows.length !== 1 ? 'es' : '') : 'cotizaci' + (selRows.length !== 1 ? 'ones' : 'ón')}` : 'Exportar selección'}`;
+
+            // Timer para distinguir single-click de doble-clic
             clearTimeout(_mpClickTimer);
+            _mpPendingAction = { id, idx };
+            _mpClickTimer = setTimeout(() => { _mpPendingAction = null; }, 280);
+        });
+
+        mpTablaBody.addEventListener('dblclick', (ev) => {
+            clearTimeout(_mpClickTimer);
+            _mpPendingAction = null;
             const tr = ev.target.closest('tr[data-mp-id]');
             if (!tr) return;
             const id = tr.dataset.mpId;
@@ -23410,18 +24536,33 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    if (mpEditarSeleccion) {
-        mpEditarSeleccion.addEventListener('click', () => {
-            const rows = getSelectedMisPedidos(getMisPedidosFiltrados());
-            editarRegistrosSeleccionados(rows);
-        });
-    }
     if (mpExportarSeleccion) {
         mpExportarSeleccion.addEventListener('click', () => {
             const rows = getSelectedMisPedidos(getMisPedidosFiltrados());
             exportRowsAsCsv(rows);
         });
     }
+
+    document.getElementById('mpRecordatorioSeleccion')?.addEventListener('click', () => {
+        const rows = getSelectedMisPedidos(getMisPedidosFiltrados());
+        if (rows.length !== 1) { alert(rows.length === 0 ? 'Selecciona una orden para enviar el recordatorio.' : 'Selecciona solo una orden a la vez para el recordatorio.'); return; }
+        const r = rows[0];
+        const numero = String(r.telefono || '').replace(/\D/g, '');
+        if (!numero) { alert('Esta orden no tiene teléfono registrado.'); return; }
+        const adeudo = Number(r.adeudoCliente || 0);
+        const mensaje = [
+            `⏰ *Recordatorio de pedido*`,
+            ``,
+            `Hola ${r.clienteNombre}, te informamos que tu pedido *${r.folio}* ya está listo. 🎉`,
+            ``,
+            `Puedes pasar a recogerlo y liquidarlo cuando gustes.`,
+            ``,
+            `💰 Saldo pendiente: *$${adeudo.toFixed(2)}*`,
+            ``,
+            `¡Gracias por tu preferencia! 🙏`
+        ].join('\n');
+        window.open(`https://wa.me/52${numero}?text=${encodeURIComponent(mensaje)}`, '_blank');
+    });
 
     // ── Filtros Mis Pedidos ────────────────────────────────────
     const mpFiltroBuscar = document.getElementById('mpFiltroBuscar');
@@ -25633,26 +26774,126 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
         }
     };
 
-    const setDesignStatus = (msg, isError = false, showPopup = false) => {
-        if (!designStatus) return;
-        designStatus.textContent = msg;
-        designStatus.style.color = isError ? '#ff8e8e' : '#d6e7ff';
-        if (showPopup) {
-            if (isError) notifyError(msg, 'Diseños');
-            else notifyInfo(msg, 'Diseños');
-        }
+    // ========== MÓDULO DE DISEÑO V2 ==========
+    const escHtml = window._escHtml || (s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'));
+    const DESIGN_SESSIONS_KEY = 'mock_design_sessions_v1';
+    const DESIGN_LIBRARY_KEY  = 'mock_design_library_v1';
+    const DESIGN_HISTORY_KEY  = 'mock_design_history_v1';
+    const DESIGN_KPIS_KEY     = 'mock_design_kpis_v1';
+    const DESIGN_INACTIVITY_MINS = 5;
+    const DESIGN_LOCK_EXPIRE_MINS = 30;
+    const DESIGN_MAX_ORDERS = 3;
+
+    let designCurrentOrder = null;
+    let designTimerInterval = null;
+    let designTimerStart = 0;
+    let designLastActivity = Date.now();
+    let designInactivityInterval = null;
+    let designCurrentTab = 'mis-ordenes';
+    let designMisFilter = 'todos';
+    let designSubirTags = [];
+
+    const getDesignSessions = () => { try { return JSON.parse(localStorage.getItem(DESIGN_SESSIONS_KEY) || '{}'); } catch(e) { return {}; } };
+    const setDesignSessions = d => localStorage.setItem(DESIGN_SESSIONS_KEY, JSON.stringify(d));
+    const getDesignLibrary  = () => { try { return JSON.parse(localStorage.getItem(DESIGN_LIBRARY_KEY)  || '[]'); } catch(e) { return []; } };
+    const setDesignLibrary  = d => localStorage.setItem(DESIGN_LIBRARY_KEY, JSON.stringify(d));
+    const getDesignHistory  = () => { try { return JSON.parse(localStorage.getItem(DESIGN_HISTORY_KEY)  || '{}'); } catch(e) { return {}; } };
+    const setDesignHistory  = d => localStorage.setItem(DESIGN_HISTORY_KEY, JSON.stringify(d));
+    const getDesignKPIs     = () => { try { return JSON.parse(localStorage.getItem(DESIGN_KPIS_KEY)     || '{}'); } catch(e) { return {}; } };
+    const setDesignKPIs     = d => localStorage.setItem(DESIGN_KPIS_KEY, JSON.stringify(d));
+    const getDesignOrders   = () => { try { return JSON.parse(localStorage.getItem(MIS_PEDIDOS_KEY)     || '[]'); } catch(e) { return []; } };
+    const saveDesignOrders  = orders => localStorage.setItem(MIS_PEDIDOS_KEY, JSON.stringify(orders));
+
+    const addDesignHistoryEntry = (orderId, entry) => {
+        const hist = getDesignHistory();
+        if (!hist[orderId]) hist[orderId] = [];
+        hist[orderId].unshift({ ...entry, ts: new Date().toISOString() });
+        setDesignHistory(hist);
     };
 
-    const updateDesignEditableState = () => {
-        const locked = !selectedDesignOrder;
-        [designFileFront, designFileBack, btnDesignUpload].forEach((elx) => {
-            if (!elx) return;
-            elx.disabled = locked;
-            elx.style.opacity = locked ? '0.55' : '1';
-        });
-        if (btnDesignUpload) {
-            btnDesignUpload.textContent = locked ? 'Selecciona pedido' : 'Subir diseño';
-        }
+    const recordDesignKPI = (disenador, action, extra = {}) => {
+        if (!disenador) return;
+        const kpis = getDesignKPIs();
+        if (!kpis[disenador]) kpis[disenador] = { completadas:0, traspasadas:0, penalizaciones:0, tiempoTotal:0, inactividades:0 };
+        const k = kpis[disenador];
+        if (action === 'completada')   { k.completadas++; if (extra.tiempoSegs) k.tiempoTotal += extra.tiempoSegs; }
+        if (action === 'traspasada')   k.traspasadas++;
+        if (action === 'penalizacion') k.penalizaciones++;
+        if (action === 'inactividad')  k.inactividades++;
+        setDesignKPIs(kpis);
+    };
+
+    const acquireDesignLock = (orderId, userName) => {
+        const s = getDesignSessions();
+        s[orderId] = { user: userName, ts: Date.now(), timerStart: null };
+        setDesignSessions(s);
+    };
+
+    const releaseDesignLock = (orderId) => {
+        const s = getDesignSessions();
+        delete s[orderId];
+        setDesignSessions(s);
+    };
+
+    const getDesignLock = (orderId) => {
+        const s = getDesignSessions();
+        const lock = s[orderId];
+        if (!lock) return null;
+        if ((Date.now() - lock.ts) / 60000 > DESIGN_LOCK_EXPIRE_MINS) { delete s[orderId]; setDesignSessions(s); return null; }
+        return lock;
+    };
+
+    const designFormatTime = secs => {
+        const h = Math.floor(secs/3600).toString().padStart(2,'0');
+        const m = Math.floor((secs%3600)/60).toString().padStart(2,'0');
+        const sc = (secs%60).toString().padStart(2,'0');
+        return `${h}:${m}:${sc}`;
+    };
+
+    const startDesignTimer = (initialSecs = 0) => {
+        designTimerStart = Date.now() - initialSecs * 1000;
+        const timerDisplay = document.getElementById('designTimerDisplay');
+        const timerBox = document.getElementById('designTimerBox');
+        if (timerBox) timerBox.style.display = 'flex';
+        clearInterval(designTimerInterval);
+        designTimerInterval = setInterval(() => {
+            const elapsed = Math.floor((Date.now() - designTimerStart) / 1000);
+            if (timerDisplay) timerDisplay.textContent = designFormatTime(elapsed);
+            if (designCurrentOrder) {
+                const s2 = getDesignSessions();
+                const u = localStorage.getItem('logged_user_name') || '';
+                if (s2[designCurrentOrder.id]?.user === u) { s2[designCurrentOrder.id].ts = Date.now(); setDesignSessions(s2); }
+            }
+        }, 1000);
+    };
+
+    const stopDesignTimer = () => {
+        clearInterval(designTimerInterval);
+        designTimerInterval = null;
+        return Math.floor((Date.now() - designTimerStart) / 1000);
+    };
+
+    const resetDesignActivity = () => {
+        designLastActivity = Date.now();
+        const al = document.getElementById('designInactividadAlert');
+        if (al) al.style.display = 'none';
+    };
+
+    const startDesignInactivityWatcher = () => {
+        clearInterval(designInactivityInterval);
+        designInactivityInterval = setInterval(() => {
+            if (!designCurrentOrder) return;
+            const inactiveMins = (Date.now() - designLastActivity) / 60000;
+            const al = document.getElementById('designInactividadAlert');
+            const msg = document.getElementById('designInactividadMsg');
+            if (inactiveMins >= DESIGN_INACTIVITY_MINS) {
+                if (al) al.style.display = 'block';
+                if (msg) msg.textContent = `${Math.floor(inactiveMins)} min de inactividad. Se registrará en KPIs.`;
+                if (inactiveMins >= 10) recordDesignKPI(localStorage.getItem('logged_user_name') || '', 'inactividad');
+            } else {
+                if (al) al.style.display = 'none';
+            }
+        }, 30000);
     };
 
     const openDesignPopup = () => {
@@ -25661,7 +26902,11 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
         popupDesignTracking.setAttribute('aria-hidden', 'false');
         document.body.classList.add('popup-open');
         document.documentElement.classList.add('popup-open');
-        updateDesignEditableState();
+        const userName = localStorage.getItem('logged_user_name') || 'Diseñador';
+        const badgeEl = document.getElementById('designUserName');
+        if (badgeEl) badgeEl.textContent = userName;
+        renderDesignTab(designCurrentTab);
+        checkDesignSaturation();
     };
 
     const closeDesignPopup = () => {
@@ -25674,138 +26919,503 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
         }
     };
 
-    const getOrderIdCandidate = (row = {}) => {
-        const keys = Object.keys(row || {});
-        if (!keys.length) return '';
-        const idKey = keys.find((k) => /^(id|idpedido|pedidoid)$/i.test(k))
-            || keys.find((k) => /(pedido|folio|orden|ot)/i.test(k))
-            || keys[0];
-        return `${row[idKey] ?? ''}`.trim();
+    const renderDesignTab = (tabId) => {
+        designCurrentTab = tabId;
+        document.querySelectorAll('.design-tab-panel').forEach(p => p.classList.remove('active'));
+        document.querySelectorAll('.design-module-tab').forEach(t => t.classList.remove('active'));
+        const panel = document.getElementById(`dtab-${tabId}`);
+        if (panel) panel.classList.add('active');
+        const tab = document.querySelector(`.design-module-tab[data-dtab="${tabId}"]`);
+        if (tab) tab.classList.add('active');
+        if (tabId === 'mis-ordenes') renderDesignMisOrdenes();
+        else if (tabId === 'todas')   renderDesignTodas();
+        else if (tabId === 'en-diseno') renderDesignActivas();
+        else if (tabId === 'kpis')    renderDesignKPIs();
     };
 
-    const getClientCandidate = (row = {}) => {
-        const keys = Object.keys(row || {});
-        const key = keys.find((k) => /(cliente|nombre|razonsocial)/i.test(k));
-        return key ? `${row[key] ?? ''}`.trim() : '';
+    const buildDesignOrderCard = (order, currentUser) => {
+        const lock = getDesignLock(String(order.id));
+        const isLocked   = lock && lock.user !== currentUser;
+        const isMySession = lock && lock.user === currentUser;
+        const estadoLabels = { pendiente:{label:'Pendiente',css:'pendiente'}, en_diseno:{label:'En diseño',css:'en_diseno'}, en_revision:{label:'En revisión',css:'en_revision'}, terminada:{label:'Terminada',css:'terminada'} };
+        const estadoInfo = estadoLabels[order.estado] || { label: order.estado||'N/A', css:'pendiente' };
+        const folio    = escHtml(String(order.folio||order.id||'—'));
+        const cliente  = escHtml(String(order.clienteNombre||order.cliente||'—'));
+        const producto = escHtml(String(order.producto||'—'));
+        const disenador= escHtml(String(order.disenador||'Sin asignar'));
+        const fecha    = order.fecha ? new Date(order.fecha).toLocaleDateString('es-MX') : '—';
+        let sessionTimerHtml = '';
+        if (isMySession && lock.timerStart) {
+            const secs = Math.floor((Date.now()-lock.timerStart)/1000);
+            sessionTimerHtml = `<span style="font-size:0.53rem;color:#4ade80;font-weight:700;">⏱ ${designFormatTime(secs)}</span>`;
+        }
+        const oid = escHtml(String(order.id));
+        return `<div class="design-order-card${isLocked?' locked-by-other':''}${isMySession?' active-session':''}" data-order-id="${oid}">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:6px;margin-bottom:6px;">
+                <div style="font-size:0.72rem;font-weight:900;color:#fff;">${folio}</div>
+                <div style="display:flex;gap:4px;flex-wrap:wrap;justify-content:flex-end;">
+                    <span class="design-order-tag ${estadoInfo.css}">${estadoInfo.label}</span>
+                    ${isLocked   ? `<span class="design-order-tag locked">🔒 ${escHtml(lock.user)}</span>` : ''}
+                    ${isMySession? `<span class="design-order-tag mis">✏️ Tú</span>` : ''}
+                </div>
+            </div>
+            <div style="font-size:0.64rem;color:#c0d4ee;margin-bottom:2px;">👤 ${cliente}</div>
+            <div style="font-size:0.62rem;color:#8aa8c8;margin-bottom:4px;">🖨 ${producto}</div>
+            <div style="display:flex;justify-content:space-between;align-items:center;gap:4px;flex-wrap:wrap;">
+                <span class="design-order-tag diseñador">✏ ${disenador}</span>
+                <span style="font-size:0.54rem;color:#4a6a8a;">${fecha}</span>
+                ${sessionTimerHtml}
+            </div>
+            <div style="display:flex;gap:5px;margin-top:8px;flex-wrap:wrap;">
+                ${isLocked
+                    ? `<button class="design-btn secondary" type="button" disabled style="opacity:0.5;font-size:0.56rem;">🔒 En uso</button>`
+                    : `<button class="design-btn primary" type="button" data-design-action="comenzar" data-order-id="${oid}" style="font-size:0.56rem;">▶ Comenzar</button>`}
+                <button class="design-btn secondary" type="button" data-design-action="historial" data-order-id="${oid}" style="font-size:0.56rem;">📋</button>
+                ${!isLocked ? `<button class="design-btn secondary" type="button" data-design-action="traspasar" data-order-id="${oid}" style="font-size:0.56rem;">↔</button>` : ''}
+            </div>
+        </div>`;
     };
 
-    const rowSummary = (row = {}) => {
-        const orderId = getOrderIdCandidate(row) || 'Sin ID';
-        const cliente = getClientCandidate(row);
-        return cliente ? `${orderId} · ${cliente}` : orderId;
+    const renderDesignMisOrdenes = () => {
+        const userName  = localStorage.getItem('logged_user_name') || '';
+        const searchVal = (document.getElementById('designSearchMis')?.value || '').toLowerCase();
+        const allOrders = getDesignOrders();
+        const orders = allOrders.filter(o => {
+            const matchUser  = !userName || (o.disenador||'').toLowerCase() === userName.toLowerCase();
+            const matchState = designMisFilter === 'todos' || o.estado === designMisFilter;
+            const search     = !searchVal || [o.folio,o.clienteNombre,o.producto,o.id].some(v => String(v||'').toLowerCase().includes(searchVal));
+            return matchUser && matchState && search && ['pendiente','en_diseno','en_revision'].includes(o.estado);
+        });
+        const count = document.getElementById('designMisCount');
+        if (count) count.textContent = `${orders.length} orden${orders.length!==1?'es':''}`;
+        const container = document.getElementById('designListMis');
+        if (!container) return;
+        container.innerHTML = orders.length
+            ? orders.map(o => buildDesignOrderCard(o, userName)).join('')
+            : '<div style="color:#4a6a8a;font-size:0.72rem;padding:30px;text-align:center;grid-column:1/-1;">No tienes órdenes asignadas.</div>';
     };
 
-    const renderDesignOrders = (rows = []) => {
-        if (!designTableWrap) return;
-        if (!rows.length) {
-            designTableWrap.innerHTML = '<div style="padding:12px; color:#b8c8db; font-size:0.86rem;">No hay pedidos pendientes de diseño.</div>';
+    const renderDesignTodas = () => {
+        const userName      = localStorage.getItem('logged_user_name') || '';
+        const searchVal     = (document.getElementById('designSearchTodas')?.value || '').toLowerCase();
+        const filterD       = document.getElementById('designFilterDisenador')?.value || '';
+        const allOrders     = getDesignOrders();
+        const disenadores   = [...new Set(allOrders.filter(o=>o.disenador).map(o=>o.disenador))];
+        const selEl = document.getElementById('designFilterDisenador');
+        if (selEl) {
+            const prev = selEl.value;
+            selEl.innerHTML = '<option value="">Todos</option>' + disenadores.map(d=>`<option value="${escHtml(d)}"${d===prev?' selected':''}>${escHtml(d)}</option>`).join('');
+        }
+        const orders = allOrders.filter(o => {
+            const validState = ['pendiente','en_diseno','en_revision'].includes(o.estado);
+            const matchD = !filterD || (o.disenador||'') === filterD;
+            const search = !searchVal || [o.folio,o.clienteNombre,o.producto,o.id].some(v=>String(v||'').toLowerCase().includes(searchVal));
+            return validState && matchD && search;
+        });
+        const count = document.getElementById('designTodasCount');
+        if (count) count.textContent = `${orders.length} orden${orders.length!==1?'es':''}`;
+        const container = document.getElementById('designListTodas');
+        if (!container) return;
+        container.innerHTML = orders.length
+            ? orders.map(o => buildDesignOrderCard(o, userName)).join('')
+            : '<div style="color:#4a6a8a;font-size:0.72rem;padding:30px;text-align:center;grid-column:1/-1;">No hay órdenes pendientes.</div>';
+    };
+
+    const renderDesignActivas = () => {
+        const userName  = localStorage.getItem('logged_user_name') || '';
+        const sessions  = getDesignSessions();
+        const allOrders = getDesignOrders();
+        const activeIds = new Set(Object.keys(sessions));
+        const activas   = allOrders.filter(o => activeIds.has(String(o.id)));
+        const container = document.getElementById('designListActivas');
+        if (!container) return;
+        container.innerHTML = activas.length
+            ? activas.map(o => buildDesignOrderCard(o, userName)).join('')
+            : '<div style="color:#4a6a8a;font-size:0.72rem;padding:30px;text-align:center;grid-column:1/-1;">No hay órdenes activas en este momento.</div>';
+    };
+
+    const renderDesignKPIs = () => {
+        const kpis = getDesignKPIs();
+        const container = document.getElementById('designKpiBody');
+        if (!container) return;
+        const designers = Object.keys(kpis);
+        if (!designers.length) {
+            container.innerHTML = '<div style="color:#4a6a8a;font-size:0.72rem;padding:30px;text-align:center;">No hay datos de KPIs aún.</div>';
             return;
         }
-
-        const cols = Object.keys(rows[0]);
-        const head = '<th style="position:sticky;top:0;background:#0f1827;color:#d9ebff;border-bottom:1px solid rgba(255,255,255,0.12);padding:8px;text-align:left;font-size:0.78rem;">Acción</th>'
-            + cols.map(c => `<th style="position:sticky;top:0;background:#0f1827;color:#d9ebff;border-bottom:1px solid rgba(255,255,255,0.12);padding:8px;text-align:left;font-size:0.78rem;">${escapeHtml(c)}</th>`).join('');
-        const body = rows.map((r, idx) => `<tr>
-            <td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.76rem;white-space:nowrap;">
-                <button type="button" data-design-idx="${idx}" style="background: #ff9900;color:#fff;border:none;border-radius:7px;padding:5px 8px;cursor:pointer;font-size:0.72rem;font-weight:700;">Seleccionar</button>
-            </td>
-            ${cols.map(c => `<td style="padding:7px 8px;border-bottom:1px solid rgba(255,255,255,0.08);font-size:0.76rem;color:#e8f0ff;white-space:nowrap;">${escapeHtml(r[c])}</td>`).join('')}
-        </tr>`).join('');
-        designTableWrap.innerHTML = `<table style="width:100%;border-collapse:collapse;min-width:760px;"><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+        container.innerHTML = designers.map(d => {
+            const k = kpis[d];
+            const avgTime = k.completadas > 0 ? Math.floor(k.tiempoTotal / k.completadas) : 0;
+            return `<div class="design-kpi-card">
+                <div class="design-kpi-title">✏️ ${escHtml(d)}</div>
+                <div class="design-kpi-grid">
+                    <div class="design-kpi-item"><div class="design-kpi-label">Completadas</div><div class="design-kpi-value">${k.completadas}</div></div>
+                    <div class="design-kpi-item"><div class="design-kpi-label">Traspasadas</div><div class="design-kpi-value">${k.traspasadas}</div></div>
+                    <div class="design-kpi-item"><div class="design-kpi-label">Inactividades</div><div class="design-kpi-value" style="color:${k.inactividades>3?'#f87171':'#d1d5db'};">${k.inactividades}</div></div>
+                    <div class="design-kpi-item"><div class="design-kpi-label">Penalizaciones</div><div class="design-kpi-value" style="color:${k.penalizaciones>0?'#f87171':'#4ade80'};">${k.penalizaciones}${k.penalizaciones>0?' ⚠':' ✓'}</div></div>
+                    <div class="design-kpi-item"><div class="design-kpi-label">Tiempo promedio</div><div class="design-kpi-value" style="font-size:0.8rem;">${designFormatTime(avgTime)}</div></div>
+                </div>
+            </div>`;
+        }).join('');
     };
 
-    const loadDesignPending = async () => {
-        try {
-            if (!window.AccessAPI) throw new Error('No se encontró AccessAPI. Verifica access-api-client.js');
-            const limit = Math.max(1, Math.min(500, Number(designLimitInput?.value || 150)));
-            setDesignStatus('Consultando pedidos pendientes de diseño...');
-            const res = await window.AccessAPI.getDesignPendingOrders(limit);
-            designPendingRows = res.rows || [];
-            renderDesignOrders(designPendingRows);
-            selectedDesignOrder = null;
-            if (designSelectedOrder) designSelectedOrder.textContent = 'Ninguno';
-            updateDesignEditableState();
-            setDesignStatus(`Pendientes cargados: ${designPendingRows.length}`, false, true);
-        } catch (err) {
-            designPendingRows = [];
-            renderDesignOrders([]);
-            selectedDesignOrder = null;
-            if (designSelectedOrder) designSelectedOrder.textContent = 'Ninguno';
-            updateDesignEditableState();
-            setDesignStatus(`Error al consultar pendientes: ${err.message}`, true, true);
+    const checkDesignSaturation = () => {
+        const userName  = localStorage.getItem('logged_user_name') || '';
+        const allOrders = getDesignOrders();
+        const myActive  = allOrders.filter(o => (o.disenador||'').toLowerCase()===userName.toLowerCase() && ['en_diseno','en_revision'].includes(o.estado)).length;
+        const satAlert  = document.getElementById('designSaturationAlert');
+        if (satAlert) satAlert.style.display = myActive >= DESIGN_MAX_ORDERS ? 'flex' : 'none';
+    };
+
+    const extractDesignImages = (order) => {
+        const imgs = [];
+        if (order.notasDisenadorData) {
+            try {
+                const data = typeof order.notasDisenadorData === 'string' ? JSON.parse(order.notasDisenadorData) : order.notasDisenadorData;
+                if (Array.isArray(data)) data.forEach(item => { if (item.type==='image'&&item.src) imgs.push(item.src); });
+                if (data.images && Array.isArray(data.images)) data.images.forEach(src => imgs.push(src));
+            } catch(e) {}
         }
+        if (Array.isArray(order.imagenes)) order.imagenes.forEach(src => imgs.push(src));
+        if (Array.isArray(order.referenceImages)) order.referenceImages.forEach(src => imgs.push(src));
+        return imgs.filter(Boolean).slice(0,12);
     };
 
-    const readFileAsBase64 = (file) => new Promise((resolve, reject) => {
+    const openDesignComenzarPopup = (orderId) => {
+        const allOrders = getDesignOrders();
+        const order = allOrders.find(o => String(o.id) === String(orderId));
+        if (!order) return;
+        designCurrentOrder = order;
+        const userName = localStorage.getItem('logged_user_name') || 'Diseñador';
+        const lock = getDesignLock(String(orderId));
+
+        document.getElementById('designComenzarTitulo').textContent = 'Diseño de Orden';
+        const folioEl = document.getElementById('designComenzarFolio');
+        if (folioEl) folioEl.textContent = `#${order.folio||order.id}`;
+
+        const infoEl = document.getElementById('designComenzarInfo');
+        if (infoEl) infoEl.innerHTML = `<strong>Folio:</strong> ${escHtml(String(order.folio||order.id))} &nbsp;|&nbsp;
+            <strong>Cliente:</strong> ${escHtml(String(order.clienteNombre||order.cliente||'—'))} &nbsp;|&nbsp;
+            <strong>Producto:</strong> ${escHtml(String(order.producto||'—'))} &nbsp;|&nbsp;
+            <strong>Estado:</strong> ${escHtml(String(order.estado||'—'))}`;
+
+        const notasDEl = document.getElementById('designComenzarNotasD');
+        if (notasDEl) notasDEl.textContent = order.notasDisenador||order.notasDiseno||'Sin indicaciones de diseño.';
+        const notasPEl = document.getElementById('designComenzarNotasP');
+        if (notasPEl) notasPEl.textContent = order.notasProduccion||'Sin notas de producción.';
+        const comsEl = document.getElementById('designComenzarComentarios');
+        if (comsEl) comsEl.textContent = order.comentarios||order.notas||order.observaciones||'Sin comentarios.';
+
+        const lineasEl = document.getElementById('designComenzarLineas');
+        if (lineasEl) {
+            const lineas = Array.isArray(order.lineas) ? order.lineas : [];
+            lineasEl.innerHTML = lineas.length
+                ? lineas.map((l,i) => {
+                    const desc = l.descripcion||l.producto||l.nombre||`Línea ${i+1}`;
+                    const qty  = l.cantidad||l.qty||'';
+                    const notes = l.notas||l.obs||'';
+                    return `<div style="padding:3px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+                        <span style="color:#ffc080;font-weight:700;">${i+1}.</span> ${escHtml(String(desc))}${qty?` × <strong>${escHtml(String(qty))}</strong>`:''}
+                        ${notes?`<br><span style="color:#7894b4;font-size:0.54rem;">${escHtml(String(notes))}</span>`:''}
+                    </div>`;
+                }).join('')
+                : '<span style="color:#4a6a8a;">Sin líneas de detalle.</span>';
+        }
+
+        const imgsEl = document.getElementById('designComenzarImagenes');
+        if (imgsEl) {
+            const imgs = extractDesignImages(order);
+            imgsEl.innerHTML = imgs.length
+                ? imgs.map(src => `<img src="${src}" class="design-imagen-thumb" alt="Ref" onclick="openDesignLightbox('${src}')">`).join('')
+                : '<div style="color:#4a6a8a;font-size:0.62rem;">Sin imágenes de referencia.</div>';
+        }
+
+        const lockInfoEl = document.getElementById('designLockInfo');
+        const lockMsgEl  = document.getElementById('designLockMsg');
+        const btnComenzar = document.getElementById('btnDesignDoComenzar');
+        const btnPausar   = document.getElementById('btnDesignPausar');
+        const btnValidar  = document.getElementById('btnDesignValidar');
+        const timerBox    = document.getElementById('designTimerBox');
+
+        if (lock && lock.user !== userName) {
+            if (lockInfoEl) lockInfoEl.style.display = 'block';
+            if (lockMsgEl)  lockMsgEl.textContent = `${lock.user} está trabajando en esta orden.`;
+            if (btnComenzar) btnComenzar.style.display = 'none';
+            if (btnPausar)   btnPausar.style.display = 'none';
+            if (btnValidar)  btnValidar.style.display = 'none';
+            if (timerBox)    timerBox.style.display = 'none';
+        } else {
+            if (lockInfoEl) lockInfoEl.style.display = 'none';
+            if (lock && lock.user === userName) {
+                const elapsed = lock.timerStart ? Math.floor((Date.now()-lock.timerStart)/1000) : 0;
+                startDesignTimer(elapsed);
+                if (btnComenzar) btnComenzar.style.display = 'none';
+                if (btnPausar)   btnPausar.style.display = 'inline-flex';
+                if (btnValidar)  btnValidar.style.display = 'inline-flex';
+            } else {
+                if (timerBox)    timerBox.style.display = 'none';
+                if (btnComenzar) btnComenzar.style.display = 'inline-flex';
+                if (btnPausar)   btnPausar.style.display = 'none';
+                if (btnValidar)  btnValidar.style.display = 'none';
+            }
+        }
+
+        const popup = document.getElementById('popupDesignComenzar');
+        if (popup) { popup.style.display = 'flex'; popup.setAttribute('aria-hidden','false'); }
+        startDesignInactivityWatcher();
+        resetDesignActivity();
+    };
+
+    const closeDesignComenzarPopup = () => {
+        const popup = document.getElementById('popupDesignComenzar');
+        if (popup) { popup.style.display = 'none'; popup.setAttribute('aria-hidden','true'); }
+        stopDesignTimer();
+        clearInterval(designInactivityInterval);
+        designCurrentOrder = null;
+        renderDesignTab(designCurrentTab);
+    };
+
+    const doDesignComenzar = () => {
+        if (!designCurrentOrder) return;
+        const userName = localStorage.getItem('logged_user_name') || 'Diseñador';
+        const orderId  = String(designCurrentOrder.id);
+        acquireDesignLock(orderId, userName);
+        const allOrders = getDesignOrders();
+        const idx = allOrders.findIndex(o => String(o.id) === orderId);
+        if (idx >= 0) {
+            allOrders[idx].estado     = 'en_diseno';
+            allOrders[idx].disenador  = allOrders[idx].disenador || userName;
+            allOrders[idx].ultimaAccionDiseno = new Date().toISOString();
+            saveDesignOrders(allOrders);
+            designCurrentOrder = allOrders[idx];
+        }
+        addDesignHistoryEntry(orderId, { action:'inicio', user:userName, desc:'Diseño iniciado' });
+        const s = getDesignSessions();
+        if (s[orderId]) { s[orderId].timerStart = Date.now(); setDesignSessions(s); }
+        startDesignTimer(0);
+        const btnComenzar = document.getElementById('btnDesignDoComenzar');
+        const btnPausar   = document.getElementById('btnDesignPausar');
+        const btnValidar  = document.getElementById('btnDesignValidar');
+        if (btnComenzar) btnComenzar.style.display = 'none';
+        if (btnPausar)   btnPausar.style.display = 'inline-flex';
+        if (btnValidar)  btnValidar.style.display = 'inline-flex';
+        checkDesignSaturation();
+    };
+
+    const doDesignPausar = () => {
+        if (!designCurrentOrder) return;
+        const userName = localStorage.getItem('logged_user_name') || '';
+        const secs     = stopDesignTimer();
+        releaseDesignLock(String(designCurrentOrder.id));
+        addDesignHistoryEntry(String(designCurrentOrder.id), { action:'pausa', user:userName, desc:`Diseño pausado tras ${designFormatTime(secs)}` });
+        closeDesignComenzarPopup();
+    };
+
+    const doDesignValidar = () => {
+        if (!designCurrentOrder) return;
+        const userName = localStorage.getItem('logged_user_name') || '';
+        const secs     = stopDesignTimer();
+        const orderId  = String(designCurrentOrder.id);
+        const allOrders = getDesignOrders();
+        const idx = allOrders.findIndex(o => String(o.id) === orderId);
+        if (idx >= 0) {
+            allOrders[idx].estado = 'en_proceso';
+            allOrders[idx].fechaValidacionDiseno = new Date().toISOString();
+            allOrders[idx].disenadorValidador    = userName;
+            saveDesignOrders(allOrders);
+        }
+        releaseDesignLock(orderId);
+        addDesignHistoryEntry(orderId, { action:'validado', user:userName, desc:`Diseño validado → producción. Tiempo: ${designFormatTime(secs)}` });
+        recordDesignKPI(userName, 'completada', { tiempoSegs:secs });
+        notifyInfo(`Orden #${designCurrentOrder.folio||designCurrentOrder.id} enviada a producción.`, 'Diseño');
+        closeDesignComenzarPopup();
+    };
+
+    const openDesignTraspasarPopup = (orderId) => {
+        const allOrders = getDesignOrders();
+        const order = allOrders.find(o => String(o.id) === String(orderId));
+        if (!order) return;
+        designCurrentOrder = order;
+        const popup = document.getElementById('popupDesignTraspasar');
+        if (!popup) return;
+        const ordenInfoEl = document.getElementById('designTraspasarOrdenInfo');
+        if (ordenInfoEl) ordenInfoEl.textContent = `Orden #${order.folio||order.id} — ${order.clienteNombre||''} — ${order.producto||''}`;
+        const deEl = document.getElementById('designTraspasarDe');
+        if (deEl) deEl.value = order.disenador || localStorage.getItem('logged_user_name') || '—';
+        const currentUser = localStorage.getItem('logged_user_name') || '';
+        const disenadores = [...new Set(allOrders.filter(o=>o.disenador).map(o=>o.disenador))];
+        const extras = ['Diseñador A','Diseñador B','Diseñador C'];
+        const all = [...new Set([...disenadores,...extras])].filter(d => d.toLowerCase() !== currentUser.toLowerCase());
+        const paraEl = document.getElementById('designTraspasarPara');
+        if (paraEl) paraEl.innerHTML = '<option value="">Seleccionar diseñador…</option>' + all.map(d=>`<option value="${escHtml(d)}">${escHtml(d)}</option>`).join('');
+        const motivoEl = document.getElementById('designTraspasarMotivo');
+        if (motivoEl) motivoEl.value = '';
+        const comentEl = document.getElementById('designTraspasarComentario');
+        if (comentEl) comentEl.value = '';
+        popup.style.display = 'flex';
+        popup.setAttribute('aria-hidden','false');
+    };
+
+    const closeDesignTraspasarPopup = () => {
+        const popup = document.getElementById('popupDesignTraspasar');
+        if (popup) { popup.style.display = 'none'; popup.setAttribute('aria-hidden','true'); }
+    };
+
+    const confirmDesignTraspasar = () => {
+        if (!designCurrentOrder) return;
+        const para     = document.getElementById('designTraspasarPara')?.value || '';
+        const motivo   = document.getElementById('designTraspasarMotivo')?.value || '';
+        const comentario = document.getElementById('designTraspasarComentario')?.value || '';
+        if (!para)   { notifyError('Selecciona el diseñador destino.', 'Traspaso'); return; }
+        if (!motivo) { notifyError('Selecciona el motivo del traspaso.', 'Traspaso'); return; }
+        const userName  = localStorage.getItem('logged_user_name') || '';
+        const orderId   = String(designCurrentOrder.id);
+        const allOrders = getDesignOrders();
+        const idx = allOrders.findIndex(o => String(o.id) === orderId);
+        if (idx >= 0) {
+            allOrders[idx].disenador = para;
+            allOrders[idx].estado    = 'pendiente';
+            allOrders[idx].ultimoTraspaso = new Date().toISOString();
+            saveDesignOrders(allOrders);
+        }
+        releaseDesignLock(orderId);
+        addDesignHistoryEntry(orderId, { action:'traspaso', user:userName, desc:`Traspasado a ${para}. Motivo: ${motivo}. ${comentario}` });
+        recordDesignKPI(userName, 'traspasada');
+        closeDesignTraspasarPopup();
+        closeDesignComenzarPopup();
+        notifyInfo(`Orden traspasada a ${para}.`, 'Diseño');
+    };
+
+    const openDesignHistorialPopup = (orderId) => {
+        const allOrders = getDesignOrders();
+        const order  = allOrders.find(o => String(o.id) === String(orderId));
+        const popup  = document.getElementById('popupDesignHistorial');
+        if (!popup) return;
+        const folioEl = document.getElementById('designHistorialFolio');
+        if (folioEl) folioEl.textContent = order ? `#${order.folio||order.id}` : `#${orderId}`;
+        const hist    = getDesignHistory();
+        const entries = hist[String(orderId)] || [];
+        const listEl  = document.getElementById('designHistorialList');
+        if (listEl) {
+            const actionIcons = { inicio:'▶', pausa:'⏸', validado:'✅', traspaso:'↔', penalizacion:'⚠' };
+            listEl.innerHTML = entries.length
+                ? entries.map(e => {
+                    const d = e.ts ? new Date(e.ts).toLocaleString('es-MX') : '';
+                    const icon = actionIcons[e.action] || '•';
+                    return `<div class="design-historial-item">
+                        <div class="design-historial-meta">${icon} <strong>${escHtml(e.action||'')}</strong> — <span>${escHtml(e.user||'')}</span></div>
+                        <div class="design-historial-text">${escHtml(e.desc||'')}</div>
+                        <div class="design-historial-meta" style="margin-top:2px;">${d}</div>
+                    </div>`;
+                }).join('')
+                : '<div style="color:#4a6a8a;font-size:0.7rem;text-align:center;padding:20px;">Sin historial.</div>';
+        }
+        popup.style.display = 'flex';
+        popup.setAttribute('aria-hidden','false');
+    };
+
+    const closeDesignHistorialPopup = () => {
+        const popup = document.getElementById('popupDesignHistorial');
+        if (popup) { popup.style.display = 'none'; popup.setAttribute('aria-hidden','true'); }
+    };
+
+    const openDesignBiblioteca = () => {
+        const popup = document.getElementById('popupDesignBiblioteca');
+        if (!popup) return;
+        popup.style.display = 'flex';
+        popup.setAttribute('aria-hidden','false');
+        renderDesignBiblioteca();
+    };
+
+    const closeDesignBiblioteca = () => {
+        const popup = document.getElementById('popupDesignBiblioteca');
+        if (popup) { popup.style.display = 'none'; popup.setAttribute('aria-hidden','true'); }
+    };
+
+    const renderDesignBiblioteca = () => {
+        const search   = (document.getElementById('designBibliotecaSearch')?.value || '').toLowerCase();
+        const lib      = getDesignLibrary();
+        const filtered = lib.filter(r => !search || [r.nombre,...(r.tags||[])].some(v=>String(v||'').toLowerCase().includes(search)));
+        const grid = document.getElementById('designBibliotecaGrid');
+        if (!grid) return;
+        grid.innerHTML = filtered.length
+            ? filtered.map(r => `<div class="design-recurso-card" style="position:relative;">
+                <img class="design-recurso-img" src="${r.src||''}" alt="${escHtml(r.nombre||'')}" onclick="openDesignLightbox('${r.src||''}')">
+                <div class="design-recurso-info">
+                    <div class="design-recurso-nombre">${escHtml(r.nombre||'Sin nombre')}</div>
+                    <div class="design-recurso-tags">${(r.tags||[]).map(t=>`<span class="design-tag-chip">${escHtml(t)}</span>`).join('')}</div>
+                    <div style="font-size:0.5rem;color:#3a5a7a;margin-top:3px;">${escHtml(r.autor||'')} · ${r.fecha?new Date(r.fecha).toLocaleDateString('es-MX'):''}</div>
+                </div>
+                <button type="button" class="design-btn danger" style="position:absolute;top:5px;right:5px;font-size:0.5rem;padding:2px 5px;opacity:0.7;" data-delete-recurso="${escHtml(String(r.id))}">✕</button>
+            </div>`).join('')
+            : '<div style="color:#4a6a8a;font-size:0.7rem;grid-column:1/-1;text-align:center;padding:30px;">Sin recursos que coincidan.</div>';
+    };
+
+    const openDesignSubirRecurso = () => {
+        const popup = document.getElementById('popupDesignSubirRecurso');
+        if (!popup) return;
+        designSubirTags = [];
+        const chipContainer = document.getElementById('designSubirTagChips');
+        if (chipContainer) chipContainer.innerHTML = '';
+        const counter = document.getElementById('designSubirTagCounter');
+        if (counter) { counter.textContent = '0/5 tags mínimos requeridos'; counter.style.color = '#f87171'; }
+        const nombreInput = document.getElementById('designSubirNombre');
+        if (nombreInput) nombreInput.value = '';
+        const fileInput = document.getElementById('designSubirArchivo');
+        if (fileInput) fileInput.value = '';
+        const preview = document.getElementById('designSubirPreview');
+        if (preview) { preview.src = ''; preview.style.display = 'none'; }
+        popup.style.display = 'flex';
+        popup.setAttribute('aria-hidden','false');
+    };
+
+    const closeDesignSubirRecurso = () => {
+        const popup = document.getElementById('popupDesignSubirRecurso');
+        if (popup) { popup.style.display = 'none'; popup.setAttribute('aria-hidden','true'); }
+        openDesignBiblioteca();
+    };
+
+    const renderDesignSubirTags = () => {
+        const container = document.getElementById('designSubirTagChips');
+        const counter   = document.getElementById('designSubirTagCounter');
+        if (container) container.innerHTML = designSubirTags.map(t => `<span class="design-tag-chip">${escHtml(t)} <button type="button" data-remove-tag="${escHtml(t)}" style="background:none;border:none;color:#f87171;cursor:pointer;padding:0 0 0 2px;font-size:0.75em;">✕</button></span>`).join('');
+        if (counter) { const c = designSubirTags.length; counter.textContent = `${c}/5 tags mínimos requeridos`; counter.style.color = c>=5?'#4ade80':'#f87171'; }
+    };
+
+    const saveDesignRecurso = () => {
+        const nombre = (document.getElementById('designSubirNombre')?.value || '').trim();
+        const fileInput = document.getElementById('designSubirArchivo');
+        const file = fileInput?.files?.[0];
+        if (!nombre)               { notifyError('Ingresa un nombre para el recurso.', 'Biblioteca'); return; }
+        if (!file)                 { notifyError('Selecciona una imagen (JPG o PNG).', 'Biblioteca'); return; }
+        if (designSubirTags.length < 5) { notifyError('Debes agregar al menos 5 tags.', 'Biblioteca'); return; }
         const reader = new FileReader();
-        reader.onload = () => {
-            const result = String(reader.result || '');
-            const splitIndex = result.indexOf(',');
-            resolve(splitIndex >= 0 ? result.slice(splitIndex + 1) : result);
+        reader.onload = evt => {
+            const lib = getDesignLibrary();
+            lib.unshift({ id:`recurso_${Date.now()}`, nombre, src:evt.target.result, tags:[...designSubirTags], autor:localStorage.getItem('logged_user_name')||'Desconocido', fecha:new Date().toISOString() });
+            if (lib.length > 200) lib.splice(200);
+            setDesignLibrary(lib);
+            notifyInfo('Recurso guardado en la biblioteca.', 'Biblioteca');
+            closeDesignSubirRecurso();
         };
-        reader.onerror = () => reject(new Error(`No se pudo leer ${file?.name || 'archivo'}`));
+        reader.onerror = () => notifyError('No se pudo leer el archivo.', 'Biblioteca');
         reader.readAsDataURL(file);
-    });
-
-    const sanitizePathPart = (value = '') => String(value || '')
-        .trim()
-        .replace(/[^A-Za-z0-9._-]/g, '_')
-        .slice(0, 180) || 'archivo';
-
-    const getFirebaseWebApp = () => {
-        if (!window.firebase) {
-            throw new Error('Firebase SDK no está cargado en el frontend.');
-        }
-        return window.firebase.app();
     };
 
-    const uploadDesignFiles = async () => {
-        try {
-            if (!selectedDesignOrder) {
-                setDesignStatus('Primero selecciona un pedido pendiente.', true, true);
-                return;
-            }
-            const front = designFileFront?.files?.[0];
-            const back = designFileBack?.files?.[0];
-            if (!front || !back) {
-                setDesignStatus('Debes cargar los dos archivos (frente y reverso).', true, true);
-                return;
-            }
-            setDesignStatus('Subiendo archivos en calidad original...');
+    const openDesignLightbox = (src) => {
+        const lb = document.getElementById('designImgFull');
+        const img = document.getElementById('designImgFullSrc');
+        if (lb && img) { img.src = src; lb.classList.add('active'); lb.setAttribute('aria-hidden','false'); }
+    };
 
-            const sendByBackend = async () => {
-                const [frontBase64, backBase64] = await Promise.all([
-                    readFileAsBase64(front),
-                    readFileAsBase64(back)
-                ]);
-
-                await window.AccessAPI.uploadDesignFiles({
-                    order: selectedDesignOrder,
-                    files: [
-                        {
-                            side: 'frente',
-                            filename: front.name,
-                            contentType: front.type || 'application/octet-stream',
-                            dataBase64: frontBase64
-                        },
-                        {
-                            side: 'reverso',
-                            filename: back.name,
-                            contentType: back.type || 'application/octet-stream',
-                            dataBase64: backBase64
-                        }
-                    ]
-                });
-            };
-
-            await sendByBackend();
-
-            setDesignStatus('Diseño enviado correctamente (vía backend).', false, true);
-            if (designFileFront) designFileFront.value = '';
-            if (designFileBack) designFileBack.value = '';
-        } catch (err) {
-            setDesignStatus(`Error al subir diseño: ${err.message}`, true, true);
-        }
+    const downloadDesignImages = (order) => {
+        const imgs = extractDesignImages(order);
+        if (!imgs.length) { notifyInfo('Esta orden no tiene imágenes de referencia.', 'Diseño'); return; }
+        imgs.forEach((src,i) => {
+            const a = document.createElement('a');
+            a.href = src; a.download = `ref_${order.folio||order.id}_${i+1}.jpg`;
+            document.body.appendChild(a); a.click(); document.body.removeChild(a);
+        });
     };
 
     const escapeHtml = window._escHtml;
@@ -25895,42 +27505,159 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
         });
     }
 
-    if (designTableWrap) {
-        designTableWrap.addEventListener('click', (ev) => {
-            const btn = ev.target.closest('button[data-design-idx]');
-            if (!btn) return;
-            const idx = Number(btn.dataset.designIdx);
-            if (!Number.isFinite(idx) || idx < 0 || idx >= designPendingRows.length) return;
-            selectedDesignOrder = designPendingRows[idx];
-            if (designSelectedOrder) designSelectedOrder.textContent = rowSummary(selectedDesignOrder);
-            updateDesignEditableState();
-            setDesignStatus(`Pedido seleccionado: ${rowSummary(selectedDesignOrder)}`);
-        });
+    // ===== DESIGN MODULE EVENT LISTENERS =====
+
+    // btnSeguimientoDiseno → open design popup
+    if (btnSeguimientoDiseno) {
+        btnSeguimientoDiseno.onclick = () => { openDesignPopup(); };
     }
 
-    if (btnSeguimientoDiseno) {
-        btnSeguimientoDiseno.onclick = async () => {
-            openDesignPopup();
-            await loadDesignPending();
-        };
-    }
-    if (btnDesignRefresh) btnDesignRefresh.onclick = async () => { await loadDesignPending(); };
-    if (btnDesignUpload) {
-        btnDesignUpload.onclick = async () => {
-            // Si estamos en modo "enviar al cliente", maneja diferente
-            if (window.enviarDisenoAlCliente) {
-                await enviarDisenoAlChatCliente();
-            } else {
-                await uploadDesignFiles();
-            }
-        };
-    }
-    if (btnDesignClose) btnDesignClose.onclick = closeDesignPopup;
+    // Close main design popup
+    const _btnDesignClose = document.getElementById('btnDesignClose');
+    if (_btnDesignClose) _btnDesignClose.onclick = closeDesignPopup;
     if (popupDesignTracking) {
-        popupDesignTracking.addEventListener('click', (ev) => {
-            if (ev.target === popupDesignTracking) closeDesignPopup();
+        popupDesignTracking.addEventListener('click', ev => { if (ev.target === popupDesignTracking) closeDesignPopup(); });
+    }
+
+    // Tab switching
+    document.querySelectorAll('.design-module-tab').forEach(btn => {
+        btn.addEventListener('click', () => renderDesignTab(btn.dataset.dtab));
+    });
+
+    // Refresh actives
+    const _btnDesignRefresh = document.getElementById('btnDesignRefresh');
+    if (_btnDesignRefresh) _btnDesignRefresh.onclick = () => renderDesignActivas();
+
+    // Filter chips (Mis Órdenes)
+    document.querySelectorAll('[data-dfilter-mis]').forEach(chip => {
+        chip.addEventListener('click', () => {
+            document.querySelectorAll('[data-dfilter-mis]').forEach(c => c.classList.remove('active'));
+            chip.classList.add('active');
+            designMisFilter = chip.dataset.dfilterMis;
+            renderDesignMisOrdenes();
+        });
+    });
+
+    // Search inputs
+    const _dSearchMis   = document.getElementById('designSearchMis');
+    const _dSearchTodas = document.getElementById('designSearchTodas');
+    if (_dSearchMis)   _dSearchMis.addEventListener('input', () => renderDesignMisOrdenes());
+    if (_dSearchTodas) _dSearchTodas.addEventListener('input', () => renderDesignTodas());
+    const _dFilterD = document.getElementById('designFilterDisenador');
+    if (_dFilterD) _dFilterD.addEventListener('change', () => renderDesignTodas());
+
+    // Order card actions (event delegation)
+    document.addEventListener('click', ev => {
+        const actionBtn = ev.target.closest('[data-design-action]');
+        if (actionBtn) {
+            const action  = actionBtn.dataset.designAction;
+            const orderId = actionBtn.dataset.orderId;
+            if (action === 'comenzar')  openDesignComenzarPopup(orderId);
+            if (action === 'historial') openDesignHistorialPopup(orderId);
+            if (action === 'traspasar') openDesignTraspasarPopup(orderId);
+        }
+        // Delete biblioteca resource
+        const delBtn = ev.target.closest('[data-delete-recurso]');
+        if (delBtn) {
+            const id  = delBtn.dataset.deleteRecurso;
+            const lib = getDesignLibrary().filter(r => String(r.id) !== String(id));
+            setDesignLibrary(lib);
+            renderDesignBiblioteca();
+        }
+        // Remove tag chip
+        const removeTag = ev.target.closest('[data-remove-tag]');
+        if (removeTag) {
+            designSubirTags = designSubirTags.filter(t => t !== removeTag.dataset.removeTag);
+            renderDesignSubirTags();
+        }
+    });
+
+    // Comenzar popup buttons
+    const _btnDoComenzar = document.getElementById('btnDesignDoComenzar');
+    const _btnPausar     = document.getElementById('btnDesignPausar');
+    const _btnValidar    = document.getElementById('btnDesignValidar');
+    const _btnComenzarClose = document.getElementById('btnDesignComenzarClose');
+    const _btnHistorial  = document.getElementById('btnDesignHistorial');
+    const _btnTraspasar  = document.getElementById('btnDesignTraspasar');
+    const _btnDescargar  = document.getElementById('btnDesignDescargar');
+    if (_btnDoComenzar)   _btnDoComenzar.onclick   = () => doDesignComenzar();
+    if (_btnPausar)       _btnPausar.onclick        = () => doDesignPausar();
+    if (_btnValidar)      _btnValidar.onclick       = () => doDesignValidar();
+    if (_btnComenzarClose) _btnComenzarClose.onclick = () => closeDesignComenzarPopup();
+    if (_btnHistorial)    _btnHistorial.onclick     = () => designCurrentOrder && openDesignHistorialPopup(designCurrentOrder.id);
+    if (_btnTraspasar)    _btnTraspasar.onclick     = () => designCurrentOrder && openDesignTraspasarPopup(designCurrentOrder.id);
+    if (_btnDescargar)    _btnDescargar.onclick     = () => designCurrentOrder && downloadDesignImages(designCurrentOrder);
+
+    // Traspasar popup
+    const _btnTraspasarConfirmar = document.getElementById('btnTraspasarConfirmar');
+    const _btnTraspasarCancelar  = document.getElementById('btnTraspasarCancelar');
+    const _btnTraspasarClose     = document.getElementById('btnTraspasarClose');
+    if (_btnTraspasarConfirmar) _btnTraspasarConfirmar.onclick = () => confirmDesignTraspasar();
+    if (_btnTraspasarCancelar)  _btnTraspasarCancelar.onclick  = () => closeDesignTraspasarPopup();
+    if (_btnTraspasarClose)     _btnTraspasarClose.onclick     = () => closeDesignTraspasarPopup();
+
+    // Historial popup
+    const _btnHistorialClose = document.getElementById('btnHistorialClose');
+    if (_btnHistorialClose) _btnHistorialClose.onclick = () => closeDesignHistorialPopup();
+
+    // Biblioteca popup
+    const _btnDesignBiblioteca = document.getElementById('btnDesignBiblioteca');
+    const _btnBibliotecaClose  = document.getElementById('btnBibliotecaClose');
+    const _btnBibliotecaSubir  = document.getElementById('btnBibliotecaSubir');
+    const _dBibliotecaSearch   = document.getElementById('designBibliotecaSearch');
+    if (_btnDesignBiblioteca) _btnDesignBiblioteca.onclick = () => openDesignBiblioteca();
+    if (_btnBibliotecaClose)  _btnBibliotecaClose.onclick  = () => closeDesignBiblioteca();
+    if (_btnBibliotecaSubir)  _btnBibliotecaSubir.onclick  = () => { closeDesignBiblioteca(); openDesignSubirRecurso(); };
+    if (_dBibliotecaSearch)   _dBibliotecaSearch.addEventListener('input', () => renderDesignBiblioteca());
+
+    // Subir recurso popup
+    const _btnSubirClose    = document.getElementById('btnSubirRecursoClose');
+    const _btnSubirCancelar = document.getElementById('btnSubirRecursoCancelar');
+    const _btnSubirGuardar  = document.getElementById('btnSubirRecursoGuardar');
+    const _btnAgregarTag    = document.getElementById('btnAgregarTag');
+    const _tagInput         = document.getElementById('designSubirTagInput');
+    const _archivoInput     = document.getElementById('designSubirArchivo');
+    if (_btnSubirClose)    _btnSubirClose.onclick    = () => closeDesignSubirRecurso();
+    if (_btnSubirCancelar) _btnSubirCancelar.onclick  = () => closeDesignSubirRecurso();
+    if (_btnSubirGuardar)  _btnSubirGuardar.onclick   = () => saveDesignRecurso();
+    if (_btnAgregarTag) {
+        _btnAgregarTag.onclick = () => {
+            const val = (_tagInput?.value || '').trim();
+            if (val) { addDesignSubirTag(val); if (_tagInput) _tagInput.value = ''; }
+        };
+    }
+    if (_tagInput) {
+        _tagInput.addEventListener('keydown', e => {
+            if (e.key === 'Enter') { e.preventDefault(); const v = _tagInput.value.trim(); if (v) { addDesignSubirTag(v); _tagInput.value = ''; } }
         });
     }
+    if (_archivoInput) {
+        _archivoInput.addEventListener('change', () => {
+            const f = _archivoInput.files?.[0];
+            const prev = document.getElementById('designSubirPreview');
+            if (!f || !prev) return;
+            const reader = new FileReader();
+            reader.onload = e => { prev.src = e.target.result; prev.style.display = 'block'; };
+            reader.readAsDataURL(f);
+        });
+    }
+    const addDesignSubirTag = (tag) => {
+        const clean = tag.replace(/[^a-zA-Z0-9áéíóúÁÉÍÓÚñÑ _-]/g,'').trim().slice(0,30);
+        if (!clean || designSubirTags.includes(clean)) return;
+        designSubirTags.push(clean);
+        renderDesignSubirTags();
+    };
+
+    // Lightbox close
+    const _designImgFull = document.getElementById('designImgFull');
+    if (_designImgFull) {
+        _designImgFull.addEventListener('click', () => { _designImgFull.classList.remove('active'); _designImgFull.setAttribute('aria-hidden','true'); });
+    }
+
+    // Inactivity tracking (only when comenzar popup is open)
+    ['mousemove','keydown','click','touchstart'].forEach(ev => {
+        document.addEventListener(ev, () => { if (designCurrentOrder) resetDesignActivity(); }, { passive: true });
+    });
 
     if (notifyOk) {
         notifyOk.addEventListener('click', closeNotifyPopup);
@@ -32822,18 +34549,11 @@ document.addEventListener('DOMContentLoaded', function() {
             card.title = allowed ? '' : '🚫 Sin acceso — ' + (role || 'sin rol');
         });
 
-        // Badge de rol
+        // Badge de rol: solo mostrar en el diseñador, no en vendedor (el input ya muestra el nombre)
         const vendedorInput = document.getElementById('ordenVendedor');
         if (vendedorInput && vendedorInput.parentElement) {
             const existingBadge = vendedorInput.parentElement.querySelector('.login-user-badge');
             if (existingBadge) existingBadge.remove();
-            if (role !== 'vendedor') {
-                const badge = document.createElement('span');
-                badge.className = 'login-user-badge';
-                const roleLabels = { admin:'ADMIN', vendedor:'VENDEDOR', disenador:'DISEÑADOR', productor:'PRODUCTOR', repartidor:'REPARTIDOR' };
-                badge.textContent = roleLabels[role] || role.toUpperCase();
-                vendedorInput.parentElement.appendChild(badge);
-            }
         }
         const disenadorSelect = document.getElementById('ordenDisenador');
         if (disenadorSelect && disenadorSelect.parentElement) {
@@ -34271,7 +35991,7 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (ev.key === 'F9' && isInCotizador) {
             ev.preventDefault();
-            document.getElementById('ordenTicketAdd')?.click();
+            document.getElementById('ordenBtnLimpiar')?.click();
             return;
         }
         if (ev.key === 'F10' && isInCotizador) {
@@ -34288,6 +36008,15 @@ document.addEventListener('DOMContentLoaded', function() {
             if (k === 'i') { ev.preventDefault(); document.getElementById('ordenBtnImpuestos')?.click(); return; }
             if (k === 'd') { ev.preventDefault(); document.getElementById('ordenBtnDescuento')?.click(); return; }
             if (k === 'c') { ev.preventDefault(); document.getElementById('ordenBtnCotizacion')?.click(); return; }
+            if (k === 't') {
+                // Solo abrir tabulador cuando el popup de selección de producto está abierto
+                const _sp = document.getElementById('ordenStockPopup');
+                if (_sp?.style.display === 'flex') {
+                    ev.preventDefault();
+                    document.getElementById('ordenStockTabuladorBtn')?.click();
+                }
+                return;
+            }
         }
 
         // + y - para cantidad del producto seleccionado
