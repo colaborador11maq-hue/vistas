@@ -3011,6 +3011,159 @@
             color: #111827;
         }
 
+        /* Admin caja panel — sits in the same grid row as .caja-rect-wrap */
+        #cajaAdminPanel {
+            grid-row: 2;
+            min-height: 0;
+            background: #fff;
+            border: 1px solid #e4e8ef;
+            border-radius: 14px;
+            padding: 14px;
+            overflow: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .cadm-selectors {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: flex-end;
+        }
+        .cadm-sel-group {
+            flex: 1;
+            min-width: 150px;
+        }
+        .cadm-sel-group label {
+            display: block;
+            font-size: 0.54rem;
+            font-weight: 800;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 4px;
+        }
+        .cadm-sel-group select {
+            width: 100%;
+            padding: 7px 10px;
+            background: #f9fbff;
+            border: 1px solid #d4dae4;
+            border-radius: 8px;
+            color: #1f2937;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+        .cadm-assign-bar {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            background: #f9fbff;
+            border: 1px solid #d4dae4;
+            border-radius: 10px;
+            padding: 10px 12px;
+            flex-wrap: wrap;
+        }
+        .cadm-assign-bar label {
+            font-size: 0.54rem;
+            font-weight: 800;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            flex: 0 0 100%;
+            margin-bottom: 4px;
+        }
+        .cadm-assign-bar select,
+        .cadm-assign-bar input[type=text] {
+            flex: 1;
+            min-width: 110px;
+            padding: 6px 10px;
+            background: #fff;
+            border: 1px solid #d4dae4;
+            border-radius: 7px;
+            color: #1f2937;
+            font-size: 0.68rem;
+        }
+        .cadm-assign-bar button {
+            padding: 6px 14px;
+            background: #FF8C00;
+            border: none;
+            border-radius: 7px;
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 900;
+            cursor: pointer;
+            text-transform: uppercase;
+            white-space: nowrap;
+        }
+        #cajaAdminData {
+            flex: 1;
+        }
+        .cadm-section-title {
+            font-size: 0.6rem;
+            font-weight: 900;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin: 0 0 8px;
+        }
+        .cadm-turno-badge {
+            display: inline-block;
+            font-size: 0.52rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+        .cadm-turno-badge.open { background: #dcfce7; color: #15803d; }
+        .cadm-turno-badge.closed { background: #f1f5f9; color: #64748b; }
+        .cadm-kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+            gap: 8px;
+            margin: 10px 0;
+        }
+        .cadm-kpi {
+            background: #f9fbff;
+            border: 1px solid #e4e8ef;
+            border-radius: 10px;
+            padding: 10px 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+        .cadm-kpi b {
+            font-size: 0.52rem;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+        .cadm-kpi span {
+            font-size: 0.82rem;
+            font-weight: 900;
+            color: #FF8C00;
+        }
+        .cadm-vendor-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #f9fbff;
+            border: 1px solid #e4e8ef;
+            border-radius: 10px;
+            margin-bottom: 8px;
+        }
+        .cadm-vendor-name {
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #1f2937;
+        }
+        .cadm-vendor-meta {
+            font-size: 0.58rem;
+            color: #6b7280;
+        }
+
         /* Report module cards */
         .rep-modulo-card {
             display: flex;
@@ -10282,6 +10435,40 @@ const imgBolsaDeliveryBase = new Image();
         backdrop.style.display = willShow ? 'block' : 'none';
     }
 
+    const reducirImagenA15MB = (file) => {
+        const MAX = 15 * 1024 * 1024;
+        if (file.size <= MAX) return Promise.resolve(file);
+        return new Promise(resolve => {
+            const img = new Image();
+            const url = URL.createObjectURL(file);
+            img.onload = () => {
+                URL.revokeObjectURL(url);
+                const canvas = document.createElement('canvas');
+                let w = img.width, h = img.height;
+                const attempt = () => {
+                    canvas.width = w; canvas.height = h;
+                    const ctx = canvas.getContext('2d');
+                    ctx.clearRect(0, 0, w, h);
+                    ctx.drawImage(img, 0, 0, w, h);
+                    canvas.toBlob(blob => {
+                        if (!blob) { resolve(file); return; }
+                        if (blob.size <= MAX) {
+                            resolve(new File([blob], file.name.replace(/\.[^.]+$/, '.png'), { type: 'image/png' }));
+                        } else {
+                            const scale = Math.sqrt(MAX / blob.size) * 0.9;
+                            w = Math.max(100, Math.round(w * scale));
+                            h = Math.max(100, Math.round(h * scale));
+                            attempt();
+                        }
+                    }, 'image/png');
+                };
+                attempt();
+            };
+            img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+            img.src = url;
+        });
+    };
+
     function procesarLogoBolsa(file) {
         const r = new FileReader();
         r.onload = (ev) => {
@@ -10394,18 +10581,18 @@ const imgBolsaDeliveryBase = new Image();
 
     const upSingle = document.getElementById('upLogo');
     if (upSingle) {
-        upSingle.onchange = (e) => {
+        upSingle.onchange = async (e) => {
             const f = e.target.files[0];
             if (f) {
                 reiniciarPosicionLogoManual();
-                procesarLogoBolsa(f);
+                procesarLogoBolsa(await reducirImagenA15MB(f));
             }
         };
     }
 
     const upDual = document.getElementById('upLogoDual');
     if (upDual) {
-        upDual.onchange = (e) => {
+        upDual.onchange = async (e) => {
             const files = Array.from(e.target.files || []);
             if (!files.length) return;
             reiniciarPosicionLogoManual();
@@ -10413,12 +10600,13 @@ const imgBolsaDeliveryBase = new Image();
             imgLogoFrente = null; imgLogoOriginalFrente = null;
             imgLogoReverso = null; imgLogoOriginalReverso = null;
             logoFrenteInvalido = false; logoReversoInvalido = false;
-            // Primer archivo = frente, segundo = reverso
-            if (files.length === 1) {
-                procesarLogo(files[0], 'frente');
-            } else if (files.length >= 2) {
-                procesarLogo(files[0], 'frente');
-                procesarLogo(files[1], 'reverso');
+            // Comprimir si es necesario y asignar frente/reverso
+            const compressed = await Promise.all(files.map(reducirImagenA15MB));
+            if (compressed.length === 1) {
+                procesarLogo(compressed[0], 'frente');
+            } else if (compressed.length >= 2) {
+                procesarLogo(compressed[0], 'frente');
+                procesarLogo(compressed[1], 'reverso');
             }
         };
         // Botón para intercambiar frente y reverso
@@ -11175,7 +11363,110 @@ const imgBolsaDeliveryBase = new Image();
         return cv;
     }
 
-    function aplicarTexturaTintaPapel(tCtx, w, h) {
+    function aplicarColorMetalico(tCtx, w, h, esDorado) {
+        if (esDorado) {
+            // CAPA 1 — gradiente base tono #AD8A1F: oscuro › base › brillante › oscuro
+            const shade = tCtx.createLinearGradient(0, 0, 0, h);
+            shade.addColorStop(0,    '#4A3A08');
+            shade.addColorStop(0.18, '#7A6012');
+            shade.addColorStop(0.38, '#AD8A1F');
+            shade.addColorStop(0.50, '#C8A028');
+            shade.addColorStop(0.64, '#9C7A18');
+            shade.addColorStop(0.82, '#6A5210');
+            shade.addColorStop(1,    '#4A3A08');
+            tCtx.fillStyle = shade;
+            tCtx.fillRect(0, 0, w, h);
+
+            tCtx.globalCompositeOperation = 'source-atop';
+
+            // ZONA 1 — reflejo principal: diagonal ancho, zona central-alta
+            const spec1 = tCtx.createLinearGradient(0, 0, w * 0.65, h);
+            spec1.addColorStop(0,    'rgba(255,240,100,0)');
+            spec1.addColorStop(0.28, 'rgba(255,240,100,0)');
+            spec1.addColorStop(0.37, 'rgba(255,245,130,0.52)');
+            spec1.addColorStop(0.43, 'rgba(255,252,170,0.76)');
+            spec1.addColorStop(0.49, 'rgba(255,245,130,0.52)');
+            spec1.addColorStop(0.58, 'rgba(255,240,100,0)');
+            spec1.addColorStop(1,    'rgba(255,240,100,0)');
+            tCtx.fillStyle = spec1;
+            tCtx.fillRect(0, 0, w, h);
+
+            // ZONA 2 — reflejo superior: más horizontal, zona alta, más suave
+            const spec2 = tCtx.createLinearGradient(w * 0.1, 0, w * 0.9, h * 0.38);
+            spec2.addColorStop(0,    'rgba(255,248,140,0)');
+            spec2.addColorStop(0.30, 'rgba(255,248,140,0)');
+            spec2.addColorStop(0.40, 'rgba(255,252,160,0.38)');
+            spec2.addColorStop(0.50, 'rgba(255,255,190,0.56)');
+            spec2.addColorStop(0.60, 'rgba(255,252,160,0.38)');
+            spec2.addColorStop(0.70, 'rgba(255,248,140,0)');
+            spec2.addColorStop(1,    'rgba(255,248,140,0)');
+            tCtx.fillStyle = spec2;
+            tCtx.fillRect(0, 0, w, h);
+
+            // ZONA 3 — reflejo inferior: diagonal opuesto, zona baja, más tenue
+            const spec3 = tCtx.createLinearGradient(w, h * 0.55, w * 0.25, h);
+            spec3.addColorStop(0,    'rgba(220,195,80,0)');
+            spec3.addColorStop(0.32, 'rgba(220,195,80,0)');
+            spec3.addColorStop(0.42, 'rgba(235,210,90,0.30)');
+            spec3.addColorStop(0.50, 'rgba(245,220,100,0.46)');
+            spec3.addColorStop(0.58, 'rgba(235,210,90,0.30)');
+            spec3.addColorStop(0.68, 'rgba(220,195,80,0)');
+            spec3.addColorStop(1,    'rgba(220,195,80,0)');
+            tCtx.fillStyle = spec3;
+            tCtx.fillRect(0, 0, w, h);
+
+        } else {
+            // PLATEADO
+            const shade = tCtx.createLinearGradient(0, 0, 0, h);
+            shade.addColorStop(0,    '#303030');
+            shade.addColorStop(0.18, '#808080');
+            shade.addColorStop(0.38, '#B0B0B0');
+            shade.addColorStop(0.50, '#D0D0D0');
+            shade.addColorStop(0.64, '#A0A0A0');
+            shade.addColorStop(0.82, '#686868');
+            shade.addColorStop(1,    '#303030');
+            tCtx.fillStyle = shade;
+            tCtx.fillRect(0, 0, w, h);
+
+            tCtx.globalCompositeOperation = 'source-atop';
+
+            const s1 = tCtx.createLinearGradient(0, 0, w * 0.65, h);
+            s1.addColorStop(0,    'rgba(255,255,255,0)');
+            s1.addColorStop(0.28, 'rgba(255,255,255,0)');
+            s1.addColorStop(0.37, 'rgba(255,255,255,0.45)');
+            s1.addColorStop(0.43, 'rgba(255,255,255,0.70)');
+            s1.addColorStop(0.49, 'rgba(255,255,255,0.45)');
+            s1.addColorStop(0.58, 'rgba(255,255,255,0)');
+            s1.addColorStop(1,    'rgba(255,255,255,0)');
+            tCtx.fillStyle = s1;
+            tCtx.fillRect(0, 0, w, h);
+
+            const s2 = tCtx.createLinearGradient(w * 0.1, 0, w * 0.9, h * 0.38);
+            s2.addColorStop(0,    'rgba(255,255,255,0)');
+            s2.addColorStop(0.35, 'rgba(255,255,255,0)');
+            s2.addColorStop(0.45, 'rgba(255,255,255,0.32)');
+            s2.addColorStop(0.50, 'rgba(255,255,255,0.52)');
+            s2.addColorStop(0.55, 'rgba(255,255,255,0.32)');
+            s2.addColorStop(0.65, 'rgba(255,255,255,0)');
+            s2.addColorStop(1,    'rgba(255,255,255,0)');
+            tCtx.fillStyle = s2;
+            tCtx.fillRect(0, 0, w, h);
+
+            const s3 = tCtx.createLinearGradient(w, h * 0.55, w * 0.25, h);
+            s3.addColorStop(0,    'rgba(220,220,220,0)');
+            s3.addColorStop(0.35, 'rgba(220,220,220,0)');
+            s3.addColorStop(0.44, 'rgba(240,240,240,0.28)');
+            s3.addColorStop(0.50, 'rgba(255,255,255,0.44)');
+            s3.addColorStop(0.56, 'rgba(240,240,240,0.28)');
+            s3.addColorStop(0.65, 'rgba(220,220,220,0)');
+            s3.addColorStop(1,    'rgba(220,220,220,0)');
+            tCtx.fillStyle = s3;
+            tCtx.fillRect(0, 0, w, h);
+
+        }
+    }
+
+    function aplicarTexturaTintaPapel(tCtx, w, h, esMeta = false) {
         const wrinkledMap = getWrinkledPaperMap(w, h);
 
         // Guardamos mascara alfa original del logo para evitar halos rectangulares.
@@ -11187,20 +11478,22 @@ const imgBolsaDeliveryBase = new Image();
 
         tCtx.save();
         tCtx.globalCompositeOperation = 'source-atop';
-        tCtx.globalAlpha = 0.2;
+        tCtx.globalAlpha = esMeta ? 0.06 : 0.2;
         tCtx.drawImage(wrinkledMap, 0, 0, w, h);
 
-        // Mascara de papel arrugado en modo multiplicar (tipo Photoshop).
-        tCtx.globalCompositeOperation = 'multiply';
-        tCtx.globalAlpha = 0.42;
+        // Para tintas metálicas usar overlay (preserva brillos); para normales multiply.
+        tCtx.globalCompositeOperation = esMeta ? 'overlay' : 'multiply';
+        tCtx.globalAlpha = esMeta ? 0.12 : 0.42;
         tCtx.drawImage(wrinkledMap, 0, 0, w, h);
 
         // Variacion tonal ligera para evitar acabado plano.
-        tCtx.globalCompositeOperation = 'source-atop';
-        tCtx.globalAlpha = 0.06;
-        tCtx.fillStyle = '#000';
-        for (let x = 0; x < w; x += 31) {
-            tCtx.fillRect(x, 0, 1, h);
+        if (!esMeta) {
+            tCtx.globalCompositeOperation = 'source-atop';
+            tCtx.globalAlpha = 0.06;
+            tCtx.fillStyle = '#000';
+            for (let x = 0; x < w; x += 31) {
+                tCtx.fillRect(x, 0, 1, h);
+            }
         }
 
         // Reaplica alfa original para eliminar cualquier cuadro/velo fuera del logo.
@@ -11398,14 +11691,12 @@ const imgBolsaDeliveryBase = new Image();
             }
             tCtx.globalCompositeOperation = 'source-atop';
             if (tinta.meta) {
-                if (String(tinta.n || '').toLowerCase().includes('dorad')) {
-                    tCtx.fillStyle = '#d4a930';
-                } else {
-                    tCtx.fillStyle = '#b0b0b0';
-                }
-            } else { tCtx.fillStyle = tinta.hex; }
-            tCtx.fillRect(0,0,renderW,renderH);
-            aplicarTexturaTintaPapel(tCtx, renderW, renderH);
+                aplicarColorMetalico(tCtx, renderW, renderH, String(tinta.n || '').toLowerCase().includes('dorad'));
+            } else {
+                tCtx.fillStyle = tinta.hex;
+                tCtx.fillRect(0, 0, renderW, renderH);
+            }
+            aplicarTexturaTintaPapel(tCtx, renderW, renderH, tinta.meta);
 
             if (usesDeliveryOverlay) {
                 const overlayRotateDeg = isDeliveryKraft ? -87 : (is1BG2BG ? 0 : -91);
@@ -11675,14 +11966,12 @@ const imgBolsaDeliveryBase = new Image();
                 tCtx.drawImage(logoImg, 0, 0, renderW, renderH);
                 tCtx.globalCompositeOperation = 'source-atop';
                 if (tinta.meta) {
-                    if (String(tinta.n || '').toLowerCase().includes('dorad')) {
-                        tCtx.fillStyle = '#d4a930';
-                    } else {
-                        tCtx.fillStyle = '#b0b0b0';
-                    }
-                } else { tCtx.fillStyle = tinta.hex; }
-                tCtx.fillRect(0,0,renderW,renderH);
-                aplicarTexturaTintaPapel(tCtx, renderW, renderH);
+                    aplicarColorMetalico(tCtx, renderW, renderH, String(tinta.n || '').toLowerCase().includes('dorad'));
+                } else {
+                    tCtx.fillStyle = tinta.hex;
+                    tCtx.fillRect(0, 0, renderW, renderH);
+                }
+                aplicarTexturaTintaPapel(tCtx, renderW, renderH, tinta.meta);
 
                 const isHorizontal = orientacionActual === 'horizontal';
                 if(isHorizontal) {
@@ -12179,13 +12468,15 @@ const imgBolsaDeliveryBase = new Image();
         return generarBlobExport().then((blob) => {
             try {
                 const link = document.createElement('a');
-                link.download = `Pedido_Maquileros.png`;
                 if (blob) {
+                    const ext = blob.type === 'image/jpeg' ? 'jpg' : 'png';
+                    link.download = `Pedido_Maquileros.${ext}`;
                     const url = URL.createObjectURL(blob);
                     link.href = url;
                     link.click();
                     setTimeout(() => URL.revokeObjectURL(url), 2000);
                 } else {
+                    link.download = `Pedido_Maquileros.png`;
                     // Fallback to dataURL
                     const tmp = document.createElement('canvas');
                     tmp.width = cv.width;
@@ -12207,17 +12498,68 @@ const imgBolsaDeliveryBase = new Image();
             isExporting = true; // OCULTA AL FANTASMA
             actualizar();
             setTimeout(() => {
+                const MAX_EXPORT_BYTES = 15 * 1024 * 1024;
                 // Exportar a resolución completa como PNG para máxima calidad.
                 const tmp = document.createElement('canvas');
                 tmp.width = cv.width;
                 tmp.height = cv.height;
                 const tctx = tmp.getContext('2d');
                 tctx.drawImage(cv, 0, 0, tmp.width, tmp.height);
-                // Intentar PNG sin compresión con toBlob
-                tmp.toBlob((blob) => {
+
+                const finishExport = (blob) => {
                     isExporting = false;
                     actualizar();
                     resolve(blob);
+                };
+
+                // Intentar PNG primero para máxima nitidez; si supera 15 MB, reducir lo mínimo en JPG.
+                tmp.toBlob((pngBlob) => {
+                    if (!pngBlob) {
+                        finishExport(null);
+                        return;
+                    }
+                    if (pngBlob.size <= MAX_EXPORT_BYTES) {
+                        finishExport(pngBlob);
+                        return;
+                    }
+
+                    let quality = 0.98;
+                    let w = tmp.width;
+                    let h = tmp.height;
+                    const jpgCanvas = document.createElement('canvas');
+
+                    const attemptJpg = () => {
+                        jpgCanvas.width = w;
+                        jpgCanvas.height = h;
+                        const jctx = jpgCanvas.getContext('2d');
+                        jctx.fillStyle = '#fff';
+                        jctx.fillRect(0, 0, w, h);
+                        jctx.drawImage(tmp, 0, 0, w, h);
+
+                        jpgCanvas.toBlob((jpgBlob) => {
+                            if (!jpgBlob) {
+                                finishExport(pngBlob);
+                                return;
+                            }
+                            if (jpgBlob.size <= MAX_EXPORT_BYTES) {
+                                finishExport(jpgBlob);
+                            } else if (quality > 0.88) {
+                                quality = Math.max(0.88, quality - 0.03);
+                                attemptJpg();
+                            } else if (quality > 0.72) {
+                                quality = Math.max(0.72, quality - 0.05);
+                                attemptJpg();
+                            } else {
+                                const scale = Math.sqrt(MAX_EXPORT_BYTES / jpgBlob.size) * 0.97;
+                                w = Math.max(1200, Math.round(w * scale));
+                                h = Math.max(1200, Math.round(h * scale));
+                                quality = 0.9;
+                                attemptJpg();
+                            }
+                        }, 'image/jpeg', quality);
+                    };
+
+                    attemptJpg();
                 }, 'image/png');
             }, 100);
         });
@@ -13495,6 +13837,34 @@ const imgBolsaDeliveryBase = new Image();
                     </div>
                 </div>
             </section>
+        </div>
+
+        <!-- Panel exclusivo del administrador — se muestra en lugar de .caja-rect-wrap -->
+        <div id="cajaAdminPanel" style="display:none;">
+            <div class="cadm-selectors">
+                <div class="cadm-sel-group">
+                    <label for="cajaAdminSucursalSel">Sucursal</label>
+                    <select id="cajaAdminSucursalSel">
+                        <option value="">— Todas las sucursales —</option>
+                    </select>
+                </div>
+                <div class="cadm-sel-group">
+                    <label for="cajaAdminVendedorSel">Vendedor</label>
+                    <select id="cajaAdminVendedorSel">
+                        <option value="">— Todos —</option>
+                    </select>
+                </div>
+                <button id="cajaAdminRefreshBtn" style="padding:7px 14px;background:#FF8C00;border:none;border-radius:8px;color:#fff;font-size:0.6rem;font-weight:900;cursor:pointer;text-transform:uppercase;align-self:flex-end;white-space:nowrap;">↺ Actualizar</button>
+            </div>
+            <div id="cajaAdminAsignWrap" style="display:none;" class="cadm-assign-bar">
+                <label>Asignar sucursal al vendedor seleccionado</label>
+                <select id="cajaAdminAsignSucursalSel">
+                    <option value="">— Sin asignar —</option>
+                </select>
+                <input id="cajaAdminNuevaSucursalInput" type="text" placeholder="O escribe nueva sucursal…">
+                <button id="cajaAdminAsignGuardar">Guardar</button>
+            </div>
+            <div id="cajaAdminData" style="flex:1;"></div>
         </div>
     </div>
 </div>
@@ -15954,6 +16324,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const CAJA_APERTURAS_KEY = 'mock_caja_aperturas_v1';
     const CAJA_TURNO_ACTIVO_KEY = 'caja_turno_activo_v1';
     const CAJA_HISTORIAL_KEY = 'caja_historial_turnos_v1';
+    // Clave de turno por email de vendedor
+    const getTurnoKey = (email) => `caja_turno_v1_${(email||'').toLowerCase().trim()}`;
+    // Email del vendedor que el admin está viendo actualmente
+    let cajaAdminEmailViendo = null;
     const CAL_ALERTS_KEY = 'mock_calendario_alertas_v1';
     const CLIENTES_MODULO_KEY = 'mock_clientes_modulo_v1';
     let productosTab = 'stock';
@@ -17693,15 +18067,27 @@ document.addEventListener('DOMContentLoaded', () => {
         } catch (_) {}
     };
 
+    const _getTurnoEmailActual = () => {
+        // Admin viendo caja de un vendedor usa ese email; vendedor usa el suyo propio
+        const role = (localStorage.getItem('logged_user_role') || '').toLowerCase();
+        if (role === 'admin' && cajaAdminEmailViendo) return cajaAdminEmailViendo;
+        return localStorage.getItem('logged_user_email') || '';
+    };
+
     const loadTurnoActivo = () => {
+        const email = _getTurnoEmailActual();
         try {
-            const parsed = JSON.parse(localStorage.getItem(CAJA_TURNO_ACTIVO_KEY) || 'null');
+            // Intentar clave nueva por email primero; caer en clave legacy si no hay
+            const key = email ? getTurnoKey(email) : CAJA_TURNO_ACTIVO_KEY;
+            const parsed = JSON.parse(localStorage.getItem(key) || 'null');
             turnoActivo = (parsed && typeof parsed === 'object' && parsed.id) ? parsed : null;
         } catch (_) { turnoActivo = null; }
     };
 
     const saveTurnoActivo = () => {
-        try { localStorage.setItem(CAJA_TURNO_ACTIVO_KEY, JSON.stringify(turnoActivo)); } catch (_) {}
+        const email = _getTurnoEmailActual();
+        const key = email ? getTurnoKey(email) : CAJA_TURNO_ACTIVO_KEY;
+        try { localStorage.setItem(key, JSON.stringify(turnoActivo)); } catch (_) {}
     };
 
     const loadHistorialTurnos = () => {
@@ -17783,6 +18169,19 @@ document.addEventListener('DOMContentLoaded', () => {
         saveHistorialTurnos();
         turnoActivo = null;
         saveTurnoActivo();
+        // Solo vendedores generan la apertura pendiente para el siguiente login
+        const _roleCorte = (localStorage.getItem('logged_user_role') || '').toLowerCase();
+        if (_roleCorte !== 'admin') localStorage.setItem('caja_pendiente_apertura', '1');
+    };
+
+    // Exponer globalmente para que completeLogin lo llame tras mostrar el menú principal
+    window.maybePedirFondoTrasCorte = () => {
+        const role = (localStorage.getItem('logged_user_role') || '').toLowerCase();
+        if (role === 'admin') return; // admin no abre turno propio
+        if (localStorage.getItem('caja_pendiente_apertura') !== '1') return;
+        localStorage.removeItem('caja_pendiente_apertura');
+        _fondoCalledFromCaja = false;
+        openFondoCajaPopup();
     };
 
     const getCajaResumenDelTurno = () => {
@@ -17949,20 +18348,305 @@ document.addEventListener('DOMContentLoaded', () => {
     let _fondoCalledFromCaja = false;
 
     const openCajaPopup = () => {
+        const role = (localStorage.getItem('logged_user_role') || '').toLowerCase();
+        if (role === 'admin') {
+            _abrirSelectorCajaAdmin();
+            return;
+        }
         loadTurnoActivo();
+        _abrirCajaDirecto();
         if (!turnoActivo) {
             _fondoCalledFromCaja = true;
             openFondoCajaPopup();
+        }
+    };
+
+    // ===== ADMIN CAJA PANEL =====
+    const CADM_SUCURSALES_KEY = 'caja_sucursales_list_v1';
+
+    const _cadmGetSucursales = () => {
+        try { return JSON.parse(localStorage.getItem(CADM_SUCURSALES_KEY) || '["PRINCIPAL"]'); }
+        catch (_) { return ['PRINCIPAL']; }
+    };
+
+    const _cadmSaveSucursales = (list) => {
+        try { localStorage.setItem(CADM_SUCURSALES_KEY, JSON.stringify(list)); } catch (_) {}
+    };
+
+    const _cadmGetVendedores = (sucursalFiltro) => {
+        const todos = (window._maqSystemUsers?.cached() || [])
+            .filter(u => (u.rol || '').toLowerCase() === 'vendedor' && u.activo !== false);
+        if (!sucursalFiltro) return todos;
+        return todos.filter(u => (u.sucursal || '').trim().toUpperCase() === sucursalFiltro.toUpperCase());
+    };
+
+    const _cadmResumenVendedor = (email) => {
+        let turno = null;
+        try { turno = JSON.parse(localStorage.getItem(getTurnoKey(email)) || 'null'); } catch (_) {}
+        if (!turno || !turno.id) return { turno: null, resumen: null };
+
+        const turnoId = turno.id;
+        const turnoStart = turno.fechaApertura;
+        const turnoStartDate = String(turnoStart || '').slice(0, 10);
+
+        let allMovs = [];
+        try { allMovs = JSON.parse(localStorage.getItem(CAJA_MOVS_KEY) || '[]'); } catch (_) {}
+        let allPedidos = [];
+        try { allPedidos = JSON.parse(localStorage.getItem(MIS_PEDIDOS_KEY) || '[]'); } catch (_) {}
+
+        const movsTurno = allMovs.filter(m => {
+            if (m.turnoId) return m.turnoId === turnoId;
+            const mf = String(m.fecha || '');
+            return mf >= turnoStart || mf.slice(0, 10) >= turnoStartDate;
+        });
+
+        const ventasTurno = allPedidos.filter(r =>
+            r.tipo === 'venta' && String(r.fechaEmitida || '').slice(0, 10) >= turnoStartDate
+        );
+
+        const ingresos = { EFECTIVO: 0, TARJETA: 0, TRANSFERENCIA: 0, DEPOSITO: 0 };
+        ventasTurno.forEach(r => {
+            const metodo = String(r.metodoPago || 'EFECTIVO').toUpperCase();
+            const amount = Math.max(0, Number(r.anticipo || 0));
+            if (amount <= 0) return;
+            if (metodo in ingresos) ingresos[metodo] += amount;
+            else ingresos.EFECTIVO += amount;
+        });
+        movsTurno.forEach(m => {
+            const metodo = String(m.fuente || 'EFECTIVO').toUpperCase();
+            const amount = Math.max(0, Number(m.monto || 0));
+            if (!(metodo in ingresos)) return;
+            if (m.tipo === 'ingreso') ingresos[metodo] += amount;
+            if (m.tipo === 'gasto') ingresos[metodo] -= amount;
+        });
+
+        const gastos = movsTurno.filter(m => m.tipo === 'gasto')
+            .reduce((acc, m) => acc + Math.max(0, Number(m.monto || 0)), 0);
+
+        const fondo = turno.fondoInicial || 0;
+        return {
+            turno,
+            resumen: {
+                fondo,
+                efectivo: ingresos.EFECTIVO,
+                tarjeta: ingresos.TARJETA,
+                transferencia: ingresos.TRANSFERENCIA,
+                deposito: ingresos.DEPOSITO,
+                gastos,
+                totalNeto: fondo + ingresos.EFECTIVO + ingresos.TARJETA + ingresos.TRANSFERENCIA + ingresos.DEPOSITO
+            }
+        };
+    };
+
+    const _cadmRenderData = () => {
+        const dataEl = document.getElementById('cajaAdminData');
+        if (!dataEl) return;
+
+        const sucSel = (document.getElementById('cajaAdminSucursalSel')?.value || '').trim();
+        const vendSel = (document.getElementById('cajaAdminVendedorSel')?.value || '').trim();
+
+        const fmtM = (v) => '$' + Number(v || 0).toLocaleString('es-MX', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        const esc = (s) => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+        if (vendSel) {
+            // Vista individual de un vendedor
+            const user = (window._maqSystemUsers?.cached() || []).find(u => (u.correoLower || u.correo || '').toLowerCase() === vendSel);
+            const { turno, resumen } = _cadmResumenVendedor(vendSel);
+            const abierto = turno && !turno.fechaCierre;
+            const badgeHtml = abierto
+                ? `<span class="cadm-turno-badge open">Turno abierto</span>`
+                : `<span class="cadm-turno-badge closed">Sin turno activo</span>`;
+            const aperturaStr = turno ? new Date(turno.fechaApertura).toLocaleString('es-MX') : '—';
+
+            dataEl.innerHTML = `
+                <p class="cadm-section-title">${esc(user?.nombre || vendSel)} ${badgeHtml}</p>
+                <div style="font-size:0.6rem;color:#6b7280;margin-bottom:8px;">
+                    ${turno ? `Apertura: ${esc(aperturaStr)} &nbsp;|&nbsp; ID: ${esc(turno.id)}` : 'Sin turno registrado en este dispositivo.'}
+                    &nbsp;|&nbsp; Sucursal: <b>${esc(user?.sucursal || '—')}</b>
+                </div>
+                ${resumen ? `
+                <div class="cadm-kpi-grid">
+                    <div class="cadm-kpi"><b>Fondo</b><span>${fmtM(resumen.fondo)}</span></div>
+                    <div class="cadm-kpi"><b>Efectivo</b><span>${fmtM(resumen.efectivo)}</span></div>
+                    <div class="cadm-kpi"><b>Tarjeta</b><span>${fmtM(resumen.tarjeta)}</span></div>
+                    <div class="cadm-kpi"><b>Transferencias</b><span>${fmtM(resumen.transferencia)}</span></div>
+                    <div class="cadm-kpi"><b>Depósitos</b><span>${fmtM(resumen.deposito)}</span></div>
+                    <div class="cadm-kpi"><b>Gastos</b><span>${fmtM(resumen.gastos)}</span></div>
+                    <div class="cadm-kpi" style="border-color:#FF8C00;"><b>Total neto</b><span>${fmtM(resumen.totalNeto)}</span></div>
+                </div>` : `<p style="font-size:0.68rem;color:#6b7280;">No hay datos de turno disponibles para este usuario en este dispositivo.</p>`}`;
             return;
         }
-        _abrirCajaDirecto();
+
+        // Vista agregada: todos los vendedores (filtrado por sucursal si aplica)
+        const vendedores = _cadmGetVendedores(sucSel);
+        if (!vendedores.length) {
+            dataEl.innerHTML = `<p style="font-size:0.68rem;color:#6b7280;padding:8px 0;">No hay vendedores ${sucSel ? 'en esta sucursal' : 'registrados'}.</p>`;
+            return;
+        }
+
+        let totalFondo = 0, totalEfec = 0, totalTar = 0, totalTrans = 0, totalDep = 0, totalGastos = 0, totalNeto = 0;
+        let rowsHtml = '';
+        vendedores.forEach(u => {
+            const email = (u.correoLower || u.correo || '').toLowerCase();
+            const { turno, resumen } = _cadmResumenVendedor(email);
+            const abierto = turno && !turno.fechaCierre;
+            const badge = abierto
+                ? `<span class="cadm-turno-badge open">Abierto</span>`
+                : `<span class="cadm-turno-badge closed">Cerrado</span>`;
+            if (resumen) {
+                totalFondo += resumen.fondo;
+                totalEfec += resumen.efectivo;
+                totalTar += resumen.tarjeta;
+                totalTrans += resumen.transferencia;
+                totalDep += resumen.deposito;
+                totalGastos += resumen.gastos;
+                totalNeto += resumen.totalNeto;
+            }
+            rowsHtml += `
+                <div class="cadm-vendor-row">
+                    <div>
+                        <div class="cadm-vendor-name">${esc(u.nombre || email)} ${badge}</div>
+                        <div class="cadm-vendor-meta">Sucursal: ${esc(u.sucursal || '—')} &nbsp;|&nbsp; ${resumen ? 'Neto: ' + fmtM(resumen.totalNeto) : 'Sin datos en este dispositivo'}</div>
+                    </div>
+                    <div style="text-align:right;font-size:0.6rem;color:#6b7280;">
+                        ${resumen ? `Ef: ${fmtM(resumen.efectivo)} &nbsp; Tar: ${fmtM(resumen.tarjeta)} &nbsp; Trans: ${fmtM(resumen.transferencia)}` : ''}
+                    </div>
+                </div>`;
+        });
+
+        dataEl.innerHTML = `
+            <p class="cadm-section-title">${sucSel ? esc(sucSel) : 'Todas las sucursales'} — ${vendedores.length} vendedor${vendedores.length !== 1 ? 'es' : ''}</p>
+            <div class="cadm-kpi-grid" style="margin-bottom:14px;">
+                <div class="cadm-kpi"><b>Fondo total</b><span>${fmtM(totalFondo)}</span></div>
+                <div class="cadm-kpi"><b>Efectivo</b><span>${fmtM(totalEfec)}</span></div>
+                <div class="cadm-kpi"><b>Tarjeta</b><span>${fmtM(totalTar)}</span></div>
+                <div class="cadm-kpi"><b>Transferencias</b><span>${fmtM(totalTrans)}</span></div>
+                <div class="cadm-kpi"><b>Depósitos</b><span>${fmtM(totalDep)}</span></div>
+                <div class="cadm-kpi"><b>Gastos</b><span>${fmtM(totalGastos)}</span></div>
+                <div class="cadm-kpi" style="border-color:#FF8C00;"><b>Total neto</b><span>${fmtM(totalNeto)}</span></div>
+            </div>
+            ${rowsHtml}`;
+    };
+
+    const _cadmPopulateSelectors = () => {
+        const sucSel = document.getElementById('cajaAdminSucursalSel');
+        const vendSel = document.getElementById('cajaAdminVendedorSel');
+        if (!sucSel || !vendSel) return;
+
+        const sucursales = _cadmGetSucursales();
+        const prevSuc = sucSel.value;
+        sucSel.innerHTML = '<option value="">— Todas las sucursales —</option>' +
+            sucursales.map(s => `<option value="${s}"${s === prevSuc ? ' selected' : ''}>${s}</option>`).join('');
+
+        const currentSuc = sucSel.value;
+        const prevVend = vendSel.value;
+        const vendedores = _cadmGetVendedores(currentSuc);
+        vendSel.innerHTML = '<option value="">— Todos —</option>' +
+            vendedores.map(u => {
+                const email = (u.correoLower || u.correo || '').toLowerCase();
+                return `<option value="${email}"${email === prevVend ? ' selected' : ''}>${u.nombre || email}</option>`;
+            }).join('');
+
+        // Assign bar selector
+        const asignSel = document.getElementById('cajaAdminAsignSucursalSel');
+        if (asignSel) {
+            const prevAsign = asignSel.value;
+            asignSel.innerHTML = '<option value="">— Sin asignar —</option>' +
+                sucursales.map(s => `<option value="${s}"${s === prevAsign ? ' selected' : ''}>${s}</option>`).join('');
+        }
+    };
+
+    const _cadmUpdateAsignBar = () => {
+        const vendSel = document.getElementById('cajaAdminVendedorSel');
+        const asignWrap = document.getElementById('cajaAdminAsignWrap');
+        if (!asignWrap) return;
+        const vendEmail = vendSel?.value || '';
+        asignWrap.style.display = vendEmail ? '' : 'none';
+        if (vendEmail) {
+            const user = (window._maqSystemUsers?.cached() || []).find(u => (u.correoLower || u.correo || '').toLowerCase() === vendEmail);
+            const asignSel = document.getElementById('cajaAdminAsignSucursalSel');
+            if (asignSel && user?.sucursal) asignSel.value = user.sucursal;
+        }
+    };
+
+    const _abrirSelectorCajaAdmin = () => {
+        if (!popupCaja) return;
+        const rectWrap = popupCaja.querySelector('.caja-rect-wrap');
+        const adminPanel = document.getElementById('cajaAdminPanel');
+        if (rectWrap) rectWrap.style.display = 'none';
+        if (adminPanel) adminPanel.style.display = 'flex';
+
+        popupCaja.style.display = 'flex';
+        popupCaja.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('popup-open');
+        document.documentElement.classList.add('popup-open');
+
+        _cadmPopulateSelectors();
+        _cadmUpdateAsignBar();
+        _cadmRenderData();
+
+        // Sucursal change → update vendor list + data
+        const sucSel = document.getElementById('cajaAdminSucursalSel');
+        const vendSel = document.getElementById('cajaAdminVendedorSel');
+        const asignWrap = document.getElementById('cajaAdminAsignWrap');
+        const asignGuardar = document.getElementById('cajaAdminAsignGuardar');
+        const refreshBtn = document.getElementById('cajaAdminRefreshBtn');
+
+        if (sucSel) sucSel.onchange = () => {
+            _cadmPopulateSelectors();
+            _cadmUpdateAsignBar();
+            _cadmRenderData();
+        };
+        if (vendSel) vendSel.onchange = () => {
+            _cadmUpdateAsignBar();
+            _cadmRenderData();
+        };
+        if (refreshBtn) refreshBtn.onclick = () => {
+            _cadmPopulateSelectors();
+            _cadmUpdateAsignBar();
+            _cadmRenderData();
+        };
+
+        if (asignGuardar) asignGuardar.onclick = async () => {
+            const email = vendSel?.value || '';
+            if (!email) return;
+            const asignSel = document.getElementById('cajaAdminAsignSucursalSel');
+            const nuevaInput = document.getElementById('cajaAdminNuevaSucursalInput');
+            let sucursal = ((nuevaInput?.value || '').trim().toUpperCase() || (asignSel?.value || '').trim().toUpperCase());
+            if (!sucursal) { alert('Selecciona o escribe una sucursal.'); return; }
+
+            // Add to list if new
+            const lista = _cadmGetSucursales();
+            if (!lista.includes(sucursal)) { lista.push(sucursal); _cadmSaveSucursales(lista); }
+
+            // Update in cachedUsers + Firestore
+            const users = window._maqSystemUsers?.cached() || [];
+            const user = users.find(u => (u.correoLower || u.correo || '').toLowerCase() === email);
+            if (user) {
+                user.sucursal = sucursal;
+                if (user.id) {
+                    try {
+                        await updateUserInFirestore(user.id, { sucursal, actualizadoEn: window.firebase?.firestore?.FieldValue?.serverTimestamp?.() });
+                    } catch (e) { console.warn('Error guardando sucursal:', e); }
+                }
+            }
+            if (nuevaInput) nuevaInput.value = '';
+            _cadmPopulateSelectors();
+            _cadmUpdateAsignBar();
+            _cadmRenderData();
+        };
     };
 
     const closeCajaPopup = () => {
         if (!popupCaja) return;
+        cajaAdminEmailViendo = null;
+        // Restaurar visibilidad normal (vendedor) al cerrar
+        const rectWrap = popupCaja.querySelector('.caja-rect-wrap');
+        const adminPanel = document.getElementById('cajaAdminPanel');
+        if (rectWrap) rectWrap.style.display = '';
+        if (adminPanel) adminPanel.style.display = 'none';
         popupCaja.style.display = 'none';
         popupCaja.setAttribute('aria-hidden', 'true');
-        // Cerrar también los sub-popups de caja
         ['cajaPanelIngreso','cajaPanelGastoAcc'].forEach(id => {
             const sp = document.getElementById(id);
             if (sp) { sp.style.display = 'none'; sp.setAttribute('aria-hidden','true'); }
@@ -25329,10 +26013,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (cajaBtnRealizarCorte) {
         cajaBtnRealizarCorte.addEventListener('click', () => {
-            if (!confirm('¿Confirmas el corte de caja? Se cerrará el turno actual y regresarás al inicio.')) return;
+            if (!confirm('¿Confirmas el corte de caja? Se cerrará el turno actual y se cerrará la sesión.')) return;
             printCajaTicket();
             cerrarTurno();
-            closeCajaPopup();
+            // Cerrar sesión directamente sin pasar por el menú principal para evitar flash del popup de fondo
+            popupCaja.style.display = 'none';
+            popupCaja.setAttribute('aria-hidden', 'true');
+            ['cajaPanelIngreso','cajaPanelGastoAcc'].forEach(id => {
+                const sp = document.getElementById(id);
+                if (sp) { sp.style.display = 'none'; sp.setAttribute('aria-hidden','true'); }
+            });
+            document.body.classList.remove('popup-open');
+            document.documentElement.classList.remove('popup-open');
+            if (typeof cerrarSesion === 'function') cerrarSesion();
         });
     }
 
@@ -28639,39 +29332,42 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
         if (popup) { popup.style.display = 'none'; popup.setAttribute('aria-hidden', 'true'); }
     };
 
-    const doDesignSubirFinal = () => {
+    const doDesignSubirFinal = async () => {
         const body = document.getElementById('subirFinalBody');
         if (!body) return;
         const fileInputs = body.querySelectorAll('.design-subir-final-file');
-        // Require at least one file
         const hasFile = [...fileInputs].some(inp => inp.files && inp.files.length > 0);
         if (!hasFile) { notifyError('Debes subir al menos un archivo de diseño.', 'Subir Diseño'); return; }
-        // Read files and collect comments, then finalise
+        const MAX = 15 * 1024 * 1024;
+        // Check non-image files que exceden 15 MB (no se pueden comprimir)
+        const nonImgOversized = [...fileInputs].some(inp => {
+            const f = inp.files?.[0];
+            return f && f.size > MAX && !f.type.startsWith('image/');
+        });
+        if (nonImgOversized) { notifyError('Uno o más archivos no son imágenes y superan 15 MB; no es posible reducirlos.', 'Subir Diseño'); return; }
+        // Read and compress files, then finalise
+        const readAsDataURL = (f) => new Promise((res, rej) => {
+            const r = new FileReader();
+            r.onload = e => res(e.target.result);
+            r.onerror = rej;
+            r.readAsDataURL(f);
+        });
         const files = [];
-        let pending = 0;
-        fileInputs.forEach(inp => {
+        for (const inp of fileInputs) {
             const idx = inp.dataset.itemIdx;
             const commentEl = body.querySelector(`[data-item-comment="${idx}"]`);
             const comment = commentEl ? commentEl.value.trim() : '';
             if (inp.files && inp.files.length > 0) {
-                pending++;
-                const file = inp.files[0];
-                const reader = new FileReader();
-                reader.onload = e => {
-                    files.push({ idx: Number(idx), nombre: file.name, tipo: file.type, src: e.target.result, comentario: comment });
-                    pending--;
-                    if (pending === 0) {
-                        closeDesignSubirFinalPopup();
-                        doDesignValidar(files);
-                    }
-                };
-                reader.readAsDataURL(file);
+                let file = inp.files[0];
+                if (file.type.startsWith('image/')) file = await reducirImagenA15MB(file);
+                const src = await readAsDataURL(file);
+                files.push({ idx: Number(idx), nombre: file.name, tipo: file.type, src, comentario: comment });
             } else if (comment) {
                 files.push({ idx: Number(idx), comentario: comment });
             }
-        });
-        // If only comments (no files somehow slipped validation):
-        if (pending === 0 && hasFile) { closeDesignSubirFinalPopup(); doDesignValidar(files); }
+        }
+        closeDesignSubirFinalPopup();
+        doDesignValidar(files);
     };
 
     const openDesignTraspasarPopup = (orderId) => {
@@ -28893,13 +29589,14 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
         if (counter) { const c = designSubirTags.length; counter.textContent = `${c}/5 tags mínimos requeridos`; counter.style.color = c>=5?'#4ade80':'#f87171'; }
     };
 
-    const saveDesignRecurso = () => {
+    const saveDesignRecurso = async () => {
         const nombre = (document.getElementById('designSubirNombre')?.value || '').trim();
         const fileInput = document.getElementById('designSubirArchivo');
         const file = fileInput?.files?.[0];
         if (!nombre)               { notifyError('Ingresa un nombre para el recurso.', 'Biblioteca'); return; }
         if (!file)                 { notifyError('Selecciona una imagen (JPG o PNG).', 'Biblioteca'); return; }
         if (designSubirTags.length < 5) { notifyError('Debes agregar al menos 5 tags.', 'Biblioteca'); return; }
+        const finalFile = await reducirImagenA15MB(file);
         const reader = new FileReader();
         reader.onload = evt => {
             const lib = getDesignLibrary();
@@ -28910,7 +29607,7 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
             closeDesignSubirRecurso();
         };
         reader.onerror = () => notifyError('No se pudo leer el archivo.', 'Biblioteca');
-        reader.readAsDataURL(file);
+        reader.readAsDataURL(finalFile);
     };
 
     const openDesignLightbox = (src) => {
@@ -36257,8 +36954,8 @@ document.addEventListener('DOMContentLoaded', function() {
         applyRolePermissions(userRole);
         // Mostrar el menú principal como pantalla central
         mostrarInicioSistema();
-
-        if (fromExplicitLogin) maybeOpenCajaFondoOnDailyLogin();
+        // Si viene de un corte de caja, pedir fondo sobre el módulo principal
+        setTimeout(() => { window.maybePedirFondoTrasCorte?.(); }, 200);
     };
 
     // ===== TABLA DE PERMISOS POR ROL Y MÓDULO =====
