@@ -2508,6 +2508,17 @@
             margin: 0 2px;
         }
 
+        /* ── FILA TOOLS: Búsqueda + Exportar + CRUD (blanco) ── */
+        .prod-row-tools {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 7px 10px;
+            background: #fff;
+            border-top: 1px solid #edf0f5;
+            flex-wrap: wrap;
+        }
+
         /* ── FILA 2: Filtros + Herramientas + Exportar ── */
         .prod-row2 {
             display: flex;
@@ -7820,7 +7831,6 @@
                 .caja-overlay,
                 .productos-overlay,
                 .clientesmod-overlay,
-                .clientesform-overlay,
                 .proveedoresmod-overlay,
                 .proveedorform-overlay,
                 .almacenmod-overlay,
@@ -7837,7 +7847,6 @@
                 .inicio-sistema-overlay,
                 .cal-overlay,
                 .landing-overlay,
-                .productos-modal-overlay,
                 #popupAlmacenFisico,
                 #popupMuestrarioSelector {
                     background: #ffffff !important;
@@ -12871,7 +12880,7 @@ const imgBolsaDeliveryBase = new Image();
             </div>
 
             <div class="orden-extras-checks" style="display:flex;align-items:center;gap:16px;flex-wrap:wrap;">
-                <label style="display:flex;align-items:center;gap:5px;"><input id="ordenRequiereEnvio" type="checkbox"> Requiere envío</label>
+                <label style="display:flex;align-items:center;gap:5px;"><input id="ordenRequiereEnvio" type="checkbox"> Requiere envío<img id="ordenEnvioCarrierLogo" src="" alt="" style="display:none;height:22px;max-width:60px;object-fit:contain;border-radius:3px;margin-left:4px;"></label>
                 <label style="display:flex;align-items:center;gap:5px;"><input id="ordenRequiereInstalacion" type="checkbox"> Requiere instalación</label>
             </div>
 
@@ -13679,9 +13688,13 @@ const imgBolsaDeliveryBase = new Image();
              ══════════════════════════════════════════════════════ -->
         <div class="prod-header">
 
-            <!-- ── FILA 1: Volver · Título · Búsqueda · CRUD ── -->
+            <!-- ── FILA 1: Título (naranja) ── -->
             <div class="prod-row1">
                 <h2 id="productosTitulo" class="prod-row1-title">Productos</h2>
+            </div>
+
+            <!-- ── FILA TOOLS: Búsqueda · Exportar/Importar · CRUD (blanco) ── -->
+            <div class="prod-row-tools">
 
                 <div class="prod-search-wrap">
                     <span class="prod-search-icon">🔍</span>
@@ -13691,12 +13704,14 @@ const imgBolsaDeliveryBase = new Image();
 
                 <span class="prod-vsep"></span>
 
-                <button id="prodAgregar" class="productos-btn primary" type="button">➕ Agregar</button>
-                <button id="prodEditar"  class="productos-btn edit"    type="button">✏️ Editar</button>
-                <button id="prodEliminar" class="productos-btn delete"  type="button">⛔ Deshabilitar</button>
+                <!-- Exportar / Importar -->
+                <button id="prodExportPdf" class="prod-export-btn slate"  type="button" title="Exportar filtrado en PDF">📄 PDF</button>
+                <button id="prodExcel"     class="prod-export-btn slate"  type="button" title="Exportar filtrado a Excel">📗 EXPORTAR</button>
+                <button id="prodImportar"  class="prod-export-btn dark"   type="button" title="Importar productos desde CSV">📗 Importar</button>
+
             </div>
 
-            <!-- ── FILA 2: Filtros | Herramientas de inventario | Exportar/Importar ── -->
+            <!-- ── FILA 2: Filtros | Inventario | CRUD ── -->
             <div class="prod-row2">
 
                 <!-- Filtros -->
@@ -13723,10 +13738,10 @@ const imgBolsaDeliveryBase = new Image();
 
                 <span class="prod-vsep"></span>
 
-                <!-- Exportar / Importar -->
-                <button id="prodExportPdf" class="prod-export-btn slate"  type="button" title="Exportar filtrado en PDF">📄 PDF</button>
-                <button id="prodExcel"     class="prod-export-btn slate"  type="button" title="Exportar filtrado a Excel">📗 EXPORTAR</button>
-                <button id="prodImportar"  class="prod-export-btn dark"   type="button" title="Importar productos desde CSV">📗 Importar</button>
+                <!-- CRUD -->
+                <button id="prodAgregar"  class="productos-btn primary" type="button">➕ Agregar</button>
+                <button id="prodEditar"   class="productos-btn edit"    type="button">✏️ Editar</button>
+                <button id="prodEliminar" class="productos-btn delete"  type="button">⛔ Deshabilitar</button>
 
             </div>
         </div>
@@ -16786,6 +16801,12 @@ document.addEventListener('DOMContentLoaded', () => {
         if (typeof window.costoInstalacion !== 'undefined') window.costoInstalacion = Number(safe.costoInstalacion || 0);
         if (chkEnvio) chkEnvio.checked = safe.requiereEnvio || false;
         if (chkInstalacion) chkInstalacion.checked = safe.requiereInstalacion || false;
+        const logoCheckboxReset = el('ordenEnvioCarrierLogo');
+        if (logoCheckboxReset) {
+            const savedLogo = safe.requiereEnvio && window._envioSeleccionado?.logoUrl;
+            if (savedLogo) { logoCheckboxReset.src = savedLogo; logoCheckboxReset.style.display = ''; }
+            else { logoCheckboxReset.src = ''; logoCheckboxReset.style.display = 'none'; }
+        }
 
         renderTabla();
     };
@@ -17352,7 +17373,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const loadSystemConfig = () => {
         try {
             const stored = JSON.parse(localStorage.getItem(CONFIG_SYSTEM_KEY) || '{}');
-            systemConfig = { ...systemConfig, ...stored };
+            Object.keys(stored).forEach(cat => {
+                if (stored[cat] && typeof stored[cat] === 'object' && !Array.isArray(stored[cat])) {
+                    systemConfig[cat] = { ...(systemConfig[cat] || {}), ...stored[cat] };
+                } else {
+                    systemConfig[cat] = stored[cat];
+                }
+            });
         } catch (_) {
             // fallback to defaults
         }
@@ -18085,6 +18112,14 @@ document.addEventListener('DOMContentLoaded', () => {
         syncCajaFuenteOptions();
         renderCajaUI();
         renderDisenadoresSelect();
+        // Refrescar módulos que dependen de config
+        if (typeof renderProductosTabla === 'function') renderProductosTabla();
+        if (typeof renderProveedoresModulo === 'function') renderProveedoresModulo();
+        if (typeof renderReportesModulo === 'function' && document.getElementById('popupReportesModulo')?.style.display === 'flex') {
+            const rRango = document.getElementById('reportesRango');
+            if (rRango) rRango.value = String(Number(getConfigValue('reportes', 'rangoPorDefecto') || 30));
+            renderReportesModulo();
+        }
         notifyInfo('Configuraciones guardadas correctamente.', 'Configuraciones');
     };
 
@@ -20424,9 +20459,14 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const alertaSaldo = Number(getConfigValue('proveedores', 'alertaSaldoPendiente') || 0);
         proveedoresTableBody.innerHTML = rows.map((p) => {
             const selected = p.id === proveedoresSelectedId ? ' clientesmod-row-selected' : '';
-            return `<tr class="${selected}" data-prov-id="${escCliMod(p.id)}"><td>${escCliMod(p.id)}</td><td>${escCliMod(p.nombre)}</td><td>${escCliMod(p.empresa)}</td><td>${escCliMod(p.telefono)}</td><td>${Number(p.creditoDias || 0)}</td><td>${formatMoney(Number(p.saldoPendiente || 0))}</td></tr>`;
+            const saldo = Number(p.saldoPendiente || 0);
+            const saldoAlerta = alertaSaldo > 0 && saldo > alertaSaldo;
+            const saldoStyle = saldoAlerta ? ' style="color:#dc2626;font-weight:700;"' : '';
+            const saldoIcon = saldoAlerta ? '⚠ ' : '';
+            return `<tr class="${selected}" data-prov-id="${escCliMod(p.id)}"><td>${escCliMod(p.id)}</td><td>${escCliMod(p.nombre)}</td><td>${escCliMod(p.empresa)}</td><td>${escCliMod(p.telefono)}</td><td>${Number(p.creditoDias || 0)}</td><td${saldoStyle}>${saldoIcon}${formatMoney(saldo)}</td></tr>`;
         }).join('');
 
         proveedoresTableBody.querySelectorAll('[data-prov-id]').forEach((row) => {
@@ -20638,6 +20678,9 @@ document.addEventListener('DOMContentLoaded', () => {
         if (insFormExistencias) insFormExistencias.value = isEdit ? String(Number(insumo?.existencias || 0)) : '0';
         if (insFormMinimo) insFormMinimo.value = isEdit ? String(Number(insumo?.minimo || 0)) : String(stockMinimoDefault);
         if (insFormCosto) insFormCosto.value = isEdit ? String(Number(insumo?.costoUnitario || 0)) : '0';
+        const mostrarCostoProd = getConfigValue('insumos', 'mostrarCostoProduccion') !== false;
+        const insFormCostoWrap = insFormCosto?.closest('label');
+        if (insFormCostoWrap) insFormCostoWrap.style.display = mostrarCostoProd ? '' : 'none';
         if (insFormFoto) insFormFoto.value = '';
         insumoFotoDraftData = isEdit ? String(insumo?.foto || '') : '';
         if (insFormFotoPreview) {
@@ -23093,7 +23136,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (p.deshabilitado) return false;
             if (productosTipoFilter && (p.tipo || 'stock') !== productosTipoFilter) return false;
             if (productosCategoriaFilter && p.categoria !== productosCategoriaFilter) return false;
-            if (productosLowStockOnly && Number(p.existencias || 0) > Number(p.minima || 0)) return false;
+            if (productosLowStockOnly) {
+                const cfgThreshold = Number(getConfigValue('productos', 'alertaBajaExistencia') || 0);
+                const threshold = Number(p.minima || 0) > 0 ? Number(p.minima) : cfgThreshold;
+                if (Number(p.existencias || 0) > threshold) return false;
+            }
             if (term) {
                 const blob = `${p.codigo} ${p.producto} ${p.medida} ${p.material} ${p.categoria} ${p.tipo || ''}`.toLowerCase();
                 if (!blob.includes(term)) return false;
@@ -23281,7 +23328,9 @@ document.addEventListener('DOMContentLoaded', () => {
             const precioVta = isGF ? Number(row.gfPrecioGeneralM2 || 0) : Number(row.precioVenta || 0);
             const existencias = Number(row.existencias || 0);
             const minima = Number(row.minima || 0);
-            const stockLow = !isGF && existencias <= minima;
+            const cfgStockThreshold = Number(getConfigValue('productos', 'alertaBajaExistencia') || 0);
+            const stockThreshold = minima > 0 ? minima : cfgStockThreshold;
+            const stockLow = !isGF && stockThreshold > 0 && existencias <= stockThreshold;
             const stockStyle = stockLow ? ' style="color:#dc2626;font-weight:900;"' : '';
             return `<tr data-prod-id="${prodEscape(row.id)}" class="${classes}">
                 <td style="font-size:0.5rem;">${tipoLabel}</td>
@@ -23589,7 +23638,7 @@ document.addEventListener('DOMContentLoaded', () => {
         umPopulateSelectByGroup(document.getElementById('prodFormUMCompra'), defaultGrupo);
         umPopulateSelectByGroup(document.getElementById('prodFormUMVenta'), defaultGrupo);
         if (prodFormMaterial) prodFormMaterial.value = '';
-        if (prodFormMinima) prodFormMinima.value = '0';
+        if (prodFormMinima) prodFormMinima.value = String(Number(getConfigValue('productos', 'alertaBajaExistencia') || 0));
         if (prodFormExistencias) prodFormExistencias.value = '0';
         if (prodFormPrecioCompra) prodFormPrecioCompra.value = '0';
         { const psel = document.getElementById('prodFormProcesos'); if (psel) Array.from(psel.options).forEach(o => o.selected = false); }
@@ -23637,6 +23686,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prodFormRevendedor) prodFormRevendedor.value = '0';
         if (prodFormVenta) prodFormVenta.value = '0';
         _prodPrecioRevendedorTocado = false;
+        _prodPrecioVentaTocado = false;
         if (prodFormFotoPrincipal) prodFormFotoPrincipal.value = '';
         if (prodColorNombre) prodColorNombre.value = '';
         if (prodColorExistencias) prodColorExistencias.value = '0';
@@ -23726,6 +23776,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prodFormRevendedor) prodFormRevendedor.value = String(Number(row.precioRevendedor || 0));
         if (prodFormVenta) prodFormVenta.value = String(Number(row.precioVenta || 0));
         _prodPrecioRevendedorTocado = Number(row.precioRevendedor || 0) > 0;
+        _prodPrecioVentaTocado = Number(row.precioVenta || 0) > 0;
         const _prodIvaCheck = document.getElementById('prodFormIncluyeIVA');
         if (_prodIvaCheck) _prodIvaCheck.checked = !!row.incluyeIVA;
         if (prodFormFotoPrincipal) prodFormFotoPrincipal.value = '';
@@ -27365,6 +27416,11 @@ document.addEventListener('DOMContentLoaded', () => {
             const motivo = prodEntradaMotivo?.value || 'COMPRA';
             if (!id) return alert('SELECCIONA UN PRODUCTO.');
             if (!Number.isFinite(qty) || qty <= 0) return alert('CANTIDAD INVALIDA.');
+            const prodAntes = productosData.find((p) => p.id === id);
+            const esInsumo = (prodAntes?.tipo === 'insumo') || (prodAntes?.naturaleza === 'insumo');
+            if (esInsumo && getConfigValue('insumos', 'aceptarComprasConStock') === false && Number(prodAntes?.existencias || 0) > 0) {
+                if (!confirm(`Este insumo ya tiene ${prodAntes.existencias} unidades en stock. ¿Registrar entrada de todas formas?`)) return;
+            }
             const usuario = getUsuarioLogeado();
             const fecha = new Date().toISOString();
             productosData = productosData.map((p) => {
@@ -27430,14 +27486,20 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!id) return alert('SELECCIONA UN PRODUCTO.');
             if (!Number.isFinite(qty) || qty <= 0) return alert('CANTIDAD INVALIDA.');
             const prod = productosData.find((p) => p.id === id);
+            const permitirNegativo = getConfigValue('almacen', 'aceptarStockNegativo') === true;
             if (prod && Number(prod.existencias || 0) < qty) {
-                if (!confirm('LA CANTIDAD DE SALIDA EXCEDE EL STOCK ACTUAL. ¿CONTINUAR?')) return;
+                if (!permitirNegativo) {
+                    if (!confirm('LA CANTIDAD DE SALIDA EXCEDE EL STOCK ACTUAL. ¿CONTINUAR? (El stock quedará en 0)')) return;
+                } else {
+                    if (!confirm('LA CANTIDAD DE SALIDA EXCEDE EL STOCK ACTUAL. ¿CONTINUAR? (El stock quedará negativo)')) return;
+                }
             }
             const usuario = getUsuarioLogeado();
             const fecha = new Date().toISOString();
             productosData = productosData.map((p) => {
                 if (p.id !== id) return p;
-                return { ...p, existencias: Math.max(0, Number(p.existencias || 0) - qty) };
+                const nuevas = Number(p.existencias || 0) - qty;
+                return { ...p, existencias: permitirNegativo ? nuevas : Math.max(0, nuevas) };
             });
             saveMovimientoStock({
                 id: 'MOV-' + Date.now(),
@@ -29198,8 +29260,22 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
     }
 
     let _prodPrecioRevendedorTocado = false;
+    let _prodPrecioVentaTocado = false;
+    if (prodFormPrecioCompra) {
+        prodFormPrecioCompra.addEventListener('input', () => {
+            if (_prodPrecioVentaTocado) return;
+            const costo = parseFloat(prodFormPrecioCompra.value) || 0;
+            const margen = Number(getConfigValue('productos', 'margenPorDefecto') || 0);
+            if (costo > 0 && margen > 0) {
+                const precioVenta = +(costo * (1 + margen / 100)).toFixed(2);
+                if (prodFormVenta) prodFormVenta.value = precioVenta;
+                if (!_prodPrecioRevendedorTocado && prodFormRevendedor) prodFormRevendedor.value = precioVenta;
+            }
+        });
+    }
     if (prodFormVenta) {
         prodFormVenta.addEventListener('input', () => {
+            _prodPrecioVentaTocado = true;
             if (!_prodPrecioRevendedorTocado && prodFormRevendedor) {
                 prodFormRevendedor.value = prodFormVenta.value;
             }
@@ -38475,7 +38551,10 @@ document.addEventListener('DOMContentLoaded', function() {
                     </div>
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;">
                         <div class="login-field"><label>Colonia</label>
-                            <select id="envioColonia"><option value="">— CP para colonias —</option></select>
+                            <div style="position:relative;">
+                                <select id="envioColonia" style="width:100%;"><option value="">— CP para colonias —</option></select>
+                                <input id="envioColoniaCustom" type="text" placeholder="✏️ Escribe la colonia..." style="display:none;width:100%;box-sizing:border-box;padding:5px 7px;border:1px solid #f97316;border-radius:6px;font-size:0.55rem;background:#fff9f0;">
+                            </div>
                         </div>
                         <div class="login-field"><label>Ciudad</label><input id="envioCiudad" type="text" value="${escapeHtml(cliente.ciudad || '')}" readonly style="opacity:0.7;"></div>
                         <div class="login-field"><label>Estado</label><input id="envioEstado" type="text" value="${escapeHtml(cliente.estado || '')}" readonly style="opacity:0.7;"></div>
@@ -38494,16 +38573,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr 1fr;gap:6px;align-items:end;">
                         <div class="login-field"><label>Contenido *</label><input id="envioPkgContenido" type="text" value="Bolsas" placeholder="Contenido"></div>
                         <div class="login-field"><label>Largo</label>
-                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgLargo" type="number" min="1" value="40" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">cm</span></div>
+                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgLargo" type="number" min="1" value="35" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">cm</span></div>
                         </div>
                         <div class="login-field"><label>Ancho</label>
-                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgAncho" type="number" min="1" value="30" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">cm</span></div>
+                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgAncho" type="number" min="1" value="41" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">cm</span></div>
                         </div>
                         <div class="login-field"><label>Alto</label>
-                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgAlto" type="number" min="1" value="30" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">cm</span></div>
+                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgAlto" type="number" min="1" value="1" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">cm</span></div>
                         </div>
                         <div class="login-field"><label>Peso</label>
-                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgPeso" type="number" min="0.1" step="0.1" value="10" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">kg</span></div>
+                            <div style="display:flex;align-items:center;gap:2px;"><input id="envioPkgPeso" type="number" min="0.1" step="0.1" value="1" style="flex:1;min-width:0;"><span style="font-size:0.42rem;color:#9ca3af;">kg</span></div>
                         </div>
                         <div class="login-field"><label>Cant.</label><input id="envioPkgCantidad" type="number" min="1" value="1" style="text-align:center;"></div>
                     </div>
@@ -38605,10 +38684,10 @@ document.addEventListener('DOMContentLoaded', function() {
             const pkg = {
                 nombre: g('envioPkgContenido') || 'Paquete',
                 contenido: g('envioPkgContenido') || 'Paquete',
-                largo: Number(g('envioPkgLargo')) || 30,
-                ancho: Number(g('envioPkgAncho')) || 30,
-                alto: Number(g('envioPkgAlto')) || 15,
-                peso: Number(g('envioPkgPeso')) || 2
+                largo: Number(g('envioPkgLargo')) || 35,
+                ancho: Number(g('envioPkgAncho')) || 41,
+                alto: Number(g('envioPkgAlto')) || 1,
+                peso: Number(g('envioPkgPeso')) || 1
             };
             const exists = savedPkgs.some(p =>
                 p.contenido === pkg.contenido && p.largo === pkg.largo && p.ancho === pkg.ancho && p.alto === pkg.alto && p.peso === pkg.peso
@@ -38691,7 +38770,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     });
                     if (suburbs.length === 1) coloniaSelect.value = suburbs[0];
                     if (!suburbs.length) coloniaSelect.innerHTML = '<option value="">Sin colonias disponibles</option>';
+                    const otraOpt = document.createElement('option');
+                    otraOpt.value = '__otra__'; otraOpt.textContent = '✏️ Otra (escribir manualmente)';
+                    coloniaSelect.appendChild(otraOpt);
                 }
+                const coloniaCustom = document.getElementById('envioColoniaCustom');
+                if (coloniaCustom) { coloniaCustom.style.display = 'none'; coloniaCustom.value = ''; }
                 if (cpStatusEl) { cpStatusEl.textContent = '✅ ' + ciudad + ', ' + estadoNombre + ' — ' + suburbs.length + ' colonias'; cpStatusEl.style.color = '#16a34a'; }
             } catch (e) {
                 if (cpStatusEl) { cpStatusEl.textContent = '❌ Error al consultar: ' + e.message; cpStatusEl.style.color = '#ef4444'; }
@@ -38711,6 +38795,33 @@ document.addEventListener('DOMContentLoaded', function() {
             });
             // Auto-buscar si ya tiene CP del cliente
             if (cpInput.value.length === 5) fetchGeocode(cpInput.value);
+        }
+
+        if (coloniaSelect) {
+            coloniaSelect.addEventListener('change', () => {
+                const customInput = document.getElementById('envioColoniaCustom');
+                if (!customInput) return;
+                if (coloniaSelect.value === '__otra__') {
+                    coloniaSelect.style.display = 'none';
+                    customInput.style.display = 'block';
+                    customInput.focus();
+                } else {
+                    coloniaSelect.style.display = '';
+                    customInput.style.display = 'none';
+                    customInput.value = '';
+                }
+            });
+        }
+        const coloniaCustomInput = document.getElementById('envioColoniaCustom');
+        if (coloniaCustomInput) {
+            coloniaCustomInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    coloniaCustomInput.style.display = 'none';
+                    coloniaCustomInput.value = '';
+                    coloniaSelect.style.display = '';
+                    coloniaSelect.value = '';
+                }
+            });
         }
 
         let envioSeleccionado = null;
@@ -38776,12 +38887,34 @@ document.addEventListener('DOMContentLoaded', function() {
             'afimex','castores'
         ];
 
+        const _mkCarrierLogo = (text, bg, fg, w) => {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} 28"><rect width="${w}" height="28" fill="${bg}" rx="4"/><text x="${w/2}" y="20" text-anchor="middle" font-family="Arial,sans-serif" font-weight="900" font-size="13" fill="${fg}">${text}</text></svg>`;
+            return 'data:image/svg+xml,' + encodeURIComponent(svg);
+        };
+        const _mkFedEx = () => {
+            const svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72 28"><rect width="72" height="28" fill="#4D148C" rx="4"/><text x="8" y="21" font-family="Arial,sans-serif" font-weight="900" font-size="16" fill="white">Fed</text><text x="42" y="21" font-family="Arial,sans-serif" font-weight="900" font-size="16" fill="#FF6200">Ex</text></svg>`;
+            return 'data:image/svg+xml,' + encodeURIComponent(svg);
+        };
         const CARRIER_LOGOS = {
-            fedex: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/FedEx_Corporation_-_2016_Logo.svg/200px-FedEx_Corporation_-_2016_Logo.svg.png',
-            dhl: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ac/DHL_Logo.svg/200px-DHL_Logo.svg.png',
-            ups: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/United_Parcel_Service_logo_2014.svg/200px-United_Parcel_Service_logo_2014.svg.png',
-            estafeta: 'https://www.estafeta.com/images/logo-estafeta.svg',
-            paquetexpress: 'https://www.paquetexpress.com.mx/assets/img/logo-paquetexpress.svg',
+            fedex:             'https://i.postimg.cc/L5QzLT1H/il-570x-N-4605892178-1k4d.webp',
+            dhl:               _mkCarrierLogo('DHL',           '#FFCC00', '#D40511', 60),
+            ups:               'https://i.postimg.cc/wxw5C6bt/images.png',
+            estafeta:          'https://i.postimg.cc/T2tjzRHp/estafeta-logo.webp',
+            paquetexpress:     'https://i.postimg.cc/HnvQX2yH/paquete-express.png',
+            jtexpress:         'https://i.postimg.cc/NFC1m4HQ/images-(4).jpg',
+            sendex:            _mkCarrierLogo('SENDEX',        '#004C97', '#FFFFFF', 75),
+            noventa9Minutos:   _mkCarrierLogo('99MIN',         '#1A1A1A', '#FFC107', 68),
+            dostavista:        _mkCarrierLogo('DOSTAVISTA',    '#FF5722', '#FFFFFF', 96),
+            almex:             _mkCarrierLogo('ALMEX',         '#2E7D32', '#FFFFFF', 68),
+            fletesMexico:      _mkCarrierLogo('FLETES MX',     '#1565C0', '#FFFFFF', 84),
+            envia:             _mkCarrierLogo('ENVIA',         '#FF8C00', '#FFFFFF', 65),
+            entrega:           _mkCarrierLogo('ENTREGA',       '#6A1B9A', '#FFFFFF', 76),
+            mensajerosUrbanos: _mkCarrierLogo('MEN.URBANOS',   '#00838F', '#FFFFFF', 98),
+            amPm:              _mkCarrierLogo('AM/PM',         '#F57F17', '#FFFFFF', 62),
+            tresGuerras:       _mkCarrierLogo('3 GUERRAS',     '#B71C1C', '#FFFFFF', 84),
+            bigLogistics:      _mkCarrierLogo('BIG LOG.',      '#37474F', '#FFFFFF', 80),
+            afimex:            _mkCarrierLogo('AFIMEX',        '#0D47A1', '#FFFFFF', 72),
+            castores:          _mkCarrierLogo('CASTORES',      '#E65100', '#FFFFFF', 80),
         };
         const CARRIER_ABBREV = {
             fedex:'FDX', dhl:'DHL', ups:'UPS', estafeta:'EST', paquetexpress:'PEX',
@@ -38812,9 +38945,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const doCotizar = async () => {
             const cpOrigen = ORIGEN_ENVIO.postalCode;
             const cpDestino = (document.getElementById('envioCp')?.value || '').trim();
-            const largo = Number(document.getElementById('envioPkgLargo')?.value || 40);
-            const ancho = Number(document.getElementById('envioPkgAncho')?.value || 30);
-            const alto = Number(document.getElementById('envioPkgAlto')?.value || 30);
+            const largo = Number(document.getElementById('envioPkgLargo')?.value || 35);
+            const ancho = Number(document.getElementById('envioPkgAncho')?.value || 41);
+            const alto = Number(document.getElementById('envioPkgAlto')?.value || 1);
             const peso = Number(document.getElementById('envioPkgPeso')?.value || 10);
             const cantidad = Number(document.getElementById('envioPkgCantidad')?.value || 1);
             const contenido = (document.getElementById('envioPkgContenido')?.value || 'Paquete').trim();
@@ -38866,7 +38999,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     phone: '+52 ' + destPhone,
                     street: (document.getElementById('envioCalle')?.value || 'Calle').trim() || 'Calle',
                     number: (document.getElementById('envioNumero')?.value || '').trim(),
-                    district: (document.getElementById('envioColonia')?.value || '').trim(),
+                    district: (() => { const sel = document.getElementById('envioColonia'); const custom = document.getElementById('envioColoniaCustom'); return sel?.value === '__otra__' ? (custom?.value || '').trim() : (sel?.value || '').trim(); })(),
                     city: (document.getElementById('envioCiudad')?.value || '').trim(),
                     state: toStateCode(document.getElementById('envioEstado')?.value || ''),
                     country: 'MX',
@@ -38914,7 +39047,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (listaEl) listaEl.innerHTML = '<div style="text-align:center;padding:16px;color:#9ca3af;font-size:0.55rem;">⏳ Consultando paqueterías...</div>';
 
                 const renderRates = () => {
-                    const sorted = [...allRates].sort((a, b) => Number(a.totalPrice || a.total_price || 999) - Number(b.totalPrice || b.total_price || 999));
+                    const sorted = [...allRates]
+                        .sort((a, b) => Number(a.totalPrice || a.total_price || 999) - Number(b.totalPrice || b.total_price || 999))
+                        .filter(r => Number(r.totalPrice || r.total_price || 0) >= 50);
                     overlay._enviaRates = sorted;
                     if (rateCountEl) rateCountEl.textContent = sorted.length + ' opciones · ' + completed + '/' + ENVIA_CARRIERS.length + ' consultadas';
                     listaEl.innerHTML = sorted.map((r, i) => {
@@ -38998,7 +39133,19 @@ document.addEventListener('DOMContentLoaded', function() {
             const price = Number(envioSeleccionado.totalPrice || 0);
             const carrier = envioSeleccionado.carrier || envioSeleccionado._carrier || 'Paquetería';
             const service = envioSeleccionado.serviceDescription || envioSeleccionado.service || '';
-            window._envioSeleccionado = { carrier, service, price, rate: envioSeleccionado };
+            const carrierKeyAcept = (envioSeleccionado._carrier || carrier).toLowerCase();
+            const logoUrlAcept = CARRIER_LOGOS[carrierKeyAcept] || CARRIER_LOGOS[envioSeleccionado._carrier] || '';
+            window._envioSeleccionado = { carrier, service, price, rate: envioSeleccionado, logoUrl: logoUrlAcept };
+            // Mostrar logo en el checkbox de la orden
+            const logoCheckbox = document.getElementById('ordenEnvioCarrierLogo');
+            if (logoCheckbox) {
+                if (logoUrlAcept) {
+                    logoCheckbox.src = logoUrlAcept;
+                    logoCheckbox.style.display = '';
+                } else {
+                    logoCheckbox.style.display = 'none';
+                }
+            }
             // Add as product row in order table
             addEnvioToOrdenLineas(carrier, service, price);
             overlay.remove();
@@ -39073,6 +39220,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     window._envioTipoDirSeleccionado = null;
                     removeEnvioFromOrdenLineas();
                     updateExtraCosts();
+                    const logoCheckbox = document.getElementById('ordenEnvioCarrierLogo');
+                    if (logoCheckbox) { logoCheckbox.src = ''; logoCheckbox.style.display = 'none'; }
                 }
             });
         }
