@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(sed -n '36622,36632p' /workspaces/vistas/index.html)",
+      "Bash(sed -n '36925,36935p' /workspaces/vistas/index.html)",
+      "Bash(grep -n \"^<script\\\\|^\\(function\\\\|^\\\\}\\)\\\\s*$\\\\|document\\\\.addEventListener.*DOMContentLoaded\" /workspaces/vistas/index.html)"
+    ]
+  }
+}

@@ -554,6 +554,12 @@
             background: #f2f4f7;
         }
 
+        /* Evita que Nueva Orden quede detrás de la barra global de módulos */
+        body.gnav-open #popupListado {
+            left: 58px !important;
+            width: calc(100vw - 58px) !important;
+        }
+
         .popup-card {
             background: #0e1726;
             color: #f3f6fb;
@@ -781,7 +787,7 @@
 
         /* Nueva Orden: cotizador principal */
         .orden-popup {
-            background: #f2f4f7;
+            background: #ffffff;
             color: #1c1e21;
             width: 100vw;
             height: 100dvh;
@@ -792,8 +798,8 @@
             box-shadow: none;
             display: grid;
             grid-template-columns: 2fr 0.62fr;
-            gap: 10px;
-            padding: 8px;
+            gap: 0;
+            padding: 0;
             overflow: hidden;
             position: relative;
         }
@@ -827,7 +833,7 @@
         .orden-resumen {
             background: #ffffff;
             border: 1px solid #e7e9ef;
-            border-radius: 10px;
+            border-radius: 0;
             padding: 6px;
             overflow: auto;
         }
@@ -1158,8 +1164,9 @@
             gap: 6px;
             background: #FF8C00;
             border: none;
-            border-radius: 10px;
+            border-radius: 0;
             padding: 10px;
+            height: 100%;
         }
 
         .orden-total-main {
@@ -2053,7 +2060,7 @@
             height: 100dvh;
             background: #f5f7fb;
             display: grid;
-            grid-template-rows: auto auto 1fr auto;
+            grid-template-rows: auto auto auto 1fr auto;
             gap: 8px;
             padding: 8px;
             position: relative;
@@ -2091,6 +2098,35 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
+        }
+
+        .mispedidos-subhead {
+            background: #fff;
+            border: 1px solid #e4e8ef;
+            border-radius: 10px;
+            padding: 7px 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+            flex-wrap: nowrap;
+        }
+
+        .mispedidos-search-wrap {
+            flex: 1 1 auto;
+            min-width: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .mispedidos-search-wrap input {
+            width: 100%;
+            background: #fff;
+            border: 1px solid #d1d5db;
+            border-radius: 7px;
+            padding: 7px 10px;
+            font-size: 0.62rem;
+            color: #1f2937;
         }
 
         .mispedidos-title {
@@ -2132,6 +2168,7 @@
         .mispedidos-toolbar {
             display: inline-flex;
             gap: 4px;
+            flex-wrap: nowrap;
         }
 
         .mispedidos-tool-btn {
@@ -2201,7 +2238,16 @@
             font-size: 0.54rem;
         }
 
+        .mispedidos-subhead .mispedidos-head-right {
+            flex: 0 1 auto;
+            margin-left: auto;
+            justify-content: flex-end;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+        }
+
         .mispedidos-table-wrap {
+            height: 100%;
             min-height: 0;
             border: 1px solid #e5e9f0;
             border-radius: 9px;
@@ -3961,6 +4007,23 @@
         .clientesmod-search:focus {
             border-color: #9db8e8;
             box-shadow: 0 0 0 2px rgba(29, 78, 216, 0.1);
+        }
+
+        /* Ajuste solo para módulo Clientes: buscador ocupa espacio restante */
+        #popupClientesModulo .clientesmod-toolbar {
+            flex-wrap: nowrap;
+        }
+
+        #popupClientesModulo .clientesmod-toolbar-right {
+            flex: 1;
+            min-width: 0;
+            flex-wrap: nowrap;
+        }
+
+        #popupClientesModulo .clientesmod-search {
+            flex: 1;
+            width: auto;
+            min-width: 0;
         }
 
         .clientesmod-btn {
@@ -7313,11 +7376,13 @@
                     display: flex;
                     align-items: center;
                     justify-content: flex-start;
-                    padding: 8px 10px 8px 42px;
-                    background: #fff;
-                    border: 1px solid #e4e8ef;
-                    border-radius: 10px;
+                    padding: 10px 20px 10px 42px;
+                    background: #FF8C00;
+                    border: none;
+                    border-radius: 0;
                     flex-shrink: 0;
+                    margin: -8px -8px 0 -8px;
+                    box-shadow: none;
                 }
                 .produccion-back {
                     position: absolute;
@@ -7616,8 +7681,8 @@
                     display: none; position: fixed; inset: 0; background: #f5f7fb; z-index: 9100; flex-direction: column; overflow: hidden;
                 }
                 .almacenpedidos-header {
-                    position: relative; display: flex; align-items: center; justify-content: flex-start; padding: 8px 10px 8px 42px;
-                    background: #fff; border: 1px solid #e4e8ef; border-radius: 10px; flex-shrink: 0;
+                    position: relative; display: flex; align-items: center; justify-content: flex-start; padding: 10px 20px 10px 42px;
+                    background: #FF8C00; border: none; border-radius: 0; flex-shrink: 0; margin: -8px -8px 0 -8px; box-shadow: none;
                 }
                 .almacenpedidos-back {
                     position: absolute; top: 10px; left: 10px; width: 30px; height: 30px; border-radius: 999px;
@@ -7639,8 +7704,8 @@
                     display: none; position: fixed; inset: 0; background: #f5f7fb; z-index: 9300; flex-direction: column; overflow: hidden;
                 }
                 .recepcion-header {
-                    position: relative; display: flex; align-items: center; justify-content: flex-start; padding: 8px 10px 8px 42px;
-                    background: #fff; border: 1px solid #e4e8ef; border-radius: 10px; flex-shrink: 0;
+                    position: relative; display: flex; align-items: center; justify-content: flex-start; padding: 10px 20px 10px 42px;
+                    background: #FF8C00; border: none; border-radius: 0; flex-shrink: 0; margin: -8px -8px 0 -8px; box-shadow: none;
                 }
                 .recepcion-back {
                     position: absolute; top: 10px; left: 10px; width: 30px; height: 30px; border-radius: 999px;
@@ -7692,6 +7757,7 @@
                 body.gnav-open .produccion-overlay,
                 body.gnav-open .recepcion-overlay,
                 body.gnav-open .diseno-overlay,
+                body.gnav-open #popupAlmacenFisico,
                 body.gnav-open .inicio-sistema-overlay { left: 58px !important; }
                 /* Overlays adicionales que también deben desplazarse */
                 body.gnav-open .cal-overlay,
@@ -7737,7 +7803,7 @@
                     background: #f3f4f6;
                 }
                 /* ── GLOBAL NAV BAR ── */
-                #gnavBar { display:none; position:fixed; left:0; top:0; bottom:0; width:58px; background:#111827; z-index:9500; flex-direction:column; align-items:center; padding:6px 0; gap:1px; border-right:1px solid rgba(255,255,255,0.07); overflow-y:auto; overflow-x:hidden; scrollbar-width:none; }
+                #gnavBar { display:none; position:fixed; left:0; top:0; bottom:0; width:58px; background:#525252; z-index:9500; flex-direction:column; align-items:center; padding:6px 0; gap:1px; border-right:1px solid rgba(255,255,255,0.07); overflow-y:auto; overflow-x:hidden; scrollbar-width:none; }
                 #gnavBar::-webkit-scrollbar { display:none; }
                 #gnavBar.visible { display:flex; }
                 .gnav-item { width:46px; height:40px; border:none; border-radius:8px; background:transparent; color:#9ca3af; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; transition:all 0.15s; flex-shrink:0; }
@@ -7746,6 +7812,135 @@
                 .gnav-item .g-ico { font-size:1rem; line-height:1; }
                 .gnav-item .g-lbl { font-size:0.3rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3px; line-height:1; }
                 .gnav-sep { width:32px; height:1px; background:rgba(255,255,255,0.08); margin:2px 0; flex-shrink:0; }
+
+                /* ── Ajuste global visual: módulos en blanco, sin fondo gris ni tarjetas redondeadas ── */
+                .entrega-overlay,
+                .mispedidos-overlay,
+                .misPedidos-overlay,
+                .caja-overlay,
+                .productos-overlay,
+                .clientesmod-overlay,
+                .clientesform-overlay,
+                .proveedoresmod-overlay,
+                .proveedorform-overlay,
+                .almacenmod-overlay,
+                .almacenform-overlay,
+                .almacenpedidos-overlay,
+                .reportesmod-overlay,
+                .insumosmod-overlay,
+                .insumoform-overlay,
+                .ajustes-tabuladores-overlay,
+                .prod-tabulador-overlay,
+                .produccion-overlay,
+                .recepcion-overlay,
+                .diseno-overlay,
+                .inicio-sistema-overlay,
+                .cal-overlay,
+                .landing-overlay,
+                .productos-modal-overlay,
+                #popupAlmacenFisico,
+                #popupMuestrarioSelector {
+                    background: #ffffff !important;
+                }
+
+                .caja-card,
+                .mispedidos-card,
+                .misPedidos-card,
+                .productos-card,
+                .cal-card,
+                .clientesmod-card,
+                .clientesform-card,
+                .proveedoresmod-card,
+                .proveedorform-card,
+                .almacenmod-card,
+                .almacenform-card,
+                .reportesmod-card,
+                .insumosmod-card,
+                .insumoform-card,
+                .prod-tabulador-card,
+                .ajustes-tabuladores-card,
+                .productos-modal-card,
+                #almFisicoCard {
+                    border-radius: 0 !important;
+                    box-shadow: none !important;
+                }
+
+                /* ── Encabezados naranja rectos (excepto Nueva Orden) ── */
+                #popupMisPedidos .mispedidos-head {
+                    background: #FF8C00 !important;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    padding: 10px 20px 10px 42px !important;
+                    margin: -8px -8px 0 -8px !important;
+                    box-shadow: none !important;
+                }
+                #popupMisPedidos .mispedidos-title { color: #ffffff !important; }
+
+                #popupDesignTracking .design-module-header {
+                    background: #FF8C00 !important;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    box-shadow: none !important;
+                }
+                #popupDesignTracking .design-module-title { color: #ffffff !important; }
+
+                #popupCaja .caja-head {
+                    background: #FF8C00 !important;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    padding: 10px 20px 10px 42px !important;
+                    margin: -12px -12px 0 -12px !important;
+                    box-shadow: none !important;
+                }
+                #popupCaja .caja-title { color: #ffffff !important; }
+
+                #popupClientesModulo .clientesmod-head,
+                #popupProveedoresModulo .clientesmod-head,
+                #popupAlmacenModulo .clientesmod-head,
+                #popupReportesModulo .clientesmod-head {
+                    background: #FF8C00 !important;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    padding: 10px 20px 10px 42px !important;
+                    margin: -8px -8px 0 -8px !important;
+                    box-shadow: none !important;
+                }
+                #popupClientesModulo .clientesmod-title,
+                #popupProveedoresModulo .clientesmod-title,
+                #popupAlmacenModulo .clientesmod-title,
+                #popupReportesModulo .clientesmod-title { color: #ffffff !important; }
+                #popupClientesModulo .clientesmod-head-right span,
+                #popupProveedoresModulo .clientesmod-head-right span,
+                #popupAlmacenModulo .clientesmod-head-right span,
+                #popupReportesModulo .clientesmod-head-right span { color: #ffe0b2 !important; }
+
+                #popupProductos .prod-header {
+                    border: none !important;
+                    border-radius: 0 !important;
+                    margin: -6px -6px 0 -6px !important;
+                    box-shadow: none !important;
+                    overflow: hidden;
+                }
+                #popupProductos .prod-row1 { background: #FF8C00 !important; }
+                #popupProductos .prod-row1-title { color: #ffffff !important; }
+
+                #popupCalendario .cal-head {
+                    background: #FF8C00 !important;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    padding: 10px 20px 10px 42px !important;
+                    margin: -8px -8px 0 -8px !important;
+                    box-shadow: none !important;
+                }
+                #popupCalendario .cal-title { color: #ffffff !important; }
+
+                #popupConfiguraciones .popup-header {
+                    background: #FF8C00 !important;
+                    border: none !important;
+                    border-radius: 0 !important;
+                    box-shadow: none !important;
+                }
+                #popupConfiguraciones .popup-title-main { color: #ffffff !important; }
                 .entrega-body { display: flex; flex: 1; overflow: hidden; }
                 .entrega-left {
                     width: 370px; flex-shrink: 0; background: #fff;
@@ -8673,7 +8868,6 @@
     </div>
 </div>
 
-<button id="btnHome" class="btn-home" onclick="irAtrasConfigurador()" title="Volver al muestrario" aria-label="Volver al muestrario">←</button>
 
 <div id="accesoDenegadoOverlay" style="display:none;position:fixed;inset:0;z-index:999999;background:rgba(0,0,0,0.82);align-items:center;justify-content:center;flex-direction:column;gap:0;" aria-modal="true" role="alertdialog">
   <div style="background:#fff;border-radius:16px;padding:36px 40px;max-width:420px;width:90%;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,0.4);">
@@ -8731,7 +8925,6 @@
             <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('ALMACEN')"><span class="ico">📦</span><span>ALMACÉN</span></button>
             <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('DASHBOARD')"><span class="ico">📈</span><span>DASHBOARD</span></button>
             <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('CAJA')"><span class="ico">💳</span><span>CAJA</span></button>
-            <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('MUESTRARIO')"><span class="ico">🎨</span><span>MUESTRARIO</span></button>
             <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('CLIENTES')"><span class="ico">👥</span><span>CLIENTES</span></button>
             <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('PROVEEDORES')"><span class="ico">🏢</span><span>PROVEEDORES</span></button>
             <button class="inicio-card" type="button" onclick="abrirModuloPrincipal('REPORTES')"><span class="ico">📊</span><span>REPORTES</span></button>
@@ -8745,120 +8938,13 @@
     </div>
 </div>
 
-<div id="landing" class="landing-overlay">
-    <button id="btnLandingBack" class="landing-back-btn" onclick="irAtrasLanding()" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
-    <div class="landing-box">
-        <button id="btnListadoRapido" class="landing-corner-btn left" style="display:none">Listado rápido</button>
-        <!-- Ocultados temporalmente: ACCESS y Seguimiento Diseño -->
-        <button id="btnAccessData" class="landing-corner-btn right" style="display:none">🗄️ ACCESS</button>
-        <button id="btnSeguimientoDiseno" class="landing-corner-btn center" style="display:none">🎨 Seguimiento Diseño</button>
-        <div id="muestrarioDesignBanner"></div>
-        <div class="landing-logo"><img src="https://i.postimg.cc/WzY3mk57/Copia-de-Copia-de-Post-Instagram-catalogo-de-productos-escolares-comercial-promocional-azul-(11).png" alt="Logo Maquileros" style="filter: invert(1) brightness(1.1);"></div>
-        <div class="landing-title">Selecciona un producto</div>
-        <div class="landing-sub">Elige qué quieres personalizar para abrir su configurador</div>
-        <div class="landing-grid">
-            <div class="landing-card disabled">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/t-shirt.png" alt="Playera">
-                <span>Playera</span>
-            </div>
-            <div class="landing-card disabled">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/baseball-cap.png" alt="Gorra">
-                <span>Gorra</span>
-            </div>
-            <div class="landing-card" onclick="seleccionarProducto('BOLSA BOUTIQUE TROQUELADA')">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/shopping-bag.png" alt="Bolsa Boutique">
-                <span>Bolsa Boutique Troquelada</span>
-            </div>
-            <div class="landing-card disabled">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/shopping-basket.png" alt="Bolsa Mandadera">
-                <span>Bolsa Mandadera</span>
-            </div>
-            <div class="landing-card" onclick="seleccionarProducto('BOLSAS KRAFT')">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/leaf.png" alt="Bolsas Kraft">
-                <span>Bolsas Kraft</span>
-            </div>
-            <div class="landing-card" onclick="seleccionarProducto('BOLSAS KRAFT BLANCAS')">
-                <img class="landing-icon-img" src="https://i.postimg.cc/tJD980rY/bolsa-blanca-2.png" alt="Bolsas Kraft Blancas" style="object-fit:contain;">
-                <span>Bolsas Kraft Blancas</span>
-            </div>
-            <div class="landing-card" onclick="seleccionarProducto('DELIVERY KRAFT')">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/leaf.png" alt="Delivery Kraft">
-                <span>Delivery Kraft</span>
-            </div>
-            <div class="landing-card disabled">
-                <svg class="landing-icon-svg" viewBox="0 0 64 64" aria-hidden="true">
-                    <path fill="#fff" d="M20 10 28 14h8l8-4 6 6-3 8 3 4v20c0 4-2.5 6-6 6H22c-3.5 0-6-2-6-6V28l3-4-3-8 4-6Z"/>
-                    <path fill="#fff" d="M28 14v6c0 3 2.5 5 6 5s6-2 6-5v-6l-6 3-6-3Z"/>
-                    <path fill="#fff" d="M30.8 20.5h2.4c.4 0 .8.3.8.8v6.4c0 .4-.3.8-.8.8h-2.4c-.4 0-.8-.3-.8-.8v-6.4c0-.5.3-.8.8-.8Z"/>
-                    <circle cx="32" cy="23.8" r="0.8" fill="#fff"/>
-                    <circle cx="32" cy="26.8" r="0.8" fill="#fff"/>
-                </svg>
-                <span>Playera Pólo</span>
-            </div>
-            <div class="landing-card disabled">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/cocktail.png" alt="Tequilero">
-                <span>Tequilero</span>
-            </div>
-            <div class="landing-card disabled">
-                <svg class="landing-icon-svg" viewBox="0 0 64 64" aria-hidden="true">
-                    <defs>
-                        <linearGradient id="cupBody2" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#fefefe"/>
-                            <stop offset="100%" stop-color="#e1e1e1"/>
-                        </linearGradient>
-                        <linearGradient id="cupLid2" x1="0%" y1="0%" x2="100%" y2="0%">
-                            <stop offset="0%" stop-color="#ffd27f"/>
-                            <stop offset="100%" stop-color="#ff9800"/>
-                        </linearGradient>
-                        <linearGradient id="cupStraw" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#ff9800"/>
-                            <stop offset="100%" stop-color="#ff6f00"/>
-                        </linearGradient>
-                    </defs>
-                    <path d="M30 6h4l2 10h-8l2-10Z" fill="url(#cupStraw)" stroke="#1f1f1f" stroke-width="2" stroke-linejoin="round"/>
-                    <path d="M18 14h28l-2 6H20l-2-6Z" fill="url(#cupLid2)" stroke="none"/>
-                    <path d="M20 20h24l-3 28c-.3 3-2.5 4-5.2 4H28.2c-2.7 0-4.9-1-5.2-4l-3-28Z" fill="url(#cupBody2)" stroke="none"/>
-                    <path d="M25 30h14M24 38h16M23 46h18" stroke="#c2c2c2" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-                <span>Vaso</span>
-            </div>
-            <div class="landing-card" onclick="seleccionarProducto('TARJETAS DE PRESENTACIÓN')">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/business-contact.png" alt="Tarjetas de presentación">
-                <span>Tarjetas de presentación</span>
-            </div>
-            <div class="landing-card" onclick="seleccionarProducto('VOLANTES')">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/news.png" alt="Volantes">
-                <span>Volantes</span>
-            </div>
-            <div class="landing-card disabled">
-                <svg class="landing-icon-svg" viewBox="0 0 64 64" aria-hidden="true">
-                    <rect x="10" y="18" width="44" height="28" rx="3" ry="3" fill="#fff"/>
-                    <rect x="14" y="22" width="36" height="6" rx="1" fill="#f08300"/>
-                    <rect x="14" y="32" width="28" height="4" rx="1" fill="#d7d7d7"/>
-                    <rect x="14" y="40" width="22" height="3" rx="1" fill="#bfbfbf"/>
-                </svg>
-                <span>Lonas</span>
-            </div>
-            <div class="landing-card disabled">
-                <img class="landing-icon-img" src="https://img.icons8.com/ios-filled/50/FFFFFF/invoice.png" alt="Notas de remisión">
-                <span>Notas de remisión</span>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div id="popupClientesModulo" class="clientesmod-overlay" aria-hidden="true">
     <div class="clientesmod-card" role="dialog" aria-modal="true" aria-labelledby="clientesmodTitulo">
-        <button id="clientesmodBack" class="clientesmod-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="clientesmod-head">
             <h2 id="clientesmodTitulo" class="clientesmod-title">MÓDULO DE CLIENTES</h2>
-            <div class="clientesmod-head-right">
-                <span style="font-size:0.58rem;font-weight:800;color:#64748b;letter-spacing:0.14px;text-transform:uppercase;">Catálogo de clientes</span>
-            </div>
         </div>
         <div class="clientesmod-main">
             <div class="clientesmod-toolbar">
-                <div class="clientesmod-label">Lista general</div>
                 <div class="clientesmod-toolbar-right">
                     <input id="clientesmodSearch" class="clientesmod-search" type="text" placeholder="Buscar por ID, nombre, negocio, teléfono, correo o tipo...">
                     <button id="clientesmodExport" class="clientesmod-btn gray" type="button">⬇ Exportar Excel</button>
@@ -9019,7 +9105,6 @@
 
 <div id="popupProveedoresModulo" class="clientesmod-overlay" aria-hidden="true">
     <div class="clientesmod-card" role="dialog" aria-modal="true" aria-labelledby="proveedoresTitulo">
-        <button id="proveedoresBack" class="clientesmod-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="clientesmod-head">
             <h2 id="proveedoresTitulo" class="clientesmod-title">MÓDULO DE PROVEEDORES</h2>
             <div class="clientesmod-head-right">
@@ -9100,7 +9185,6 @@ function abrirPopupProveedorDesdeProductos() {
 
 <div id="popupInsumosModulo" class="clientesmod-overlay" aria-hidden="true">
     <div class="clientesmod-card" role="dialog" aria-modal="true" aria-labelledby="insumosTitulo">
-        <button id="insumosBack" class="clientesmod-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="clientesmod-head">
             <h2 id="insumosTitulo" class="clientesmod-title">MÓDULO DE INSUMOS</h2>
             <div class="clientesmod-head-right">
@@ -9180,7 +9264,6 @@ function abrirPopupProveedorDesdeProductos() {
 
 <div id="popupAlmacenModulo" class="clientesmod-overlay" aria-hidden="true">
     <div class="clientesmod-card" role="dialog" aria-modal="true" aria-labelledby="almacenTitulo">
-        <button id="almacenBack" class="clientesmod-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="clientesmod-head">
             <h2 id="almacenTitulo" class="clientesmod-title">MÓDULO DE ALMACÉN</h2>
             <div class="clientesmod-head-right">
@@ -9249,7 +9332,6 @@ function abrirPopupProveedorDesdeProductos() {
 
 <div id="popupReportesModulo" class="clientesmod-overlay" aria-hidden="true">
     <div class="clientesmod-card" role="dialog" aria-modal="true" aria-labelledby="reportesmodTitulo">
-        <button id="reportesmodBack" class="clientesmod-back" type="button" title="VOLVER AL MENU PRINCIPAL" aria-label="VOLVER AL MENU PRINCIPAL">&#8592;</button>
         <div class="clientesmod-head">
             <h2 id="reportesmodTitulo" class="clientesmod-title">REPORTES</h2>
             <div class="clientesmod-head-right" id="repHeadRight">
@@ -9373,7 +9455,6 @@ function abrirPopupProveedorDesdeProductos() {
                 <!-- Vista de reporte expandido (pantalla completa) -->
                 <div id="repVistaReporte" style="display:none;">
                     <div class="rep-vista-toolbar">
-                        <button id="repVistaBack" class="clientesmod-btn" type="button" style="font-size:0.6rem;padding:4px 10px;" title="Volver al centro de reportes">←</button>
                         <h3 id="repVistaTitulo" style="margin:0;font-size:0.72rem;font-weight:900;color:#1f2937;flex:1;text-align:center;">REPORTE</h3>
                         <button id="repVistaExport" class="clientesmod-btn primary" type="button" style="font-size:0.52rem;">📄 EXPORTAR</button>
                     </div>
@@ -10863,37 +10944,23 @@ const imgBolsaDeliveryBase = new Image();
         const key = String(modulo || '').trim().toUpperCase();
 
         // ── GUARDIA DE PERMISOS ──
-        // Si Firebase aún no ha respondido, esperar (no mostrar acceso denegado)
-        if (window._currentFirebaseUser === undefined) {
-            const lo = document.getElementById('loginOverlay');
-            if (lo) lo.style.display = 'flex';
-            return;
-        }
-        // Si Firebase confirmó que NO hay sesión, ir a login (sin "acceso denegado")
-        if (!window._currentFirebaseUser) {
-            localStorage.removeItem('logged_user_role');
-            localStorage.removeItem('logged_user_email');
-            const lo = document.getElementById('loginOverlay');
-            if (lo) lo.style.display = 'flex';
-            return;
-        }
+        // Modo local: si no hay sesión/rol, permitir abrir módulos para no bloquear operación.
         const _role = localStorage.getItem('logged_user_role') || '';
-        if (!_role) {
-            // Sin rol conocido — volver a login
-            const lo = document.getElementById('loginOverlay');
-            if (lo) lo.style.display = 'flex';
-            return;
-        }
-        // Usuario autenticado pero sin permiso para este módulo
-        if (!canAccessModule(_role, key)) {
+        const hasAuthContext = !!window._currentFirebaseUser && !!_role;
+        if (hasAuthContext && !canAccessModule(_role, key)) {
             showAccesoDenegado(key);
             return;
         }
 
         if (key === 'NUEVA ORDEN') {
             ocultarInicioSistema();
-            const btn = document.getElementById('btnListadoRapido');
-            if (btn) btn.click();
+            // Abrir Nueva Orden sin depender del landing/muestrario.
+            if (window.openPopupListadoGlobal) {
+                window.openPopupListadoGlobal();
+            } else {
+                const btn = document.getElementById('btnListadoRapido');
+                if (btn) btn.click();
+            }
             return;
         }
 
@@ -10905,7 +10972,17 @@ const imgBolsaDeliveryBase = new Image();
 
         if (key === 'DISENO' || key === 'DISEÑO') {
             ocultarInicioSistema();
-            if (window.openDisenoPopupGlobal) window.openDisenoPopupGlobal();
+            if (window.openDisenoPopupGlobal) {
+                window.openDisenoPopupGlobal();
+            } else {
+                var disPop = document.getElementById('popupDesignTracking');
+                if (disPop) {
+                    disPop.style.display = 'flex';
+                    disPop.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('popup-open');
+                    document.documentElement.classList.add('popup-open');
+                }
+            }
             return;
         }
 
@@ -10989,7 +11066,17 @@ const imgBolsaDeliveryBase = new Image();
             Array.from(document.querySelectorAll('.caja-overlay, .clientesmod-overlay, .clientesform-overlay, .proveedoresmod-overlay, .proveedorform-overlay, .insumosmod-overlay, .insumoform-overlay, .almacenmod-overlay, .almacenform-overlay, .reportesmod-overlay, .misPedidos-overlay, .productos-overlay, .ajustes-tabuladores-overlay, .prod-tabulador-overlay, .popup-overlay, .popup, .modal, .overlay, [id^=popup], [id$=Overlay], [id$=overlay]')).forEach(function(el){ el.style.display = 'none'; el.setAttribute('aria-hidden','true'); });
             document.body.classList.remove('popup-open');
             document.documentElement.classList.remove('popup-open');
-            if (window.openCajaPopupGlobal) window.openCajaPopupGlobal();
+            if (window.openCajaPopupGlobal) {
+                window.openCajaPopupGlobal();
+            } else {
+                var cajaPop = document.getElementById('popupCaja');
+                if (cajaPop) {
+                    cajaPop.style.display = 'flex';
+                    cajaPop.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('popup-open');
+                    document.documentElement.classList.add('popup-open');
+                }
+            }
             return;
         }
 
@@ -11001,7 +11088,18 @@ const imgBolsaDeliveryBase = new Image();
 
         if (key === 'CLIENTES') {
             ocultarInicioSistema();
-            if (window.openClientesPopupGlobal) window.openClientesPopupGlobal();
+            if (window.openClientesPopupGlobal) {
+                window.openClientesPopupGlobal();
+            } else {
+                // Fallback directo por DOM para evitar quedar en muestrario si falla el binding global.
+                var cliPop = document.getElementById('popupClientesModulo');
+                if (cliPop) {
+                    cliPop.style.display = 'flex';
+                    cliPop.setAttribute('aria-hidden', 'false');
+                    document.body.classList.add('popup-open');
+                    document.documentElement.classList.add('popup-open');
+                }
+            }
             return;
         }
 
@@ -11031,13 +11129,38 @@ const imgBolsaDeliveryBase = new Image();
 
         if (key === 'MUESTRARIO') {
             ocultarInicioSistema();
-            // Cierra popupCaja y overlays
-            var caja = document.getElementById('popupCaja');
-            if (caja) { caja.style.display = 'none'; caja.setAttribute('aria-hidden','true'); }
+            var landing = document.getElementById('landing');
+            var sidebar = document.querySelector('.sidebar');
+            var mainArea = document.querySelector('.main-area');
+            var popupListado = document.getElementById('popupListado');
+            if (landing) { landing.style.display = 'none'; landing.style.visibility = ''; }
+            if (sidebar) { sidebar.style.display = ''; sidebar.style.visibility = ''; }
+            if (mainArea) { mainArea.style.display = ''; mainArea.style.visibility = ''; }
+            if (popupListado) {
+                popupListado.style.display = 'none';
+                popupListado.setAttribute('aria-hidden', 'true');
+            }
             document.body.classList.remove('popup-open');
             document.documentElement.classList.remove('popup-open');
-            const landing = document.getElementById('landing');
-            if (landing) landing.style.display = 'flex';
+
+            // Si viene de diseño con contexto, abrir directo el producto asignado
+            if (window._designUploadContext && window._designUploadContext.muestrarioCat) {
+                var muestrarioCat = window._designUploadContext.muestrarioCat;
+                if (typeof seleccionarProducto === 'function') seleccionarProducto(muestrarioCat, true);
+                if (typeof setModo === 'function') setModo('muestrario');
+                if (typeof actualizar === 'function') actualizar();
+                var banner = document.getElementById('muestrarioDesignBanner');
+                if (banner) banner.style.display = 'block';
+            } else {
+                // Sin contexto: mostrar selector de producto
+                if (typeof clearCanvas === 'function') clearCanvas();
+                var _sb2 = document.querySelector('.sidebar');
+                var _ma2 = document.querySelector('.main-area');
+                if (_sb2) { _sb2.style.display = 'none'; _sb2.style.visibility = 'hidden'; }
+                if (_ma2) { _ma2.style.display = 'none'; _ma2.style.visibility = 'hidden'; }
+                var sel = document.getElementById('popupMuestrarioSelector');
+                if (sel) sel.style.display = 'flex';
+            }
             return;
         }
 
@@ -11069,29 +11192,6 @@ const imgBolsaDeliveryBase = new Image();
         document.body.classList.remove('reloading', 'mod-bolsa', 'mod-tarjeta');
         const ov = document.getElementById('reloadOverlay'); if (ov) ov.style.display = 'none';
         try { sessionStorage.removeItem('nextProducto'); } catch (_) {}
-    }
-
-    // Desde el configurador de producto → volver al muestrario (landing)
-    function irAtrasConfigurador() {
-        const landing = document.getElementById('landing');
-        if (landing) landing.style.display = 'flex';
-        const btnHome = document.getElementById('btnHome');
-        if (btnHome) btnHome.style.display = 'none';
-        document.body.classList.remove('reloading', 'mod-bolsa', 'mod-tarjeta', 'mod-kraft');
-        const ov = document.getElementById('reloadOverlay'); if (ov) ov.style.display = 'none';
-        try { sessionStorage.removeItem('nextProducto'); } catch (_) {}
-    }
-
-    // Desde el landing (muestrario) → volver al menú principal
-    function irAtrasLanding() {
-        mostrarInicioSistema();
-        document.body.classList.remove('reloading', 'mod-bolsa', 'mod-tarjeta', 'mod-kraft');
-        const ov = document.getElementById('reloadOverlay'); if (ov) ov.style.display = 'none';
-        try { sessionStorage.removeItem('nextProducto'); } catch (_) {}
-        // Limpiar contexto de subida desde módulo de diseño
-        delete window._designUploadContext;
-        const banner = document.getElementById('muestrarioDesignBanner');
-        if (banner) { banner.style.display = 'none'; banner.innerHTML = ''; }
     }
 
     // ===== GLOBAL CONFIRM POPUP =====
@@ -12662,21 +12762,19 @@ const imgBolsaDeliveryBase = new Image();
     
     renderBotones();
     window.onload = () => {
-        const saved = sessionStorage.getItem('nextProducto');
-        const hadSaved = !!saved;
-        if (hadSaved) sessionStorage.removeItem('nextProducto');
+        // Forzar inicio en flujo de módulos (Nueva Orden), sin reabrir configurador/muestrario.
+        try {
+            sessionStorage.removeItem('nextProducto');
+            sessionStorage.removeItem('hasEntered');
+        } catch (_) {}
 
-        if (hadSaved) {
-            seleccionarProducto(saved, true);
-            yaEntroASeccion = true; sessionStorage.setItem('hasEntered', '1');
-        } else {
-            actualizar();
-            const lbl = document.getElementById('productoLabel');
-            if (lbl) lbl.innerText = productoActual;
-            mostrarInicioSistema();
-            document.body.classList.toggle('mod-bolsa', !esProductoTarjeta());
-            document.body.classList.toggle('mod-tarjeta', esProductoTarjeta());
-        }
+        actualizar();
+        const lbl = document.getElementById('productoLabel');
+        if (lbl) lbl.innerText = productoActual;
+        mostrarInicioSistema();
+        document.body.classList.toggle('mod-bolsa', !esProductoTarjeta());
+        document.body.classList.toggle('mod-tarjeta', esProductoTarjeta());
+
         document.body.classList.remove('reloading');
         const ov = document.getElementById('reloadOverlay');
         if (ov) ov.style.display = 'none';
@@ -12686,11 +12784,10 @@ const imgBolsaDeliveryBase = new Image();
 <!-- Popup: Nueva Orden (Cotizador principal) -->
 <div id="popupListado" class="popup-overlay" aria-hidden="true">
     <div class="orden-popup" role="dialog" aria-modal="true" aria-labelledby="popupListadoTitulo">
-        <button id="ordenBackMenu" class="orden-back-menu" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="orden-main">
             <div class="orden-header">
                 <div class="orden-header-left">
-                    <h2 id="popupListadoTitulo" class="orden-title">CREAR ORDEN DE TRABAJO</h2>
+                    <h2 id="popupListadoTitulo" class="orden-title" style="display:none;">CREAR ORDEN DE TRABAJO</h2>
                     <div class="orden-actions-row">
                         <button id="ordenRegistrarCliente" class="orden-btn">REGISTRAR CLIENTE <span class="shortcut-hint">F2</span></button>
                         <button id="ordenSeleccionarCliente" class="orden-btn">SELECCIONAR CLIENTE <span class="shortcut-hint">F3</span></button>
@@ -12815,7 +12912,6 @@ const imgBolsaDeliveryBase = new Image();
                 </div>
             </div>
 
-            <div class="orden-mini">MÉTODOS DE PAGO</div>
             <div class="orden-pagos-grid">
                 <button data-pay="EFECTIVO" class="orden-btn orden-pay-btn" title="Efectivo (F4)" aria-label="Efectivo"><span class="orden-pay-icon">◉</span><span class="orden-pay-label">EFECTIVO</span><span class="shortcut-hint">F4</span></button>
                 <button data-pay="TARJETA" class="orden-btn orden-pay-btn" title="Tarjeta (F5)" aria-label="Tarjeta"><span class="orden-pay-icon">▣</span><span class="orden-pay-label">TARJETA</span><span class="shortcut-hint">F5</span></button>
@@ -13020,10 +13116,18 @@ const imgBolsaDeliveryBase = new Image();
 
 <div id="popupMisPedidos" class="mispedidos-overlay" aria-hidden="true">
     <div class="mispedidos-card" role="dialog" aria-modal="true" aria-labelledby="mispedidosTitulo">
-        <button id="mispedidosBack" class="mispedidos-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
 
         <div class="mispedidos-head">
             <h2 id="mispedidosTitulo" class="mispedidos-title">MIS PEDIDOS</h2>
+        </div>
+
+        <div class="mispedidos-subhead">
+            <div class="mispedidos-search-wrap">
+                <input id="mpFiltroBuscar" type="text" placeholder="🔍  Folio, nombre o teléfono..." aria-label="Buscar por folio, nombre o teléfono">
+                <input id="mpFiltroFolio" type="hidden">
+                <input id="mpFiltroNombre" type="hidden">
+                <input id="mpFiltroTelefono" type="hidden">
+            </div>
             <div class="mispedidos-head-right">
                 <div class="mispedidos-tabs">
                     <button id="mispedidosTabVentas" class="mispedidos-tab active" type="button" data-tab="venta">Órdenes emitidas</button>
@@ -13037,12 +13141,6 @@ const imgBolsaDeliveryBase = new Image();
         </div>
 
         <div class="mispedidos-filters">
-            <div class="orden-field" style="flex:3 1 220px;min-width:200px;">
-                <input id="mpFiltroBuscar" type="text" placeholder="🔍  Folio, nombre o teléfono..." aria-label="Buscar por folio, nombre o teléfono">
-                <input id="mpFiltroFolio" type="hidden">
-                <input id="mpFiltroNombre" type="hidden">
-                <input id="mpFiltroTelefono" type="hidden">
-            </div>
             <div class="orden-field" style="flex:1 1 150px;min-width:140px;">
                 <label>Fecha</label>
                 <!-- selector oculto, solo para que getMpDateRange() lea su valor -->
@@ -13073,13 +13171,23 @@ const imgBolsaDeliveryBase = new Image();
             </div>
             <div class="orden-field" style="flex:1 1 120px;min-width:120px;">
                 <label>Vendedor</label>
+                <select id="mpFiltroVendedor">
+                    <option value="">Todos</option>
+                </select>
+            </div>
+            <div class="orden-field" style="flex:1 1 120px;min-width:120px;">
+                <label>Diseñador</label>
                 <select id="mpFiltroDisenador">
                     <option value="">Todos</option>
                 </select>
             </div>
-            <div class="orden-field" style="flex:1 1 100px;min-width:90px;">
+            <div class="orden-field" style="flex:1 1 120px;min-width:120px;">
                 <label>Adeudo</label>
-                <input id="mpFiltroAdeudo" type="number" min="0" step="0.01" placeholder="Mínimo">
+                <select id="mpFiltroAdeudoEstado">
+                    <option value="">Todos</option>
+                    <option value="con">Con adeudo</option>
+                    <option value="sin">Sin adeudo</option>
+                </select>
             </div>
             <div class="orden-field" style="flex:0 0 auto;">
                 <label>&nbsp;</label>
@@ -13573,9 +13681,6 @@ const imgBolsaDeliveryBase = new Image();
 
             <!-- ── FILA 1: Volver · Título · Búsqueda · CRUD ── -->
             <div class="prod-row1">
-                <button id="productosBack" class="productos-back prod-back-inline" type="button"
-                        title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
-
                 <h2 id="productosTitulo" class="prod-row1-title">Productos</h2>
 
                 <div class="prod-search-wrap">
@@ -13688,11 +13793,61 @@ const imgBolsaDeliveryBase = new Image();
 </div>
 
 <!-- ═══════ ALMACÉN FÍSICO OVERLAY ═══════ -->
+<!-- ══ SELECTOR DE MUESTRARIO ══ -->
+<div id="popupMuestrarioSelector" style="display:none;position:fixed;inset:0;z-index:9400;background:#f8fafc;justify-content:center;align-items:center;">
+  <div style="background:#fff;border-radius:18px;padding:32px 28px;max-width:480px;width:92vw;box-shadow:0 20px 60px rgba(0,0,0,0.28);display:flex;flex-direction:column;gap:20px;">
+    <div style="text-align:center;">
+      <div style="font-size:1.8rem;margin-bottom:4px;">🖼️</div>
+      <div style="font-size:1rem;font-weight:900;color:#1f2937;letter-spacing:0.5px;">MUESTRARIO</div>
+      <div style="font-size:0.6rem;color:#6b7280;margin-top:2px;">Selecciona el tipo de producto a configurar</div>
+    </div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+      <button onclick="window.abrirMuestrarioProducto('BOLSA BOUTIQUE TROQUELADA')" style="padding:14px 8px;border:2px solid #ff9900;background:#fff7ed;border-radius:12px;cursor:pointer;font-weight:800;font-size:0.68rem;color:#92400e;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;" onmouseover="this.style.background='#ffedd5'" onmouseout="this.style.background='#fff7ed'">
+        <span style="font-size:1.5rem;">👜</span>BOLSA BOUTIQUE
+      </button>
+      <button onclick="window.abrirMuestrarioProducto('BOLSAS KRAFT')" style="padding:14px 8px;border:2px solid #92400e;background:#fdf6ee;border-radius:12px;cursor:pointer;font-weight:800;font-size:0.68rem;color:#78350f;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;" onmouseover="this.style.background='#fde8c8'" onmouseout="this.style.background='#fdf6ee'">
+        <span style="font-size:1.5rem;">🛍️</span>BOLSAS KRAFT
+      </button>
+      <button onclick="window.abrirMuestrarioProducto('BOLSAS KRAFT BLANCAS')" style="padding:14px 8px;border:2px solid #d1d5db;background:#f9fafb;border-radius:12px;cursor:pointer;font-weight:800;font-size:0.68rem;color:#374151;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;" onmouseover="this.style.background='#f3f4f6'" onmouseout="this.style.background='#f9fafb'">
+        <span style="font-size:1.5rem;">🤍</span>KRAFT BLANCAS
+      </button>
+      <button onclick="window.abrirMuestrarioProducto('TARJETAS DE PRESENTACIÓN')" style="padding:14px 8px;border:2px solid #3b82f6;background:#eff6ff;border-radius:12px;cursor:pointer;font-weight:800;font-size:0.68rem;color:#1d4ed8;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;" onmouseover="this.style.background='#dbeafe'" onmouseout="this.style.background='#eff6ff'">
+        <span style="font-size:1.5rem;">🪪</span>TARJETAS
+      </button>
+      <button onclick="window.abrirMuestrarioProducto('VOLANTES')" style="padding:14px 8px;border:2px solid #8b5cf6;background:#f5f3ff;border-radius:12px;cursor:pointer;font-weight:800;font-size:0.68rem;color:#6d28d9;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;" onmouseover="this.style.background='#ede9fe'" onmouseout="this.style.background='#f5f3ff'">
+        <span style="font-size:1.5rem;">📄</span>VOLANTES
+      </button>
+      <button onclick="window.abrirMuestrarioProducto('DELIVERY KRAFT')" style="padding:14px 8px;border:2px solid #10b981;background:#f0fdf4;border-radius:12px;cursor:pointer;font-weight:800;font-size:0.68rem;color:#065f46;display:flex;flex-direction:column;align-items:center;gap:6px;transition:all .15s;" onmouseover="this.style.background='#dcfce7'" onmouseout="this.style.background='#f0fdf4'">
+        <span style="font-size:1.5rem;">🚚</span>DELIVERY KRAFT
+      </button>
+    </div>
+  </div>
+</div>
+<script>
+window.abrirMuestrarioProducto = function(producto) {
+    document.getElementById('popupMuestrarioSelector').style.display = 'none';
+    var _sb = document.querySelector('.sidebar');
+    var _ma = document.querySelector('.main-area');
+    if (_sb) { _sb.style.display = ''; _sb.style.visibility = ''; }
+    if (_ma) { _ma.style.display = ''; _ma.style.visibility = ''; }
+    if (typeof seleccionarProducto === 'function') seleccionarProducto(producto, true);
+    if (typeof setModo === 'function') setModo('muestrario');
+    if (typeof actualizar === 'function') actualizar();
+};
+window._cerrarSelectorMuestrario = function() {
+    document.getElementById('popupMuestrarioSelector').style.display = 'none';
+    var _sb = document.querySelector('.sidebar');
+    var _ma = document.querySelector('.main-area');
+    if (_sb) { _sb.style.display = ''; _sb.style.visibility = ''; }
+    if (_ma) { _ma.style.display = ''; _ma.style.visibility = ''; }
+    if (window._gnavShow) window._gnavShow('');
+};
+</script>
+
 <div id="popupAlmacenFisico" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
 <div id="almFisicoCard" style="background:#fff;width:min(96vw,1100px);height:min(92vh,800px);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.25);">
   <!-- Header -->
   <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:3px solid #ff9900;background:linear-gradient(135deg,#fef3c7,#fef9c3);">
-    <button id="almFisicoBack" type="button" style="background:none;border:none;font-size:1.2rem;cursor:pointer;padding:6px;border-radius:8px;color:#1f2937;font-weight:900;" title="Volver">←</button>
     <h2 style="margin:0;font-size:1rem;font-weight:900;color:#1f2937;flex:1;">📦 ALMACÉN FÍSICO</h2>
     <div style="display:flex;gap:6px;">
       <button id="almfBtnMovimientos" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">🔄 MOVIMIENTOS</button>
@@ -13883,7 +14038,6 @@ const imgBolsaDeliveryBase = new Image();
 
 <div id="popupCaja" class="caja-overlay" aria-hidden="true">
     <div class="caja-card" role="dialog" aria-modal="true" aria-labelledby="cajaTitulo">
-        <button id="cajaBack" class="caja-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="caja-head">
             <h2 id="cajaTitulo" class="caja-title">MÓDULO DE CAJA</h2>
         </div>
@@ -14086,7 +14240,6 @@ const imgBolsaDeliveryBase = new Image();
 
 <div id="popupCalendario" class="cal-overlay" aria-hidden="true">
     <div class="cal-card" role="dialog" aria-modal="true" aria-labelledby="calTitulo">
-        <button id="calBack" class="cal-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
         <div class="cal-head">
             <h2 id="calTitulo" class="cal-title">MÓDULO DE CALENDARIO</h2>
         </div>
@@ -15037,11 +15190,8 @@ const imgBolsaDeliveryBase = new Image();
 <div id="popupDesignTracking" class="clientesmod-overlay" aria-hidden="true">
     <div class="design-module-wrap" role="dialog" aria-modal="true" aria-labelledby="popupDesignTrackingTitulo">
 
-        <button id="btnDesignClose" class="clientesmod-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
-
         <!-- HEADER -->
         <div class="design-module-header">
-            <span style="font-size:1rem;">🎨</span>
             <h3 id="popupDesignTrackingTitulo" class="design-module-title">Módulo de Diseño</h3>
             <div id="designUserBadge" class="design-user-badge">
                 <span class="design-user-dot"></span>
@@ -15332,7 +15482,6 @@ const imgBolsaDeliveryBase = new Image();
 <!-- POPUP: Configuraciones por categoría -->
 <div id="popupConfiguraciones" class="popup-overlay" aria-hidden="true">
     <div class="popup-card wide" role="dialog" aria-modal="true" aria-labelledby="configTitulo">
-        <button id="configBack" class="popup-icon-btn" type="button" title="Volver" aria-label="Volver">←</button>
         <div class="popup-header" style="padding-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 16px;">
             <h2 id="configTitulo" class="popup-title-main">Configuraciones del sistema</h2>
         </div>
@@ -16418,6 +16567,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mpFiltroFolio = document.getElementById('mpFiltroFolio');
     const mpFiltroNombre = document.getElementById('mpFiltroNombre');
     const mpFiltroTelefono = document.getElementById('mpFiltroTelefono');
+    const mpFiltroVendedor = document.getElementById('mpFiltroVendedor');
     const mpFiltroDisenador = document.getElementById('mpFiltroDisenador');
     const mpFiltroFechaRapido = document.getElementById('mpFiltroFechaRapido');
     const mpFiltroFechaDesde = document.getElementById('mpFiltroFechaDesde');
@@ -16426,7 +16576,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const mpFechaRangoWrap = document.getElementById('mpFechaRangoWrap');
     const mpFechaRangoWrap2 = document.getElementById('mpFechaRangoWrap2');
     const mpFiltroEstatus = document.getElementById('mpFiltroEstatus');
-    const mpFiltroAdeudo = document.getElementById('mpFiltroAdeudo');
+    const mpFiltroAdeudoEstado = document.getElementById('mpFiltroAdeudoEstado');
     const mpLimpiarFiltros = document.getElementById('mpLimpiarFiltros');
     const mpEditarSeleccion = document.getElementById('mpEditarSeleccion');
     const mpExportarSeleccion = document.getElementById('mpExportarSeleccion');
@@ -16483,7 +16633,9 @@ document.addEventListener('DOMContentLoaded', () => {
     let ordenClienteSeleccionadoId = '';
     let ordenClienteFormMode = '';
 
-    if (!btnListadoRapido || !popupListado) {
+    // No detener toda la inicialización si no existe el botón del landing.
+    // Solo se requiere el popup principal para que Nueva Orden funcione.
+    if (!popupListado) {
         return;
     }
 
@@ -21705,7 +21857,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const getMisPedidosFiltrados = () => {
-        const minAdeudo = Number(mpFiltroAdeudo?.value || 0);
+        const adeudoEstado = mpFiltroAdeudoEstado?.value || '';
         const dateRange = getMpDateRange();
         const buscarQ = (document.getElementById('mpFiltroBuscar')?.value || '').trim().toLowerCase();
         return misPedidosData.filter((row) => {
@@ -21717,7 +21869,8 @@ document.addEventListener('DOMContentLoaded', () => {
                                  mpMatch(row.telefono, buscarQ);
                 if (!hayMatch) return false;
             }
-            if (!mpMatch(row.vendedor, mpFiltroDisenador?.value || '')) return false;
+            if (!mpMatch(row.vendedor, mpFiltroVendedor?.value || '')) return false;
+            if (!mpMatch(row.disenador, mpFiltroDisenador?.value || '')) return false;
             if (dateRange) {
                 const fechaStr = row[dateRange.campo] || '';
                 if (!fechaStr) return false;
@@ -21725,7 +21878,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (fecha < dateRange.desde || fecha > dateRange.hasta) return false;
             }
             if ((mpFiltroEstatus?.value || '') && row.estatusProduccion !== mpFiltroEstatus.value) return false;
-            if ((mpFiltroAdeudo?.value || '') && Number(row.adeudoCliente || 0) < minAdeudo) return false;
+            const adeudo = Number(row.adeudoCliente || 0);
+            if (adeudoEstado === 'con' && adeudo <= 0) return false;
+            if (adeudoEstado === 'sin' && adeudo > 0) return false;
             return true;
         });
     };
@@ -21894,17 +22049,28 @@ document.addEventListener('DOMContentLoaded', () => {
         document.documentElement.classList.add('popup-open');
         mpSelectedIds = new Set();
         populateMpEstatusFilter();
+        populateMpVendedorFilter();
         populateMpDisenadorFilter();
         loadMisPedidos();
         renderMisPedidos();
     };
 
-    const populateMpDisenadorFilter = () => {
-        if (!mpFiltroDisenador) return;
-        const current = mpFiltroDisenador.value || '';
+    const populateMpVendedorFilter = () => {
+        if (!mpFiltroVendedor) return;
+        const current = mpFiltroVendedor.value || '';
         const vendedoresSet = new Set();
         misPedidosData.forEach(r => { if (r.vendedor) vendedoresSet.add(r.vendedor); });
         const lista = [...vendedoresSet].sort();
+        mpFiltroVendedor.innerHTML = '<option value="">Todos</option>' + lista.map(v => `<option value="${prodEscape(v)}">${prodEscape(v)}</option>`).join('');
+        if (current && lista.includes(current)) mpFiltroVendedor.value = current;
+    };
+
+    const populateMpDisenadorFilter = () => {
+        if (!mpFiltroDisenador) return;
+        const current = mpFiltroDisenador.value || '';
+        const disenadoresSet = new Set();
+        misPedidosData.forEach(r => { if (r.disenador) disenadoresSet.add(r.disenador); });
+        const lista = [...disenadoresSet].sort();
         mpFiltroDisenador.innerHTML = '<option value="">Todos</option>' + lista.map(d => `<option value="${prodEscape(d)}">${prodEscape(d)}</option>`).join('');
         if (current && lista.includes(current)) mpFiltroDisenador.value = current;
     };
@@ -24046,19 +24212,22 @@ document.addEventListener('DOMContentLoaded', () => {
         function setAlmacenFisicoMode(asModule){
             isModuleMode = !!asModule;
             if (isModuleMode) {
+                var hasGnav = document.body.classList.contains('gnav-open');
                 popup.style.background = '#ffffff';
                 popup.style.justifyContent = 'stretch';
                 popup.style.alignItems = 'stretch';
+                popup.style.left = hasGnav ? '58px' : '0';
                 if (card) {
-                    card.style.width = '100vw';
+                    card.style.width = hasGnav ? 'calc(100vw - 58px)' : '100vw';
                     card.style.height = '100vh';
-                    card.style.maxWidth = '100vw';
+                    card.style.maxWidth = hasGnav ? 'calc(100vw - 58px)' : '100vw';
                     card.style.maxHeight = '100vh';
                     card.style.borderRadius = '0';
                     card.style.boxShadow = 'none';
                 }
                 return;
             }
+            popup.style.left = '0';
             popup.style.background = 'rgba(0,0,0,0.5)';
             popup.style.justifyContent = 'center';
             popup.style.alignItems = 'center';
@@ -25228,7 +25397,7 @@ document.addEventListener('DOMContentLoaded', () => {
         refs.cotizacionPopup.setAttribute('aria-hidden', 'true');
     };
 
-    btnListadoRapido.onclick = openPopup;
+    if (btnListadoRapido) btnListadoRapido.onclick = openPopup;
     if (btnCerrarPopupListado) btnCerrarPopupListado.onclick = closePopup;
     if (btnOrdenBackMenu) {
         btnOrdenBackMenu.onclick = () => {
@@ -26756,7 +26925,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Filtros Mis Pedidos ────────────────────────────────────
     const mpFiltroBuscar = document.getElementById('mpFiltroBuscar');
-    [mpFiltroBuscar, mpFiltroDisenador, mpFiltroFechaRapido, mpFiltroEstatus, mpFiltroAdeudo]
+    [mpFiltroBuscar, mpFiltroVendedor, mpFiltroDisenador, mpFiltroFechaRapido, mpFiltroEstatus, mpFiltroAdeudoEstado]
         .filter(Boolean)
         .forEach((input) => {
             input.addEventListener('input', renderMisPedidos);
@@ -26987,7 +27156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         mpLimpiarFiltros.addEventListener('click', () => {
             const buscar = document.getElementById('mpFiltroBuscar');
             if (buscar) buscar.value = '';
-            [mpFiltroFolio, mpFiltroNombre, mpFiltroTelefono, mpFiltroDisenador, mpFiltroFechaRapido, mpFiltroEstatus, mpFiltroAdeudo]
+            [mpFiltroFolio, mpFiltroNombre, mpFiltroTelefono, mpFiltroVendedor, mpFiltroDisenador, mpFiltroFechaRapido, mpFiltroEstatus, mpFiltroAdeudoEstado]
                 .filter(Boolean)
                 .forEach((input) => { input.value = ''; });
             mpCalRangeStart = null; mpCalRangeEnd = null;
@@ -27621,7 +27790,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const popupVariantes = document.getElementById("popupProdVariantes");
 
     function openVariantesPopup() {
-        if (popupVariantes) { popupVariantes.setAttribute("aria-hidden","false"); popupVariantes.style.display = "flex"; }
+        const popupMuestrarioSel = document.getElementById('popupMuestrarioSelector');
+        if (popupMuestrarioSel) popupMuestrarioSel.style.display = 'none';
+        if (popupVariantes) {
+            popupVariantes.setAttribute("aria-hidden","false");
+            popupVariantes.style.display = "flex";
+            popupVariantes.style.zIndex = '100170';
+        }
         varianteTipoExpandido = -1;
         renderVariantesTipos();
         renderVariantesTabla();
@@ -27860,6 +28035,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     if (variantesBtn) variantesBtn.addEventListener("click", openVariantesPopup);
+
+    // Fallback delegado: evita que se pierda el clic si el botón se re-renderiza.
+    document.addEventListener('click', (ev) => {
+        const btn = ev.target.closest('#prodFormVariantesBtn');
+        if (!btn) return;
+        openVariantesPopup();
+    });
 
     function agregarNuevoTipo() {
         const input = document.getElementById("varianteNuevoTipo");
@@ -32038,8 +32220,7 @@ window.MU = (function() {
 <div id="panelProduccion" class="produccion-overlay">
   <div class="produccion-container">
     <div class="produccion-header">
-            <button id="produccionBack" class="produccion-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
-      <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">PRODUCCIÓN</h2>
+    <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">PRODUCCIÓN</h2>
 
     </div>
     <div class="produccion-body">
@@ -33631,9 +33812,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="panelRecepcionSucursal" class="recepcion-overlay">
   <div style="display:flex;flex-direction:column;height:100%;padding:8px;gap:6px;">
     <div class="recepcion-header">
-      <button id="recepcionBack" class="recepcion-back" type="button" title="Volver" aria-label="Volver">←</button>
-      <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">RECEPCIÓN SUCURSAL</h2>
-      <span style="margin-left:auto;font-size:0.62rem;color:#64748b;font-weight:600;">Escanea los productos que llegan del taller para confirmar recepción</span>
+    <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">RECEPCIÓN SUCURSAL</h2>
     </div>
     <div class="recepcion-body">
       <div style="text-align:center;margin-bottom:10px;">
@@ -33674,9 +33853,8 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="panelAlmacenPedidos" class="almacenpedidos-overlay">
   <div style="display:flex;flex-direction:column;height:100%;padding:8px;gap:6px;">
     <div class="almacenpedidos-header">
-      <button id="almacenPedidosBack" class="almacenpedidos-back" type="button" title="Volver" aria-label="Volver">←</button>
-      <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">ALMACÉN DE PEDIDOS</h2>
-      <span style="margin-left:auto;font-size:0.62rem;color:#64748b;font-weight:600;">Recolecta, verifica y entrega pedidos terminados</span>
+    <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">ALMACÉN DE PEDIDOS</h2>
+    <span style="margin-left:auto;font-size:0.62rem;color:#ffe0b2;font-weight:600;">Recolecta, verifica y entrega pedidos terminados</span>
     </div>
     <div class="almacenpedidos-body">
       <div style="display:flex;gap:6px;flex-shrink:0;flex-wrap:wrap;">
@@ -34768,14 +34946,14 @@ document.addEventListener('DOMContentLoaded', function() {
         var escaneadosEnSesion = [];
         var overlay = document.createElement('div');
         overlay.id = 'popupScannerRecepcion';
-        overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;';
-        overlay.innerHTML = '<div style="background:#fff;border-radius:14px;padding:22px;width:min(96vw,480px);max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3);">'+
+        overlay.style.cssText = 'position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.6);display:flex;justify-content:center;align-items:center;animation:none;transition:none;';
+        overlay.innerHTML = '<div style="background:#fff;border-radius:14px;padding:22px;width:min(96vw,480px);max-height:90vh;overflow-y:auto;box-shadow:0 8px 32px rgba(0,0,0,0.3);animation:none;transition:none;">'+
             '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">'+
-                '<h3 style="margin:0;font-size:1rem;color:#1f2937;">📷 Escáner de Recepción</h3>'+
+                '<h3 style="margin:0;font-size:1rem;color:#1f2937;">Escáner de Recepción</h3>'+
                 '<button id="recPopupCerrar" style="background:none;border:none;font-size:1.4rem;cursor:pointer;color:#6b7280;">✕</button>'+
             '</div>'+
-            '<div id="recPopupQrReader" style="width:100%;max-width:320px;margin:0 auto 8px;border-radius:8px;overflow:hidden;"></div>'+
-            '<div id="recPopupStatus" style="font-size:0.72rem;color:#ff9900;font-weight:700;text-align:center;margin-bottom:8px;">Iniciando cámara...</div>'+
+            '<div id="recPopupQrReader" style="width:320px;height:240px;max-width:100%;margin:0 auto 8px;border-radius:0;overflow:hidden;background:#000;animation:none;transition:none;"></div>'+
+            '<div id="recPopupStatus" style="font-size:0.72rem;color:#ff9900;font-weight:700;text-align:center;margin-bottom:8px;">Listo para escanear</div>'+
             '<div style="display:flex;gap:6px;margin-bottom:10px;">'+
                 '<input type="text" id="recPopupManualInput" placeholder="Código manual..." style="flex:1;border:1px solid #e5e7eb;border-radius:8px;padding:8px 10px;font-size:0.72rem;">'+
                 '<button id="recPopupBtnManual" style="padding:8px 14px;background:#ff9900;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.72rem;">→</button>'+
@@ -34785,6 +34963,7 @@ document.addEventListener('DOMContentLoaded', function() {
             '<div id="recPopupListaEscaneados" style="max-height:180px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;"></div>'+
         '</div>';
         document.body.appendChild(overlay);
+        overlay.querySelectorAll('*').forEach(function(el){ el.style.transition = 'none'; el.style.animation = 'none'; });
 
         var qrInst = null;
         var statusEl = document.getElementById('recPopupStatus');
@@ -34984,9 +35163,11 @@ document.addEventListener('DOMContentLoaded', function() {
     #panelControlRepartidores .cr-body { display:flex; height:calc(100vh - 56px); min-height:0; overflow:hidden; }
     #panelControlRepartidores .cr-sidebar { width:240px; min-width:240px; background:#fff; border-right:1px solid #e5e5e5; display:flex; flex-direction:column; overflow:hidden; transition:width 0.25s ease,min-width 0.25s ease; position:relative; padding-top:36px; }
     #panelControlRepartidores .cr-sidebar.collapsed { width:62px; min-width:62px; }
-  #panelControlRepartidores .cr-sidebar-toggle { position:absolute; top:8px; right:8px; width:28px; height:28px; border:1px solid #e5e5e5; background:#f5f5f5; color:#555; border-radius:5px; cursor:pointer; font-size:0.7rem; display:flex;align-items:center;justify-content:center; transition:all 0.15s; }
-  #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-toggle { right:12px; }
-  #panelControlRepartidores .cr-sidebar-toggle:hover { background:#ffe5b4; color:#e68a00; }
+    #panelControlRepartidores .cr-sidebar-toggle { position:absolute; top:8px; right:8px; width:30px; height:30px; border:1px solid #e5e7eb; background:#ffffff; color:#555; border-radius:6px; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; gap:2px; transition:all 0.15s; }
+    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-toggle { right:8px; }
+    #panelControlRepartidores .cr-sidebar-toggle:hover { background:#fff7ed; border-color:#fdba74; }
+    #panelControlRepartidores .cr-sidebar-toggle .line { display:block; width:14px; height:2px; background:#525252; border-radius:999px; margin:0; }
+    #panelControlRepartidores .cr-sidebar-toggle:focus-visible { outline:2px solid #fb923c; outline-offset:2px; }
     #panelControlRepartidores .cr-sidebar-label { font-size:0.42rem; font-weight:800; color:#999; text-transform:uppercase; letter-spacing:1px; padding:6px 14px 8px; white-space:nowrap; overflow:hidden; }
   #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-label { display:none; }
     #panelControlRepartidores .cr-sidebar-btn { display:flex; align-items:center; gap:10px; padding:11px 14px; border:none; background:transparent; color:#555; font-size:0.60rem; font-weight:700; cursor:pointer; text-align:left; border-left:3px solid transparent; transition:all 0.15s; white-space:nowrap; min-height:44px; }
@@ -35022,7 +35203,7 @@ document.addEventListener('DOMContentLoaded', function() {
   #panelControlRepartidores .cr-select { padding:6px 10px; border:1px solid #d1d5db; border-radius:6px; font-size:0.55rem; }
   #panelControlRepartidores .cr-header-bar { display:flex; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap; }
   /* Sub-tabs & toggle for merged sections */
-    #panelControlRepartidores .cr-subtabs { display:flex; gap:2px; background:#ff9900; border:1px solid #e68a00; border-radius:8px; padding:2px; margin-bottom:10px; overflow-x:auto; flex-shrink:0; }
+    #panelControlRepartidores .cr-subtabs { display:flex; gap:2px; background:#ffffff; border:1px solid #e5e7eb; border-radius:8px; padding:2px; margin-bottom:10px; overflow-x:auto; flex-shrink:0; }
     #panelControlRepartidores .cr-subtab { flex:none; padding:7px 14px; border:none; background:transparent; border-radius:6px; font-size:0.50rem; font-weight:700; color:#1a1a1a; cursor:pointer; transition:all 0.15s; white-space:nowrap; }
     #panelControlRepartidores .cr-subtab:hover { background:#fff3e0; color:#1a1a1a; }
   #panelControlRepartidores .cr-subtab.active { background:#fff; color:#ff9900; box-shadow:0 1px 3px rgba(0,0,0,0.1); border-bottom:2px solid #ff9900; }
@@ -35055,18 +35236,16 @@ document.addEventListener('DOMContentLoaded', function() {
         #panelControlRepartidores .cr-sidebar .cr-sidebar-btn span:not(.cr-ico),
         #panelControlRepartidores .cr-sidebar #crSidebarResumen { display:none; }
         #panelControlRepartidores .cr-sidebar .cr-sidebar-btn { justify-content:center; padding:8px 6px; }
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-toggle { right:12px; }
+        #panelControlRepartidores .cr-sidebar .cr-sidebar-toggle { right:8px; }
         #panelControlRepartidores .cr-main { padding:8px; }
     }
 </style>
 <!-- ══ BARRA LATERAL GLOBAL DE MÓDULOS ══ -->
 <div id="gnavBar">
   <!-- Marca / logo -->
-  <div style="width:46px;height:38px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.3rem;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:4px;">🏢</div>
 
   <!-- Reparto -->
   <button class="gnav-item" data-gnav="repartidores" title="Control Repartidores"><span class="g-ico">🚚</span><span class="g-lbl">Reparto</span></button>
-  <button class="gnav-item" data-gnav="app-movil" title="Reparto App Móvil"><span class="g-ico">📱</span><span class="g-lbl">App</span></button>
   <button class="gnav-item" data-gnav="temporal" title="Reparto Temporal"><span class="g-ico">🔄</span><span class="g-lbl">Temporal</span></button>
   <div class="gnav-sep"></div>
 
@@ -35087,7 +35266,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Catálogo -->
   <button class="gnav-item" data-gnav="productos" title="Productos"><span class="g-ico">🏷️</span><span class="g-lbl">Prods.</span></button>
   <button class="gnav-item" data-gnav="almacen" title="Almacén"><span class="g-ico">📦</span><span class="g-lbl">Almacén</span></button>
-  <button class="gnav-item" data-gnav="muestrario" title="Muestrario"><span class="g-ico">🖼️</span><span class="g-lbl">Muest.</span></button>
+    <button class="gnav-item" data-gnav="muestrario" title="Muestrario"><span class="g-ico">🖼️</span><span class="g-lbl">Muestr.</span></button>
   <div class="gnav-sep"></div>
 
   <!-- Análisis y config -->
@@ -35099,14 +35278,17 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="panelControlRepartidores" class="entrega-overlay">
   <div style="display:flex;flex-direction:column;width:100%;height:100vh;">
     <!-- Header -->
-        <div class="entrega-header" style="border-radius:0;border-left:none;border-right:none;border-top:none;flex-shrink:0;">
-            <h2 style="margin:0;font-size:0.84rem;font-weight:900;text-transform:uppercase;letter-spacing:0.02em;color:#1f2937;">🚚 Control Repartidores</h2>
-            <span style="margin-left:8px;font-size:0.52rem;color:#64748b;font-weight:600;">Administrar rutas de entrega</span>
+        <div class="entrega-header" style="border:none;box-shadow:none;background:#FF8C00;padding:10px 20px;margin:0;border-radius:0;flex-shrink:0;">
+            <h2 style="margin:0;font-size:0.84rem;font-weight:900;text-transform:uppercase;letter-spacing:0.02em;color:#ffffff;">Control Repartidores</h2>
         </div>
 
         <div class="cr-body">
             <div class="cr-sidebar collapsed" id="crSidebar" style="background:#fff;border-right:1px solid #e5e5e5;">
-                <button id="crSidebarToggle" class="cr-sidebar-toggle" title="Expandir menú">»</button>
+                                <button id="crSidebarToggle" class="cr-sidebar-toggle" title="Expandir menú" aria-label="Expandir menú" aria-expanded="false">
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                    <span class="line"></span>
+                                </button>
                 <div class="cr-sidebar-label">Módulos</div>
                 <button class="cr-sidebar-btn active" data-cr-section="dashboard" title="Dashboard"><span class="cr-ico">📊</span><span>Dashboard</span></button>
                 <button class="cr-sidebar-btn" data-cr-section="pedidos" title="Pedidos" style="position:relative;"><span class="cr-ico">📦</span><span>Pedidos</span><span id="crPedNoEntAlert" style="display:none;position:absolute;right:10px;top:8px;background:#dc2626;color:#fff;font-size:0.42rem;font-weight:900;padding:2px 6px;border-radius:999px;">🔴</span></button>
@@ -35601,7 +35783,6 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- ══ FULLSCREEN PANEL: acción de repartidor (Inv / Asignar / KPI / Pen) ══ -->
   <div id="crRepFsPanel" class="cr-fs-overlay">
     <div class="cr-fs-header">
-      <button id="crRepFsBack" class="cr-fs-back" title="Volver">←</button>
       <div style="flex:1;">
         <div id="crRepFsTitle" class="cr-fs-title">—</div>
         <div id="crRepFsSubtitle" class="cr-fs-subtitle"></div>
@@ -35619,9 +35800,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <div id="panelEntregas" class="entrega-overlay">
   <div class="entrega-container">
-    <div class="entrega-header">
-      <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">📱 REPARTO APP MÓVIL</h2>
-      <span style="flex:1;font-size:0.55rem;color:#64748b;font-weight:600;">Gestión y seguimiento</span>
+        <div class="entrega-header" style="border:none;box-shadow:none;background:#FF8C00;padding:10px 20px;margin:-8px -8px 0 -8px;border-radius:0;">
+            <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">📱 REPARTO APP MÓVIL</h2>
+            <span style="flex:1;font-size:0.55rem;color:#ffe0b2;font-weight:600;">Gestión y seguimiento</span>
       <button id="entBtnScanConsulta" type="button" style="padding:5px 10px;background:#ff9900;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.55rem;">🔍 CONSULTA</button>
       <button id="entBtnAbrirPopupEtiqueta" type="button" style="padding:5px 10px;background:#ff9900;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.55rem;">📷 RECIBIR</button>
     </div>
@@ -36937,9 +37118,8 @@ document.addEventListener('DOMContentLoaded', function() {
 ════════════════════════════════════════════════════════════════ -->
 <div id="panelRepartoTemporal" class="entrega-overlay" style="display:none;">
   <div class="entrega-container">
-    <div class="entrega-header">
-      <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">REPARTO TEMPORAL</h2>
-      <span style="margin-left:auto;font-size:0.62rem;color:#64748b;font-weight:600;">Entregas temporales manuales — independientes del flujo de producción</span>
+    <div class="entrega-header" style="border:none;box-shadow:none;background:#FF8C00;padding:10px 20px;margin:-8px -8px 0 -8px;border-radius:0;">
+      <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">REPARTO TEMPORAL</h2>
     </div>
     <div class="entrega-body">
       <div class="entrega-left" style="background:#fff;">
@@ -39920,8 +40100,9 @@ document.addEventListener('DOMContentLoaded', function() {
         function syncSidebarToggle(){
             if(!sidebar || !toggle) return;
             var collapsed = sidebar.classList.contains('collapsed');
-            toggle.textContent = collapsed ? '»' : '«';
             toggle.title = collapsed ? 'Expandir menú' : 'Colapsar menú';
+            toggle.setAttribute('aria-label', collapsed ? 'Expandir menú' : 'Colapsar menú');
+            toggle.setAttribute('aria-expanded', collapsed ? 'false' : 'true');
         }
         if(toggle && sidebar){
             toggle.addEventListener('click', function(){
@@ -42441,7 +42622,9 @@ document.addEventListener('focusin', function(e) {
         'panelControlRepartidores','panelEntregas','panelRepartoTemporal',
         'popupMisPedidos','popupProductos','popupCaja','popupCalendario',
         'popupConfiguraciones','popupClientesModulo','popupProveedoresModulo',
-        'popupInsumosModulo','popupAlmacenModulo','popupReportesModulo',
+        'popupInsumosModulo','popupAlmacenModulo','popupAlmacenFisico','popupReportesModulo',
+        'almfPopMovimientos','almfPopInventario','almfPopHistorial','almfMovScannerPopup','almfContenedorPopup',
+        'popupListado','popupAccess','popupMuestrarioSelector',
         'panelProduccion','panelRecepcionSucursal','popupDesignTracking','landing'
     ];
 
@@ -42491,20 +42674,53 @@ document.addEventListener('focusin', function(e) {
                 else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('PRODUCCION');
                 break;
             case 'diseno':
-                if (window.openDisenoPopupGlobal) window.openDisenoPopupGlobal();
-                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('DISENO');
+                if (window.openDisenoPopupGlobal) {
+                    window.openDisenoPopupGlobal();
+                } else {
+                    var disPop = document.getElementById('popupDesignTracking');
+                    if (disPop) {
+                        disPop.style.display = 'flex';
+                        disPop.setAttribute('aria-hidden', 'false');
+                        document.body.classList.add('popup-open');
+                        document.documentElement.classList.add('popup-open');
+                    } else if (window.abrirModuloPrincipal) {
+                        window.abrirModuloPrincipal('DISENO');
+                    }
+                }
                 break;
             case 'recepcion':
                 if (window.openRecepcionSucursalGlobal) window.openRecepcionSucursalGlobal();
                 else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('RECEPCION SUCURSAL');
                 break;
             case 'caja':
-                if (window.openCajaPopupGlobal) window.openCajaPopupGlobal();
-                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('CAJA');
+                if (window.openCajaPopupGlobal) {
+                    window.openCajaPopupGlobal();
+                } else {
+                    var cajaPop = document.getElementById('popupCaja');
+                    if (cajaPop) {
+                        cajaPop.style.display = 'flex';
+                        cajaPop.setAttribute('aria-hidden', 'false');
+                        document.body.classList.add('popup-open');
+                        document.documentElement.classList.add('popup-open');
+                    } else if (window.abrirModuloPrincipal) {
+                        window.abrirModuloPrincipal('CAJA');
+                    }
+                }
                 break;
             case 'clientes':
-                if (window.openClientesPopupGlobal) window.openClientesPopupGlobal();
-                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('CLIENTES');
+                if (window.openClientesPopupGlobal) {
+                    window.openClientesPopupGlobal();
+                } else {
+                    var cliPop = document.getElementById('popupClientesModulo');
+                    if (cliPop) {
+                        cliPop.style.display = 'flex';
+                        cliPop.setAttribute('aria-hidden', 'false');
+                        document.body.classList.add('popup-open');
+                        document.documentElement.classList.add('popup-open');
+                    } else if (window.abrirModuloPrincipal) {
+                        window.abrirModuloPrincipal('CLIENTES');
+                    }
+                }
                 break;
             case 'proveedores':
                 if (window.openProveedoresPopupGlobal) window.openProveedoresPopupGlobal();
@@ -42542,7 +42758,8 @@ document.addEventListener('focusin', function(e) {
         openModule(btn.dataset.gnav);
     });
 
-    // Patch mostrarInicioSistema: activar gnav en lugar de mostrar la cuadrícula de inicio
+    // Patch mostrarInicioSistema: activar gnav y entrar directo a Nueva Orden al cargar
+    var _defaultOpenDone = false;
     window.mostrarInicioSistema = function() {
         var landing = document.getElementById('landing');
         var sidebar = document.querySelector('.sidebar');
@@ -42554,6 +42771,13 @@ document.addEventListener('focusin', function(e) {
         if (mainArea) { mainArea.style.display = ''; mainArea.style.visibility = ''; }
         if (chatFab) chatFab.style.display = 'inline-flex';
         if (btnHome) btnHome.style.display = 'none';
+
+        if (!_defaultOpenDone) {
+            _defaultOpenDone = true;
+            openModule('nueva-orden');
+            return;
+        }
+
         showGnav('');
     };
 
