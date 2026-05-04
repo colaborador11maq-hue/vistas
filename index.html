@@ -7671,12 +7671,48 @@
                     background: #f5f7fb; z-index: 9200;
                     flex-direction: column; overflow: hidden;
                 }
+                /* ── Todos los overlays de módulos se desplazan cuando la gnav está activa ── */
+                body.gnav-open .entrega-overlay,
+                body.gnav-open .mispedidos-overlay,
+                body.gnav-open .misPedidos-overlay,
+                body.gnav-open .caja-overlay,
+                body.gnav-open .productos-overlay,
+                body.gnav-open .clientesmod-overlay,
+                body.gnav-open .clientesform-overlay,
+                body.gnav-open .proveedoresmod-overlay,
+                body.gnav-open .proveedorform-overlay,
+                body.gnav-open .almacenmod-overlay,
+                body.gnav-open .almacenform-overlay,
+                body.gnav-open .almacenpedidos-overlay,
+                body.gnav-open .reportesmod-overlay,
+                body.gnav-open .insumosmod-overlay,
+                body.gnav-open .insumoform-overlay,
+                body.gnav-open .ajustes-tabuladores-overlay,
+                body.gnav-open .prod-tabulador-overlay,
+                body.gnav-open .produccion-overlay,
+                body.gnav-open .recepcion-overlay,
+                body.gnav-open .diseno-overlay,
+                body.gnav-open .inicio-sistema-overlay { left: 58px !important; }
+                /* Overlays adicionales que también deben desplazarse */
+                body.gnav-open .cal-overlay,
+                body.gnav-open .landing-overlay { left: 58px !important; }
+                /* El contenido en flujo normal (sidebar, main-area) también se desplaza */
+                body.gnav-open { padding-left: 58px; }
+                /* Elementos con width:100vw explícito — reducir para no salirse de pantalla */
+                body.gnav-open .caja-overlay,
+                body.gnav-open .caja-card,
+                body.gnav-open .mispedidos-card,
+                body.gnav-open .productos-card,
+                body.gnav-open .cal-card,
+                body.gnav-open .clientesmod-card { width: calc(100vw - 58px) !important; }
+                #panelControlRepartidores.entrega-overlay { inset: unset; position: fixed; top:0; right:0; bottom:0; }
+                body.gnav-open #panelControlRepartidores { left: 58px; }
                 .entrega-container { display: flex; flex-direction: column; height: 100%; padding: 8px; gap: 6px; }
                 .entrega-header {
                     position: relative;
                     display: flex; align-items: center;
                     justify-content: flex-start;
-                    padding: 8px 10px 8px 42px; background: #fff;
+                    padding: 8px 10px 8px 12px; background: #fff;
                     border: 1px solid #e4e8ef; border-radius: 10px; flex-shrink: 0;
                 }
                 .entrega-back {
@@ -7700,6 +7736,16 @@
                 .entrega-back:hover {
                     background: #f3f4f6;
                 }
+                /* ── GLOBAL NAV BAR ── */
+                #gnavBar { display:none; position:fixed; left:0; top:0; bottom:0; width:58px; background:#111827; z-index:9500; flex-direction:column; align-items:center; padding:6px 0; gap:1px; border-right:1px solid rgba(255,255,255,0.07); overflow-y:auto; overflow-x:hidden; scrollbar-width:none; }
+                #gnavBar::-webkit-scrollbar { display:none; }
+                #gnavBar.visible { display:flex; }
+                .gnav-item { width:46px; height:40px; border:none; border-radius:8px; background:transparent; color:#9ca3af; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px; transition:all 0.15s; flex-shrink:0; }
+                .gnav-item:hover { background:rgba(255,255,255,0.1); color:#e5e7eb; }
+                .gnav-item.active { background:#ff9900; color:#1a1a1a; }
+                .gnav-item .g-ico { font-size:1rem; line-height:1; }
+                .gnav-item .g-lbl { font-size:0.3rem; font-weight:800; text-transform:uppercase; letter-spacing:0.3px; line-height:1; }
+                .gnav-sep { width:32px; height:1px; background:rgba(255,255,255,0.08); margin:2px 0; flex-shrink:0; }
                 .entrega-body { display: flex; flex: 1; overflow: hidden; }
                 .entrega-left {
                     width: 370px; flex-shrink: 0; background: #fff;
@@ -13643,106 +13689,180 @@ const imgBolsaDeliveryBase = new Image();
 
 <!-- ═══════ ALMACÉN FÍSICO OVERLAY ═══════ -->
 <div id="popupAlmacenFisico" style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.5);justify-content:center;align-items:center;">
-<div id="almFisicoCard" style="background:#fff;width:min(96vw,1100px);height:min(92vh,800px);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.25);">
+<div id="almFisicoCard" style="background:#fff;width:min(96vw,1100px);height:min(92vh,800px);border-radius:16px;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.25);">
   <!-- Header -->
-  <div style="display:flex;align-items:center;gap:12px;padding:14px 20px;border-bottom:2px solid #ff9900;background:linear-gradient(135deg,#fff7ed,#fffbeb);">
-    <button id="almFisicoBack" type="button" style="background:none;border:none;font-size:1.3rem;cursor:pointer;padding:4px 8px;border-radius:8px;" title="Volver">←</button>
-    <h2 style="margin:0;font-size:0.9rem;font-weight:900;color:#1f2937;flex:1;">📦 ALMACÉN FÍSICO</h2>
-    <div id="almFisicoTabs" style="display:flex;gap:4px;">
-      <button class="almf-tab active" data-almf-tab="ubicaciones">🗄 Ubicaciones</button>
-      <button class="almf-tab" data-almf-tab="movimientos">🔄 Movimientos</button>
-      <button class="almf-tab" data-almf-tab="inventario">📋 Inventario</button>
-      <button class="almf-tab" data-almf-tab="historial">📜 Historial</button>
+  <div style="display:flex;align-items:center;gap:12px;padding:16px 20px;border-bottom:3px solid #ff9900;background:linear-gradient(135deg,#fef3c7,#fef9c3);">
+    <button id="almFisicoBack" type="button" style="background:none;border:none;font-size:1.2rem;cursor:pointer;padding:6px;border-radius:8px;color:#1f2937;font-weight:900;" title="Volver">←</button>
+    <h2 style="margin:0;font-size:1rem;font-weight:900;color:#1f2937;flex:1;">📦 ALMACÉN FÍSICO</h2>
+    <div style="display:flex;gap:6px;">
+      <button id="almfBtnMovimientos" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">🔄 MOVIMIENTOS</button>
+      <button id="almfBtnInventario" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">📋 INVENTARIO</button>
+      <button id="almfBtnHistorial" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">📜 HISTORIAL</button>
     </div>
   </div>
   <!-- Body -->
-  <div style="flex:1;overflow-y:auto;padding:16px;" id="almFisicoBody">
-    <!-- TAB: Ubicaciones -->
-    <div id="almfSecUbicaciones" class="almf-section">
-      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;">
-        <input id="almfBuscarUbi" type="text" placeholder="🔍 Buscar ubicación, estante o contenedor..." style="flex:1;min-width:200px;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:0.68rem;">
-        <button id="almfAddUbi" type="button" style="padding:8px 16px;background:#ff9900;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.65rem;">＋ NUEVA UBICACIÓN</button>
+  <div style="flex:1;display:flex;flex-direction:column;background:#f8fafc;" id="almFisicoBody">
+    <!-- TAB: Ubicaciones (PRINCIPAL) -->
+    <div id="almfSecUbicaciones" class="almf-section" style="display:flex;flex-direction:column;height:100%;">
+      <!-- Toolbar -->
+      <div style="display:flex;gap:6px;padding:10px;align-items:center;flex-wrap:wrap;flex-shrink:0;background:#fff;border-bottom:1px solid #e5e7eb;">
+        <button id="almfAddUbi" type="button" style="padding:8px 14px;background:#ff9900;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.65rem;box-shadow:0 2px 6px rgba(255,153,0,0.3)">＋ NUEVO CONTENEDOR</button>
+        <input id="almfBuscarUbi" type="text" placeholder="🔍 Buscar contenedor..." style="flex:1;min-width:150px;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;background:#fff;color:#1f2937;">
+        <span id="almfNivelLabel" style="font-size:0.62rem;font-weight:800;color:#fff;background:#ff9900;border:1px solid #ff9900;padding:6px 12px;border-radius:8px;white-space:nowrap;box-shadow:0 2px 4px rgba(255,153,0,0.2);">NIVEL 1</span>
       </div>
-      <div id="almfUbiGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;"></div>
+      <!-- Body: rack grid + nivel buttons -->
+      <div style="display:flex;flex:1;gap:10px;min-height:0;padding:10px;overflow:hidden;">
+        <!-- Shelf grid -->
+        <div style="flex:1;overflow:auto;background:#fff;border-radius:12px;padding:12px;border:1px solid #e5e7eb;box-shadow:inset 0 1px 3px rgba(0,0,0,0.05);">
+          <div id="almfRackGrid"></div>
+        </div>
+        <!-- Nivel buttons panel, bottom-to-top + boton + -->
+        <div style="display:flex;flex-direction:column;gap:4px;min-width:52px;align-items:center;justify-content:flex-end;padding-bottom:4px;">
+          <button id="almfAddNivel" type="button" title="Agregar nivel" style="width:46px;height:46px;border-radius:50%;border:2px solid #ff9900;background:#fff7ed;color:#ff9900;font-size:1.2rem;font-weight:900;cursor:pointer;flex-shrink:0;box-shadow:0 2px 8px rgba(255,153,0,0.25);transition:none;">+</button>
+          <div id="almfNivelesPanel" style="display:flex;flex-direction:column-reverse;gap:4px;width:100%;"></div>
+        </div>
+      </div>
     </div>
-    <!-- TAB: Movimientos -->
-    <div id="almfSecMovimientos" class="almf-section" style="display:none;">
-      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:16px;margin-bottom:14px;">
-        <div style="font-weight:900;font-size:0.75rem;color:#92400e;margin-bottom:10px;">🔄 MOVER / TRASLADAR PRODUCTO</div>
+  </div>
+</div>
+</div>
+    <!-- POPUP DETALLE CONTENEDOR -->
+    <div id="almfContenedorPopup" style="display:none;position:fixed;inset:0;z-index:10500;background:rgba(0,0,0,0.45);justify-content:center;align-items:center;">
+      <div style="background:#fff;border-radius:16px;width:min(94vw,520px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,0.22);">
+        <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:2px solid #ff9900;background:#fff7ed;">
+          <span style="font-size:1.3rem;">📦</span>
+          <div style="flex:1;">
+            <div id="almfCPopNombre" style="font-weight:900;font-size:0.82rem;color:#1f2937;"></div>
+            <div id="almfCPopCodigo" style="font-size:0.5rem;color:#6b7280;"></div>
+          </div>
+          <button id="almfCPopClose" type="button" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#6b7280;padding:4px;">✕</button>
+        </div>
+        <div style="flex:1;overflow-y:auto;padding:14px;">
+          <div id="almfCPopItems" style="display:flex;flex-direction:column;gap:6px;"></div>
+          <div id="almfCPopEmpty" style="text-align:center;padding:30px;color:#94a3b8;font-size:0.65rem;display:none;">Sin productos en este contenedor</div>
+        </div>
+        <div style="display:flex;gap:8px;padding:12px 18px;border-top:1px solid #f1f5f9;">
+          <button id="almfCPopEditar" type="button" style="flex:1;padding:8px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.6rem;color:#374151;">✏️ EDITAR</button>
+          <button id="almfCPopEliminar" type="button" style="padding:8px 14px;background:#fef2f2;border:1px solid #fecaca;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.6rem;color:#dc2626;">🗑 ELIMINAR</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- POPUPS MOVIMIENTOS, INVENTARIO, HISTORIAL -->
+
+<!-- POPUP: MOVIMIENTOS -->
+<div id="almfPopMovimientos" style="display:none;position:fixed;inset:0;z-index:10400;background:rgba(0,0,0,0.45);justify-content:center;align-items:center;">
+  <div style="background:#fff;border-radius:16px;width:min(94vw,700px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.22);">
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:3px solid #ff9900;background:linear-gradient(135deg,#fef3c7,#fef9c3);">
+      <span style="font-size:1.3rem;">🔄</span>
+      <h3 style="margin:0;font-weight:900;font-size:0.8rem;color:#1f2937;flex:1;">MOVIMIENTOS Y TRASLADOS</h3>
+      <button id="almfMovClose" type="button" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#6b7280;padding:4px;">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px;">
+      <div style="background:#fffbeb;border:1px solid #fde68a;border-radius:12px;padding:14px;margin-bottom:14px;">
+        <div style="font-weight:900;font-size:0.72rem;color:#92400e;margin-bottom:10px;">🔄 TRASLADAR PRODUCTO</div>
         <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:end;">
-          <div style="flex:1;min-width:160px;">
-            <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">ESCANEAR O BUSCAR PRODUCTO</label>
-            <input id="almfMovProducto" type="text" placeholder="Código, etiqueta o nombre..." style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;">
+          <div style="flex:1;min-width:140px;">
+                                                <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">ESCANEAR PRODUCTO</label>
+                                                <div style="display:flex;gap:6px;align-items:center;">
+                                                    <input id="almfMovProducto" type="text" placeholder="Escanea código del producto y presiona Enter" style="width:100%;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;">
+                                                    <button id="almfMovScanProductoBtn" type="button" title="Escanear producto" style="width:38px;height:38px;border:1px solid #d1d5db;background:#fff;border-radius:8px;cursor:pointer;font-size:1rem;">📷</button>
+                                                </div>
           </div>
-          <div style="min-width:140px;">
-            <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">DESDE (ORIGEN)</label>
-            <select id="almfMovOrigen" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;"></select>
+          <div style="flex:1;min-width:120px;">
+                        <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">DESDE (AUTOMÁTICO)</label>
+                        <input id="almfMovOrigenAuto" type="text" readonly placeholder="Se detecta al escanear producto" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;background:#f3f4f6;color:#374151;">
           </div>
-          <div style="min-width:140px;">
-            <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">HACIA (DESTINO)</label>
-            <select id="almfMovDestino" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;"></select>
+          <div style="flex:1;min-width:120px;">
+                        <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">ESCANEAR DESTINO</label>
+                                                <div style="display:flex;gap:6px;align-items:center;">
+                                                    <input id="almfMovDestinoScan" type="text" placeholder="Escanea etiqueta del contenedor destino" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;">
+                                                    <button id="almfMovScanDestinoBtn" type="button" title="Escanear destino" style="width:38px;height:38px;border:1px solid #d1d5db;background:#fff;border-radius:8px;cursor:pointer;font-size:1rem;">📷</button>
+                                                </div>
           </div>
-          <div style="min-width:80px;">
-            <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">CANTIDAD</label>
+          <div style="min-width:70px;">
+            <label style="font-size:0.52rem;font-weight:700;color:#6b7280;display:block;margin-bottom:3px;">CANT</label>
             <input id="almfMovCant" type="number" min="1" value="1" style="width:100%;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;">
           </div>
           <div style="display:flex;gap:6px;">
-            <button id="almfMovTrasladar" type="button" style="padding:8px 16px;background:#ff9900;color:#1a1a1a;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.62rem;">🔄 TRASLADAR</button>
-            <button id="almfMovRetirar" type="button" style="padding:8px 16px;background:#dc2626;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.62rem;">📤 RETIRAR</button>
+                        <button id="almfMovLimpiar" type="button" style="padding:8px 12px;background:#e5e7eb;color:#374151;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.62rem;">🧹 LIMPIAR</button>
           </div>
         </div>
+                <div id="almfMovStatus" style="margin-top:8px;font-size:0.56rem;font-weight:700;color:#6b7280;">Escanea producto para detectar origen automáticamente.</div>
       </div>
-      <div style="font-weight:800;font-size:0.68rem;color:#1f2937;margin-bottom:8px;">📋 MOVIMIENTOS RECIENTES</div>
-      <div id="almfMovHistorial" style="max-height:400px;overflow-y:auto;"></div>
+      <div style="font-weight:800;font-size:0.68rem;color:#1f2937;margin-bottom:8px;">📋 ÚLTIMOS MOVIMIENTOS</div>
+      <div id="almfMovHistorial" style="max-height:300px;overflow-y:auto;"></div>
     </div>
-    <!-- TAB: Inventario Rápido -->
-    <div id="almfSecInventario" class="almf-section" style="display:none;">
-      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;">
-        <button id="almfIniciarInventario" type="button" style="padding:10px 20px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.7rem;">📋 INICIAR INVENTARIO</button>
-        <select id="almfInvUbicacion" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;min-width:180px;">
-          <option value="">TODAS LAS UBICACIONES</option>
-        </select>
-        <div style="flex:1;"></div>
-        <span id="almfInvStatus" style="font-size:0.6rem;font-weight:700;color:#6b7280;">Sin inventario en curso</span>
+  </div>
+</div>
+
+<div id="almfMovScannerPopup" style="display:none;position:fixed;inset:0;z-index:10550;background:rgba(0,0,0,0.65);justify-content:center;align-items:center;">
+    <div style="background:#fff;border-radius:14px;overflow:hidden;width:min(92vw,420px);box-shadow:0 20px 50px rgba(0,0,0,0.35);">
+        <div style="display:flex;align-items:center;gap:8px;padding:10px 12px;border-bottom:2px solid #ff9900;background:#fff7ed;">
+            <strong style="flex:1;color:#1f2937;font-size:0.72rem;">ESCÁNER</strong>
+            <button id="almfMovScannerClose" type="button" style="background:none;border:none;font-size:1.1rem;cursor:pointer;color:#6b7280;">✕</button>
+        </div>
+        <div style="padding:10px;">
+            <video id="almfMovScannerVideo" autoplay playsinline muted style="width:100%;height:260px;background:#0b0f19;border-radius:10px;object-fit:cover;"></video>
+            <div id="almfMovScannerStatus" style="margin-top:8px;font-size:0.58rem;color:#6b7280;font-weight:700;">Iniciando cámara...</div>
+        </div>
+    </div>
+</div>
+
+<!-- POPUP: INVENTARIO -->
+<div id="almfPopInventario" style="display:none;position:fixed;inset:0;z-index:10400;background:rgba(0,0,0,0.45);justify-content:center;align-items:center;">
+  <div style="background:#fff;border-radius:16px;width:min(94vw,700px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.22);">
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:3px solid #16a34a;background:linear-gradient(135deg,#dcfce7,#f0fdf4);">
+      <span style="font-size:1.3rem;">📋</span>
+      <h3 style="margin:0;font-weight:900;font-size:0.8rem;color:#1f2937;flex:1;">INVENTARIO RÁPIDO</h3>
+      <button id="almfInvClose" type="button" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#6b7280;padding:4px;">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;">
+        <select id="almfInvUbicacion" style="flex:1;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;"><option value="">TODAS LAS UBICACIONES</option></select>
+        <button id="almfIniciarInventario" type="button" style="padding:8px 14px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.65rem;">📋 INICIAR</button>
+        <button id="almfInvCerrar" type="button" style="padding:8px 14px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.65rem;display:none;">CANCELAR</button>
       </div>
       <div id="almfInvPanel" style="display:none;">
-        <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:12px;padding:14px;margin-bottom:12px;">
-          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-            <input id="almfInvScan" type="text" placeholder="📷 Escanear etiqueta de producto o contenedor..." style="flex:1;min-width:200px;padding:10px 12px;border:2px solid #16a34a;border-radius:8px;font-size:0.72rem;font-weight:700;">
-            <input id="almfInvCantidad" type="number" min="1" value="1" style="width:80px;padding:10px;border:1px solid #d1d5db;border-radius:8px;font-size:0.68rem;" placeholder="Cant.">
-            <button id="almfInvAgregar" type="button" style="padding:10px 16px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.65rem;">✅ REGISTRAR</button>
+        <div style="background:#f0fdf4;border:2px solid #16a34a;border-radius:12px;padding:12px;margin-bottom:12px;">
+          <div style="display:flex;gap:8px;align-items:center;">
+            <input id="almfInvScan" type="text" placeholder="📷 Escanear producto..." style="flex:1;padding:8px 10px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;font-weight:700;">
+            <input id="almfInvCantidad" type="number" min="1" value="1" style="width:60px;padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;">
+            <button id="almfInvAgregar" type="button" style="padding:8px 12px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.62rem;">✅ OK</button>
           </div>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px;">
-          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:1.2rem;font-weight:900;color:#fff;" id="almfInvContados">0</div>
-            <div style="font-size:0.5rem;color:#6b7280;">CONTADOS</div>
-          </div>
-          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:1.2rem;font-weight:900;color:#16a34a;" id="almfInvCoinciden">0</div>
-            <div style="font-size:0.5rem;color:#6b7280;">COINCIDEN</div>
-          </div>
-          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:1.2rem;font-weight:900;color:#dc2626;" id="almfInvDiferencias">0</div>
-            <div style="font-size:0.5rem;color:#6b7280;">DIFERENCIAS</div>
-          </div>
-          <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;text-align:center;">
-            <div style="font-size:1.2rem;font-weight:900;color:#f59e0b;" id="almfInvFaltantes">0</div>
-            <div style="font-size:0.5rem;color:#6b7280;">FALTANTES</div>
-          </div>
+        <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:12px;">
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px;text-align:center;"><div style="font-size:1.1rem;font-weight:900;color:#16a34a;" id="almfInvContados">0</div><div style="font-size:0.48rem;color:#6b7280;">CONTADOS</div></div>
+          <div style="background:#dbeafe;border:1px solid #bfdbfe;border-radius:8px;padding:8px;text-align:center;"><div style="font-size:1.1rem;font-weight:900;color:#3b82f6;" id="almfInvCoinciden">0</div><div style="font-size:0.48rem;color:#6b7280;">OK</div></div>
+          <div style="background:#fee2e2;border:1px solid #fecaca;border-radius:8px;padding:8px;text-align:center;"><div style="font-size:1.1rem;font-weight:900;color:#dc2626;" id="almfInvDiferencias">0</div><div style="font-size:0.48rem;color:#6b7280;">DIFF</div></div>
+          <div style="background:#fef3c7;border:1px solid #fde68a;border-radius:8px;padding:8px;text-align:center;"><div style="font-size:1.1rem;font-weight:900;color:#f59e0b;" id="almfInvFaltantes">0</div><div style="font-size:0.48rem;color:#6b7280;">FALTAN</div></div>
         </div>
-        <div id="almfInvLista" style="max-height:350px;overflow-y:auto;"></div>
-        <div style="display:flex;gap:8px;margin-top:12px;justify-content:flex-end;">
-          <button id="almfInvCerrar" type="button" style="padding:8px 16px;border:1px solid #d1d5db;border-radius:8px;background:#fff;cursor:pointer;font-size:0.62rem;font-weight:700;">CANCELAR</button>
-          <button id="almfInvFinalizar" type="button" style="padding:8px 16px;background:#ff9900;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.62rem;">📋 FINALIZAR INVENTARIO</button>
+        <div id="almfInvLista" style="max-height:250px;overflow-y:auto;border:1px solid #e5e7eb;border-radius:8px;padding:8px;"></div>
+        <div style="display:flex;gap:8px;margin-top:12px;">
+          <button id="almfInvCancelar" type="button" style="flex:1;padding:8px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;">CANCELAR</button>
+          <button id="almfInvFinalizar" type="button" style="flex:1;padding:8px;background:#16a34a;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.62rem;">✅ FINALIZAR</button>
         </div>
       </div>
+      <div id="almfInvStatus" style="text-align:center;padding:30px;color:#94a3b8;font-size:0.65rem;">Sin inventario en curso</div>
     </div>
-    <!-- TAB: Historial -->
-    <div id="almfSecHistorial" class="almf-section" style="display:none;">
-      <div style="display:flex;gap:8px;margin-bottom:12px;align-items:center;flex-wrap:wrap;">
-        <input id="almfHistBuscar" type="text" placeholder="🔍 Buscar en historial..." style="flex:1;min-width:200px;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;font-size:0.68rem;">
-        <select id="almfHistTipo" style="padding:8px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;">
+  </div>
+</div>
+
+<!-- POPUP: HISTORIAL -->
+<div id="almfPopHistorial" style="display:none;position:fixed;inset:0;z-index:10400;background:rgba(0,0,0,0.45);justify-content:center;align-items:center;">
+  <div style="background:#fff;border-radius:16px;width:min(94vw,800px);max-height:85vh;display:flex;flex-direction:column;overflow:hidden;box-shadow:0 20px 50px rgba(0,0,0,0.22);">
+    <div style="display:flex;align-items:center;gap:10px;padding:14px 18px;border-bottom:3px solid #8b5cf6;background:linear-gradient(135deg,#f5f3ff,#faf5ff);">
+      <span style="font-size:1.3rem;">📜</span>
+      <h3 style="margin:0;font-weight:900;font-size:0.8rem;color:#1f2937;flex:1;">HISTORIAL DE MOVIMIENTOS</h3>
+      <button id="almfHistClose" type="button" style="background:none;border:none;font-size:1.2rem;cursor:pointer;color:#6b7280;padding:4px;">✕</button>
+    </div>
+    <div style="flex:1;overflow-y:auto;padding:16px;">
+      <div style="display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;">
+        <input id="almfHistBuscar" type="text" placeholder="🔍 Buscar..." style="flex:1;min-width:140px;padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.65rem;">
+        <select id="almfHistTipo" style="padding:8px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:0.62rem;">
           <option value="">TODOS</option>
           <option value="traslado">TRASLADOS</option>
           <option value="retiro">RETIROS</option>
@@ -13750,10 +13870,9 @@ const imgBolsaDeliveryBase = new Image();
           <option value="inventario">INVENTARIOS</option>
         </select>
       </div>
-      <div id="almfHistLista" style="max-height:500px;overflow-y:auto;"></div>
+      <div id="almfHistLista" style="max-height:450px;overflow-y:auto;"></div>
     </div>
   </div>
-</div>
 </div>
 
 <style>
@@ -23753,11 +23872,176 @@ document.addEventListener('DOMContentLoaded', () => {
         function now(){return new Date().toLocaleString('es-MX',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit',second:'2-digit'});}
         function getUser(){return localStorage.getItem('logged_user_email')||'admin';}
 
+        var ALMF_CFG_KEY = 'almf_estante_cfg_v1';
         var ubicaciones = loadJSON(ALMF_UBI_KEY);
         var movimientos = loadJSON(ALMF_MOV_KEY);
         var inventarios = loadJSON(ALMF_INV_KEY);
         var invEnCurso = null;
         var isModuleMode = false;
+
+        function loadCfg(){
+            try{ return JSON.parse(localStorage.getItem(ALMF_CFG_KEY)||'null'); }catch(e){ return null; }
+        }
+        function saveCfg(c){ localStorage.setItem(ALMF_CFG_KEY, JSON.stringify(c)); }
+        var estanteCfg = loadCfg() || {niveles:1, pasillos:4, racks:6};
+        var nivelActivo = 1;
+        var dragSrcId = null;
+
+        function renderNiveles(){
+            var panel = document.getElementById('almfNivelesPanel'); if(!panel) return;
+            var btns = '';
+            for(var n = estanteCfg.niveles; n >= 1; n--){
+                var activo = n === nivelActivo;
+                btns += '<button data-nivel="'+n+'" type="button" style="width:44px;height:36px;border-radius:8px;border:2px solid '+(activo?'#ff9900':'#e5e7eb')+';background:'+(activo?'#ff9900':'#fff')+';color:'+(activo?'#000':'#6b7280')+';font-weight:900;font-size:0.6rem;cursor:pointer;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.08);">N'+n+'</button>';
+            }
+            panel.innerHTML = btns;
+            panel.querySelectorAll('button').forEach(function(b){
+                b.addEventListener('click', function(){
+                    nivelActivo = parseInt(b.dataset.nivel);
+                    renderNiveles(); renderRackGrid();
+                    var lbl = document.getElementById('almfNivelLabel');
+                    if(lbl) lbl.textContent = 'NIVEL '+nivelActivo;
+                });
+                b.addEventListener('dragover', function(e){
+                    e.preventDefault();
+                    var n2 = parseInt(b.dataset.nivel);
+                    if(n2 !== nivelActivo){ nivelActivo = n2; renderNiveles(); renderRackGrid(); var lbl=document.getElementById('almfNivelLabel'); if(lbl) lbl.textContent='NIVEL '+nivelActivo; }
+                });
+            });
+        }
+
+        function getCelda(nivel, pasillo, rack){
+            return ubicaciones.find(function(u){ return u.celda === 'N'+nivel+'-P'+pasillo+'-R'+rack; });
+        }
+
+        function renderRackGrid(){
+            var grid = document.getElementById('almfRackGrid'); if(!grid) return;
+            var buscar = ((document.getElementById('almfBuscarUbi')||{}).value||'').toLowerCase().trim();
+            var html = '<table style="border-collapse:separate;border-spacing:6px;width:100%;">';
+            html += '<tr><td style="font-size:0.48rem;color:#9ca3af;padding:2px 6px;font-weight:700;">PASILLO</td>';
+            for(var r = 1; r <= estanteCfg.racks; r++){
+                html += '<td style="text-align:center;font-size:0.48rem;color:#9ca3af;font-weight:700;padding:2px 4px;min-width:72px;">RACK '+r+'</td>';
+            }
+            html += '</tr>';
+            for(var p = 1; p <= estanteCfg.pasillos; p++){
+                html += '<tr>';
+                html += '<td style="font-size:0.52rem;color:#374151;font-weight:800;white-space:nowrap;padding:2px 8px 2px 2px;">P-'+p+'</td>';
+                for(var rc = 1; rc <= estanteCfg.racks; rc++){
+                    var ubi = getCelda(nivelActivo, p, rc);
+                    var total = ubi ? (ubi.items||[]).reduce(function(a,i){return a+(i.cantidad||0);},0) : 0;
+                    var ocupado = !!ubi;
+                    var matchBuscar = !buscar || (ubi && ((ubi.nombre||'').toLowerCase().includes(buscar)||(ubi.codigo||'').toLowerCase().includes(buscar)));
+                    var borderColor = ocupado ? (matchBuscar&&buscar?'#f59e0b':'#ff9900') : '#e5e7eb';
+                    var bg = ocupado ? (matchBuscar&&buscar?'#fef9c3':'#fff7ed') : '#fafafa';
+                    var label = ubi ? esc(ubi.nombre).substring(0,12) : '—';
+                    var celdaCode = 'N'+nivelActivo+'-P'+p+'-R'+rc;
+                    html += '<td style="padding:2px;">';
+                    html += '<div class="almf-rack-cell" draggable="'+(ocupado?'true':'false')+'" data-celda="'+celdaCode+'" data-ubiid="'+(ubi?esc(ubi.id):'')+'" style="width:72px;height:60px;border-radius:10px;border:2px solid '+borderColor+';background:'+bg+';cursor:'+(ocupado?'grab':'pointer')+';display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;user-select:none;">';
+                    if(ocupado){
+                        html += '<span style="font-size:1rem;">📦</span>';
+                        html += '<span style="font-size:0.4rem;color:#374151;font-weight:700;text-align:center;max-width:68px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;">'+label+'</span>';
+                        if(total>0) html += '<span style="font-size:0.36rem;background:#ff9900;color:#fff;border-radius:4px;padding:1px 5px;font-weight:900;">'+total+' uds</span>';
+                    } else {
+                        html += '<span style="font-size:0.38rem;color:#d1d5db;font-weight:600;">VACÍO</span>';
+                    }
+                    html += '</div></td>';
+                }
+                html += '</tr>';
+            }
+            html += '</table>';
+            grid.innerHTML = html;
+            grid.querySelectorAll('.almf-rack-cell').forEach(function(cell){
+                cell.addEventListener('click', function(){
+                    if(dragSrcId) return;
+                    var celda = cell.dataset.celda; var ubiId = cell.dataset.ubiid;
+                    if(ubiId){ mostrarDetalleContenedor(ubiId, celda); } else { crearContenedorEnCelda(celda); }
+                });
+                cell.addEventListener('mouseover', function(){
+                    cell.style.borderColor = cell.dataset.ubiid ? '#f59e0b' : '#ff9900';
+                    cell.style.background = cell.dataset.ubiid ? '#fef3c7' : '#fff7ed';
+                });
+                cell.addEventListener('mouseout', function(){
+                    cell.style.borderColor = cell.dataset.ubiid ? '#ff9900' : '#e5e7eb';
+                    cell.style.background = cell.dataset.ubiid ? '#fff7ed' : '#fafafa';
+                });
+                cell.addEventListener('dragstart', function(e){
+                    if(!cell.dataset.ubiid){ e.preventDefault(); return; }
+                    dragSrcId = cell.dataset.ubiid; cell.style.opacity='0.4'; e.dataTransfer.effectAllowed='move';
+                });
+                cell.addEventListener('dragend', function(){ dragSrcId=null; cell.style.opacity='1'; renderRackGrid(); });
+                cell.addEventListener('dragover', function(e){
+                    e.preventDefault(); e.dataTransfer.dropEffect='move';
+                    cell.style.borderColor='#3b82f6'; cell.style.background='#eff6ff';
+                });
+                cell.addEventListener('dragleave', function(){
+                    cell.style.borderColor = cell.dataset.ubiid ? '#ff9900' : '#e5e7eb';
+                    cell.style.background = cell.dataset.ubiid ? '#fff7ed' : '#fafafa';
+                });
+                cell.addEventListener('drop', function(e){
+                    e.preventDefault(); if(!dragSrcId) return;
+                    if(cell.dataset.ubiid){ alert('Esta celda ya tiene un contenedor.'); return; }
+                    var u = ubicaciones.find(function(x){ return x.id===dragSrcId; }); if(!u) return;
+                    u.celda = cell.dataset.celda;
+                    saveJSON(ALMF_UBI_KEY, ubicaciones); dragSrcId=null; renderRackGrid(); refreshUbiSelects();
+                });
+            });
+        }
+
+        var _popUbiId = null;
+        function mostrarDetalleContenedor(ubiId, celda){
+            var u = ubicaciones.find(function(x){ return x.id===ubiId; }); if(!u) return;
+            _popUbiId = ubiId;
+            var items = u.items||[];
+            document.getElementById('almfCPopNombre').textContent = u.nombre;
+            document.getElementById('almfCPopCodigo').textContent = (u.codigo||'Sin código')+' · Celda: '+celda;
+            var itemsEl = document.getElementById('almfCPopItems');
+            var emptyEl = document.getElementById('almfCPopEmpty');
+            if(!items.length){ itemsEl.innerHTML=''; emptyEl.style.display=''; }
+            else {
+                emptyEl.style.display='none';
+                itemsEl.innerHTML = items.map(function(it){
+                    return '<div style="display:flex;align-items:center;gap:10px;padding:8px 12px;border:1px solid #f1f5f9;border-radius:8px;background:#fafafa;">'+
+                        '<span style="font-size:1.1rem;">📦</span>'+
+                        '<div style="flex:1;"><div style="font-weight:700;font-size:0.65rem;color:#1f2937;">'+esc(it.nombre)+'</div>'+
+                        '<div style="font-size:0.5rem;color:#6b7280;">'+(it.codigo?'Cód: '+esc(it.codigo):'')+'</div></div>'+
+                        '<span style="font-weight:900;font-size:0.72rem;color:#ff9900;background:#fff7ed;border:1px solid #fed7aa;border-radius:6px;padding:2px 8px;">x'+(it.cantidad||0)+'</span>'+
+                    '</div>';
+                }).join('');
+            }
+            document.getElementById('almfContenedorPopup').style.display='flex';
+        }
+
+        document.getElementById('almfCPopClose').addEventListener('click', function(){ document.getElementById('almfContenedorPopup').style.display='none'; _popUbiId=null; });
+        document.getElementById('almfContenedorPopup').addEventListener('click', function(e){ if(e.target===this){ this.style.display='none'; _popUbiId=null; } });
+        document.getElementById('almfCPopEditar').addEventListener('click', function(){
+            if(!_popUbiId) return;
+            var u=ubicaciones.find(function(x){return x.id===_popUbiId;}); if(!u) return;
+            var nombre=prompt('Nombre del contenedor:',u.nombre); if(!nombre||!nombre.trim()) return;
+            var codigo=prompt('Código / Etiqueta:',u.codigo||'');
+            u.nombre=nombre.trim(); u.codigo=(codigo||'').trim();
+            saveJSON(ALMF_UBI_KEY,ubicaciones);
+            document.getElementById('almfContenedorPopup').style.display='none';
+            renderRackGrid(); refreshUbiSelects();
+        });
+        document.getElementById('almfCPopEliminar').addEventListener('click', function(){
+            if(!_popUbiId) return;
+            var u=ubicaciones.find(function(x){return x.id===_popUbiId;});
+            if(!confirm('¿Eliminar contenedor '+(u?u.nombre:'')+' y sus productos?')) return;
+            ubicaciones=ubicaciones.filter(function(x){return x.id!==_popUbiId;});
+            saveJSON(ALMF_UBI_KEY,ubicaciones);
+            document.getElementById('almfContenedorPopup').style.display='none'; _popUbiId=null;
+            renderRackGrid(); refreshUbiSelects();
+        });
+
+        function crearContenedorEnCelda(celda){
+            var nombre=prompt('Nombre del contenedor en '+celda+' (ej: Caja A, Bin Rojo):');
+            if(!nombre||!nombre.trim()) return;
+            var codigo=prompt('Código / Etiqueta (opcional):','');
+            var id='ubi_'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
+            ubicaciones.push({id:id,nombre:nombre.trim(),tipo:'contenedor',codigo:(codigo||'').trim(),celda:celda,items:[],creadoEn:now(),creadoPor:getUser()});
+            saveJSON(ALMF_UBI_KEY,ubicaciones);
+            renderRackGrid(); refreshUbiSelects();
+        }
 
         function setAlmacenFisicoMode(asModule){
             isModuleMode = !!asModule;
@@ -23797,7 +24081,12 @@ document.addEventListener('DOMContentLoaded', () => {
             document.documentElement.classList.add('popup-open');
             ubicaciones=loadJSON(ALMF_UBI_KEY);
             movimientos=loadJSON(ALMF_MOV_KEY);
-            renderUbicaciones();
+            estanteCfg=loadCfg()||{niveles:3,pasillos:4,racks:6};
+            nivelActivo=1;
+            var lbl=document.getElementById('almfNivelLabel');
+            if(lbl) lbl.textContent='NIVEL 1';
+            renderNiveles();
+            renderRackGrid();
             refreshUbiSelects();
         }
 
@@ -23819,80 +24108,68 @@ document.addEventListener('DOMContentLoaded', () => {
         if(btnClose) btnClose.addEventListener('click',closePopupAlmacenFisico);
         popup.addEventListener('click',function(e){ if(!isModuleMode && e.target===popup) closePopupAlmacenFisico(); });
 
-        // Tabs
-        document.getElementById('almFisicoTabs').addEventListener('click',function(e){
-            var btn=e.target.closest('.almf-tab');if(!btn)return;
-            document.querySelectorAll('.almf-tab').forEach(function(b){b.classList.remove('active');});
-            btn.classList.add('active');
-            var tab=btn.dataset.almfTab;
-            document.querySelectorAll('.almf-section').forEach(function(s){s.style.display='none';});
-            var sec=document.getElementById('almfSec'+tab.charAt(0).toUpperCase()+tab.slice(1));
-            if(sec) sec.style.display='';
-            if(tab==='ubicaciones') renderUbicaciones();
-            if(tab==='movimientos'){refreshUbiSelects();renderMovHistorial();}
-            if(tab==='historial') renderHistorial();
-            if(tab==='inventario') refreshInvUbiSelect();
+        // BOTONES DE POPUPS
+        document.getElementById('almfBtnMovimientos').addEventListener('click', function(){
+            refreshUbiSelects(); renderMovHistorial();
+            document.getElementById('almfPopMovimientos').style.display = 'flex';
+            resetMovDraft(true);
+            var prodScan = document.getElementById('almfMovProducto');
+            if(prodScan) prodScan.focus();
+        });
+        document.getElementById('almfMovClose').addEventListener('click', function(){
+            document.getElementById('almfPopMovimientos').style.display = 'none';
+        });
+        document.getElementById('almfPopMovimientos').addEventListener('click', function(e){
+            if(e.target === this) this.style.display = 'none';
+        });
+
+        document.getElementById('almfBtnInventario').addEventListener('click', function(){
+            refreshInvUbiSelect();
+            document.getElementById('almfPopInventario').style.display = 'flex';
+        });
+        document.getElementById('almfInvClose').addEventListener('click', function(){
+            document.getElementById('almfPopInventario').style.display = 'none';
+        });
+        document.getElementById('almfPopInventario').addEventListener('click', function(e){
+            if(e.target === this) this.style.display = 'none';
+        });
+
+        document.getElementById('almfBtnHistorial').addEventListener('click', function(){
+            renderHistorial();
+            document.getElementById('almfPopHistorial').style.display = 'flex';
+        });
+        document.getElementById('almfHistClose').addEventListener('click', function(){
+            document.getElementById('almfPopHistorial').style.display = 'none';
+        });
+        document.getElementById('almfPopHistorial').addEventListener('click', function(e){
+            if(e.target === this) this.style.display = 'none';
         });
 
         // ── UBICACIONES ──
-        function renderUbicaciones(){
-            var grid=document.getElementById('almfUbiGrid');if(!grid)return;
-            var buscar=(document.getElementById('almfBuscarUbi')||{}).value||'';
-            buscar=buscar.toLowerCase().trim();
-            var lista=ubicaciones.filter(function(u){
-                if(!buscar) return true;
-                return (u.nombre||'').toLowerCase().includes(buscar)||(u.tipo||'').toLowerCase().includes(buscar)||(u.codigo||'').toLowerCase().includes(buscar);
-            });
-            if(!lista.length){
-                grid.innerHTML='<div style="grid-column:1/-1;text-align:center;padding:40px;color:#94a3b8;font-size:0.65rem;"><div style="font-size:2rem;margin-bottom:8px;">🗄</div>Sin ubicaciones registradas.<br>Agrega estantes, contenedores o zonas.</div>';
-                return;
+        function renderUbicaciones(){ renderNiveles(); renderRackGrid(); }
+
+        document.getElementById('almfBuscarUbi').addEventListener('input', renderRackGrid);
+
+        document.getElementById('almfAddNivel').addEventListener('click', function(){
+            estanteCfg.niveles += 1;
+            saveCfg(estanteCfg);
+            renderNiveles(); renderRackGrid();
+        });
+
+        document.getElementById('almfAddUbi').addEventListener('click', function(){
+            var celdas = [];
+            for(var p2=1;p2<=estanteCfg.pasillos;p2++){
+                for(var r2=1;r2<=estanteCfg.racks;r2++){
+                    var code = 'N'+nivelActivo+'-P'+p2+'-R'+r2;
+                    if(!ubicaciones.find(function(u){return u.celda===code;})) celdas.push(code);
+                }
             }
-            grid.innerHTML=lista.map(function(u){
-                var items=u.items||[];
-                var totalQty=items.reduce(function(a,i){return a+(i.cantidad||0);},0);
-                var tipoIcon={'estante':'🗄','contenedor':'📦','zona':'📍','rack':'🏗','refrigerador':'❄️'};
-                return '<div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;transition:border-color .2s;cursor:pointer;" onmouseover="this.style.borderColor=&apos;#ff9900&apos;" onmouseout="this.style.borderColor=&apos;#e5e7eb&apos;" data-almf-ubi-id="'+esc(u.id)+'">'+
-                    '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">'+
-                        '<span style="font-size:1.3rem;">'+(tipoIcon[u.tipo]||'📦')+'</span>'+
-                        '<div style="flex:1;">'+
-                            '<div style="font-weight:900;font-size:0.7rem;color:#fff;">'+esc(u.nombre)+'</div>'+
-                            '<div style="font-size:0.5rem;color:#94a3b8;">'+esc(u.codigo||'Sin código')+' · '+esc(u.tipo||'general')+'</div>'+
-                        '</div>'+
-                        '<div style="text-align:right;">'+
-                            '<div style="font-size:1rem;font-weight:900;color:#ff9900;">'+totalQty+'</div>'+
-                            '<div style="font-size:0.42rem;color:#94a3b8;">productos</div>'+
-                        '</div>'+
-                    '</div>'+
-                    (items.length?'<div style="display:flex;flex-wrap:wrap;gap:4px;">'+items.slice(0,5).map(function(it){
-                        return '<span style="font-size:0.45rem;background:#f1f5f9;border-radius:4px;padding:2px 6px;color:#475569;">'+esc(it.nombre)+' x'+it.cantidad+'</span>';
-                    }).join('')+(items.length>5?'<span style="font-size:0.45rem;color:#94a3b8;">+'+(items.length-5)+' más</span>':'')+'</div>':'')+
-                    '<div style="display:flex;gap:4px;margin-top:8px;">'+
-                        '<button class="almf-ubi-edit" data-id="'+esc(u.id)+'" style="font-size:0.48rem;padding:3px 8px;border:1px solid #d1d5db;border-radius:6px;background:#fff;cursor:pointer;">✏️ Editar</button>'+
-                        '<button class="almf-ubi-del" data-id="'+esc(u.id)+'" style="font-size:0.48rem;padding:3px 8px;border:1px solid #fecaca;border-radius:6px;background:#fef2f2;color:#dc2626;cursor:pointer;">🗑 Eliminar</button>'+
-                    '</div>'+
-                '</div>';
-            }).join('');
-
-            grid.querySelectorAll('.almf-ubi-edit').forEach(function(b){
-                b.addEventListener('click',function(e){e.stopPropagation();editarUbicacion(b.dataset.id);});
-            });
-            grid.querySelectorAll('.almf-ubi-del').forEach(function(b){
-                b.addEventListener('click',function(e){e.stopPropagation();eliminarUbicacion(b.dataset.id);});
-            });
-        }
-
-        document.getElementById('almfBuscarUbi').addEventListener('input',renderUbicaciones);
-
-        document.getElementById('almfAddUbi').addEventListener('click',function(){
-            var nombre=prompt('Nombre de la ubicación (ej: Estante A-1, Contenedor Rojo):');
-            if(!nombre||!nombre.trim()) return;
-            var tipo=prompt('Tipo: estante, contenedor, zona, rack, refrigerador','estante');
-            var codigo=prompt('Código / Etiqueta (opcional):','');
-            var id='ubi_'+Date.now()+'_'+Math.random().toString(36).substr(2,4);
-            ubicaciones.push({id:id,nombre:nombre.trim(),tipo:(tipo||'estante').toLowerCase().trim(),codigo:(codigo||'').trim(),items:[],creadoEn:now(),creadoPor:getUser()});
-            saveJSON(ALMF_UBI_KEY,ubicaciones);
-            renderUbicaciones();
-            refreshUbiSelects();
+            if(!celdas.length){ alert('Todas las celdas del nivel '+nivelActivo+' están ocupadas.'); return; }
+            var celda = prompt('Celda ('+celdas.slice(0,6).join(', ')+'...)\nEscribe la celda o déjala vacía para la primera libre:', celdas[0]);
+            if(celda===null) return;
+            celda = (celda||'').trim()||celdas[0];
+            if(ubicaciones.find(function(u){return u.celda===celda;})){ alert('Ya existe un contenedor en '+celda); return; }
+            crearContenedorEnCelda(celda);
         });
 
         function editarUbicacion(id){
@@ -23902,25 +24179,20 @@ document.addEventListener('DOMContentLoaded', () => {
             var codigo=prompt('Código:',u.codigo);
             u.nombre=nombre.trim();u.tipo=(tipo||u.tipo).trim();u.codigo=(codigo||'').trim();
             saveJSON(ALMF_UBI_KEY,ubicaciones);
-            renderUbicaciones();refreshUbiSelects();
+            renderRackGrid();refreshUbiSelects();
         }
 
         function eliminarUbicacion(id){
             if(!confirm('¿Eliminar esta ubicación y todos sus productos?'))return;
             ubicaciones=ubicaciones.filter(function(x){return x.id!==id;});
             saveJSON(ALMF_UBI_KEY,ubicaciones);
-            renderUbicaciones();refreshUbiSelects();
+            renderRackGrid();refreshUbiSelects();
         }
 
         // ── MOVIMIENTOS ──
         function refreshUbiSelects(){
-            var opts='<option value="">— Seleccionar —</option>'+ubicaciones.map(function(u){
-                return '<option value="'+esc(u.id)+'">'+esc(u.nombre)+' ('+esc(u.codigo||u.tipo)+')</option>';
-            }).join('');
-            var orig=document.getElementById('almfMovOrigen');
-            var dest=document.getElementById('almfMovDestino');
-            if(orig) orig.innerHTML=opts;
-            if(dest) dest.innerHTML=opts;
+            // Mantener compatibilidad: en flujo por escaneo ya no hay selects.
+            return;
         }
 
         function registrarMovimiento(tipo,producto,origenId,destinoId,cantidad,notas){
@@ -23935,60 +24207,303 @@ document.addEventListener('DOMContentLoaded', () => {
             return mov;
         }
 
-        document.getElementById('almfMovTrasladar').addEventListener('click',function(){
-            var prod=(document.getElementById('almfMovProducto')||{}).value.trim();
-            var origId=(document.getElementById('almfMovOrigen')||{}).value;
-            var destId=(document.getElementById('almfMovDestino')||{}).value;
-            var cant=parseInt((document.getElementById('almfMovCant')||{}).value)||1;
-            if(!prod){alert('Ingresa un producto');return;}
-            if(!origId){alert('Selecciona ubicación de origen');return;}
-            if(!destId){alert('Selecciona ubicación de destino');return;}
-            if(origId===destId){alert('Origen y destino no pueden ser iguales');return;}
+        var movDraft = null;
 
-            var orig=ubicaciones.find(function(u){return u.id===origId;});
-            var dest=ubicaciones.find(function(u){return u.id===destId;});
-            if(!orig||!dest) return;
+        function setMovStatus(msg, color){
+            var st = document.getElementById('almfMovStatus');
+            if(!st) return;
+            st.textContent = msg;
+            st.style.color = color || '#6b7280';
+        }
 
-            // Remove from origin
-            var item=orig.items.find(function(i){return i.nombre.toLowerCase()===prod.toLowerCase()||i.codigo===prod;});
-            if(!item){alert('Producto no encontrado en origen. Se registrará igualmente.');} 
-            else {
-                item.cantidad=Math.max(0,(item.cantidad||0)-cant);
-                if(item.cantidad<=0) orig.items=orig.items.filter(function(i){return i!==item;});
+        function resetMovDraft(clearFields){
+            movDraft = null;
+            var origenAuto = document.getElementById('almfMovOrigenAuto');
+            if(origenAuto) origenAuto.value = '';
+            if(clearFields){
+                var prod = document.getElementById('almfMovProducto');
+                var dest = document.getElementById('almfMovDestinoScan');
+                var cant = document.getElementById('almfMovCant');
+                if(prod) prod.value = '';
+                if(dest) dest.value = '';
+                if(cant) cant.value = '1';
+            }
+            setMovStatus('Escanea producto para detectar origen automáticamente.');
+        }
+
+        function findContenedorByScan(scan){
+            var q = String(scan || '').trim().toLowerCase();
+            if(!q) return null;
+            return ubicaciones.find(function(u){
+                var nombre = String(u.nombre || '').toLowerCase();
+                var codigo = String(u.codigo || '').toLowerCase();
+                var celda = String(u.celda || '').toLowerCase();
+                var id = String(u.id || '').toLowerCase();
+                return q === codigo || q === nombre || q === celda || q === id || nombre.includes(q) || codigo.includes(q) || celda.includes(q);
+            }) || null;
+        }
+
+        function findProductoEnContenedores(scan){
+            var q = String(scan || '').trim().toLowerCase();
+            if(!q) return null;
+            for(var i=0;i<ubicaciones.length;i++){
+                var u = ubicaciones[i];
+                var items = u.items || [];
+                for(var j=0;j<items.length;j++){
+                    var it = items[j];
+                    var nombre = String(it.nombre || '').toLowerCase();
+                    var codigo = String(it.codigo || '').toLowerCase();
+                    if(q === codigo || q === nombre || nombre.includes(q) || codigo.includes(q)){
+                        return { ubicacion: u, item: it, query: q };
+                    }
+                }
+            }
+            return null;
+        }
+
+        function procesarScanProducto(){
+            var prodEl = document.getElementById('almfMovProducto');
+            var cantEl = document.getElementById('almfMovCant');
+            var destEl = document.getElementById('almfMovDestinoScan');
+            var origenAuto = document.getElementById('almfMovOrigenAuto');
+            if(!prodEl || !cantEl || !destEl || !origenAuto) return;
+            var scan = prodEl.value.trim();
+            var cant = Math.max(1, parseInt(cantEl.value,10) || 1);
+            if(!scan){ setMovStatus('Escanea el producto.', '#dc2626'); return; }
+
+            var found = findProductoEnContenedores(scan);
+            if(!found){
+                setMovStatus('No se encontró ese producto en ningún contenedor.', '#dc2626');
+                prodEl.select();
+                return;
+            }
+            if(String(found.ubicacion.tipo || 'contenedor').toLowerCase() !== 'contenedor'){
+                setMovStatus('El producto detectado no está dentro de un contenedor válido.', '#dc2626');
+                return;
             }
 
-            // Add to destination
-            var destItem=dest.items.find(function(i){return i.nombre.toLowerCase()===prod.toLowerCase();});
-            if(destItem) destItem.cantidad=(destItem.cantidad||0)+cant;
-            else dest.items.push({nombre:prod,cantidad:cant,codigo:prod,movidoEn:now()});
-
-            saveJSON(ALMF_UBI_KEY,ubicaciones);
-            registrarMovimiento('traslado',prod,origId,destId,cant,'De '+orig.nombre+' a '+dest.nombre);
-            alert('✅ '+cant+'x '+prod+' trasladado de '+orig.nombre+' a '+dest.nombre);
-            document.getElementById('almfMovProducto').value='';
-            renderMovHistorial();
-        });
-
-        document.getElementById('almfMovRetirar').addEventListener('click',function(){
-            var prod=(document.getElementById('almfMovProducto')||{}).value.trim();
-            var origId=(document.getElementById('almfMovOrigen')||{}).value;
-            var cant=parseInt((document.getElementById('almfMovCant')||{}).value)||1;
-            if(!prod){alert('Ingresa un producto');return;}
-            if(!origId){alert('Selecciona ubicación de origen');return;}
-
-            var orig=ubicaciones.find(function(u){return u.id===origId;});
-            if(!orig) return;
-            var item=orig.items.find(function(i){return i.nombre.toLowerCase()===prod.toLowerCase()||i.codigo===prod;});
-            if(item){
-                item.cantidad=Math.max(0,(item.cantidad||0)-cant);
-                if(item.cantidad<=0) orig.items=orig.items.filter(function(i){return i!==item;});
+            if(movDraft && movDraft.origenId === found.ubicacion.id && movDraft.productoNombre === found.item.nombre){
+                movDraft.cantidad += cant;
+            } else {
+                movDraft = {
+                    productoNombre: found.item.nombre,
+                    productoCodigo: found.item.codigo || scan,
+                    origenId: found.ubicacion.id,
+                    origenNombre: found.ubicacion.nombre,
+                    cantidad: cant
+                };
             }
+
+            cantEl.value = String(movDraft.cantidad);
+            origenAuto.value = movDraft.origenNombre + ' (' + (found.ubicacion.celda || found.ubicacion.codigo || found.ubicacion.id) + ')';
+            setMovStatus('Origen detectado. Ahora escanea el contenedor destino.', '#16a34a');
+            prodEl.value = '';
+            destEl.focus();
+            destEl.select();
+        }
+
+        function confirmarPorDestinoEscaneado(){
+            var destEl = document.getElementById('almfMovDestinoScan');
+            var cantEl = document.getElementById('almfMovCant');
+            if(!destEl || !cantEl) return;
+            if(!movDraft){
+                setMovStatus('Primero debes escanear el producto.', '#dc2626');
+                return;
+            }
+
+            var scanDest = destEl.value.trim();
+            if(!scanDest){ setMovStatus('Escanea el contenedor destino.', '#dc2626'); return; }
+            var dest = findContenedorByScan(scanDest);
+            if(!dest){ setMovStatus('No se encontró el contenedor destino.', '#dc2626'); return; }
+            if(String(dest.tipo || 'contenedor').toLowerCase() !== 'contenedor'){
+                setMovStatus('El destino escaneado no es un contenedor válido.', '#dc2626');
+                return;
+            }
+            if(dest.id === movDraft.origenId){ setMovStatus('Destino no puede ser el mismo contenedor de origen.', '#dc2626'); return; }
+
+            var orig = ubicaciones.find(function(u){ return u.id === movDraft.origenId; });
+            if(!orig){ setMovStatus('No se encontró el contenedor origen.', '#dc2626'); return; }
+
+            var cant = Math.max(1, parseInt(cantEl.value,10) || movDraft.cantidad || 1);
+            movDraft.cantidad = cant;
+            var srcItem = (orig.items || []).find(function(i){
+                return String(i.nombre || '').toLowerCase() === String(movDraft.productoNombre || '').toLowerCase() ||
+                       String(i.codigo || '').toLowerCase() === String(movDraft.productoCodigo || '').toLowerCase();
+            });
+            if(!srcItem){ setMovStatus('El producto ya no está en el origen detectado.', '#dc2626'); return; }
+            if((srcItem.cantidad || 0) < cant){
+                setMovStatus('Stock insuficiente en origen. Disponible: '+(srcItem.cantidad||0), '#dc2626');
+                return;
+            }
+
+            var pregunta = '¿ESTÁ SEGURO QUE DESEA MOVER ESTE PRODUCTO?\n\n'+
+                'Producto: '+movDraft.productoNombre+'\n'+
+                'Cantidad: '+cant+'\n'+
+                'Desde: '+orig.nombre+'\n'+
+                'Hacia: '+dest.nombre;
+            if(!confirm(pregunta)){
+                setMovStatus('Movimiento cancelado por usuario.', '#6b7280');
+                return;
+            }
+
+            srcItem.cantidad = Math.max(0, (srcItem.cantidad || 0) - cant);
+            if(srcItem.cantidad <= 0){
+                orig.items = (orig.items || []).filter(function(i){ return i !== srcItem; });
+            }
+
+            var destItems = dest.items || (dest.items = []);
+            var dstItem = destItems.find(function(i){
+                return String(i.nombre || '').toLowerCase() === String(movDraft.productoNombre || '').toLowerCase() ||
+                       String(i.codigo || '').toLowerCase() === String(movDraft.productoCodigo || '').toLowerCase();
+            });
+            if(dstItem) dstItem.cantidad = (dstItem.cantidad || 0) + cant;
+            else destItems.push({ nombre: movDraft.productoNombre, codigo: movDraft.productoCodigo, cantidad: cant, movidoEn: now() });
+
             saveJSON(ALMF_UBI_KEY,ubicaciones);
-            registrarMovimiento('retiro',prod,origId,'',cant,'Retirado de '+orig.nombre);
-            alert('📤 '+cant+'x '+prod+' retirado de '+orig.nombre);
-            document.getElementById('almfMovProducto').value='';
+            registrarMovimiento('traslado', movDraft.productoNombre, orig.id, dest.id, cant, 'De '+orig.nombre+' a '+dest.nombre+' (escaneo)');
+            renderRackGrid();
             renderMovHistorial();
-        });
+            alert('✅ Movimiento realizado: '+cant+'x '+movDraft.productoNombre+'\n'+orig.nombre+' → '+dest.nombre);
+            resetMovDraft(true);
+            var prodEl = document.getElementById('almfMovProducto');
+            if(prodEl) prodEl.focus();
+        }
+
+        var movProdEl = document.getElementById('almfMovProducto');
+        var movDestEl = document.getElementById('almfMovDestinoScan');
+        var movCantEl = document.getElementById('almfMovCant');
+        var movLimpiarEl = document.getElementById('almfMovLimpiar');
+        var movScanProdBtn = document.getElementById('almfMovScanProductoBtn');
+        var movScanDestBtn = document.getElementById('almfMovScanDestinoBtn');
+
+        var movScannerPopup = document.getElementById('almfMovScannerPopup');
+        var movScannerVideo = document.getElementById('almfMovScannerVideo');
+        var movScannerCloseBtn = document.getElementById('almfMovScannerClose');
+        var movScannerStatus = document.getElementById('almfMovScannerStatus');
+
+        var movScannerStream = null;
+        var movScannerActive = false;
+        var movScannerTarget = null; // 'producto' | 'destino'
+        var movScannerFrameTimer = null;
+        var movBarcodeDetector = null;
+
+        function setScannerStatus(msg, color){
+            if(!movScannerStatus) return;
+            movScannerStatus.textContent = msg;
+            movScannerStatus.style.color = color || '#6b7280';
+        }
+
+        function closeMovScanner(){
+            movScannerActive = false;
+            movScannerTarget = null;
+            if(movScannerFrameTimer){
+                clearTimeout(movScannerFrameTimer);
+                movScannerFrameTimer = null;
+            }
+            if(movScannerStream){
+                movScannerStream.getTracks().forEach(function(t){ t.stop(); });
+                movScannerStream = null;
+            }
+            if(movScannerVideo) movScannerVideo.srcObject = null;
+            if(movScannerPopup) movScannerPopup.style.display = 'none';
+        }
+
+        function handleScannedCode(raw){
+            var code = String(raw || '').trim();
+            if(!code) return;
+            if(movScannerTarget === 'producto'){
+                if(movProdEl) movProdEl.value = code;
+                procesarScanProducto();
+            } else if(movScannerTarget === 'destino'){
+                if(movDestEl) movDestEl.value = code;
+                confirmarPorDestinoEscaneado();
+            }
+            closeMovScanner();
+        }
+
+        async function scanLoop(){
+            if(!movScannerActive || !movScannerVideo) return;
+            try{
+                if(movScannerVideo.readyState >= 2 && movBarcodeDetector){
+                    var result = await movBarcodeDetector.detect(movScannerVideo);
+                    if(result && result.length){
+                        var code = result[0].rawValue || '';
+                        if(code){
+                            handleScannedCode(code);
+                            return;
+                        }
+                    }
+                }
+            } catch(_e){}
+            movScannerFrameTimer = setTimeout(scanLoop, 160);
+        }
+
+        async function openMovScanner(target){
+            movScannerTarget = target;
+            if(!movScannerPopup || !movScannerVideo){
+                setMovStatus('No se pudo abrir el escáner en este dispositivo.', '#dc2626');
+                return;
+            }
+            if(!('mediaDevices' in navigator) || !navigator.mediaDevices.getUserMedia){
+                setMovStatus('Este navegador no soporta cámara para escaneo.', '#dc2626');
+                return;
+            }
+            if(!('BarcodeDetector' in window)){
+                setMovStatus('Escáner de cámara no disponible en este navegador. Usa código manual.', '#dc2626');
+                return;
+            }
+            try{
+                movBarcodeDetector = new BarcodeDetector({ formats: ['qr_code','code_128','code_39','ean_13','ean_8','upc_a','upc_e','itf','codabar'] });
+            } catch(_err){
+                try { movBarcodeDetector = new BarcodeDetector(); }
+                catch(_err2){
+                    setMovStatus('No se pudo inicializar detector de códigos.', '#dc2626');
+                    return;
+                }
+            }
+
+            try{
+                setScannerStatus('Abriendo cámara...');
+                movScannerPopup.style.display = 'flex';
+                movScannerStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: { ideal: 'environment' } }, audio: false });
+                movScannerVideo.srcObject = movScannerStream;
+                await movScannerVideo.play();
+                movScannerActive = true;
+                setScannerStatus(target === 'producto' ? 'Escanea código del producto...' : 'Escanea etiqueta del contenedor destino...');
+                scanLoop();
+            } catch(_e){
+                closeMovScanner();
+                setMovStatus('No fue posible acceder a la cámara.', '#dc2626');
+            }
+        }
+
+        if(movProdEl){
+            movProdEl.addEventListener('keydown', function(e){ if(e.key === 'Enter') procesarScanProducto(); });
+        }
+        if(movDestEl){
+            movDestEl.addEventListener('keydown', function(e){ if(e.key === 'Enter') confirmarPorDestinoEscaneado(); });
+        }
+        if(movCantEl){
+            movCantEl.addEventListener('change', function(){
+                if(!movDraft) return;
+                movDraft.cantidad = Math.max(1, parseInt(movCantEl.value,10) || 1);
+            });
+        }
+        if(movLimpiarEl){
+            movLimpiarEl.addEventListener('click', function(){ resetMovDraft(true); });
+        }
+        if(movScanProdBtn){
+            movScanProdBtn.addEventListener('click', function(){ openMovScanner('producto'); });
+        }
+        if(movScanDestBtn){
+            movScanDestBtn.addEventListener('click', function(){ openMovScanner('destino'); });
+        }
+        if(movScannerCloseBtn){
+            movScannerCloseBtn.addEventListener('click', closeMovScanner);
+        }
+        if(movScannerPopup){
+            movScannerPopup.addEventListener('click', function(e){ if(e.target === movScannerPopup) closeMovScanner(); });
+        }
 
         function renderMovHistorial(){
             var el=document.getElementById('almfMovHistorial');if(!el)return;
@@ -34544,15 +35059,49 @@ document.addEventListener('DOMContentLoaded', function() {
         #panelControlRepartidores .cr-main { padding:8px; }
     }
 </style>
+<!-- ══ BARRA LATERAL GLOBAL DE MÓDULOS ══ -->
+<div id="gnavBar">
+  <!-- Marca / logo -->
+  <div style="width:46px;height:38px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:1.3rem;border-bottom:1px solid rgba(255,255,255,0.08);margin-bottom:4px;">🏢</div>
+
+  <!-- Reparto -->
+  <button class="gnav-item" data-gnav="repartidores" title="Control Repartidores"><span class="g-ico">🚚</span><span class="g-lbl">Reparto</span></button>
+  <button class="gnav-item" data-gnav="app-movil" title="Reparto App Móvil"><span class="g-ico">📱</span><span class="g-lbl">App</span></button>
+  <button class="gnav-item" data-gnav="temporal" title="Reparto Temporal"><span class="g-ico">🔄</span><span class="g-lbl">Temporal</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- Producción y órdenes -->
+  <button class="gnav-item" data-gnav="nueva-orden" title="Nueva Orden"><span class="g-ico">🆕</span><span class="g-lbl">Orden</span></button>
+  <button class="gnav-item" data-gnav="pedidos" title="Mis Pedidos"><span class="g-ico">📋</span><span class="g-lbl">Pedidos</span></button>
+  <button class="gnav-item" data-gnav="produccion" title="Producción"><span class="g-ico">🏭</span><span class="g-lbl">Produc.</span></button>
+  <button class="gnav-item" data-gnav="diseno" title="Diseño"><span class="g-ico">🎨</span><span class="g-lbl">Diseño</span></button>
+  <button class="gnav-item" data-gnav="recepcion" title="Recepción Sucursal"><span class="g-ico">🏬</span><span class="g-lbl">Recep.</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- Clientes y comercial -->
+  <button class="gnav-item" data-gnav="caja" title="Caja"><span class="g-ico">💰</span><span class="g-lbl">Caja</span></button>
+  <button class="gnav-item" data-gnav="clientes" title="Clientes"><span class="g-ico">👥</span><span class="g-lbl">Clientes</span></button>
+  <button class="gnav-item" data-gnav="proveedores" title="Proveedores"><span class="g-ico">🏪</span><span class="g-lbl">Prov.</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- Catálogo -->
+  <button class="gnav-item" data-gnav="productos" title="Productos"><span class="g-ico">🏷️</span><span class="g-lbl">Prods.</span></button>
+  <button class="gnav-item" data-gnav="almacen" title="Almacén"><span class="g-ico">📦</span><span class="g-lbl">Almacén</span></button>
+  <button class="gnav-item" data-gnav="muestrario" title="Muestrario"><span class="g-ico">🖼️</span><span class="g-lbl">Muest.</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- Análisis y config -->
+  <button class="gnav-item" data-gnav="reportes" title="Reportes / Dashboard"><span class="g-ico">📊</span><span class="g-lbl">Repor.</span></button>
+  <button class="gnav-item" data-gnav="calendario" title="Calendario"><span class="g-ico">📅</span><span class="g-lbl">Cal.</span></button>
+  <button class="gnav-item" data-gnav="config" title="Configuraciones"><span class="g-ico">⚙️</span><span class="g-lbl">Config.</span></button>
+</div>
+
 <div id="panelControlRepartidores" class="entrega-overlay">
   <div style="display:flex;flex-direction:column;width:100%;height:100vh;">
     <!-- Header -->
-        <div style="background:#ff9900;padding:10px 16px;display:flex;align-items:center;gap:12px;flex-shrink:0;border-bottom:3px solid #e68a00;">
-            <button id="crClosePanel" type="button" aria-label="Volver al menú principal" title="Volver al menú principal" style="width:34px;height:34px;border:none;border-radius:8px;background:rgba(0,0,0,0.12);color:#1a1a1a;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0;">←</button>
-            <div style="flex:1;min-width:0;">
-                <div style="font-size:0.82rem;font-weight:900;color:#1a1a1a;letter-spacing:0.02em;">Administrar rutas de entrega</div>
-                <div style="font-size:0.48rem;color:#1a1a1a;opacity:0.8;">Control de reparto</div>
-            </div>
+        <div class="entrega-header" style="border-radius:0;border-left:none;border-right:none;border-top:none;flex-shrink:0;">
+            <h2 style="margin:0;font-size:0.84rem;font-weight:900;text-transform:uppercase;letter-spacing:0.02em;color:#1f2937;">🚚 Control Repartidores</h2>
+            <span style="margin-left:8px;font-size:0.52rem;color:#64748b;font-weight:600;">Administrar rutas de entrega</span>
         </div>
 
         <div class="cr-body">
@@ -34575,113 +35124,67 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- ══════════════════════════════════════════════════
              SECCIÓN FUSIONADA: DASHBOARD + KPIs + REPORTES
              ══════════════════════════════════════════════════ -->
-        <div class="cr-section active" id="crSecDashboard" data-cr-section="dashboard">
+        <div class="cr-section active" id="crSecDashboard" data-cr-section="dashboard" style="overflow-y:auto;">
+          <div style="display:flex;flex-direction:column;gap:10px;min-height:0;">
 
-          <!-- Sub-tabs internos -->
-          <div class="cr-subtabs" style="display:flex;">
-            <button class="cr-subtab active" data-dash-tab="resumen">📊 Resumen & KPIs</button>
-            <button class="cr-subtab" data-dash-tab="reportes">📄 Reportes</button>
-          </div>
-
-          <!-- ── TAB: RESUMEN GENERAL ── -->
-          <div id="crDashTab_resumen" data-dash-tab="resumen">
-            <div class="cr-stats">
-              <div class="cr-stat"><div class="val" style="color:#f59e0b;" id="crStatSinAsignar">0</div><div class="lbl">Sin Asignar</div></div>
-              <div class="cr-stat"><div class="val" style="color:#ff9900;" id="crStatAsignados">0</div><div class="lbl">Asignados</div></div>
-              <div class="cr-stat"><div class="val" style="color:#fb923c;" id="crStatRecibidos">0</div><div class="lbl">Recibidos</div></div>
-              <div class="cr-stat"><div class="val" style="color:#10b981;" id="crStatEntregados">0</div><div class="lbl">Entregados</div></div>
-              <div class="cr-stat"><div class="val" style="color:#ef4444;" id="crStatNoEntregados">0</div><div class="lbl">No Entregados</div></div>
-              <div class="cr-stat"><div class="val" style="color:#0f172a;" id="crStatRepartidores">0</div><div class="lbl">Repartidores</div></div>
-              <div class="cr-stat"><div class="val" style="color:#ff9900;" id="crStatKmHoy">0</div><div class="lbl">Km Hoy</div></div>
-              <div class="cr-stat"><div class="val" style="color:#dc2626;" id="crStatPenalizaciones">0</div><div class="lbl">Penalizaciones</div></div>
-            </div>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div class="cr-card">
-                <h3>🚚 Estado de Repartidores</h3>
-                <div id="crDashRepartidoresStatus"></div>
-              </div>
-              <div class="cr-card">
-                <h3>📋 Actividad Reciente</h3>
-                <div id="crDashActivity" style="max-height:260px;overflow-y:auto;font-size:0.55rem;color:#475569;">Cargando...</div>
-              </div>
-            </div>
-            <!-- KPIs fusionados en Resumen -->
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-              <div class="cr-card">
-                <h3>🏆 KPIs del Período</h3>
-                <div class="cr-stats" style="grid-template-columns:1fr 1fr 1fr;gap:6px;" id="crKpisResumen">
-                  <div class="cr-stat"><div class="val" style="color:#10b981;" id="crKpiExito">0%</div><div class="lbl">% Éxito</div></div>
-                  <div class="cr-stat"><div class="val" style="color:#ff9900;" id="crKpiPromedio">0</div><div class="lbl">Entg/Día</div></div>
-                  <div class="cr-stat"><div class="val" style="color:#ea580c;" id="crKpiPuntualidad">0%</div><div class="lbl">Puntual.</div></div>
+            <!-- ── ESTADO DEL DÍA ── -->
+            <div>
+              <div style="font-size:0.42rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Estado del día</div>
+              <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+                <div class="cr-stat">
+                  <div class="val" style="color:#ff9900;" id="crStatPendientes">0</div>
+                  <div class="lbl">Pendientes</div>
                 </div>
-                <h3 style="margin-top:10px;">📈 Top Repartidores</h3>
-                <div id="crKpiRankingMini" style="display:flex;flex-direction:column;gap:4px;"></div>
-              </div>
-              <div class="cr-card">
-                <h3>🛣️ Kilometraje del Período</h3>
-                <div class="cr-stats" style="grid-template-columns:1fr 1fr;gap:6px;">
-                  <div class="cr-stat"><div class="val" style="color:#ff9900;" id="crKmTotal">0</div><div class="lbl">Km Total</div></div>
-                  <div class="cr-stat"><div class="val" style="color:#f59e0b;" id="crKmCosto">$0</div><div class="lbl">Costo Est.</div></div>
-                  <div class="cr-stat"><div class="val" style="color:#ea580c;" id="crKmPromedio">0</div><div class="lbl">Km/Día</div></div>
-                  <div class="cr-stat"><div class="val" style="color:#10b981;" id="crKmViaticos">$0</div><div class="lbl">Viáticos</div></div>
+                <div class="cr-stat">
+                  <div class="val" style="color:#3b82f6;" id="crStatEnRuta">0</div>
+                  <div class="lbl">En ruta</div>
+                </div>
+                <div class="cr-stat">
+                  <div class="val" style="color:#10b981;" id="crStatEntregados">0</div>
+                  <div class="lbl">Entregados</div>
+                </div>
+                <div class="cr-stat" style="border-color:#fecaca;background:#fef2f2;">
+                  <div class="val" style="color:#ef4444;font-size:1.5rem;" id="crStatNoEntregados">0</div>
+                  <div class="lbl" style="color:#b91c1c;font-weight:900;">No entregados</div>
                 </div>
               </div>
             </div>
-          </div>
 
-          <!-- ── TAB: REAGENDAR (preservado) ── -->
-          <!-- crDashTab_kpis: KPI detallado eliminado — ver crKpisResumen en Resumen tab -->
-
-          <!-- ── TAB: EXPORTAR REPORTES ── -->
-          <div id="crDashTab_reportes" data-dash-tab="reportes" style="display:none;">
-            <div class="cr-card">
-              <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:14px;">
-                <h3 style="margin:0;flex:1;">⚙️ Filtros del Reporte</h3>
-                <div style="display:flex;gap:6px;flex-wrap:wrap;align-items:center;">
-                  <div><label style="font-size:0.45rem;font-weight:700;color:#64748b;display:block;">Desde</label><input id="crRepDesde" type="date" class="cr-input"></div>
-                  <div><label style="font-size:0.45rem;font-weight:700;color:#64748b;display:block;">Hasta</label><input id="crRepHasta" type="date" class="cr-input"></div>
-                  <div><label style="font-size:0.45rem;font-weight:700;color:#64748b;display:block;">Repartidor</label><select id="crRepFiltroRep" class="cr-select"><option value="">Todos</option></select></div>
-                  <button id="crRepGenerar" type="button" class="cr-btn primary" style="white-space:nowrap;align-self:flex-end;">📄 Generar</button>
-                </div>
+            <!-- ── KPIs ── -->
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;">
+              <div class="cr-stat">
+                <div class="val" style="color:#10b981;" id="crKpiExito">0%</div>
+                <div class="lbl">% Éxito</div>
               </div>
-              <div id="crRepPreview" style="min-height:40px;"></div>
-            </div>
-            <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;">
-              <div style="background:#fff8ee;border:1px solid #ffcf80;border-radius:10px;padding:14px;cursor:pointer;" id="crRepEntregas">
-                <div style="font-size:1.2rem;margin-bottom:6px;">📦</div>
-                <div style="font-weight:800;font-size:0.62rem;color:#ff9900;margin-bottom:4px;">Entregas</div>
-                <div style="font-size:0.48rem;color:#64748b;">Por periodo, repartidor y zona.</div>
+              <div class="cr-stat">
+                <div class="val" style="color:#ff9900;" id="crKpiPuntualidad">0%</div>
+                <div class="lbl">Entregas a tiempo</div>
               </div>
-              <div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:10px;padding:14px;cursor:pointer;" id="crRepGastos">
-                <div style="font-size:1.2rem;margin-bottom:6px;">💰</div>
-                <div style="font-weight:800;font-size:0.62rem;color:#166534;margin-bottom:4px;">Gastos</div>
-                <div style="font-size:0.48rem;color:#64748b;">Por repartidor, categoría y periodo.</div>
-              </div>
-              <div style="background:#faf5ff;border:1px solid #e9d5ff;border-radius:10px;padding:14px;cursor:pointer;" id="crRepAsistencia">
-                <div style="font-size:1.2rem;margin-bottom:6px;">✅</div>
-                <div style="font-weight:800;font-size:0.62rem;color:#ea580c;margin-bottom:4px;">Asistencia</div>
-                <div style="font-size:0.48rem;color:#64748b;">Checks, retardos, faltas y horas extra.</div>
-              </div>
-              <div style="background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:14px;cursor:pointer;" id="crRepKm">
-                <div style="font-size:1.2rem;margin-bottom:6px;">🛣️</div>
-                <div style="font-weight:800;font-size:0.62rem;color:#c2410c;margin-bottom:4px;">Kilometraje</div>
-                <div style="font-size:0.48rem;color:#64748b;">Km recorridos y costos.</div>
-              </div>
-              <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:10px;padding:14px;cursor:pointer;" id="crRepPenalizaciones">
-                <div style="font-size:1.2rem;margin-bottom:6px;">⚠️</div>
-                <div style="font-weight:800;font-size:0.62rem;color:#dc2626;margin-bottom:4px;">Penalizaciones</div>
-                <div style="font-size:0.48rem;color:#64748b;">Por repartidor con motivos y montos.</div>
-              </div>
-                            <div style="background:#fff8ee;border:1px solid #ffcf80;border-radius:10px;padding:14px;cursor:pointer;" id="crRepDesempeno">
-                <div style="font-size:1.2rem;margin-bottom:6px;">📈</div>
-                                <div style="font-weight:800;font-size:0.62rem;color:#ff9900;margin-bottom:4px;">Desempeño</div>
-                <div style="font-size:0.48rem;color:#64748b;">KPIs, ranking y tendencias.</div>
+              <div class="cr-stat">
+                <div class="val" style="color:#3b82f6;font-size:0.9rem;" id="crKpiTiempoPromedio">— min</div>
+                <div class="lbl">Tiempo promedio</div>
               </div>
             </div>
+
+            <!-- ── REPARTIDORES + ALERTAS ── -->
+            <div style="display:grid;grid-template-columns:3fr 2fr;gap:10px;align-items:start;">
+              <div class="cr-card" style="padding:10px 12px;">
+                <div style="font-size:0.42rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Repartidores — peor a mejor</div>
+                <div id="crDashRepsTable"><div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:10px;">Sin datos</div></div>
+              </div>
+              <div class="cr-card" style="padding:10px 12px;border-left:3px solid #ef4444;">
+                <div style="font-size:0.42rem;font-weight:800;color:#b91c1c;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Alertas activas</div>
+                <div id="crDashAlertasPreview"><div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:10px;">Sin alertas</div></div>
+              </div>
+            </div>
+
+            <!-- ── ACTIVIDAD RECIENTE ── -->
+            <div class="cr-card" style="padding:10px 12px;">
+              <div style="font-size:0.42rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Actividad reciente</div>
+              <div id="crDashActivity" style="font-size:0.55rem;color:#475569;">Cargando...</div>
+            </div>
+
           </div>
-
-          <!-- Historial y Reagendamiento movidos al módulo principal (Pedidos) y al Mapa -->
-
         </div><!-- /crSecDashboard -->
 
         <!-- ══════════════════════════════════════════════════
@@ -34731,9 +35234,22 @@ document.addEventListener('DOMContentLoaded', function() {
           <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;flex-wrap:wrap;">
             <select id="crLocFiltroZona" class="cr-select"><option value="">Todas las zonas</option></select>
             <select id="crRutaRep" class="cr-select" style="min-width:160px;"><option value="">— Seleccionar repartidor —</option></select>
-            <select id="crRutaFecha" class="cr-select"><option value="hoy">Hoy</option><option value="manana">Mañana</option></select>
+            <input type="hidden" id="crRutaFecha" value="hoy">
+            <button id="crMapaFechaBtn" type="button" class="cr-select" style="cursor:pointer;display:inline-flex;align-items:center;gap:5px;min-width:120px;white-space:nowrap;">📅 <span id="crMapaFechaLbl">Hoy</span></button>
             <input id="crLocBuscar" type="text" class="cr-input" placeholder="🔍 Buscar..." style="max-width:180px;flex:1;">
             <button id="crRutaGenerar" type="button" class="cr-btn primary">🛣 Generar Ruta</button>
+          </div>
+          <div id="crMapaCalPopup" style="display:none;position:fixed;z-index:100020;background:#fff;border:1px solid #e5e7eb;border-radius:12px;box-shadow:0 12px 40px rgba(0,0,0,0.18);padding:14px;min-width:250px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+              <span style="font-size:0.6rem;font-weight:800;color:#92400e;text-transform:uppercase;">Seleccionar fecha</span>
+              <button id="crMapaCalCerrar" type="button" style="background:none;border:none;font-size:1rem;cursor:pointer;color:#6b7280;">✕</button>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px;">
+              <button class="mp-cal-quick cr-mapa-cal-quick" data-q="ayer" type="button">Ayer</button>
+              <button class="mp-cal-quick cr-mapa-cal-quick active" data-q="hoy" type="button">Hoy</button>
+              <button class="mp-cal-quick cr-mapa-cal-quick" data-q="manana" type="button">Mañana</button>
+            </div>
+            <div id="crMapaCal1" class="mp-cal-month"></div>
           </div>
 
           <!-- Mapa + panel de botones animados -->
@@ -35104,7 +35620,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="panelEntregas" class="entrega-overlay">
   <div class="entrega-container">
     <div class="entrega-header">
-            <button id="entregaBack" class="entrega-back" type="button" title="Volver al menú principal" aria-label="Volver al menú principal">←</button>
       <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">📱 REPARTO APP MÓVIL</h2>
       <span style="flex:1;font-size:0.55rem;color:#64748b;font-weight:600;">Gestión y seguimiento</span>
       <button id="entBtnScanConsulta" type="button" style="padding:5px 10px;background:#ff9900;color:#fff;border:none;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.55rem;">🔍 CONSULTA</button>
@@ -36423,7 +36938,6 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="panelRepartoTemporal" class="entrega-overlay" style="display:none;">
   <div class="entrega-container">
     <div class="entrega-header">
-      <button id="repartoTempBack" class="entrega-back" type="button" title="Volver" aria-label="Volver">←</button>
       <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#1f2937;">REPARTO TEMPORAL</h2>
       <span style="margin-left:auto;font-size:0.62rem;color:#64748b;font-weight:600;">Entregas temporales manuales — independientes del flujo de producción</span>
     </div>
@@ -36488,7 +37002,8 @@ document.addEventListener('DOMContentLoaded', function() {
     window.openRepartoTemporalPopupGlobal = openRtPanel;
     window.closeRepartoTemporalPopupGlobal = closeRtPanel;
 
-    document.getElementById('repartoTempBack').addEventListener('click', function() {
+    var _rtBackBtn = document.getElementById('repartoTempBack');
+    if(_rtBackBtn) _rtBackBtn.addEventListener('click', function() {
         closeRtPanel();
         if (typeof mostrarInicioSistema === 'function') mostrarInicioSistema();
     });
@@ -39643,50 +40158,116 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ── DASHBOARD ──
     function renderDashboard(){
-        var sinA=allEntregas.filter(function(e){return!e.repartidorId&&e.estado!=='entregada';}).length;
-        var asig=allEntregas.filter(function(e){return e.repartidorId&&!e.recibidoPorRepartidor&&e.estado!=='entregada';}).length;
+        var sinA=allEntregas.filter(function(e){return!e.repartidorId&&e.estado!=='entregada'&&e.estado!=='no_entregada';}).length;
+        var asig=allEntregas.filter(function(e){return e.repartidorId&&!e.recibidoPorRepartidor&&e.estado!=='entregada'&&e.estado!=='no_entregada';}).length;
         var rec=allEntregas.filter(function(e){return e.recibidoPorRepartidor&&e.estado!=='entregada'&&e.estado!=='no_entregada';}).length;
         var ent=allEntregas.filter(function(e){return e.estado==='entregada';}).length;
         var noEnt=allEntregas.filter(function(e){return e.estado==='no_entregada';}).length;
+        var total=allEntregas.length;
         var reps=getReps().filter(function(r){return r.activo!==false;});
-        var el=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
-        el('crStatSinAsignar',sinA);el('crStatAsignados',asig);el('crStatRecibidos',rec);
-        el('crStatEntregados',ent);el('crStatNoEntregados',noEnt);el('crStatRepartidores',reps.length);
+        var elSet=function(id,v){var e=document.getElementById(id);if(e)e.textContent=v;};
 
-        // Activity
-        var actEl=document.getElementById('crDashActivity');
-        if(actEl){
-            var recent=allEntregas.slice(0,15);
-            if(!recent.length){actEl.innerHTML='<div style="text-align:center;color:#94a3b8;padding:12px;">Sin actividad</div>';return;}
-            actEl.innerHTML=recent.map(function(e){
-                var badge=e.estado==='entregada'?'background:#f0fdf4;color:#16a34a':e.estado==='no_entregada'?'background:#fef2f2;color:#dc2626':'background:#fff8ee;color:#ff9900';
-                return '<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid #f1f5f9;">'+
-                    '<span class="cr-badge" style="'+badge+'">'+esc(e.estado||'pendiente')+'</span>'+
-                    '<span style="font-weight:700;">'+esc(e.folioProduccion||e.id)+'</span>'+
-                    '<span style="color:#94a3b8;">'+esc(e.cliente||'—')+'</span>'+
-                    (e.repartidorNombre?'<span style="margin-left:auto;font-size:0.48rem;color:#6b7280;">🚚 '+esc(e.repartidorNombre)+'</span>':'')+
-                '</div>';
-            }).join('');
+        // Estado del día
+        elSet('crStatPendientes',sinA+asig);
+        elSet('crStatEnRuta',rec);
+        elSet('crStatEntregados',ent);
+        elSet('crStatNoEntregados',noEnt);
+
+        // KPIs
+        var pctExito=total>0?Math.round(ent/total*100):0;
+        elSet('crKpiExito',pctExito+'%');
+        var checks=getChecks();
+        var retardos=checks.filter(function(c){return c.retardo;}).length;
+        var pctPunt=checks.length>0?Math.round((checks.length-retardos)/checks.length*100):100;
+        elSet('crKpiPuntualidad',pctPunt+'%');
+        // Tiempo promedio: diff entre recibidoEn y entregadoEn cuando disponible
+        var tiemposMs=allEntregas.filter(function(e){return e.estado==='entregada'&&(e.entregadoEn||e.actualizadoEn)&&(e.recibidoEn||e.salidaEn);}).map(function(e){
+            var fin=crRepTs(e.entregadoEn||e.actualizadoEn);
+            var ini=crRepTs(e.recibidoEn||e.salidaEn);
+            return fin>ini?fin-ini:0;
+        }).filter(function(t){return t>0;});
+        if(tiemposMs.length){
+            var avgMin=Math.round(tiemposMs.reduce(function(a,b){return a+b;},0)/tiemposMs.length/60000);
+            elSet('crKpiTiempoPromedio',avgMin+' min');
+        } else {
+            elSet('crKpiTiempoPromedio','— min');
         }
 
-        // Repartidores status
-        var rsEl=document.getElementById('crDashRepartidoresStatus');
-        if(rsEl){
-            if(!reps.length){rsEl.innerHTML='<div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:12px;">Sin repartidores. Ve a la sección Repartidores para agregar.</div>';return;}
-            rsEl.innerHTML='<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:8px;">'+reps.map(function(r){
-                var asignados=allEntregas.filter(function(e){return e.repartidorId===r.id;}).length;
-                var entregados=allEntregas.filter(function(e){return e.repartidorId===r.id&&e.estado==='entregada';}).length;
-                return '<div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px;">'+
-                    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">'+
-                        '<div style="width:30px;height:30px;border-radius:50%;background:#ff9900;color:#fff;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:0.6rem;">'+esc(r.nombre.charAt(0).toUpperCase())+'</div>'+
-                        '<div><div style="font-weight:800;font-size:0.58rem;">'+esc(r.nombre)+'</div><div style="font-size:0.45rem;color:#64748b;">'+esc(r.zona||'Sin zona')+'</div></div>'+
-                    '</div>'+
-                    '<div style="display:flex;gap:6px;">'+
-                        '<span style="flex:1;text-align:center;background:#fff8ee;border-radius:4px;padding:3px;font-size:0.45rem;font-weight:700;color:#ff9900;">'+asignados+' asig.</span>'+
-                        '<span style="flex:1;text-align:center;background:#f0fdf4;border-radius:4px;padding:3px;font-size:0.45rem;font-weight:700;color:#16a34a;">'+entregados+' ent.</span>'+
-                    '</div>'+
-                '</div>';
-            }).join('')+'</div>';
+        // Repartidores table (worst to best by % éxito)
+        var repsTableEl=document.getElementById('crDashRepsTable');
+        if(repsTableEl){
+            if(!reps.length){
+                repsTableEl.innerHTML='<div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:10px;">Sin repartidores activos</div>';
+            } else {
+                var repData=reps.map(function(r){
+                    var asig=allEntregas.filter(function(e){return e.repartidorId===r.id;}).length;
+                    var entg=allEntregas.filter(function(e){return e.repartidorId===r.id&&e.estado==='entregada';}).length;
+                    var fallas=allEntregas.filter(function(e){return e.repartidorId===r.id&&e.estado==='no_entregada';}).length;
+                    var pct=asig>0?Math.round(entg/asig*100):0;
+                    return {nombre:r.nombre,asig:asig,entg:entg,fallas:fallas,pct:pct};
+                }).sort(function(a,b){return a.pct-b.pct||b.fallas-a.fallas;});
+                repsTableEl.innerHTML='<table class="cr-table">'+
+                    '<thead><tr><th>Repartidor</th><th style="text-align:center;">Asig.</th><th style="text-align:center;">Entg.</th><th style="text-align:center;">% Éxito</th><th style="text-align:center;">Estado</th></tr></thead>'+
+                    '<tbody>'+repData.map(function(r){
+                        var hasFalla=r.fallas>0;
+                        var lowPerf=r.pct<50&&r.asig>0;
+                        var pctColor=r.pct>=80?'#10b981':r.pct>=50?'#f59e0b':'#ef4444';
+                        var badge=hasFalla
+                            ?'<span style="background:#fef2f2;color:#dc2626;padding:2px 7px;border-radius:4px;font-size:0.45rem;font-weight:900;">'+r.fallas+' falla'+(r.fallas>1?'s':'')+'</span>'
+                            :lowPerf
+                                ?'<span style="background:#fff7ed;color:#c2410c;padding:2px 7px;border-radius:4px;font-size:0.45rem;font-weight:900;">Bajo</span>'
+                                :'<span style="background:#f0fdf4;color:#16a34a;padding:2px 7px;border-radius:4px;font-size:0.45rem;font-weight:900;">OK</span>';
+                        return '<tr style="'+(hasFalla||lowPerf?'background:#fef9f9;':'')+'">'+
+                            '<td style="font-weight:700;">'+esc(r.nombre)+'</td>'+
+                            '<td style="text-align:center;color:#64748b;">'+r.asig+'</td>'+
+                            '<td style="text-align:center;color:#10b981;font-weight:800;">'+r.entg+'</td>'+
+                            '<td style="text-align:center;color:'+pctColor+';font-weight:900;">'+r.pct+'%</td>'+
+                            '<td style="text-align:center;">'+badge+'</td>'+
+                        '</tr>';
+                    }).join('')+'</tbody></table>';
+            }
+        }
+
+        // Alertas preview (compact, unread only)
+        generarAlertasAuto();
+        var alertasPreviewEl=document.getElementById('crDashAlertasPreview');
+        if(alertasPreviewEl){
+            var alertasPrev=getAlertas().filter(function(a){return!a.leida;}).slice(0,8);
+            if(!alertasPrev.length){
+                alertasPreviewEl.innerHTML='<div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:10px;">Sin alertas pendientes</div>';
+            } else {
+                var aIcons={critica:'🔴',warning:'🟡',info:'🟠'};
+                alertasPreviewEl.innerHTML='<div style="display:flex;flex-direction:column;gap:5px;">'+alertasPrev.map(function(a){
+                    var bc=a.tipo==='critica'?'#ef4444':a.tipo==='warning'?'#f59e0b':'#ff9900';
+                    var bg=a.tipo==='critica'?'#fef2f2':a.tipo==='warning'?'#fff7ed':'#fff8ee';
+                    return '<div style="padding:6px 8px;border-radius:5px;border-left:3px solid '+bc+';background:'+bg+';">'+
+                        '<div style="font-size:0.52rem;font-weight:700;color:#1e293b;line-height:1.3;">'+(aIcons[a.tipo]||'')+' '+esc(a.mensaje)+'</div>'+
+                        (a.repartidor&&a.repartidor!=='—'?'<div style="font-size:0.44rem;color:#94a3b8;margin-top:1px;">'+esc(a.repartidor)+'</div>':'')+
+                    '</div>';
+                }).join('')+'</div>';
+            }
+        }
+
+        // Actividad reciente (últimos 8 eventos con cambio de estado)
+        var actEl=document.getElementById('crDashActivity');
+        if(actEl){
+            var recent=allEntregas.filter(function(e){
+                return e.estado==='entregada'||e.estado==='no_entregada'||e.recibidoPorRepartidor;
+            }).slice(0,8);
+            if(!recent.length){
+                actEl.innerHTML='<div style="text-align:center;color:#94a3b8;padding:10px;">Sin actividad reciente</div>';
+            } else {
+                actEl.innerHTML=recent.map(function(e){
+                    var badge=e.estado==='entregada'?'background:#f0fdf4;color:#16a34a':e.estado==='no_entregada'?'background:#fef2f2;color:#dc2626':'background:#fff8ee;color:#ff9900';
+                    var lbl=e.estado==='entregada'?'Entregado':e.estado==='no_entregada'?'No entregado':'En ruta';
+                    return '<div style="display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px solid #f1f5f9;">'+
+                        '<span class="cr-badge" style="'+badge+';white-space:nowrap;font-size:0.45rem;">'+lbl+'</span>'+
+                        '<span style="font-weight:700;font-size:0.55rem;color:#0f172a;">'+esc(e.folioProduccion||e.id)+'</span>'+
+                        '<span style="color:#94a3b8;font-size:0.5rem;flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">'+esc(e.cliente||'—')+'</span>'+
+                        (e.repartidorNombre?'<span style="font-size:0.48rem;color:#6b7280;white-space:nowrap;flex-shrink:0;">'+esc(e.repartidorNombre)+'</span>':'')+
+                    '</div>';
+                }).join('');
+            }
         }
     }
 
@@ -40797,6 +41378,85 @@ document.addEventListener('DOMContentLoaded', function() {
     var rutaRepSel=document.getElementById('crRutaRep');if(rutaRepSel)rutaRepSel.addEventListener('change',renderRutas);
     var rutaGen=document.getElementById('crRutaGenerar');if(rutaGen)rutaGen.addEventListener('click',renderRutas);
 
+    // ── MAPA: MINI CALENDARIO DE DÍA ÚNICO ──
+    var crMapaCalMonth=new Date().getMonth(), crMapaCalYear=new Date().getFullYear(), crMapaCalDate=null;
+    function crMapaToISO(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');}
+    function crMapaCalRender(){
+        var cont=document.getElementById('crMapaCal1'); if(!cont) return;
+        var first=new Date(crMapaCalYear,crMapaCalMonth,1), last=new Date(crMapaCalYear,crMapaCalMonth+1,0);
+        var today=new Date(), todayTs=new Date(today.getFullYear(),today.getMonth(),today.getDate()).getTime();
+        var selTs=crMapaCalDate?new Date(crMapaCalDate.getFullYear(),crMapaCalDate.getMonth(),crMapaCalDate.getDate()).getTime():null;
+        var monthName=first.toLocaleDateString('es-MX',{month:'long',year:'numeric'});
+        var dow=['L','M','M','J','V','S','D'], start=(first.getDay()+6)%7;
+        var html='<div class="cal-header">'+
+            '<button type="button" data-cr-mapa-cal-nav="prev">‹</button>'+
+            '<span style="text-transform:capitalize;">'+monthName+'</span>'+
+            '<button type="button" data-cr-mapa-cal-nav="next">›</button>'+
+        '</div><div class="cal-grid">'+dow.map(function(d){return '<div class="cal-dow">'+d+'</div>';}).join('');
+        for(var i=0;i<start;i++) html+='<div></div>';
+        for(var day=1;day<=last.getDate();day++){
+            var dt=new Date(crMapaCalYear,crMapaCalMonth,day), ts=dt.getTime(), cls='cal-day';
+            if(ts===todayTs) cls+=' today';
+            if(selTs!==null&&ts===selTs) cls+=' range-start';
+            html+='<div class="'+cls+'" data-cr-mapa-iso="'+crMapaToISO(dt)+'">'+day+'</div>';
+        }
+        html+='</div>';
+        cont.innerHTML=html;
+        Array.prototype.forEach.call(cont.querySelectorAll('[data-cr-mapa-iso]'),function(cell){
+            cell.addEventListener('click',function(){ crMapaCalPickDay(cell.dataset.crMapaIso); });
+        });
+        Array.prototype.forEach.call(cont.querySelectorAll('[data-cr-mapa-cal-nav]'),function(btn){
+            btn.addEventListener('click',function(){
+                if(btn.dataset.crMapaCalNav==='prev'){crMapaCalMonth--;if(crMapaCalMonth<0){crMapaCalMonth=11;crMapaCalYear--;}}
+                else{crMapaCalMonth++;if(crMapaCalMonth>11){crMapaCalMonth=0;crMapaCalYear++;}}
+                crMapaCalRender();
+            });
+        });
+    }
+    function crMapaCalPickDay(iso){
+        var d=new Date(iso+'T00:00:00'); crMapaCalDate=d; crMapaCalMonth=d.getMonth(); crMapaCalYear=d.getFullYear();
+        var now=new Date(), todayIso=crMapaToISO(new Date(now.getFullYear(),now.getMonth(),now.getDate()));
+        var manaDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1), manaIso=crMapaToISO(manaDate);
+        var ayerDate=new Date(now.getFullYear(),now.getMonth(),now.getDate()-1), ayerIso=crMapaToISO(ayerDate);
+        var lblText=iso===todayIso?'Hoy':iso===manaIso?'Mañana':iso===ayerIso?'Ayer':d.toLocaleDateString('es-MX',{day:'2-digit',month:'short'});
+        var lblEl=document.getElementById('crMapaFechaLbl'); if(lblEl) lblEl.textContent=lblText;
+        var inp=document.getElementById('crRutaFecha'); if(inp) inp.value=iso;
+        var activeQ=iso===todayIso?'hoy':iso===manaIso?'manana':iso===ayerIso?'ayer':'';
+        Array.prototype.forEach.call(document.querySelectorAll('.cr-mapa-cal-quick'),function(b){b.classList.toggle('active',b.dataset.q===activeQ);});
+        crMapaCalRender();
+        crMapaCalClose();
+    }
+    function crMapaCalOpen(anchorEl){
+        var popup=document.getElementById('crMapaCalPopup'); if(!popup||!anchorEl) return;
+        var rect=anchorEl.getBoundingClientRect();
+        popup.style.display='block';
+        popup.style.left=Math.max(8,Math.min(window.innerWidth-270,rect.left))+'px';
+        popup.style.top=(rect.bottom+6)+'px';
+        crMapaCalRender();
+    }
+    function crMapaCalClose(){var popup=document.getElementById('crMapaCalPopup');if(popup)popup.style.display='none';}
+    Array.prototype.forEach.call(document.querySelectorAll('.cr-mapa-cal-quick'),function(btn){
+        btn.addEventListener('click',function(){
+            var now=new Date(), d=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+            if(btn.dataset.q==='manana') d.setDate(d.getDate()+1);
+            else if(btn.dataset.q==='ayer') d.setDate(d.getDate()-1);
+            crMapaCalPickDay(crMapaToISO(d));
+        });
+    });
+    (function(){
+        var now=new Date(), d=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+        var iso=crMapaToISO(d); crMapaCalDate=d;
+        var inp=document.getElementById('crRutaFecha'); if(inp) inp.value=iso;
+    })();
+    var _crMapaFechaBtn=document.getElementById('crMapaFechaBtn');
+    var _crMapaCalPopup=document.getElementById('crMapaCalPopup');
+    if(_crMapaFechaBtn) _crMapaFechaBtn.addEventListener('click',function(ev){ev.stopPropagation();crMapaCalOpen(_crMapaFechaBtn);});
+    var _crMapaCalCerrar=document.getElementById('crMapaCalCerrar');
+    if(_crMapaCalCerrar) _crMapaCalCerrar.addEventListener('click',crMapaCalClose);
+    document.addEventListener('click',function(ev){
+        if(_crMapaCalPopup&&_crMapaCalPopup.style.display==='block'&&!_crMapaCalPopup.contains(ev.target)&&ev.target!==_crMapaFechaBtn) crMapaCalClose();
+    });
+
     // ── PENALIZACIONES ──
     function renderPenalizacionesSec(){
         var pens=getPenalizaciones();var repMap={};getReps().forEach(function(r){repMap[r.id]=r;});
@@ -41761,6 +42421,145 @@ document.addEventListener('focusin', function(e) {
         el.select();
     }
 });
+</script>
+
+<script>
+// ══ BARRA LATERAL GLOBAL DE MÓDULOS (GNAV) ══
+(function(){
+    var bar = document.getElementById('gnavBar');
+
+    function showGnav(activeKey) {
+        document.body.classList.add('gnav-open');
+        if (bar) bar.classList.add('visible');
+        document.querySelectorAll('#gnavBar .gnav-item').forEach(function(b) {
+            b.classList.toggle('active', b.dataset.gnav === activeKey);
+        });
+    }
+
+    // Lista completa de todos los overlays de módulos
+    var ALL_MODULE_IDS = [
+        'panelControlRepartidores','panelEntregas','panelRepartoTemporal',
+        'popupMisPedidos','popupProductos','popupCaja','popupCalendario',
+        'popupConfiguraciones','popupClientesModulo','popupProveedoresModulo',
+        'popupInsumosModulo','popupAlmacenModulo','popupReportesModulo',
+        'panelProduccion','panelRecepcionSucursal','popupDesignTracking','landing'
+    ];
+
+    function closeAllModules() {
+        ALL_MODULE_IDS.forEach(function(id){
+            var el = document.getElementById(id);
+            if (el && el.style.display !== 'none') {
+                el.style.display = 'none';
+                el.setAttribute('aria-hidden', 'true');
+            }
+        });
+        // Limpiar clases globales que algunos módulos aplican
+        document.body.classList.remove('popup-open');
+        document.documentElement.classList.remove('popup-open');
+    }
+
+    function restoreLayout() {
+        var sb = document.querySelector('.sidebar');
+        var ma = document.querySelector('.main-area');
+        if (sb) { sb.style.display = ''; sb.style.visibility = ''; }
+        if (ma) { ma.style.display = ''; ma.style.visibility = ''; }
+    }
+
+    function openModule(key) {
+        closeAllModules();
+        restoreLayout();
+        showGnav(key);
+        switch (key) {
+            case 'repartidores':
+                if (window.openControlRepartidoresGlobal) window.openControlRepartidoresGlobal('dashboard');
+                break;
+            case 'app-movil':
+                if (window.openRepartoPopupGlobal) window.openRepartoPopupGlobal();
+                break;
+            case 'temporal':
+                if (window.openRepartoTemporalPopupGlobal) window.openRepartoTemporalPopupGlobal();
+                break;
+            case 'nueva-orden':
+                if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('NUEVA ORDEN');
+                break;
+            case 'pedidos':
+                if (window.openMisPedidosPopupGlobal) window.openMisPedidosPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('MIS PEDIDOS');
+                break;
+            case 'produccion':
+                if (window.openProduccionPopupGlobal) window.openProduccionPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('PRODUCCION');
+                break;
+            case 'diseno':
+                if (window.openDisenoPopupGlobal) window.openDisenoPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('DISENO');
+                break;
+            case 'recepcion':
+                if (window.openRecepcionSucursalGlobal) window.openRecepcionSucursalGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('RECEPCION SUCURSAL');
+                break;
+            case 'caja':
+                if (window.openCajaPopupGlobal) window.openCajaPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('CAJA');
+                break;
+            case 'clientes':
+                if (window.openClientesPopupGlobal) window.openClientesPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('CLIENTES');
+                break;
+            case 'proveedores':
+                if (window.openProveedoresPopupGlobal) window.openProveedoresPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('PROVEEDORES');
+                break;
+            case 'productos':
+                if (window.openProductosPopupGlobal) window.openProductosPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('PRODUCTOS');
+                break;
+            case 'almacen':
+                if (window.openAlmacenPopupGlobal) window.openAlmacenPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('ALMACEN');
+                break;
+            case 'muestrario':
+                if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('MUESTRARIO');
+                break;
+            case 'reportes':
+                if (window.openReportesPopupGlobal) window.openReportesPopupGlobal('reportes');
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('REPORTES');
+                break;
+            case 'calendario':
+                if (window.openCalendarioPopupGlobal) window.openCalendarioPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('CALENDARIO');
+                break;
+            case 'config':
+                if (window.openConfiguracionesPopupGlobal) window.openConfiguracionesPopupGlobal();
+                else if (window.abrirModuloPrincipal) window.abrirModuloPrincipal('CONFIGURACIONES');
+                break;
+        }
+    }
+
+    if (bar) bar.addEventListener('click', function(e) {
+        var btn = e.target.closest('.gnav-item[data-gnav]');
+        if (!btn) return;
+        openModule(btn.dataset.gnav);
+    });
+
+    // Patch mostrarInicioSistema: activar gnav en lugar de mostrar la cuadrícula de inicio
+    window.mostrarInicioSistema = function() {
+        var landing = document.getElementById('landing');
+        var sidebar = document.querySelector('.sidebar');
+        var mainArea = document.querySelector('.main-area');
+        var chatFab = document.getElementById('btnOpenClientChatMini');
+        var btnHome = document.getElementById('btnHome');
+        if (landing) { landing.style.display = 'none'; landing.style.visibility = ''; }
+        if (sidebar) { sidebar.style.display = ''; sidebar.style.visibility = ''; }
+        if (mainArea) { mainArea.style.display = ''; mainArea.style.visibility = ''; }
+        if (chatFab) chatFab.style.display = 'inline-flex';
+        if (btnHome) btnHome.style.display = 'none';
+        showGnav('');
+    };
+
+    window._gnavShow = showGnav;
+    window._gnavOpenModule = openModule;
+})();
 </script>
 
 </body>
