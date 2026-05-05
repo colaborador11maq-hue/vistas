@@ -1219,7 +1219,7 @@
         .orden-resumen-actions {
             width: 100%;
             display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
+            grid-template-columns: 1fr 1fr;
             gap: 0;
         }
 
@@ -1261,6 +1261,17 @@
 
         .orden-action-square.primary:hover {
             background: #333333 !important;
+        }
+
+        .btn-aceptar-global {
+            background: #ff9900 !important;
+            border-color: #e68a00 !important;
+            color: #ffffff !important;
+        }
+
+        .btn-aceptar-global:hover {
+            background: #e68a00 !important;
+            border-color: #cf7900 !important;
         }
 
         .orden-ticket-tools {
@@ -7712,7 +7723,10 @@
                    RECEPCIÓN SUCURSAL (Escáner)
                 ════════════════════════════════════════════════════════ */
                 .recepcion-overlay {
-                    display: none; position: fixed; inset: 0; background: #f5f7fb; z-index: 9300; flex-direction: column; overflow: hidden;
+                    display: none; position: fixed; inset: 0; background: rgba(4,8,15,0.72); z-index: 9300; align-items: center; justify-content: center; padding: 16px;
+                }
+                .recepcion-popup-card {
+                    background: #f5f7fb; border-radius: 14px; width: min(96vw, 700px); max-height: 90vh; overflow: hidden; display: flex; flex-direction: column; box-shadow: 0 20px 50px rgba(0,0,0,0.38);
                 }
                 .recepcion-header {
                     position: relative; display: flex; align-items: center; justify-content: flex-start; padding: 10px 20px 10px 42px;
@@ -7766,7 +7780,6 @@
                 body.gnav-open .ajustes-tabuladores-overlay,
                 body.gnav-open .prod-tabulador-overlay,
                 body.gnav-open .produccion-overlay,
-                body.gnav-open .recepcion-overlay,
                 body.gnav-open .diseno-overlay,
                 body.gnav-open #popupAlmacenFisico,
                 body.gnav-open .inicio-sistema-overlay { left: 58px !important; }
@@ -9820,7 +9833,7 @@ function abrirPopupProveedorDesdeProductos() {
     </div>
 </div>
 
-<button id="btnOpenClientChatMini" class="client-chat-fab" type="button">💬 Clientes</button>
+<button id="btnOpenClientChatMini" class="client-chat-fab" type="button" style="display:none !important;">💬 Clientes</button>
 <div id="clientChatMiniPanel" class="client-chat-mini" aria-hidden="true">
     <div class="client-chat-mini-head">
         <div class="client-chat-mini-title">Chat con clientes</div>
@@ -10934,7 +10947,7 @@ const imgBolsaDeliveryBase = new Image();
             inicio.style.display = 'flex';
             inicio.setAttribute('aria-hidden', 'false');
         }
-        if (chatFab) chatFab.style.display = 'inline-flex';
+        if (chatFab) chatFab.style.display = 'none';
         const btnHome = document.getElementById('btnHome');
         if (btnHome) btnHome.style.display = 'none';
     }
@@ -10946,7 +10959,6 @@ const imgBolsaDeliveryBase = new Image();
             inicio.style.display = 'none';
             inicio.setAttribute('aria-hidden', 'true');
         }
-        if (chatFab) chatFab.style.display = 'none';
     }
 
     function abrirModuloPrincipal(modulo) {
@@ -12909,9 +12921,8 @@ const imgBolsaDeliveryBase = new Image();
             <div class="orden-kpi"><label>Ganancia</label><span id="ordenGanancia">$0.00</span></div>
 
             <div class="orden-resumen-actions">
-                <button id="ordenBtnImpuestos" class="orden-btn orden-action-square">IMPUESTOS <span class="shortcut-hint">ALT+I</span></button>
-                <button id="ordenBtnDescuento" class="orden-btn orden-action-square">DESCUENTO <span class="shortcut-hint">ALT+D</span></button>
-                <button id="ordenBtnCotizacion" class="orden-btn primary orden-action-square">COTIZACIÓN <span class="shortcut-hint">ALT+C</span></button>
+                <button id="ordenBtnDescuento" class="orden-btn orden-action-square">DESCUENTO</button>
+                <button id="ordenBtnCotizacion" class="orden-btn primary orden-action-square">COTIZACIÓN <span class="shortcut-hint">F12</span></button>
             </div>
 
             <div class="orden-ticket-tools">
@@ -12927,10 +12938,11 @@ const imgBolsaDeliveryBase = new Image();
                 <button data-pay="TRANSFERENCIA" class="orden-btn orden-pay-btn" title="Transferencia (F6)" aria-label="Transferencia"><span class="orden-pay-icon">⇄</span><span class="orden-pay-label">TRANSFERENCIA</span><span class="shortcut-hint">F6</span></button>
                 <button data-pay="DEPOSITO" class="orden-btn orden-pay-btn" title="Depósito (F7)" aria-label="Depósito"><span class="orden-pay-icon">↓</span><span class="orden-pay-label">DEPÓSITO</span><span class="shortcut-hint">F7</span></button>
                 <button data-pay="GUARDAR SIN ANTICIPO" class="orden-btn orden-pay-btn" title="Sin anticipo (F8)" aria-label="Sin anticipo"><span class="orden-pay-icon">◎</span><span class="orden-pay-label">SIN ANTICIPO</span><span class="shortcut-hint">F8</span></button>
-                <button id="ordenBtnLimpiar" class="orden-btn warn" title="Limpiar ticket (F9)" aria-label="Limpiar ticket"><span class="orden-pay-icon">✕</span><span class="orden-pay-label">LIMPIAR</span><span class="shortcut-hint">F9</span></button>
+                <button id="ordenBtnLimpiar" class="orden-btn warn" title="Limpiar ticket (Suprimir)" aria-label="Limpiar ticket"><span class="orden-pay-icon">✕</span><span class="orden-pay-label">LIMPIAR</span><span class="shortcut-hint">SUPR</span></button>
             </div>
 
             <button id="ordenBtnVentaRapida" class="orden-btn orden-btn-venta-rapida" type="button">VENDER COMO VENTA RÁPIDA <span class="shortcut-hint">F10</span></button>
+            <button type="button" onclick="if(window.openRecepcionSucursalGlobal){window.openRecepcionSucursalGlobal();}else{var p=document.getElementById('panelRecepcionSucursal');if(p){p.style.display='flex';p.setAttribute('aria-hidden','false');}};" class="orden-btn" style="width:100%;margin-top:6px;min-height:38px;background:#000000;border:none;color:#ffffff;font-size:0.56rem;font-weight:900;letter-spacing:0.15px;border-radius:0;cursor:pointer;display:flex;align-items:center;justify-content:center;" id="btnRecibirPedidos" title="Recibir pedidos terminados en sucursal">🏬 RECIBIR PEDIDOS TERMINADOS <span class="shortcut-hint">F11</span></button>
         </div>
     </div>
 </div>
@@ -25674,6 +25686,11 @@ document.addEventListener('DOMContentLoaded', () => {
             closeOrdenPopup(ordenPagoPopup);
             return;
         }
+        const mpPagoPopup = document.getElementById('mpPagoPopup');
+        if (mpPagoPopup?.style.display === 'flex') {
+            document.getElementById('mpPagoCancelar')?.click();
+            return;
+        }
         if (ordenConfirmPopup?.style.display === 'flex') {
             closeOrdenPopup(ordenConfirmPopup);
             return;
@@ -25684,6 +25701,10 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (ordenDescuentoPopup?.style.display === 'flex') {
             closeOrdenPopup(ordenDescuentoPopup);
+            return;
+        }
+        if (popupClientesForm?.style.display === 'flex') {
+            closeClientesFormPopup();
             return;
         }
         if (ordenClienteSelectPopup?.style.display === 'flex') {
@@ -33886,7 +33907,7 @@ document.addEventListener('DOMContentLoaded', function() {
      RECEPCIÓN SUCURSAL — Panel HTML
 ════════════════════════════════════════════════════════════════ -->
 <div id="panelRecepcionSucursal" class="recepcion-overlay">
-  <div style="display:flex;flex-direction:column;height:100%;padding:8px;gap:6px;">
+  <div class="recepcion-popup-card">
     <div class="recepcion-header">
     <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">RECEPCIÓN SUCURSAL</h2>
     </div>
@@ -33927,7 +33948,7 @@ document.addEventListener('DOMContentLoaded', function() {
      MÓDULO ALMACÉN DE PEDIDOS — Panel HTML
 ════════════════════════════════════════════════════════════════ -->
 <div id="panelAlmacenPedidos" class="almacenpedidos-overlay">
-  <div style="display:flex;flex-direction:column;height:100%;padding:8px;gap:6px;">
+    <div style="display:flex;flex-direction:column;height:100%;padding:8px;gap:6px;">
     <div class="almacenpedidos-header">
     <h2 style="margin:0;font-size:0.84rem;letter-spacing:0.25px;font-weight:900;text-transform:uppercase;color:#ffffff;">ALMACÉN DE PEDIDOS</h2>
     <span style="margin-left:auto;font-size:0.62rem;color:#ffe0b2;font-weight:600;">Recolecta, verifica y entrega pedidos terminados</span>
@@ -34833,20 +34854,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function openRecepcionPanel() {
         panel.style.display = 'flex';
+        panel.setAttribute('aria-hidden', 'false');
         cargarRecepcion();
     }
     function closeRecepcionPanel() {
         panel.style.display = 'none';
+        panel.setAttribute('aria-hidden', 'true');
         var popupScanner = document.getElementById('popupScannerRecepcion');
         if (popupScanner) popupScanner.remove();
-        if (typeof mostrarInicioSistema === 'function') mostrarInicioSistema();
     }
     window.openRecepcionSucursalGlobal = openRecepcionPanel;
     window.closeRecepcionSucursalGlobal = closeRecepcionPanel;
 
     if (backBtn) backBtn.addEventListener('click', function() {
         closeRecepcionPanel();
-        if (typeof mostrarInicioSistema === 'function') mostrarInicioSistema();
+    });
+    // Cerrar al click fuera de la tarjeta
+    panel.addEventListener('click', function(e) {
+        if (e.target === panel) closeRecepcionPanel();
     });
 
     // Tab clicks
@@ -35236,24 +35261,22 @@ document.addEventListener('DOMContentLoaded', function() {
 ════════════════════════════════════════════════════════════════ -->
 <style>
   #panelControlRepartidores { display:none; }
-    #panelControlRepartidores .cr-body { display:flex; height:calc(100vh - 56px); min-height:0; overflow:hidden; }
-    #panelControlRepartidores .cr-sidebar { width:240px; min-width:240px; background:#fff; border-right:1px solid #e5e5e5; display:flex; flex-direction:column; overflow:hidden; transition:width 0.25s ease,min-width 0.25s ease; position:relative; padding-top:36px; }
-    #panelControlRepartidores .cr-sidebar.collapsed { width:62px; min-width:62px; }
-    #panelControlRepartidores .cr-sidebar-toggle { position:absolute; top:8px; right:8px; width:30px; height:30px; border:1px solid #e5e7eb; background:#ffffff; color:#555; border-radius:6px; cursor:pointer; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:0; gap:2px; transition:all 0.15s; }
-    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-toggle { right:8px; }
+    #panelControlRepartidores .cr-body { display:flex; flex-direction:column; height:calc(100vh - 56px); min-height:0; overflow:hidden; }
+    #panelControlRepartidores .cr-sidebar { width:100%; min-width:0; background:#fff; border-bottom:1px solid #e5e5e5; display:flex; flex-direction:row; align-items:center; overflow-x:auto; overflow-y:hidden; transition:none; position:relative; padding:0 10px; gap:2px; flex-shrink:0; }
+    #panelControlRepartidores .cr-sidebar.collapsed { width:100%; min-width:0; }
+    #panelControlRepartidores .cr-sidebar-toggle { display:none; }
     #panelControlRepartidores .cr-sidebar-toggle:hover { background:#fff7ed; border-color:#fdba74; }
     #panelControlRepartidores .cr-sidebar-toggle .line { display:block; width:14px; height:2px; background:#525252; border-radius:999px; margin:0; }
     #panelControlRepartidores .cr-sidebar-toggle:focus-visible { outline:2px solid #fb923c; outline-offset:2px; }
-    #panelControlRepartidores .cr-sidebar-label { font-size:0.42rem; font-weight:800; color:#999; text-transform:uppercase; letter-spacing:1px; padding:6px 14px 8px; white-space:nowrap; overflow:hidden; }
-  #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-label { display:none; }
-    #panelControlRepartidores .cr-sidebar-btn { display:flex; align-items:center; gap:10px; padding:11px 14px; border:none; background:transparent; color:#555; font-size:0.60rem; font-weight:700; cursor:pointer; text-align:left; border-left:3px solid transparent; transition:all 0.15s; white-space:nowrap; min-height:44px; }
-    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn { justify-content:center; gap:0; padding:8px 6px; }
-    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn span:not(.cr-ico) { display:none; }
-    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn #crPedNoEntAlert { display:inline-flex !important; }
-  #panelControlRepartidores .cr-sidebar-btn:hover { background:#fff8ee; color:#e68a00; }
-  #panelControlRepartidores .cr-sidebar-btn.active { background:#fff3e0; color:#ff9900; border-left-color:#ff9900; font-weight:900; }
-  #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn.active { border-left:none; background:#fff3e0; }
-    #panelControlRepartidores .cr-sidebar-btn .cr-ico { font-size:1.25rem; width:30px; text-align:center; flex-shrink:0; }
+        #panelControlRepartidores .cr-sidebar-label { display:none; }
+        #panelControlRepartidores .cr-sidebar-btn { display:flex; align-items:center; gap:6px; padding:10px 12px; border:none; background:transparent; color:#555; font-size:0.58rem; font-weight:800; cursor:pointer; text-align:left; border-bottom:3px solid transparent; transition:all 0.15s; white-space:nowrap; min-height:40px; flex-shrink:0; }
+        #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn { justify-content:flex-start; gap:6px; padding:10px 12px; }
+        #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn span:not(.cr-ico) { display:inline; }
+        #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn #crPedNoEntAlert { display:inline-flex !important; }
+    #panelControlRepartidores .cr-sidebar-btn:hover { background:#fff8ee; color:#e68a00; }
+    #panelControlRepartidores .cr-sidebar-btn.active { background:#fff3e0; color:#ff9900; border-bottom-color:#ff9900; font-weight:900; }
+    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn.active { border-bottom-color:#ff9900; background:#fff3e0; }
+        #panelControlRepartidores .cr-sidebar-btn .cr-ico { font-size:0.95rem; width:auto; text-align:center; flex-shrink:0; }
     #panelControlRepartidores .cr-main { flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; background:#f4f4f4; padding:10px; overflow:hidden; }
     #panelControlRepartidores .cr-main > div:first-child { flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column; }
     #panelControlRepartidores .cr-section { display:none; flex:1; min-height:0; overflow:hidden; }
@@ -35307,12 +35330,9 @@ document.addEventListener('DOMContentLoaded', function() {
     .cr-fs-header .cr-fs-subtitle { font-size:0.48rem;color:#7a3e00; }
   .cr-fs-body { flex:1;overflow-y:auto;padding:16px; }
     @media (max-width: 1100px) {
-        #panelControlRepartidores .cr-sidebar { width:62px; min-width:62px; }
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-label,
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-btn span:not(.cr-ico),
-        #panelControlRepartidores .cr-sidebar #crSidebarResumen { display:none; }
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-btn { justify-content:center; padding:8px 6px; }
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-toggle { right:8px; }
+        #panelControlRepartidores .cr-sidebar { width:100%; min-width:0; padding:0 6px; }
+        #panelControlRepartidores .cr-sidebar .cr-sidebar-btn span:not(.cr-ico) { display:none; }
+        #panelControlRepartidores .cr-sidebar .cr-sidebar-btn { justify-content:center; padding:8px 9px; }
         #panelControlRepartidores .cr-main { padding:8px; }
     }
 </style>
@@ -35320,34 +35340,36 @@ document.addEventListener('DOMContentLoaded', function() {
 <div id="gnavBar">
   <!-- Marca / logo -->
 
-  <!-- Reparto -->
+  <!-- NIVEL 1: COTIZADOR (PRIMARIO) -->
+  <button class="gnav-item" data-gnav="nueva-orden" title="Nueva Orden - Cotizador"><span class="g-ico">📝</span><span class="g-lbl">Cotiz.</span></button>
+  <button class="gnav-item" data-gnav="muestrario" title="Muestrario"><span class="g-ico">🖼️</span><span class="g-lbl">Muestr.</span></button>
+  <button class="gnav-item" data-gnav="calendario" title="Calendario"><span class="g-ico">📅</span><span class="g-lbl">Cal.</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- NIVEL 2: PRINCIPALES -->
+  <button class="gnav-item" data-gnav="pedidos" title="Mis Pedidos"><span class="g-ico">📋</span><span class="g-lbl">Pedidos</span></button>
+  <button class="gnav-item" data-gnav="clientes" title="Clientes"><span class="g-ico">👥</span><span class="g-lbl">Clientes</span></button>
+  <button class="gnav-item" data-gnav="productos" title="Productos"><span class="g-ico">🏷️</span><span class="g-lbl">Prods.</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- NIVEL 3: OPERACIONES -->
   <button class="gnav-item" data-gnav="repartidores" title="Control Repartidores"><span class="g-ico">🚚</span><span class="g-lbl">Reparto</span></button>
+  <button class="gnav-item" data-gnav="produccion" title="Producción"><span class="g-ico">🏭</span><span class="g-lbl">Produc.</span></button>
+  <button class="gnav-item" data-gnav="almacen" title="Almacén"><span class="g-ico">📦</span><span class="g-lbl">Almacén</span></button>
+  <button class="gnav-item" data-gnav="caja" title="Caja"><span class="g-ico">💰</span><span class="g-lbl">Caja</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- NIVEL 4: CREATIVIDAD Y SERVICIOS -->
+  <button class="gnav-item" data-gnav="diseno" title="Diseño"><span class="g-ico">🎨</span><span class="g-lbl">Diseño</span></button>
+  <button class="gnav-item" data-gnav="reportes" title="Reportes / Dashboard"><span class="g-ico">📊</span><span class="g-lbl">Repor.</span></button>
+  <div class="gnav-sep"></div>
+
+  <!-- NIVEL 5: COMPLEMENTARIOS -->
+  <button class="gnav-item" data-gnav="proveedores" title="Proveedores"><span class="g-ico">🏪</span><span class="g-lbl">Prov.</span></button>
   <button class="gnav-item" data-gnav="temporal" title="Reparto Temporal"><span class="g-ico">🔄</span><span class="g-lbl">Temporal</span></button>
   <div class="gnav-sep"></div>
 
-  <!-- Producción y órdenes -->
-  <button class="gnav-item" data-gnav="nueva-orden" title="Nueva Orden"><span class="g-ico">🆕</span><span class="g-lbl">Orden</span></button>
-  <button class="gnav-item" data-gnav="pedidos" title="Mis Pedidos"><span class="g-ico">📋</span><span class="g-lbl">Pedidos</span></button>
-  <button class="gnav-item" data-gnav="produccion" title="Producción"><span class="g-ico">🏭</span><span class="g-lbl">Produc.</span></button>
-  <button class="gnav-item" data-gnav="diseno" title="Diseño"><span class="g-ico">🎨</span><span class="g-lbl">Diseño</span></button>
-  <button class="gnav-item" data-gnav="recepcion" title="Recepción Sucursal"><span class="g-ico">🏬</span><span class="g-lbl">Recep.</span></button>
-  <div class="gnav-sep"></div>
-
-  <!-- Clientes y comercial -->
-  <button class="gnav-item" data-gnav="caja" title="Caja"><span class="g-ico">💰</span><span class="g-lbl">Caja</span></button>
-  <button class="gnav-item" data-gnav="clientes" title="Clientes"><span class="g-ico">👥</span><span class="g-lbl">Clientes</span></button>
-  <button class="gnav-item" data-gnav="proveedores" title="Proveedores"><span class="g-ico">🏪</span><span class="g-lbl">Prov.</span></button>
-  <div class="gnav-sep"></div>
-
-  <!-- Catálogo -->
-  <button class="gnav-item" data-gnav="productos" title="Productos"><span class="g-ico">🏷️</span><span class="g-lbl">Prods.</span></button>
-  <button class="gnav-item" data-gnav="almacen" title="Almacén"><span class="g-ico">📦</span><span class="g-lbl">Almacén</span></button>
-    <button class="gnav-item" data-gnav="muestrario" title="Muestrario"><span class="g-ico">🖼️</span><span class="g-lbl">Muestr.</span></button>
-  <div class="gnav-sep"></div>
-
-  <!-- Análisis y config -->
-  <button class="gnav-item" data-gnav="reportes" title="Reportes / Dashboard"><span class="g-ico">📊</span><span class="g-lbl">Repor.</span></button>
-  <button class="gnav-item" data-gnav="calendario" title="Calendario"><span class="g-ico">📅</span><span class="g-lbl">Cal.</span></button>
+  <!-- NIVEL 6: CONFIGURACIÓN -->
   <button class="gnav-item" data-gnav="config" title="Configuraciones"><span class="g-ico">⚙️</span><span class="g-lbl">Config.</span></button>
 </div>
 
@@ -35359,21 +35381,19 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <div class="cr-body">
-            <div class="cr-sidebar collapsed" id="crSidebar" style="background:#fff;border-right:1px solid #e5e5e5;">
+            <div class="cr-sidebar" id="crSidebar" style="background:#fff;">
                                 <button id="crSidebarToggle" class="cr-sidebar-toggle" title="Expandir menú" aria-label="Expandir menú" aria-expanded="false">
                                     <span class="line"></span>
                                     <span class="line"></span>
                                     <span class="line"></span>
                                 </button>
                 <div class="cr-sidebar-label">Módulos</div>
-                <button class="cr-sidebar-btn active" data-cr-section="dashboard" title="Dashboard"><span class="cr-ico">📊</span><span>Dashboard</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="pedidos" title="Pedidos" style="position:relative;"><span class="cr-ico">📦</span><span>Pedidos</span><span id="crPedNoEntAlert" style="display:none;position:absolute;right:10px;top:8px;background:#dc2626;color:#fff;font-size:0.42rem;font-weight:900;padding:2px 6px;border-radius:999px;">🔴</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="mapa" title="Mapa y Rutas"><span class="cr-ico">🗺</span><span>Mapa y Rutas</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="repartidores" title="Administrar rutas de entrega"><span class="cr-ico">👥</span><span>Administrar rutas de entrega</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="recoleccion" title="Recolección"><span class="cr-ico">🏭</span><span>Recolección</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="alertas" title="Alertas y Configuración"><span class="cr-ico">🔔</span><span>Alertas y Configuración</span></button>
-                <div style="flex:1;"></div>
-                <div style="padding:10px 12px;border-top:1px solid #e5e5e5;overflow:hidden;background:#fff;"></div>
+                <button class="cr-sidebar-btn active" data-cr-section="dashboard" title="Dashboard"><span>Dashboard</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="pedidos" title="Pedidos" style="position:relative;"><span>Pedidos</span><span id="crPedNoEntAlert" style="display:none;position:absolute;right:10px;top:8px;background:#dc2626;color:#fff;font-size:0.42rem;font-weight:900;padding:2px 6px;border-radius:999px;"></span></button>
+                <button class="cr-sidebar-btn" data-cr-section="mapa" title="Mapa y Rutas"><span>Mapa y Rutas</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="repartidores" title="Administrar rutas de entrega"><span>Administrar rutas</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="recoleccion" title="Recolección"><span>Recolección</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="alertas" title="Alertas y Configuración"><span>Alertas y Configuración</span></button>
             </div>
             <!-- Main Content -->
       <div class="cr-main">
@@ -35451,7 +35471,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="cr-section" id="crSecPedidos" data-cr-section="pedidos">
           <div class="cr-card" style="position:sticky;top:8px;z-index:30;">
             <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;">
-              <h3 style="margin:0;">📦 Asignación de Pedidos</h3>
+              <h3 style="margin:0;">Asignación de Pedidos</h3>
               <div style="display:flex;gap:6px;">
                 <button id="ctrlRepBtnRefresh" type="button" class="cr-btn" style="background:#f1f5f9;color:#64748b;border:1px solid #d1d5db;">🔄</button>
               </div>
@@ -35640,38 +35660,37 @@ document.addEventListener('DOMContentLoaded', function() {
         <!-- crSecRutas REMOVED — merged into crSecMapa -->
         <!-- crSecPenalizaciones, crSecHistorial, crSecKpis REMOVED — merged into crSecDashboard tabs -->
 
-        <!-- ── SECTION: ALERTAS & COMUNICACIÓN & CONFIG (fusionada) ── -->
+                <!-- ── SECTION: ALERTAS & COMUNICACIÓN & CONFIG (unificada) ── -->
         <div class="cr-section" id="crSecAlertas" data-cr-section="alertas">
-          <!-- Sub-tab bar -->
-          <div class="cr-subtabs">
-            <button class="cr-subtab active" data-alertas-tab="alertas">🔔 Alertas</button>
-            <button class="cr-subtab" data-alertas-tab="comunicacion">💬 Comunicación</button>
-            <button class="cr-subtab" data-alertas-tab="config">⚙️ Configuración</button>
+          <!-- Tab Navigation -->
+          <div style="display:flex;gap:8px;padding:0 0 12px 0;border-bottom:2px solid #e2e8f0;flex-shrink:0;">
+            <button class="cr-alertas-nav-tab active" data-tab="alertas" type="button" style="padding:8px 16px;font-size:0.52rem;font-weight:700;color:#334155;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:all 0.2s;">Alertas</button>
+            <button class="cr-alertas-nav-tab" data-tab="comunicacion" type="button" style="padding:8px 16px;font-size:0.52rem;font-weight:700;color:#94a3b8;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:all 0.2s;">Comunicación</button>
+            <button class="cr-alertas-nav-tab" data-tab="config" type="button" style="padding:8px 16px;font-size:0.52rem;font-weight:700;color:#94a3b8;background:none;border:none;border-bottom:3px solid transparent;cursor:pointer;transition:all 0.2s;">Configuración</button>
           </div>
-
-          <!-- ── Tab: Alertas ── -->
-          <div id="crAlertasTab_alertas">
+                    <!-- Vista unificada: Alertas -->
+          <div id="crAlertasTab_alertas" style="display:block;">
             <div class="cr-stats">
-              <div class="cr-stat"><div class="val" style="color:#ef4444;" id="crAlertaCriticas">0</div><div class="lbl">🔴 Críticas</div></div>
-              <div class="cr-stat"><div class="val" style="color:#f59e0b;" id="crAlertaWarnings">0</div><div class="lbl">🟡 Advertencias</div></div>
-              <div class="cr-stat"><div class="val" style="color:#ff9900;" id="crAlertaInfo">0</div><div class="lbl">🟠 Info</div></div>
+                            <div class="cr-stat"><div class="val" style="color:#ef4444;" id="crAlertaCriticas">0</div><div class="lbl">Críticas</div></div>
+                            <div class="cr-stat"><div class="val" style="color:#f59e0b;" id="crAlertaWarnings">0</div><div class="lbl">Advertencias</div></div>
+                            <div class="cr-stat"><div class="val" style="color:#ff9900;" id="crAlertaInfo">0</div><div class="lbl">Info</div></div>
             </div>
             <div class="cr-card">
-              <h3>🔔 Alertas en Tiempo Real</h3>
+                            <h3>Alertas en Tiempo Real</h3>
               <p style="font-size:0.52rem;color:#64748b;margin:0 0 8px 0;">Notificaciones automáticas según eventos de la app móvil del repartidor.</p>
               <div style="display:flex;gap:6px;margin-bottom:10px;">
                 <select id="crAlertaFiltro" class="cr-select">
                   <option value="">Todas</option>
-                  <option value="critica">🔴 Críticas</option>
-                  <option value="warning">🟡 Advertencias</option>
-                  <option value="info">🟠 Informativas</option>
+                                    <option value="critica">Críticas</option>
+                                    <option value="warning">Advertencias</option>
+                                    <option value="info">Informativas</option>
                 </select>
-                <button id="crAlertaLimpiar" type="button" class="cr-btn" style="background:#f3f4f6;color:#64748b;border:1px solid #d1d5db;">🗑 Limpiar leídas</button>
+                                <button id="crAlertaLimpiar" type="button" class="cr-btn" style="background:#f3f4f6;color:#64748b;border:1px solid #d1d5db;">Limpiar leídas</button>
               </div>
               <div id="crAlertasLista" style="display:flex;flex-direction:column;gap:6px;max-height:500px;overflow-y:auto;"></div>
             </div>
             <div class="cr-card">
-              <h3>⚙️ Configuración de Alertas</h3>
+                            <h3>Configuración de Alertas</h3>
               <div style="display:flex;flex-direction:column;gap:8px;" id="crAlertaConfig">
                 <label style="display:flex;align-items:center;gap:8px;font-size:0.55rem;font-weight:700;color:#334155;cursor:pointer;"><input type="checkbox" id="crAlertNoEntrega" checked> Repartidor reporta no-entrega</label>
                 <label style="display:flex;align-items:center;gap:8px;font-size:0.55rem;font-weight:700;color:#334155;cursor:pointer;"><input type="checkbox" id="crAlertRetardo" checked> Retardo en check de entrada</label>
@@ -35683,10 +35702,10 @@ document.addEventListener('DOMContentLoaded', function() {
             </div>
           </div>
 
-          <!-- ── Tab: Comunicación ── -->
-          <div id="crAlertasTab_comunicacion" style="display:none;">
+                    <!-- Vista unificada: Comunicación -->
+                    <div id="crAlertasTab_comunicacion" style="display:none;">
             <div class="cr-card" style="height:calc(100vh - 220px);display:flex;flex-direction:column;">
-              <h3>💬 Comunicación con Repartidores</h3>
+                            <h3>Comunicación con Repartidores</h3>
               <div class="cr-header-bar" style="flex-shrink:0;">
                 <select id="crChatRep" class="cr-select"><option value="">— Seleccionar repartidor —</option></select>
                 <span id="crChatStatus" style="font-size:0.48rem;color:#94a3b8;">Sin conversación activa</span>
@@ -35697,27 +35716,27 @@ document.addEventListener('DOMContentLoaded', function() {
               <div style="display:flex;gap:6px;flex-shrink:0;">
                 <input id="crChatInput" type="text" class="cr-input" placeholder="Escribe un mensaje..." style="flex:1;" disabled>
                 <button id="crChatSend" type="button" class="cr-btn primary" disabled>Enviar</button>
-                <button id="crChatQuick" type="button" class="cr-btn" style="background:#f3f4f6;color:#64748b;border:1px solid #d1d5db;" title="Mensajes rápidos">⚡</button>
+                <button id="crChatQuick" type="button" class="cr-btn" style="background:#f3f4f6;color:#64748b;border:1px solid #d1d5db;" title="Mensajes rápidos">Rápidos</button>
               </div>
               <div id="crChatQuickMenu" style="display:none;margin-top:6px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:8px;">
                 <div style="font-size:0.48rem;font-weight:800;color:#64748b;margin-bottom:6px;">MENSAJES RÁPIDOS</div>
                 <div style="display:flex;flex-wrap:wrap;gap:4px;">
-                  <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="¿Cuál es tu ubicación actual?">📍 Ubicación</button>
-                  <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="¿Cuántas entregas te faltan?">📦 Pendientes</button>
-                  <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="Regresa a sucursal cuando termines">🏢 Regresar</button>
-                  <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="Tienes una nueva asignación de carga">📋 Nueva carga</button>
-                  <button type="button" class="cr-quick-msg cr-btn" style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;font-size:0.48rem;" data-msg="URGENTE: Comunícate conmigo inmediatamente">🚨 Urgente</button>
-                  <button type="button" class="cr-quick-msg cr-btn" style="background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;font-size:0.48rem;" data-msg="Buen trabajo hoy, gracias 👍">👍 Buen trabajo</button>
+                                    <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="¿Cuál es tu ubicación actual?">Ubicación</button>
+                                    <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="¿Cuántas entregas te faltan?">Pendientes</button>
+                                    <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="Regresa a sucursal cuando termines">Regresar</button>
+                                    <button type="button" class="cr-quick-msg cr-btn" style="background:#fff8ee;color:#ff9900;border:1px solid #ffcf80;font-size:0.48rem;" data-msg="Tienes una nueva asignación de carga">Nueva carga</button>
+                                    <button type="button" class="cr-quick-msg cr-btn" style="background:#fef2f2;color:#dc2626;border:1px solid #fecaca;font-size:0.48rem;" data-msg="URGENTE: Comunícate conmigo inmediatamente">Urgente</button>
+                                    <button type="button" class="cr-quick-msg cr-btn" style="background:#f0fdf4;color:#16a34a;border:1px solid #bbf7d0;font-size:0.48rem;" data-msg="Buen trabajo hoy, gracias">Buen trabajo</button>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- ── Tab: Configuración del módulo ── -->
-          <div id="crAlertasTab_config" style="display:none;">
+                    <!-- Vista unificada: Configuración del módulo -->
+                    <div id="crAlertasTab_config" style="display:none;">
             <!-- ── AUTO-ASIGNACIÓN ── -->
             <div class="cr-card" style="border-left:4px solid #ff9900;">
-              <h3>🤖 Auto-Asignación de Pedidos</h3>
+                            <h3>Auto-Asignación de Pedidos</h3>
               <p style="font-size:0.52rem;color:#64748b;margin:0 0 12px 0;">Asigna automáticamente todos los pedidos producidos (sin repartidor) a la hora configurada.</p>
               <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:12px;">
                 <label style="display:flex;align-items:center;gap:6px;font-size:0.55rem;font-weight:800;color:#0f172a;cursor:pointer;">
@@ -35727,15 +35746,15 @@ document.addEventListener('DOMContentLoaded', function() {
                   <label style="font-size:0.48rem;font-weight:700;color:#64748b;">Hora del día:</label>
                   <input id="crAutoAsigHora" type="time" value="08:00" class="cr-input" style="width:100px;">
                 </div>
-                <button id="crAutoAsigGuardar" type="button" class="cr-btn primary" style="font-size:0.48rem;">💾 Guardar</button>
-                <button id="crAutoAsigEjecutar" type="button" class="cr-btn success" style="font-size:0.48rem;">▶ Ejecutar ahora</button>
+                                <button id="crAutoAsigGuardar" type="button" class="cr-btn primary" style="font-size:0.48rem;">Guardar</button>
+                                <button id="crAutoAsigEjecutar" type="button" class="cr-btn success" style="font-size:0.48rem;">Ejecutar ahora</button>
               </div>
               <p style="font-size:0.48rem;color:#64748b;margin:0 0 8px 0;font-weight:700;">Distribución por zona (opcional):</p>
               <div id="crAutoAsigZonas" style="display:flex;flex-direction:column;gap:6px;margin-bottom:8px;"></div>
               <div id="crAutoAsigStatus" style="font-size:0.5rem;color:#16a34a;font-weight:700;"></div>
             </div>
             <div class="cr-card">
-              <h3>🏷 Zonas de Reparto</h3>
+              <h3>Zonas de Reparto</h3>
               <p style="font-size:0.52rem;color:#64748b;margin:0 0 12px 0;">Define las zonas geográficas para clasificar clientes y organizar rutas de entrega.</p>
               <div id="configZonasLista" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
               <div style="display:flex;gap:8px;align-items:center;">
@@ -35745,7 +35764,7 @@ document.addEventListener('DOMContentLoaded', function() {
               </div>
             </div>
             <div class="cr-card">
-              <h3>🕐 Horarios de Repartidores</h3>
+              <h3>Horarios de Repartidores</h3>
               <p style="font-size:0.52rem;color:#64748b;margin:0 0 12px 0;">Define los horarios de trabajo de cada repartidor para control de asistencia.</p>
               <div id="crHorariosLista"></div>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr auto;gap:8px;align-items:end;margin-top:12px;padding-top:12px;border-top:1px solid #e2e8f0;">
@@ -35753,40 +35772,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 <div><label style="font-size:0.48rem;font-weight:700;color:#64748b;">Entrada</label><input id="crHorarioEntrada" type="time" value="08:00" class="cr-input"></div>
                 <div><label style="font-size:0.48rem;font-weight:700;color:#64748b;">Salida</label><input id="crHorarioSalida" type="time" value="18:00" class="cr-input"></div>
                 <div><label style="font-size:0.48rem;font-weight:700;color:#64748b;">Días</label><select id="crHorarioDias" class="cr-select" style="width:100%;"><option value="lun-sab">Lun-Sáb</option><option value="lun-vie">Lun-Vie</option><option value="todos">Todos</option></select></div>
-                <button id="crHorarioGuardar" type="button" class="cr-btn primary" style="white-space:nowrap;">💾 Guardar</button>
+                                <button id="crHorarioGuardar" type="button" class="cr-btn primary" style="white-space:nowrap;">Guardar</button>
               </div>
             </div>
             <div class="cr-card">
-              <h3>📋 Conceptos de Visita</h3>
+                            <h3>Conceptos de Visita</h3>
               <p style="font-size:0.52rem;color:#64748b;margin:0 0 8px 0;">Motivos que usan los repartidores al reportar una visita fallida desde la app.</p>
               <div id="crConceptosLista" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
               <div style="display:flex;gap:8px;align-items:center;">
                 <input id="crConceptoNuevo" type="text" class="cr-input" placeholder="Ej: Cliente no encontrado, Dirección incorrecta..." style="flex:1;">
                 <select id="crConceptoTipo" class="cr-select">
-                  <option value="no_entrega">❌ No entrega</option>
-                  <option value="reagendar">📅 Reagendar</option>
-                  <option value="parcial">📦 Entrega parcial</option>
-                  <option value="otro">📝 Otro</option>
+                  <option value="no_entrega">No entrega</option>
+                                    <option value="reagendar">Reagendar</option>
+                                    <option value="parcial">Entrega parcial</option>
+                                    <option value="otro">Otro</option>
                 </select>
                 <button id="crConceptoAgregar" type="button" class="cr-btn primary">+ Agregar</button>
               </div>
             </div>
             <!-- ── PENALIZACIONES AUTOMÁTICAS ── -->
             <div class="cr-card" style="border-left:4px solid #ef4444;">
-              <h3>⚠️ Reglas de Penalización Automática</h3>
+                            <h3>Reglas de Penalización Automática</h3>
               <p style="font-size:0.52rem;color:#64748b;margin:0 0 12px 0;">Define qué faltas generan una penalización automática y por qué monto. El sistema aplica el descuento al detectar el evento en la app del repartidor.</p>
               <div id="crPenReglasLista" style="display:flex;flex-direction:column;gap:6px;margin-bottom:12px;"></div>
               <div style="display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:8px;align-items:end;background:#fff5f5;border:1px dashed #fca5a5;border-radius:8px;padding:10px;">
                 <div>
                   <label style="font-size:0.45rem;font-weight:700;color:#64748b;display:block;margin-bottom:2px;">Tipo de falta</label>
                   <select id="crPenReglaFalta" class="cr-select" style="width:100%;">
-                    <option value="no_entrega">❌ No entrega sin motivo válido</option>
-                    <option value="retardo">🕐 Retardo de entrada (&gt;15 min)</option>
-                    <option value="falta">🚫 Falta injustificada</option>
-                    <option value="fuera_zona">📍 Abandonar geocerca</option>
-                    <option value="queja">😤 Queja de cliente</option>
-                    <option value="dano">💔 Daño en paquete</option>
-                    <option value="otro">📝 Otro motivo</option>
+                                        <option value="no_entrega">No entrega sin motivo válido</option>
+                                        <option value="retardo">Retardo de entrada (&gt;15 min)</option>
+                                        <option value="falta">Falta injustificada</option>
+                                        <option value="fuera_zona">Abandonar geocerca</option>
+                                        <option value="queja">Queja de cliente</option>
+                                        <option value="dano">Daño en paquete</option>
+                                        <option value="otro">Otro motivo</option>
                   </select>
                 </div>
                 <div>
@@ -39282,6 +39301,28 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // ===== KEYBOARD SHORTCUTS =====
+    const isPopupOpenById = (id) => {
+        const el = document.getElementById(id);
+        if (!el) return false;
+        if (el.getAttribute('aria-hidden') === 'false') return true;
+        if (el.style && el.style.display && el.style.display !== 'none') return true;
+        return false;
+    };
+
+    const styleAceptarButtons = () => {
+        const nodes = document.querySelectorAll('button, input[type="button"], input[type="submit"]');
+        nodes.forEach((btn) => {
+            const txt = String(btn.textContent || btn.value || '').trim().toLowerCase();
+            const id = String(btn.id || '').toLowerCase();
+            const isAceptar = txt.includes('aceptar') || id.includes('aceptar') || id.includes('accept');
+            btn.classList.toggle('btn-aceptar-global', isAceptar);
+        });
+    };
+
+    styleAceptarButtons();
+    const aceptarButtonsObserver = new MutationObserver(() => styleAceptarButtons());
+    if (document.body) aceptarButtonsObserver.observe(document.body, { childList: true, subtree: true });
+
     document.addEventListener('keydown', (ev) => {
         const tag = (ev.target?.tagName || '').toUpperCase();
         const isInput = tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT';
@@ -39289,9 +39330,39 @@ document.addEventListener('DOMContentLoaded', function() {
         if (isLoginVisible) return;
 
         const popupListado = document.getElementById('popupListado');
+            // Bloquear comportamiento del navegador en todas las teclas F (F1-F12)
+            if (/^F([1-9]|1[0-2])$/.test(ev.key)) { ev.preventDefault(); }
+
+        const knownPopups = [
+            'ordenPagoPopup', 'ordenConfirmPopup', 'ordenVentaRapidaPopup', 'ordenDescuentoPopup', 'fondoCajaPopup',
+            'ordenStockPopup', 'popupClientesModulo', 'popupClientesForm', 'ordenClienteSelectPopup', 'ordenCotizacionPopup', 'mpPagoPopup', 'popupProductos', 'popupCaja', 'popupCalendario',
+            'popupReportesModulo', 'panelRecepcionSucursal', 'popupConfiguraciones', 'popupProveedoresModulo',
+            'popupInsumosModulo', 'popupAlmacenModulo', 'popupAlmacenFisico', 'popupAjustesTabuladores',
+            'popupProdTabulador', 'popupAccess', 'popupMisPedidos', 'popupDesignTracking',
+            'landing', 'popupImportarProductos', 'panelProduccion', 'mpCalPopup'
+        ];
+        const isPopupVisible = (el) => !!el && (
+            el.getAttribute('aria-hidden') === 'false' ||
+            (el.style.display && el.style.display !== 'none')
+        );
+        const activePopup = knownPopups.some(id => {
+            const el = document.getElementById(id);
+            return isPopupVisible(el);
+        });
+        if (activePopup && /^F([1-9]|1[0-2])$/.test(ev.key)) { return; } // Con popup abierto, bloquear solo atajos F
         const isInCotizador = popupListado && popupListado.style.display === 'flex';
 
-        if (ev.key === 'F2') { ev.preventDefault(); document.getElementById('ordenRegistrarCliente')?.click(); return; }
+            if (ev.key === 'F1') {
+                const stockPopup = document.getElementById('ordenStockPopup');
+            if (stockPopup && stockPopup.style.display === 'flex') {
+                return;
+            }
+            if (isInCotizador) {
+                    document.getElementById('ordenAddStock')?.click();
+                }
+                return;
+            }
+            if (ev.key === 'F2') { document.getElementById('ordenRegistrarCliente')?.click(); return; }
         if (ev.key === 'F3') { ev.preventDefault(); document.getElementById('ordenSeleccionarCliente')?.click(); return; }
         if (ev.key === 'F4' && isInCotizador) {
             ev.preventDefault();
@@ -39320,12 +39391,23 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         if (ev.key === 'F9' && isInCotizador) {
             ev.preventDefault();
-            document.getElementById('ordenBtnLimpiar')?.click();
+            document.getElementById('ordenTicketAdd')?.click();
             return;
         }
+
         if (ev.key === 'F10' && isInCotizador) {
             ev.preventDefault();
             document.getElementById('ordenBtnVentaRapida')?.click();
+            return;
+        }
+        if (ev.key === 'F11') {
+            ev.preventDefault();
+            document.getElementById('btnRecibirPedidos')?.click();
+            return;
+        }
+        if (ev.key === 'F12' && isInCotizador) {
+            ev.preventDefault();
+            document.getElementById('ordenBtnCotizacion')?.click();
             return;
         }
         // Backspace handler moved to cotizador scope (see DOMContentLoaded block)
@@ -39334,9 +39416,6 @@ document.addEventListener('DOMContentLoaded', function() {
         // Alt shortcuts (cotizador) - antes era Ctrl
         if (ev.altKey && isInCotizador) {
             const k = ev.key.toLowerCase();
-            if (k === 'i') { ev.preventDefault(); document.getElementById('ordenBtnImpuestos')?.click(); return; }
-            if (k === 'd') { ev.preventDefault(); document.getElementById('ordenBtnDescuento')?.click(); return; }
-            if (k === 'c') { ev.preventDefault(); document.getElementById('ordenBtnCotizacion')?.click(); return; }
             if (k === 't') {
                 // Solo abrir tabulador cuando el popup de selección de producto está abierto
                 const _sp = document.getElementById('ordenStockPopup');
@@ -39375,16 +39454,46 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
 
-        if (ev.key === 'Enter' && !isInput) {
-            const popups = [
-                { popup: document.getElementById('ordenPagoPopup'), btn: document.getElementById('ordenPagoAceptar') },
-                { popup: document.getElementById('ordenConfirmPopup'), btn: document.getElementById('ordenConfirmAceptar') },
-                { popup: document.getElementById('ordenVentaRapidaPopup'), btn: document.getElementById('ordenVrAgregar') },
-                { popup: document.getElementById('ordenDescuentoPopup'), btn: document.getElementById('ordenDescuentoAplicar') },
-                { popup: document.getElementById('fondoCajaPopup'), btn: document.getElementById('fondoCajaAceptar') }
+        if (ev.key === 'Enter') {
+            const activeTag = String(document.activeElement?.tagName || '').toUpperCase();
+            if (activeTag === 'TEXTAREA') return;
+
+            const popupPriority = [
+                'ordenPagoPopup', 'ordenConfirmPopup', 'ordenVentaRapidaPopup', 'ordenDescuentoPopup', 'fondoCajaPopup',
+                'ordenStockPopup', 'popupClientesForm', 'ordenClienteSelectPopup', 'ordenCotizacionPopup', 'mpPagoPopup', 'panelRecepcionSucursal',
+                'popupProductos', 'popupCaja', 'popupCalendario', 'popupReportesModulo', 'popupConfiguraciones',
+                'popupProveedoresModulo', 'popupInsumosModulo', 'popupAlmacenModulo', 'popupAlmacenFisico',
+                'popupAjustesTabuladores', 'popupProdTabulador', 'popupMisPedidos', 'popupDesignTracking', 'popupImportarProductos',
+                'panelProduccion', 'mpCalPopup'
             ];
-            for (const { popup, btn } of popups) {
-                if (popup && popup.style.display === 'flex' && btn) { ev.preventDefault(); btn.click(); return; }
+
+            for (const popupId of popupPriority) {
+                if (!isPopupOpenById(popupId)) continue;
+                const popup = document.getElementById(popupId);
+                if (!popup) continue;
+
+                const acceptBtn = popup.querySelector(
+                    'button.btn-aceptar-global:not([disabled]), input.btn-aceptar-global:not([disabled]), button[id*="aceptar" i]:not([disabled]), button[id*="accept" i]:not([disabled]), input[id*="aceptar" i]:not([disabled]), input[id*="accept" i]:not([disabled])'
+                );
+
+                if (acceptBtn) {
+                    ev.preventDefault();
+                    acceptBtn.click();
+                    return;
+                }
+            }
+
+            if (!isInput) {
+                const popups = [
+                    { popup: document.getElementById('ordenPagoPopup'), btn: document.getElementById('ordenPagoAceptar') },
+                    { popup: document.getElementById('ordenConfirmPopup'), btn: document.getElementById('ordenConfirmAceptar') },
+                    { popup: document.getElementById('ordenVentaRapidaPopup'), btn: document.getElementById('ordenVrAgregar') },
+                    { popup: document.getElementById('ordenDescuentoPopup'), btn: document.getElementById('ordenDescuentoAplicar') },
+                    { popup: document.getElementById('fondoCajaPopup'), btn: document.getElementById('fondoCajaAceptar') }
+                ];
+                for (const { popup, btn } of popups) {
+                    if (popup && popup.style.display === 'flex' && btn) { ev.preventDefault(); btn.click(); return; }
+                }
             }
         }
 
@@ -39397,21 +39506,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // F1 handler in capture phase
     document.addEventListener('keydown', (ev) => {
         if (ev.key === 'F1') {
-            ev.preventDefault();
-            ev.stopImmediatePropagation();
-            const isLoginVisible = loginOverlay && loginOverlay.style.display !== 'none' && loginOverlay.offsetParent !== null;
-            if (isLoginVisible) return;
-            const popupListado = document.getElementById('popupListado');
-            const stockPopup = document.getElementById('ordenStockPopup');
-            if (popupListado && popupListado.style.display === 'flex') {
-                if (stockPopup && stockPopup.style.display === 'flex') {
-                    document.getElementById('ordenStockClose')?.click();
-                } else {
-                    document.getElementById('ordenAddStock')?.click();
-                }
+                // handled in bubble phase; capture here only to block browser default
+                ev.preventDefault();
             }
-        }
     }, true);
+
+        // Bloquear F2-F12 a nivel de capture para evitar acciones del navegador (ej: F5 recarga, F12 DevTools)
+        document.addEventListener('keydown', (ev) => {
+            if (/^F([2-9]|1[0-2])$/.test(ev.key)) { ev.preventDefault(); }
+        }, true);
 
     // ===== LOGOUT =====
     window.cerrarSesion = () => {
@@ -40322,6 +40425,35 @@ document.addEventListener('DOMContentLoaded', function() {
         if(!isDash && tab==='config'){renderAutoAsigZonas();renderPenRules();}
     });
 
+    // ── Alertas main tab navigation (Alertas | Comunicación | Configuración) ──
+    if(panel) panel.addEventListener('click',function(e){
+        var btn=e.target.closest('.cr-alertas-nav-tab');
+        if(!btn) return;
+        var tab=btn.dataset.tab;
+        var alertasSection=panel.querySelector('#crSecAlertas');
+        if(!alertasSection) return;
+        alertasSection.querySelectorAll('.cr-alertas-nav-tab').forEach(function(b){
+            b.classList.remove('active');
+            b.style.color='#94a3b8';
+            b.style.borderBottom='3px solid transparent';
+        });
+        btn.classList.add('active');
+        btn.style.color='#334155';
+        btn.style.borderBottom='3px solid #ff9900';
+        alertasSection.querySelectorAll('[id^="crAlertasTab_"]').forEach(function(el){el.style.display='none';});
+        var target=document.getElementById('crAlertasTab_'+tab);
+        if(target){
+            target.style.display='block';
+            if(tab==='config'){
+                if(typeof renderAutoAsigZonas==='function') renderAutoAsigZonas();
+                if(typeof renderPenRules==='function') renderPenRules();
+            }
+            if(tab==='comunicacion'){
+                if(typeof renderComunicacion==='function') renderComunicacion();
+            }
+        }
+    });
+
     // ── Capa toggle buttons en el mapa ──
     if(panel) panel.addEventListener('click',function(e){
         var btn=e.target.closest('.cr-mapa-capa');
@@ -40351,6 +40483,11 @@ document.addEventListener('DOMContentLoaded', function() {
         var el = panel.querySelector('.cr-section[data-cr-section="'+sec+'"]');
         if(el){ el.classList.add('active'); el.style.display=''; }
         if(SEC_RENDERS[sec]) SEC_RENDERS[sec]();
+        if(sec==='alertas'){
+            if(typeof renderComunicacion==='function') renderComunicacion();
+            if(typeof renderAutoAsigZonas==='function') renderAutoAsigZonas();
+            if(typeof renderPenRules==='function') renderPenRules();
+        }
         populateZonaSelects();
         populateRepSelects();
         updateSidebarResumen();
@@ -40371,7 +40508,7 @@ document.addEventListener('DOMContentLoaded', function() {
         var btnNoEnt=document.getElementById('ctrlRepVistaNoEntregados');
         if(dot){
             dot.style.display=noEnt>0?'inline-flex':'none';
-            dot.textContent=noEnt>0?String(noEnt):'🔴';
+            dot.textContent=noEnt>0?String(noEnt):'';
         }
         if(dotBtn){
             dotBtn.style.display=noEnt>0?'inline-block':'none';
@@ -42918,7 +43055,6 @@ document.addEventListener('focusin', function(e) {
         if (landing) { landing.style.display = 'none'; landing.style.visibility = ''; }
         if (sidebar) { sidebar.style.display = ''; sidebar.style.visibility = ''; }
         if (mainArea) { mainArea.style.display = ''; mainArea.style.visibility = ''; }
-        if (chatFab) chatFab.style.display = 'inline-flex';
         if (btnHome) btnHome.style.display = 'none';
 
         if (!_defaultOpenDone) {
