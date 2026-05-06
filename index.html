@@ -10141,15 +10141,16 @@ function abrirPopupProveedorDesdeProductos() {
                 <button class="btn-exp" style="border-left: 6px solid rgb(255, 255, 255);">BLANCO</button>
                 <button class="btn-exp" style="border-left: 6px solid #C0A21F;">DORADO</button>
                 <button class="btn-exp" style="border-left: 6px solid rgb(160, 160, 160);">PLATEADO</button>
-                <button class="btn-exp" style="border-left: 6px solid rgb(0, 35, 102);">AZUL REY</button>
+                <button class="btn-exp" style="border-left: 6px solid rgb(0, 35, 102);">AZUL MARINO</button>
                 <button class="btn-exp" style="border-left: 6px solid rgb(0, 163, 58);">VERDE</button>
                 <button class="btn-exp" style="border-left: 6px solid rgb(242, 205, 0);">AMARILLO</button>
                 <button class="btn-exp" style="border-left: 6px solid rgb(220, 20, 20);">ROJO</button>
-                <button class="btn-exp" style="border-left: 6px solid rgb(128, 0, 128);">MORADO</button>
-                <button class="btn-exp" style="border-left: 6px solid rgb(255, 153, 179);">ROSA</button>
+                <button class="btn-exp" style="border-left: 6px solid rgb(128, 0, 128);">PÚRPURA</button>
+                <button class="btn-exp" style="border-left: 6px solid #c8a2c8;">LILA</button>
+                <button class="btn-exp" style="border-left: 6px solid rgb(255, 153, 179);">ROSA PASTEL</button>
                 <button class="btn-exp" style="border-left: 6px solid rgb(255, 0, 127);">FUCSIA</button>
-                <button class="btn-exp" style="border-left: 6px solid rgb(64, 164, 255);">AZUL CIELO</button>
-                <button class="btn-exp" style="border-left: 6px solid #80CEE1;">AZUL PASTEL</button>
+                <button class="btn-exp" style="border-left: 6px solid rgb(64, 164, 255);">AZUL</button>
+                <button class="btn-exp" style="border-left: 6px solid #80CEE1;">AZUL CIELO</button>
                 <button class="btn-exp" style="border-left: 6px solid rgb(255, 102, 0);">NARANJA</button>
                 <!-- Removed VERDE LIMÓN, VERDE BANDERA, VERDE PASTEL to keep muestrario within 15 colors -->
                 <button class="btn-exp" style="border-left: 6px solid rgb(92, 64, 51);">CAFÉ</button>
@@ -10563,22 +10564,23 @@ function abrirPopupProveedorDesdeProductos() {
     }
 
     const PASTELES = PRINCIPALES.filter(t => !["Negro", "Blanco", "Dorado", "Plata", "Café"].includes(t.n)).map(t => ({ n: "P. " + t.n, hex: mezclarConBlanco(t.hex, 0.35) }));
-    PASTELES.push({ n: "P. Azul Cielo", hex: "rgb(135, 206, 235)" });
+    PASTELES.push({ n: "P. Azul", hex: "rgb(135, 206, 235)" });
     const OSCUROS = PRINCIPALES.filter(t => !["Negro", "Blanco", "Dorado", "Plata"].includes(t.n)).map(t => ({ n: "O. " + t.n, hex: oscurecer(t.hex, 0.45) }));
     const TODAS_LAS_TINTAS = [
         { n: 'NEGRO', hex: 'rgb(0,0,0)' },
         { n: 'BLANCO', hex: 'rgb(255,255,255)' },
         { n: 'DORADO', hex: '#C0A21F', meta: true },
         { n: 'PLATEADO', hex: 'rgb(160,160,160)', meta: true },
-        { n: 'AZUL REY', hex: 'rgb(0,35,102)' },
+        { n: 'AZUL MARINO', hex: 'rgb(0,35,102)' },
         { n: 'VERDE', hex: 'rgb(0,163,58)' },
         { n: 'AMARILLO', hex: 'rgb(242,205,0)' },
         { n: 'ROJO', hex: 'rgb(220,20,20)' },
-        { n: 'MORADO', hex: 'rgb(128,0,128)' },
-        { n: 'ROSA', hex: 'rgb(255,153,179)' },
+        { n: 'PÚRPURA', hex: 'rgb(128,0,128)' },
+        { n: 'LILA', hex: '#c8a2c8' },
+        { n: 'ROSA PASTEL', hex: 'rgb(255,153,179)' },
         { n: 'FUCSIA', hex: 'rgb(255,0,127)' },
-        { n: 'AZUL CIELO', hex: 'rgb(64,164,255)' },
-        { n: 'AZUL PASTEL', hex: '#80CEE1' },
+        { n: 'AZUL', hex: 'rgb(64,164,255)' },
+        { n: 'AZUL CIELO', hex: '#80CEE1' },
         { n: 'NARANJA', hex: 'rgb(255,102,0)' },
         { n: 'CAFÉ', hex: 'rgb(92,64,51)' }
     ];
@@ -10741,9 +10743,9 @@ function abrirPopupProveedorDesdeProductos() {
         { n: "NARANJA", hex: "#ff6600", url: "https://i.postimg.cc/bwchbrm2/NARANJA.png" },
         { n: "AMARILLO", hex: "#ffcc00", url: "https://i.postimg.cc/Yqm7hYfR/AMARILLO.png" },
         { n: "VERDE", hex: "#009900", url: "https://i.postimg.cc/xjL710DQ/verde2.png" },
-        { n: "AZUL CIELO", hex: "#87ceeb", url: "https://i.postimg.cc/Nfrt5m7b/AZULCIELO.png" },
-        { n: "AZUL REY", hex: "#000080", url: "https://i.postimg.cc/WbJVhg6W/AZULREY.png" },
-        { n: "MORADO", hex: "#660099", url: "https://i.postimg.cc/mgfsMkmG/MORADO.png" },
+        { n: "AZUL", hex: "#87ceeb", url: "https://i.postimg.cc/Nfrt5m7b/AZULCIELO.png" },
+        { n: "AZUL MARINO", hex: "#000080", url: "https://i.postimg.cc/WbJVhg6W/AZULREY.png" },
+        { n: "MORADO", hex: "#660099", url: "https://i.postimg.cc/vmPQ2HfB/PURPURA-FINAL.png" },
         { n: "LILA", hex: "#c8a2c8", url: "https://i.postimg.cc/Nfrt5mkt/LILA.png" },
         { n: "FUCSIA", hex: "#ff00ff", url: "https://i.postimg.cc/zXRNVKS4/FUCSIA.png" },
         { n: "ROSA PASTEL", hex: "#ffb6c1", url: "https://i.postimg.cc/BnTGC3zx/ROSA_PASTEL.png" },
@@ -10811,15 +10813,16 @@ const imgBolsaDeliveryBase = new Image();
             { n: 'BLANCO', hex: 'rgb(255,255,255)' },
             { n: 'DORADO', hex: '#C0A21F', meta: true },
             { n: 'PLATEADO', hex: 'rgb(160,160,160)', meta: true },
-            { n: 'AZUL REY', hex: 'rgb(0,35,102)' },
+            { n: 'AZUL MARINO', hex: 'rgb(0,35,102)' },
             { n: 'VERDE', hex: 'rgb(0,163,58)' },
             { n: 'AMARILLO', hex: 'rgb(242,205,0)' },
             { n: 'ROJO', hex: 'rgb(220,20,20)' },
-            { n: 'MORADO', hex: 'rgb(128,0,128)' },
-            { n: 'ROSA', hex: 'rgb(255,153,179)' },
+            { n: 'PÚRPURA', hex: 'rgb(128,0,128)' },
+            { n: 'LILA', hex: '#c8a2c8' },
+            { n: 'ROSA PASTEL', hex: 'rgb(255,153,179)' },
             { n: 'FUCSIA', hex: 'rgb(255,0,127)' },
-            { n: 'AZUL CIELO', hex: 'rgb(64,164,255)' },
-            { n: 'AZUL PASTEL', hex: '#80CEE1' },
+            { n: 'AZUL', hex: 'rgb(64,164,255)' },
+            { n: 'AZUL CIELO', hex: '#80CEE1' },
             { n: 'NARANJA', hex: 'rgb(255,102,0)' },
             { n: 'CAFÉ', hex: 'rgb(92,64,51)' }
         ];
@@ -11908,7 +11911,7 @@ const imgBolsaDeliveryBase = new Image();
 
     function aplicarColorMetalico(tCtx, w, h, esDorado) {
         if (esDorado) {
-            // CAPA 1 — gradiente base tono #AD8A1F: oscuro › base › brillante › oscuro
+            // BASE — gradiente oscuro › cálido › oscuro
             const shade = tCtx.createLinearGradient(0, 0, 0, h);
             shade.addColorStop(0,    '#4A3A08');
             shade.addColorStop(0.18, '#7A6012');
@@ -11922,44 +11925,48 @@ const imgBolsaDeliveryBase = new Image();
 
             tCtx.globalCompositeOperation = 'source-atop';
 
-            // ZONA 1 — reflejo principal: diagonal ancho, zona central-alta
-            const spec1 = tCtx.createLinearGradient(0, 0, w * 0.65, h);
-            spec1.addColorStop(0,    'rgba(255,240,100,0)');
-            spec1.addColorStop(0.28, 'rgba(255,240,100,0)');
-            spec1.addColorStop(0.37, 'rgba(255,245,130,0.52)');
-            spec1.addColorStop(0.43, 'rgba(255,252,170,0.76)');
-            spec1.addColorStop(0.49, 'rgba(255,245,130,0.52)');
-            spec1.addColorStop(0.58, 'rgba(255,240,100,0)');
-            spec1.addColorStop(1,    'rgba(255,240,100,0)');
-            tCtx.fillStyle = spec1;
+            // ZONA A — destello amplio, diagonal principal, suave
+            const zA = tCtx.createLinearGradient(w * 0.05, 0, w * 0.7, h);
+            zA.addColorStop(0,    'rgba(255,240,100,0)');
+            zA.addColorStop(0.20, 'rgba(255,245,120,0.10)');
+            zA.addColorStop(0.35, 'rgba(255,248,140,0.28)');
+            zA.addColorStop(0.45, 'rgba(255,252,160,0.42)');
+            zA.addColorStop(0.55, 'rgba(255,248,140,0.28)');
+            zA.addColorStop(0.72, 'rgba(255,240,100,0.10)');
+            zA.addColorStop(1,    'rgba(255,240,100,0)');
+            tCtx.fillStyle = zA;
             tCtx.fillRect(0, 0, w, h);
 
-            // ZONA 2 — reflejo superior: más horizontal, zona alta, más suave
-            const spec2 = tCtx.createLinearGradient(w * 0.1, 0, w * 0.9, h * 0.38);
-            spec2.addColorStop(0,    'rgba(255,248,140,0)');
-            spec2.addColorStop(0.30, 'rgba(255,248,140,0)');
-            spec2.addColorStop(0.40, 'rgba(255,252,160,0.38)');
-            spec2.addColorStop(0.50, 'rgba(255,255,190,0.56)');
-            spec2.addColorStop(0.60, 'rgba(255,252,160,0.38)');
-            spec2.addColorStop(0.70, 'rgba(255,248,140,0)');
-            spec2.addColorStop(1,    'rgba(255,248,140,0)');
-            tCtx.fillStyle = spec2;
+            // ZONA B — toque superior izquierdo
+            const zB = tCtx.createLinearGradient(0, 0, w * 0.5, h * 0.45);
+            zB.addColorStop(0,    'rgba(255,255,180,0.22)');
+            zB.addColorStop(0.30, 'rgba(255,252,150,0.32)');
+            zB.addColorStop(0.55, 'rgba(255,248,120,0.14)');
+            zB.addColorStop(1,    'rgba(255,240,100,0)');
+            tCtx.fillStyle = zB;
             tCtx.fillRect(0, 0, w, h);
 
-            // ZONA 3 — reflejo inferior: diagonal opuesto, zona baja, más tenue
-            const spec3 = tCtx.createLinearGradient(w, h * 0.55, w * 0.25, h);
-            spec3.addColorStop(0,    'rgba(220,195,80,0)');
-            spec3.addColorStop(0.32, 'rgba(220,195,80,0)');
-            spec3.addColorStop(0.42, 'rgba(235,210,90,0.30)');
-            spec3.addColorStop(0.50, 'rgba(245,220,100,0.46)');
-            spec3.addColorStop(0.58, 'rgba(235,210,90,0.30)');
-            spec3.addColorStop(0.68, 'rgba(220,195,80,0)');
-            spec3.addColorStop(1,    'rgba(220,195,80,0)');
-            tCtx.fillStyle = spec3;
+            // ZONA C — reflejo suave derecha media
+            const zC = tCtx.createLinearGradient(w, h * 0.25, w * 0.4, h * 0.75);
+            zC.addColorStop(0,    'rgba(240,220,80,0)');
+            zC.addColorStop(0.25, 'rgba(245,225,90,0.18)');
+            zC.addColorStop(0.45, 'rgba(250,235,100,0.30)');
+            zC.addColorStop(0.65, 'rgba(245,225,90,0.18)');
+            zC.addColorStop(1,    'rgba(240,220,80,0)');
+            tCtx.fillStyle = zC;
+            tCtx.fillRect(0, 0, w, h);
+
+            // ZONA D — destello inferior tenue
+            const zD = tCtx.createLinearGradient(w * 0.2, h * 0.65, w * 0.8, h);
+            zD.addColorStop(0,    'rgba(220,190,70,0)');
+            zD.addColorStop(0.40, 'rgba(230,200,80,0.20)');
+            zD.addColorStop(0.60, 'rgba(240,210,90,0.28)');
+            zD.addColorStop(1,    'rgba(220,190,70,0)');
+            tCtx.fillStyle = zD;
             tCtx.fillRect(0, 0, w, h);
 
         } else {
-            // PLATEADO
+            // PLATEADO BASE
             const shade = tCtx.createLinearGradient(0, 0, 0, h);
             shade.addColorStop(0,    '#303030');
             shade.addColorStop(0.18, '#808080');
@@ -11973,39 +11980,45 @@ const imgBolsaDeliveryBase = new Image();
 
             tCtx.globalCompositeOperation = 'source-atop';
 
-            const s1 = tCtx.createLinearGradient(0, 0, w * 0.65, h);
-            s1.addColorStop(0,    'rgba(255,255,255,0)');
-            s1.addColorStop(0.28, 'rgba(255,255,255,0)');
-            s1.addColorStop(0.37, 'rgba(255,255,255,0.45)');
-            s1.addColorStop(0.43, 'rgba(255,255,255,0.70)');
-            s1.addColorStop(0.49, 'rgba(255,255,255,0.45)');
-            s1.addColorStop(0.58, 'rgba(255,255,255,0)');
-            s1.addColorStop(1,    'rgba(255,255,255,0)');
-            tCtx.fillStyle = s1;
+            // ZONA A — destello diagonal amplio, suave
+            const zA = tCtx.createLinearGradient(w * 0.05, 0, w * 0.7, h);
+            zA.addColorStop(0,    'rgba(255,255,255,0)');
+            zA.addColorStop(0.20, 'rgba(255,255,255,0.10)');
+            zA.addColorStop(0.35, 'rgba(255,255,255,0.26)');
+            zA.addColorStop(0.45, 'rgba(255,255,255,0.38)');
+            zA.addColorStop(0.55, 'rgba(255,255,255,0.26)');
+            zA.addColorStop(0.72, 'rgba(255,255,255,0.10)');
+            zA.addColorStop(1,    'rgba(255,255,255,0)');
+            tCtx.fillStyle = zA;
             tCtx.fillRect(0, 0, w, h);
 
-            const s2 = tCtx.createLinearGradient(w * 0.1, 0, w * 0.9, h * 0.38);
-            s2.addColorStop(0,    'rgba(255,255,255,0)');
-            s2.addColorStop(0.35, 'rgba(255,255,255,0)');
-            s2.addColorStop(0.45, 'rgba(255,255,255,0.32)');
-            s2.addColorStop(0.50, 'rgba(255,255,255,0.52)');
-            s2.addColorStop(0.55, 'rgba(255,255,255,0.32)');
-            s2.addColorStop(0.65, 'rgba(255,255,255,0)');
-            s2.addColorStop(1,    'rgba(255,255,255,0)');
-            tCtx.fillStyle = s2;
+            // ZONA B — toque superior izquierdo
+            const zB = tCtx.createLinearGradient(0, 0, w * 0.5, h * 0.45);
+            zB.addColorStop(0,    'rgba(255,255,255,0.20)');
+            zB.addColorStop(0.30, 'rgba(255,255,255,0.28)');
+            zB.addColorStop(0.55, 'rgba(255,255,255,0.12)');
+            zB.addColorStop(1,    'rgba(255,255,255,0)');
+            tCtx.fillStyle = zB;
             tCtx.fillRect(0, 0, w, h);
 
-            const s3 = tCtx.createLinearGradient(w, h * 0.55, w * 0.25, h);
-            s3.addColorStop(0,    'rgba(220,220,220,0)');
-            s3.addColorStop(0.35, 'rgba(220,220,220,0)');
-            s3.addColorStop(0.44, 'rgba(240,240,240,0.28)');
-            s3.addColorStop(0.50, 'rgba(255,255,255,0.44)');
-            s3.addColorStop(0.56, 'rgba(240,240,240,0.28)');
-            s3.addColorStop(0.65, 'rgba(220,220,220,0)');
-            s3.addColorStop(1,    'rgba(220,220,220,0)');
-            tCtx.fillStyle = s3;
+            // ZONA C — reflejo suave derecha media
+            const zC = tCtx.createLinearGradient(w, h * 0.25, w * 0.4, h * 0.75);
+            zC.addColorStop(0,    'rgba(240,240,240,0)');
+            zC.addColorStop(0.25, 'rgba(245,245,245,0.16)');
+            zC.addColorStop(0.45, 'rgba(255,255,255,0.28)');
+            zC.addColorStop(0.65, 'rgba(245,245,245,0.16)');
+            zC.addColorStop(1,    'rgba(240,240,240,0)');
+            tCtx.fillStyle = zC;
             tCtx.fillRect(0, 0, w, h);
 
+            // ZONA D — destello inferior tenue
+            const zD = tCtx.createLinearGradient(w * 0.2, h * 0.65, w * 0.8, h);
+            zD.addColorStop(0,    'rgba(220,220,220,0)');
+            zD.addColorStop(0.40, 'rgba(235,235,235,0.18)');
+            zD.addColorStop(0.60, 'rgba(248,248,248,0.26)');
+            zD.addColorStop(1,    'rgba(220,220,220,0)');
+            tCtx.fillStyle = zD;
+            tCtx.fillRect(0, 0, w, h);
         }
     }
 
