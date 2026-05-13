@@ -3597,6 +3597,17 @@
             box-shadow: inset 0 0 0 1px rgba(240, 122, 0, 0.28);
             background: #fff2df;
         }
+        .cal-day.in-range {
+            background: #fff1e5;
+            border-color: #f7b77d;
+        }
+        .cal-day.range-start,
+        .cal-day.range-end {
+            background: #f59e42;
+            color: #ffffff;
+            border-color: #f59e42;
+            box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+        }
 
         .cal-day.today {
             border-color: #fb923c;
@@ -3931,21 +3942,33 @@
 
         .cal-table {
             width: 100%;
-            border-collapse: collapse;
+            border-collapse: separate;
+            border-spacing: 0;
             min-width: 100%;
             table-layout: fixed;
         }
 
         .cal-table th,
         .cal-table td {
-            border-bottom: 1px solid #edf1f6;
-            padding: 7px 6px;
+            padding: 7px 8px;
             font-size: 0.6rem;
             color: #273142;
             white-space: normal;
             word-break: break-word;
             text-align: center;
             vertical-align: middle;
+        }
+
+        .cal-table tbody tr {
+            border-bottom: 1px solid #e5e9f0;
+        }
+
+        .cal-table tbody tr:nth-child(even) {
+            background: #fbfcfe;
+        }
+
+        .cal-table tbody tr:hover {
+            background: #fff4ea;
         }
 
         .cal-table th {
@@ -4320,6 +4343,23 @@
         .clientesmod-btn:disabled {
             opacity: 0.5;
             cursor: not-allowed;
+        }
+
+        .clientesmod-section {
+            margin-top: 16px;
+            padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+        }
+
+        .clientesmod-section-title {
+            margin: 0 0 8px 0;
+            font-size: 0.75rem;
+            font-weight: 900;
+            color: var(--accent);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .clientesmod-table-wrap {
@@ -5794,21 +5834,65 @@
             inset: 0;
             z-index: 2180;
             display: none;
-            align-items: stretch;
+            align-items: center;
             justify-content: center;
             background: rgba(9, 13, 22, 0.4);
             padding: 0;
         }
 
         .productos-modal-card {
-            width: min(92vw, 520px);
+            width: min(90vw, 460px);
+            max-height: 84vh;
+            overflow: auto;
             background: #fff;
-            border-radius: 12px;
+            border-radius: 20px;
             border: 1px solid #dfe5ef;
-            box-shadow: 0 18px 32px rgba(0,0,0,0.2);
+            box-shadow: 0 18px 32px rgba(0,0,0,0.16);
             padding: 12px;
             display: grid;
             gap: 8px;
+        }
+
+        #popupCalProgreso .productos-modal-card {
+            width: min(88vw, 420px);
+            max-height: 72vh;
+            padding: 10px;
+        }
+
+        #popupCalProductos .productos-modal-card.wide {
+            width: min(88vw, 460px);
+            max-width: 460px;
+            max-height: 76vh;
+            min-height: auto;
+            gap: 6px;
+            padding: 10px;
+        }
+
+        #popupCalProductos .productos-modal-actions,
+        #popupCalProgreso .productos-modal-actions {
+            justify-content: flex-end;
+            gap: 6px;
+            padding-top: 0;
+        }
+
+        #popupCalProductos .productos-modal-actions .productos-btn,
+        #popupCalProgreso .productos-modal-actions .productos-btn {
+            padding: 5px 10px;
+            font-size: 0.55rem;
+            min-height: 28px;
+        }
+
+        #popupCalProductos .productos-modal-grid {
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        #popupCalProductos .productos-modal-card.wide .orden-field {
+            gap: 6px;
+        }
+
+        #popupCalProgreso .cal-progress-card {
+            padding: 8px;
+            gap: 5px;
         }
 
         .productos-modal-title {
@@ -5819,6 +5903,14 @@
             letter-spacing: 0.2px;
             color: #1f2937;
             line-height: 1.1;
+        }
+
+        .productos-modal-subtitle {
+            margin: 4px 0 0 0;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: #6b7280;
+            line-height: 1.3;
         }
 
         .productos-modal-grid {
@@ -5930,6 +6022,32 @@
             box-sizing: border-box;
             gap: 6px;
             padding: 10px 14px;
+        }
+
+        #popupCalProductos .productos-modal-card.wide {
+            width: min(88vw, 460px) !important;
+            max-width: 460px !important;
+            max-height: 76vh !important;
+            min-height: auto !important;
+            overflow: auto !important;
+            padding: 10px !important;
+            border-radius: 20px !important;
+        }
+
+        #popupCalProgreso .productos-modal-card {
+            width: min(88vw, 420px) !important;
+            max-width: 420px !important;
+            max-height: 72vh !important;
+            overflow: auto !important;
+            padding: 10px !important;
+            border-radius: 20px !important;
+        }
+
+        #popupCalProductos .productos-modal-actions .productos-btn,
+        #popupCalProgreso .productos-modal-actions .productos-btn {
+            padding: 5px 10px !important;
+            font-size: 0.55rem !important;
+            min-height: 28px !important;
         }
 
         /* ID selectors — máxima especificidad CSS para fijar tamaño */
@@ -9420,18 +9538,38 @@
                     <div style="font-size:0.65rem;font-weight:800;color:#ff9900;">📍 UBICACIONES DEL CLIENTE</div>
                     <button type="button" id="btnAbrirUbicaciones" style="background:#ff9900;color:#fff;border:none;border-radius:8px;padding:6px 16px;font-size:0.6rem;font-weight:800;cursor:pointer;display:flex;align-items:center;gap:4px;">📍 GESTIONAR UBICACIONES</button>
                 </div>
-                <div id="cliUbicacionesResumen" style="display:flex;gap:8px;flex-wrap:wrap;">
-                    <div style="background:rgba(255,153,0,0.08);border:1px solid rgba(255,153,0,0.25);border-radius:6px;padding:5px 10px;font-size:0.52rem;color:#c8d9f2;">
-                        <strong style="color:#ff9900;">🏠 Domicilio:</strong> <span id="cliResUbiDomicilio">Sin registrar</span>
+                <div id="cliUbicacionesResumen" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:8px;">
+                    <!-- Domicilio -->
+                    <div style="background:rgba(245,158,11,0.08);border:1.5px solid rgba(245,158,11,0.3);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;">
+                        <div style="display:flex;align-items:center;gap:5px;">
+                            <span style="font-size:1rem;">🏠</span>
+                            <span style="font-size:0.6rem;font-weight:800;color:#f59e0b;text-transform:uppercase;letter-spacing:0.04em;">Casa / Domicilio</span>
+                        </div>
+                        <span id="cliResUbiDomicilio" style="font-size:0.58rem;color:#94a3b8;font-style:italic;line-height:1.3;">Sin registrar</span>
                     </div>
-                    <div style="background:rgba(255,153,0,0.08);border:1px solid rgba(255,153,0,0.25);border-radius:6px;padding:5px 10px;font-size:0.52rem;color:#c8d9f2;">
-                        <strong style="color:#ff9900;">🏢 Negocio:</strong> <span id="cliResUbiNegocio">Sin registrar</span>
+                    <!-- Negocio -->
+                    <div style="background:rgba(59,130,246,0.08);border:1.5px solid rgba(59,130,246,0.3);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;">
+                        <div style="display:flex;align-items:center;gap:5px;">
+                            <span style="font-size:1rem;">🏢</span>
+                            <span style="font-size:0.6rem;font-weight:800;color:#60a5fa;text-transform:uppercase;letter-spacing:0.04em;">Trabajo / Negocio</span>
+                        </div>
+                        <span id="cliResUbiNegocio" style="font-size:0.58rem;color:#94a3b8;font-style:italic;line-height:1.3;">Sin registrar</span>
                     </div>
-                    <div style="background:rgba(255,153,0,0.08);border:1px solid rgba(255,153,0,0.25);border-radius:6px;padding:5px 10px;font-size:0.52rem;color:#c8d9f2;">
-                        <strong style="color:#ff9900;">📌 Punto medio:</strong> <span id="cliResUbiPuntoMedio">Sin registrar</span>
+                    <!-- Punto medio -->
+                    <div style="background:rgba(236,72,153,0.08);border:1.5px solid rgba(236,72,153,0.3);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;">
+                        <div style="display:flex;align-items:center;gap:5px;">
+                            <span style="font-size:1rem;">📌</span>
+                            <span style="font-size:0.6rem;font-weight:800;color:#f472b6;text-transform:uppercase;letter-spacing:0.04em;">Punto de encuentro</span>
+                        </div>
+                        <span id="cliResUbiPuntoMedio" style="font-size:0.58rem;color:#94a3b8;font-style:italic;line-height:1.3;">Sin registrar</span>
                     </div>
-                    <div style="background:rgba(255,153,0,0.08);border:1px solid rgba(255,153,0,0.25);border-radius:6px;padding:5px 10px;font-size:0.52rem;color:#c8d9f2;">
-                        <strong style="color:#ff9900;">📍 Última usada:</strong> <span id="cliResUbiUltima">Ninguna</span>
+                    <!-- Última usada -->
+                    <div style="background:rgba(34,197,94,0.08);border:1.5px solid rgba(34,197,94,0.3);border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:3px;">
+                        <div style="display:flex;align-items:center;gap:5px;">
+                            <span style="font-size:1rem;">✅</span>
+                            <span style="font-size:0.6rem;font-weight:800;color:#4ade80;text-transform:uppercase;letter-spacing:0.04em;">Última entrega</span>
+                        </div>
+                        <span id="cliResUbiUltima" style="font-size:0.58rem;color:#94a3b8;font-style:italic;line-height:1.3;">Ninguna registrada</span>
                     </div>
                 </div>
                 <!-- Campos ocultos para guardar datos -->
@@ -9659,6 +9797,91 @@ function abrirPopupProveedorDesdeProductos() {
                         <tr><td colspan="10" class="clientesmod-empty">No hay productos ni insumos en almacén. Agrega desde la sección de Productos.</td></tr>
                     </tbody>
                 </table>
+            </div>
+            <div class="clientesmod-section">
+                <h3 class="clientesmod-section-title">Entrada de Producto</h3>
+                <div class="orden-field">
+                    <label for="almEntradaBuscar">BUSCAR PRODUCTO</label>
+                    <input id="almEntradaBuscar" type="text" placeholder="ESCRIBE PARA FILTRAR...">
+                </div>
+                <div class="orden-field">
+                    <label for="almEntradaSelect">PRODUCTO</label>
+                    <select id="almEntradaSelect"></select>
+                </div>
+                <div class="orden-field">
+                    <label>CATEGORIA</label>
+                    <input id="almEntradaCategoria" type="text" readonly style="background:#f3f4f6;cursor:default;">
+                </div>
+                <div class="orden-field">
+                    <label for="almEntradaCantidad">CANTIDAD DE ENTRADA</label>
+                    <input id="almEntradaCantidad" type="number" min="1" step="1" value="1">
+                </div>
+                <div class="orden-field">
+                    <label for="almEntradaCosto">COSTO UNITARIO</label>
+                    <input id="almEntradaCosto" type="number" min="0" step="0.01" value="0">
+                </div>
+                <div class="orden-field">
+                    <label for="almEntradaMotivo">MOTIVO</label>
+                    <select id="almEntradaMotivo">
+                        <option value="COMPRA">COMPRA</option>
+                        <option value="DEVOLUCION">DEVOLUCION</option>
+                        <option value="AJUSTE">AJUSTE DE INVENTARIO</option>
+                        <option value="PRODUCCION">PRODUCCION</option>
+                        <option value="OTRO">OTRO</option>
+                    </select>
+                </div>
+                <div class="orden-field">
+                    <label>USUARIO</label>
+                    <input id="almEntradaUsuario" type="text" readonly style="background:#f3f4f6;cursor:default;">
+                </div>
+                <div class="orden-field">
+                    <label>FECHA Y HORA</label>
+                    <input id="almEntradaFecha" type="text" readonly style="background:#f3f4f6;cursor:default;">
+                </div>
+                <div class="productos-modal-actions">
+                    <button id="almEntradaAceptar" class="productos-btn primary" type="button">REGISTRAR ENTRADA</button>
+                </div>
+            </div>
+            <div class="clientesmod-section">
+                <h3 class="clientesmod-section-title">Salida de Producto</h3>
+                <div class="orden-field">
+                    <label for="almSalidaBuscar">BUSCAR PRODUCTO</label>
+                    <input id="almSalidaBuscar" type="text" placeholder="ESCRIBE PARA FILTRAR...">
+                </div>
+                <div class="orden-field">
+                    <label for="almSalidaSelect">PRODUCTO</label>
+                    <select id="almSalidaSelect"></select>
+                </div>
+                <div class="orden-field">
+                    <label>CATEGORIA</label>
+                    <input id="almSalidaCategoria" type="text" readonly style="background:#f3f4f6;cursor:default;">
+                </div>
+                <div class="orden-field">
+                    <label for="almSalidaCantidad">CANTIDAD DE SALIDA</label>
+                    <input id="almSalidaCantidad" type="number" min="1" step="1" value="1">
+                </div>
+                <div class="orden-field">
+                    <label for="almSalidaMotivo">MOTIVO</label>
+                    <select id="almSalidaMotivo">
+                        <option value="VENTA">VENTA</option>
+                        <option value="USO_INTERNO">USO INTERNO</option>
+                        <option value="DEVOLUCION">DEVOLUCION</option>
+                        <option value="AJUSTE">AJUSTE DE INVENTARIO</option>
+                        <option value="PERDIDA">PERDIDA</option>
+                        <option value="OTRO">OTRO</option>
+                    </select>
+                </div>
+                <div class="orden-field">
+                    <label>USUARIO</label>
+                    <input id="almSalidaUsuario" type="text" readonly style="background:#f3f4f6;cursor:default;">
+                </div>
+                <div class="orden-field">
+                    <label>FECHA Y HORA</label>
+                    <input id="almSalidaFecha" type="text" readonly style="background:#f3f4f6;cursor:default;">
+                </div>
+                <div class="productos-modal-actions">
+                    <button id="almSalidaAceptar" class="productos-btn primary" type="button">REGISTRAR SALIDA</button>
+                </div>
             </div>
             <div class="clientesmod-foot">
                 <span id="almacenConteo">Total de registros: 0</span>
@@ -14134,8 +14357,6 @@ const imgBolsaDeliveryBase = new Image();
 
                 <!-- Herramientas de inventario -->
                 <button id="prodLowStock"     class="prod-tool-btn amber"  type="button" title="Ver productos por agotarse">⚠ Agotados<span class="low-stock-badge">FILTRANDO ✕</span></button>
-                <button id="prodEntradaStock" class="prod-tool-btn green"  type="button" title="Registrar entrada de stock">↑ Entrada</button>
-                <button id="prodSalidaStock"  class="prod-tool-btn red"    type="button" title="Registrar salida de stock">↓ Salida</button>
 
                 <span class="prod-vsep"></span>
 
@@ -14277,6 +14498,8 @@ window._cerrarSelectorMuestrario = function() {
                 </div>
                 <div style="display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end;align-items:center;">
                     <button id="almfAddUbi" type="button" style="padding:8px 14px;background:#ff9900;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:800;font-size:0.65rem;box-shadow:0 2px 6px rgba(255,153,0,0.3)">NUEVO CONTENEDOR</button>
+                    <button id="almfEntradaStock" type="button" style="padding:8px 12px;background:#22c55e;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;box-shadow:0 2px 6px rgba(34,197,94,0.3)">↑ ENTRADA</button>
+                    <button id="almfSalidaStock" type="button" style="padding:8px 12px;background:#ef4444;color:#fff;border:none;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;box-shadow:0 2px 6px rgba(239,68,68,0.3)">↓ SALIDA</button>
                     <button id="almfBtnMovimientos" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">MOVIMIENTOS</button>
                     <button id="almfBtnInventario" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">INVENTARIO</button>
                     <button id="almfBtnHistorial" type="button" style="padding:8px 12px;background:#f3f4f6;border:1px solid #d1d5db;border-radius:8px;cursor:pointer;font-weight:700;font-size:0.62rem;color:#374151;transition:none;">HISTORIAL</button>
@@ -14690,43 +14913,6 @@ window._cerrarSelectorMuestrario = function() {
                         <h3 class="cal-list-title">Pedidos próximos a entregar</h3>
                     </div>
                     <div class="cal-list-controls">
-                        <div class="orden-field cal-mini-field">
-                            <label for="calFechaMiniBtn">Fecha</label>
-                            <select id="calScopeSelect" style="display:none;" aria-hidden="true">
-                                <option value="selected">Fecha seleccionada</option>
-                                <option value="today">Solo hoy</option>
-                                <option value="week">Próximos 7 días</option>
-                                <option value="next15">Próximos 15 días</option>
-                                <option value="month">Este mes</option>
-                                <option value="all">Todos pendientes</option>
-                                <option value="overdue">Solo vencidos</option>
-                            </select>
-                            <button id="calFechaMiniBtn" type="button" class="cal-mini-btn" aria-haspopup="dialog" aria-expanded="false">
-                                <span class="cal-mini-ico">📅</span>
-                                <span id="calFechaMiniLabel" class="cal-mini-label">Fecha seleccionada</span>
-                            </button>
-                            <div id="calMiniPopup" class="cal-mini-popup" style="display:none;">
-                                <div class="cal-mini-quick-row">
-                                    <button type="button" class="mp-cal-quick cal-mini-quick" data-cal-mini-scope="today">Hoy</button>
-                                    <button type="button" class="mp-cal-quick cal-mini-quick" data-cal-mini-scope="week">7 días</button>
-                                    <button type="button" class="mp-cal-quick cal-mini-quick" data-cal-mini-scope="next15">15 días</button>
-                                    <button type="button" class="mp-cal-quick cal-mini-quick" data-cal-mini-scope="month">Mes</button>
-                                    <button type="button" class="mp-cal-quick cal-mini-quick" data-cal-mini-scope="overdue">Vencidos</button>
-                                    <button type="button" class="mp-cal-quick cal-mini-quick" data-cal-mini-scope="all">Todos</button>
-                                </div>
-                                <div class="mp-cal-month cal-mini-month">
-                                    <div class="cal-header">
-                                        <button id="calMiniPrev" type="button" aria-label="Mes anterior">‹</button>
-                                        <span id="calMiniMonthLabel"></span>
-                                        <button id="calMiniNext" type="button" aria-label="Mes siguiente">›</button>
-                                    </div>
-                                    <div class="cal-grid">
-                                        <div class="cal-dow">L</div><div class="cal-dow">M</div><div class="cal-dow">M</div><div class="cal-dow">J</div><div class="cal-dow">V</div><div class="cal-dow">S</div><div class="cal-dow">D</div>
-                                    </div>
-                                    <div id="calMiniGrid" class="cal-grid"></div>
-                                </div>
-                            </div>
-                        </div>
                         <div class="orden-field cal-search-field">
                             <label for="calSearchInput">Buscar</label>
                             <div class="cal-search-wrap">
@@ -14740,15 +14926,16 @@ window._cerrarSelectorMuestrario = function() {
                                 <option value="">— Todos los productos —</option>
                             </select>
                         </div>
-                        <div id="calFiltroFecha" class="cal-filter-chip" style="display:none;"><span id="calFiltroFechaText">Filtrado: -</span><button id="calClearFilter" type="button" aria-label="Quitar filtro">×</button></div>
-                    </div>
-                    <div class="cal-urgency-bar">
-                        <span class="cal-urgency-label">Urgencia:</span>
-                        <button type="button" class="cal-urgency-btn all active" data-cal-urgency="">Todos</button>
-                        <button type="button" class="cal-urgency-btn normal" data-cal-urgency="normal"><span class="cal-semaforo green"></span>Sin urgencia</button>
-                        <button type="button" class="cal-urgency-btn mid" data-cal-urgency="mid"><span class="cal-semaforo yellow"></span>2 días</button>
-                        <button type="button" class="cal-urgency-btn high" data-cal-urgency="high"><span class="cal-semaforo orange"></span>1 día / Hoy</button>
-                        <button type="button" class="cal-urgency-btn overdue" data-cal-urgency="overdue"><span class="cal-semaforo red"></span>Vencido</button>
+                        <div class="orden-field">
+                            <label for="calUrgencyFilter">Urgencia</label>
+                            <select id="calUrgencyFilter">
+                                <option value="">— Todas —</option>
+                                <option value="normal">Sin urgencia</option>
+                                <option value="mid">2 días</option>
+                                <option value="high">1 día / Hoy</option>
+                                <option value="overdue">Vencido</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
                 <div class="cal-table-wrap">
@@ -14986,8 +15173,7 @@ window._cerrarSelectorMuestrario = function() {
                             <select id="prodFormUMVenta" style="width:100%;"></select>
                         </div>
                         <div class="orden-field prod-stock-only" data-nat="producto,fabricado,insumo"><label for="prodFormExistencias">Existencias <span style="color:#dc2626;">*</span></label><input id="prodFormExistencias" type="number" min="0" step="1"></div>
-                        <div class="orden-field prod-stock-only" data-nat="producto,fabricado"><label for="prodFormMinima">Cantidad mínima <span style="color:#dc2626;">*</span></label><input id="prodFormMinima" type="number" min="0" step="1"></div>
-                        <div class="orden-field prod-stock-only" data-nat="producto,fabricado,insumo"><label for="prodFormPrecioCompra">Precio de compra <span style="color:#dc2626;">*</span></label><input id="prodFormPrecioCompra" type="number" min="0" step="0.01"></div>
+                        <div class="orden-field prod-stock-only" data-nat="producto,fabricado"><label for="prodFormMinima">Cantidad mínima</label><input id="prodFormMinima" type="number" min="0" step="1"></div>
                         <div class="orden-field prod-stock-only" data-nat="producto,fabricado,insumo"><label for="prodFormProveedor">Proveedor</label><div style="display:flex;gap:4px;align-items:center;"><select id="prodFormProveedor" style="flex:1;"><option value="">Seleccionar...</option></select><button type="button" id="prodFormProveedorAdd" class="productos-btn" style="padding:4px 8px;font-size:0.7rem;white-space:nowrap;" title="Agregar proveedor" onclick="abrirPopupProveedorDesdeProductos()">+</button></div></div>
                     </div>
                 </div>
@@ -14995,8 +15181,9 @@ window._cerrarSelectorMuestrario = function() {
                 <!-- PASO: precios ─ Precios -->
                 <div class="prod-step-panel" data-step="precios">
                     <div class="productos-modal-grid">
-                        <div class="orden-field prod-stock-only" id="prodFormVentaWrap" data-nat="producto,fabricado,insumo,servicio"><label for="prodFormVenta">Precio unitario venta general</label><input id="prodFormVenta" type="number" min="0" step="0.01"></div>
-                        <div class="orden-field prod-stock-only" data-nat="producto,fabricado"><label for="prodFormRevendedor">Precio unitario revendedor</label><input id="prodFormRevendedor" type="number" min="0" step="0.01"></div>
+                        <div class="orden-field prod-stock-only" id="prodFormPrecioCompraWrap" data-nat="producto,fabricado,insumo"><label for="prodFormPrecioCompra">Costo de compra</label><input id="prodFormPrecioCompra" type="number" min="0" step="0.01"><div id="prodFormPrecioCompraAviso" style="display:none;margin-top:4px;font-size:0.5rem;color:#92400e;background:#fff8f0;border:1px solid #fcd9b0;border-radius:5px;padding:3px 7px;">Promedio automático de variantes</div></div>
+                        <div class="orden-field prod-stock-only" id="prodFormVentaWrap" data-nat="producto,fabricado,insumo,servicio"><label for="prodFormVenta">Precio unitario venta general</label><input id="prodFormVenta" type="number" min="0" step="0.01"><div id="prodFormVentaAviso" style="display:none;margin-top:4px;font-size:0.5rem;color:#92400e;background:#fff8f0;border:1px solid #fcd9b0;border-radius:5px;padding:3px 7px;">El precio se define por variante</div></div>
+                        <div class="orden-field prod-stock-only" id="prodFormRevendedorWrap" data-nat="producto,fabricado"><label for="prodFormRevendedor">Precio unitario revendedor</label><input id="prodFormRevendedor" type="number" min="0" step="0.01"><div id="prodFormRevendedorAviso" style="display:none;margin-top:4px;font-size:0.5rem;color:#92400e;background:#fff8f0;border:1px solid #fcd9b0;border-radius:5px;padding:3px 7px;">El precio se define por variante</div></div>
                         <div class="orden-field prod-stock-only productos-field-span3" data-nat="producto,fabricado,insumo,servicio" style="background:#fffbf0;border:1px solid #fde8a0;border-radius:8px;padding:8px 10px;">
                             <label style="font-weight:900;color:#92400e;font-size:0.58rem;margin-bottom:4px;display:block;">🧾 IMPUESTO (IVA)</label>
                             <label style="display:flex;align-items:center;gap:8px;cursor:pointer;font-size:0.62rem;color:#374151;">
@@ -15056,8 +15243,20 @@ window._cerrarSelectorMuestrario = function() {
                 <!-- PASO: empaque ─ Empaque y Envío -->
                 <div class="prod-step-panel" data-step="empaque">
                     <div class="productos-modal-grid">
-                        <div class="orden-field productos-field-span3" data-nat="producto,fabricado,insumo">
-                            <label style="font-size:0.62rem;font-weight:900;color:#ff9900;letter-spacing:0.5px;margin-bottom:4px;display:block;">📦 MEDIDAS Y PESO DEL PAQUETE (para cotizar envíos)</label>
+                        <!-- Bloque variantes con empaque: solo visible cuando hay variantes -->
+                        <div id="prodEmpaqueVariantesBloque" class="orden-field productos-field-span3" style="display:none;">
+                            <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap;">
+                                <label style="font-size:0.62rem;font-weight:900;color:#ff9900;letter-spacing:0.5px;">📦 EMPAQUE POR VARIANTE</label>
+                                <div style="display:flex;align-items:center;gap:6px;">
+                                    <span style="font-size:0.52rem;color:#6b7280;">Agrupar por:</span>
+                                    <select id="prodPkgAgruparTipo" style="padding:4px 8px;border-radius:6px;border:1px solid #d7dce4;font-size:0.55rem;font-weight:700;"></select>
+                                </div>
+                            </div>
+                            <div id="prodEmpaqueVariantesResumen"></div>
+                        </div>
+                        <!-- Bloque sin variantes: editable normalmente -->
+                        <div id="prodEmpaqueBaseBloque" class="orden-field productos-field-span3" data-nat="producto,fabricado,insumo">
+                            <label style="font-size:0.62rem;font-weight:900;color:#ff9900;letter-spacing:0.5px;margin-bottom:4px;display:block;">📦 MEDIDAS Y PESO DEL PAQUETE</label>
                             <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;gap:4px;">
                                 <div class="orden-field"><label for="prodFormPkgLargo">Largo (cm)</label><input id="prodFormPkgLargo" type="number" min="0" step="0.1" value="0" placeholder="cm"></div>
                                 <div class="orden-field"><label for="prodFormPkgAncho">Ancho (cm)</label><input id="prodFormPkgAncho" type="number" min="0" step="0.1" value="0" placeholder="cm"></div>
@@ -15096,21 +15295,36 @@ window._cerrarSelectorMuestrario = function() {
                         <div class="orden-field prod-gf-ml-only"><label for="prodGfPrecioRevML">Precio de venta por M/lineal revendedor</label><input id="prodGfPrecioRevML" type="number" min="0" step="0.01"></div>
                         <div class="orden-field prod-gf-m2-only"><label for="prodGfCostoM2">Costo por M2</label><input id="prodGfCostoM2" type="number" min="0" step="0.01"></div>
                         <div class="orden-field prod-gf-ml-only"><label for="prodGfCostoML">Costo por M/lineal</label><input id="prodGfCostoML" type="number" min="0" step="0.01"></div>
-                        <div class="orden-field">
-                            <label for="prodGfAjusteAncho">Ajuste al ancho del vinil</label>
-                            <select id="prodGfAjusteAncho">
-                                <option value="metro">Ajustar al metro</option>
-                                <option value="medio">Ajustar a medio metro</option>
-                                <option value="sin">Sin ajuste</option>
-                            </select>
-                        </div>
-                        <div class="orden-field">
-                            <label for="prodGfAjusteAlto">Ajuste al alto del vinil</label>
-                            <select id="prodGfAjusteAlto">
-                                <option value="metro">Ajustar al metro</option>
-                                <option value="medio">Ajustar a medio metro</option>
-                                <option value="sin">Sin ajuste</option>
-                            </select>
+                        <div class="orden-field productos-field-span3" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:10px 12px;">
+                            <label style="font-size:0.6rem;font-weight:900;color:#374151;display:block;margin-bottom:8px;">📐 Dimensiones del material y ajuste de medida</label>
+                            <div style="display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:8px;align-items:start;">
+                                <div class="orden-field" style="margin:0;">
+                                    <label for="prodGfAnchoMaterial">Ancho del material (m)</label>
+                                    <input id="prodGfAnchoMaterial" type="number" min="0" step="0.01" placeholder="Ej: 1.52">
+                                    <div style="font-size:0.46rem;color:#9ca3af;margin-top:2px;">Ancho físico del rollo/vinil</div>
+                                </div>
+                                <div class="orden-field" style="margin:0;">
+                                    <label for="prodGfAltoMaterial">Alto / largo máx (m)</label>
+                                    <input id="prodGfAltoMaterial" type="number" min="0" step="0.01" placeholder="Ej: 50">
+                                    <div style="font-size:0.46rem;color:#9ca3af;margin-top:2px;">Largo máximo disponible</div>
+                                </div>
+                                <div class="orden-field" style="margin:0;">
+                                    <label for="prodGfAjusteAncho">Ajuste al ancho</label>
+                                    <select id="prodGfAjusteAncho">
+                                        <option value="material">Ajustar al ancho del material</option>
+                                        <option value="sin">Sin ajuste</option>
+                                    </select>
+                                    <div style="font-size:0.46rem;color:#9ca3af;margin-top:2px;">Redondeo del ancho solicitado</div>
+                                </div>
+                                <div class="orden-field" style="margin:0;">
+                                    <label for="prodGfAjusteAlto">Ajuste al alto</label>
+                                    <select id="prodGfAjusteAlto">
+                                        <option value="material">Ajustar al alto del material</option>
+                                        <option value="sin">Sin ajuste</option>
+                                    </select>
+                                    <div style="font-size:0.46rem;color:#9ca3af;margin-top:2px;">Redondeo del alto solicitado</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -15124,12 +15338,12 @@ window._cerrarSelectorMuestrario = function() {
                     <div style="overflow-x:auto;">
                         <table style="width:100%;border-collapse:collapse;font-size:0.65rem;" id="gfTabuladorTable">
                             <thead>
-                                <tr style="background:#f3f4f6;">
-                                    <th style="padding:4px 6px;text-align:left;border-bottom:1px solid #e5e7eb;">Desde <span id="gfTabUnidadMin">M2</span></th>
-                                    <th style="padding:4px 6px;text-align:left;border-bottom:1px solid #e5e7eb;">Hasta <span id="gfTabUnidadMax">M2</span> <small style="font-weight:400;">(vacío = ilimitado)</small></th>
-                                    <th style="padding:4px 6px;text-align:left;border-bottom:1px solid #e5e7eb;">Precio general</th>
-                                    <th style="padding:4px 6px;text-align:left;border-bottom:1px solid #e5e7eb;">Precio revendedor</th>
-                                    <th style="padding:4px 6px;border-bottom:1px solid #e5e7eb;"></th>
+                                <tr style="background:#1f2937;">
+                                    <th style="padding:6px 6px;text-align:left;border-bottom:2px solid #374151;color:#f9fafb;font-size:0.62rem;font-weight:700;">Desde <span id="gfTabUnidadMin">M2</span></th>
+                                    <th style="padding:6px 6px;text-align:left;border-bottom:2px solid #374151;color:#f9fafb;font-size:0.62rem;font-weight:700;">Hasta <span id="gfTabUnidadMax">M2</span> <small style="font-weight:400;color:#9ca3af;">(vacío = ∞)</small></th>
+                                    <th style="padding:6px 6px;text-align:left;border-bottom:2px solid #374151;color:#f9fafb;font-size:0.62rem;font-weight:700;">Precio general</th>
+                                    <th style="padding:6px 6px;text-align:left;border-bottom:2px solid #374151;color:#f9fafb;font-size:0.62rem;font-weight:700;">Precio revendedor</th>
+                                    <th style="padding:6px 6px;border-bottom:2px solid #374151;"></th>
                                 </tr>
                             </thead>
                             <tbody id="gfTabuladorBody"></tbody>
@@ -16457,9 +16671,17 @@ window._cerrarSelectorMuestrario = function() {
             
         </div>
         
-        <div class="popup-actions" style="gap: 8px; padding: 8px; border-top: 1px solid rgba(255,255,255,0.1);">
+        <div class="popup-actions" style="gap: 8px; padding: 8px; border-top: 1px solid rgba(255,255,255,0.1); flex-wrap:wrap;">
             <button id="configGuardar" class="popup-btn primary" type="button">Guardar</button>
             <button id="configCerrar" class="popup-btn cancel" type="button">Cerrar</button>
+            <div style="display:flex;gap:6px;margin-left:auto;align-items:center;">
+                <button id="btnCargarDatosDemo" type="button" style="background:linear-gradient(135deg,#7c3aed,#5b21b6);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:0.55rem;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.15s;" title="Rellena todos los campos de configuración con datos de ejemplo para probar el sistema">
+                    🧪 Cargar datos demo
+                </button>
+                <button id="btnQuitarDatosDemo" type="button" style="background:linear-gradient(135deg,#dc2626,#991b1b);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:0.55rem;font-weight:900;cursor:pointer;display:flex;align-items:center;gap:5px;transition:all 0.15s;" title="Borra todos los datos demo y deja la configuración en blanco">
+                    🗑️ Quitar datos demo
+                </button>
+            </div>
         </div>
     </div>
 </div>
@@ -16767,11 +16989,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const calNextMonth = document.getElementById('calNextMonth');
     const calGridDays = document.getElementById('calGridDays');
     const calListaBody = document.getElementById('calListaBody');
-    const calFiltroFecha = document.getElementById('calFiltroFecha');
-    const calFiltroFechaText = document.getElementById('calFiltroFechaText');
     const calScopeSelect = document.getElementById('calScopeSelect');
     const calFechaMiniBtn = document.getElementById('calFechaMiniBtn');
-    const calFechaMiniLabel = document.getElementById('calFechaMiniLabel');
     const calMiniPopup = document.getElementById('calMiniPopup');
     const calMiniPrev = document.getElementById('calMiniPrev');
     const calMiniNext = document.getElementById('calMiniNext');
@@ -16780,7 +16999,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const calSearchInput = document.getElementById('calSearchInput');
     const calSearchClear = document.getElementById('calSearchClear');
     const calProductoSelect = document.getElementById('calProductoFilter');
-    const calClearFilter = document.getElementById('calClearFilter');
+    const calUrgencySelect = document.getElementById('calUrgencyFilter');
     const popupCalProductos = document.getElementById('popupCalProductos');
     const calProdTitulo = document.getElementById('calProdTitulo');
     const calProdBody = document.getElementById('calProdBody');
@@ -16891,6 +17110,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const prodGfCostoML = document.getElementById('prodGfCostoML');
     const prodGfAjusteAncho = document.getElementById('prodGfAjusteAncho');
     const prodGfAjusteAlto = document.getElementById('prodGfAjusteAlto');
+    const prodGfAnchoMaterial = document.getElementById('prodGfAnchoMaterial');
+    const prodGfAltoMaterial = document.getElementById('prodGfAltoMaterial');
     const prodFormFotoPrincipal = document.getElementById('prodFormFotoPrincipal');
     const prodFormFotoPreview = document.getElementById('prodFormFotoPreview');
     const prodColorNombre = document.getElementById('prodColorNombre');
@@ -16906,10 +17127,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // ── Wizard de producto ──────────────────────────────────────
     const PROD_STEPS_MAP = {
-        'producto':    [{id:'basico',icon:'📋',label:'Identificación'},{id:'stock-compra',icon:'📦',label:'Stock y Compra'},{id:'precios',icon:'💲',label:'Precios'},{id:'config',icon:'⚙️',label:'Procesos'},{id:'empaque',icon:'📫',label:'Empaque'},{id:'muestrario',icon:'🎨',label:'Muestrario'}],
+        'producto':    [{id:'basico',icon:'📋',label:'Identificación'},{id:'stock-compra',icon:'📦',label:'Stock y Proveedor'},{id:'precios',icon:'💲',label:'Precios'},{id:'config',icon:'⚙️',label:'Procesos'},{id:'empaque',icon:'📫',label:'Empaque'},{id:'muestrario',icon:'🎨',label:'Muestrario'}],
         'gran-formato':[{id:'basico',icon:'📋',label:'Identificación'},{id:'precios-gf',icon:'💲',label:'Precios GF'},{id:'tabulador-gf',icon:'📊',label:'Tabulador'}],
-        'fabricado':   [{id:'basico',icon:'📋',label:'Identificación'},{id:'stock-compra',icon:'📦',label:'Stock y Compra'},{id:'precios',icon:'💲',label:'Precios'},{id:'config',icon:'🧪',label:'Fabricación'},{id:'empaque',icon:'📫',label:'Empaque'},{id:'muestrario',icon:'🎨',label:'Muestrario'}],
-        'insumo':      [{id:'basico',icon:'📋',label:'Identificación'},{id:'stock-compra',icon:'📦',label:'Stock y Compra'},{id:'empaque',icon:'📫',label:'Empaque'}],
+        'fabricado':   [{id:'basico',icon:'📋',label:'Identificación'},{id:'stock-compra',icon:'📦',label:'Stock y Proveedor'},{id:'precios',icon:'💲',label:'Precios'},{id:'config',icon:'🧪',label:'Fabricación'},{id:'empaque',icon:'📫',label:'Empaque'},{id:'muestrario',icon:'🎨',label:'Muestrario'}],
+        'insumo':      [{id:'basico',icon:'📋',label:'Identificación'},{id:'stock-compra',icon:'📦',label:'Stock y Proveedor'},{id:'empaque',icon:'📫',label:'Empaque'}],
         'proceso':     [{id:'basico',icon:'📋',label:'Identificación'},{id:'config',icon:'🧰',label:'Insumos'}],
         'servicio':    [{id:'basico',icon:'📋',label:'Identificación'},{id:'precios',icon:'💲',label:'Precios'}]
     };
@@ -16969,6 +17190,136 @@ document.addEventListener('DOMContentLoaded', () => {
         if (steps[idx].id === 'tabulador-gf') {
             renderGfTabuladorTable();
         }
+        if (steps[idx].id === 'empaque') {
+            const tieneVars = (typeof variantesDraft !== 'undefined') && variantesDraft.length > 0 && (typeof getVariantesCombinaciones === 'function') && getVariantesCombinaciones().length > 0;
+            const bloqueVars = document.getElementById('prodEmpaqueVariantesBloque');
+            const bloqueBase = document.getElementById('prodEmpaqueBaseBloque');
+            if (bloqueVars) bloqueVars.style.display = tieneVars ? '' : 'none';
+            if (bloqueBase) bloqueBase.style.display = tieneVars ? 'none' : '';
+            if (!tieneVars) return;
+
+            const combos = getVariantesCombinaciones();
+            const tipos = variantesDraft.filter(t => t.valores.length > 0);
+
+            // Mini-popup para editar una combinación individual
+            function abrirPkgIndividual(key, onGuardar) {
+                const pkg = (variantesComboData[key] || {}).pkg || { largo:0, ancho:0, alto:0, peso:0 };
+                const label = key.replace(/\|/g,' / ');
+                const ov = document.createElement('div');
+                ov.style.cssText = 'position:fixed;inset:0;z-index:200000;background:rgba(0,0,0,0.35);display:flex;align-items:center;justify-content:center;';
+                ov.innerHTML = `<div style="background:#fff;border-radius:12px;padding:18px 20px;min-width:270px;box-shadow:0 8px 32px rgba(0,0,0,0.18);display:flex;flex-direction:column;gap:10px;">
+                    <div style="font-size:0.65rem;font-weight:900;color:#1f2937;">📦 <span style="color:#f07a00;">${label}</span></div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                        <div><label style="font-size:0.52rem;color:#6b7280;display:block;margin-bottom:2px;">Largo (cm)</label><input id="_pL" type="number" min="0" step="0.1" value="${pkg.largo||0}" style="width:100%;padding:5px 7px;border-radius:6px;border:1px solid #d7dce4;font-size:0.6rem;box-sizing:border-box;"></div>
+                        <div><label style="font-size:0.52rem;color:#6b7280;display:block;margin-bottom:2px;">Ancho (cm)</label><input id="_pA" type="number" min="0" step="0.1" value="${pkg.ancho||0}" style="width:100%;padding:5px 7px;border-radius:6px;border:1px solid #d7dce4;font-size:0.6rem;box-sizing:border-box;"></div>
+                        <div><label style="font-size:0.52rem;color:#6b7280;display:block;margin-bottom:2px;">Alto (cm)</label><input id="_pH" type="number" min="0" step="0.1" value="${pkg.alto||0}" style="width:100%;padding:5px 7px;border-radius:6px;border:1px solid #d7dce4;font-size:0.6rem;box-sizing:border-box;"></div>
+                        <div><label style="font-size:0.52rem;color:#6b7280;display:block;margin-bottom:2px;">Peso (kg)</label><input id="_pP" type="number" min="0" step="0.01" value="${pkg.peso||0}" style="width:100%;padding:5px 7px;border-radius:6px;border:1px solid #d7dce4;font-size:0.6rem;box-sizing:border-box;"></div>
+                    </div>
+                    <div style="display:flex;gap:6px;justify-content:flex-end;margin-top:4px;">
+                        <button id="_pCnl" type="button" style="padding:6px 14px;border-radius:7px;border:1px solid #d1d5db;background:#f3f4f6;color:#374151;font-size:0.58rem;font-weight:700;cursor:pointer;">Cancelar</button>
+                        <button id="_pGrd" type="button" style="padding:6px 14px;border-radius:7px;border:none;background:#f07a00;color:#fff;font-size:0.58rem;font-weight:800;cursor:pointer;">✓ Guardar</button>
+                    </div>
+                </div>`;
+                document.body.appendChild(ov);
+                ov.querySelector('#_pCnl').onclick = () => ov.remove();
+                ov.querySelector('#_pGrd').onclick = () => {
+                    if (!variantesComboData[key]) variantesComboData[key] = {};
+                    variantesComboData[key].pkg = {
+                        largo: parseFloat(ov.querySelector('#_pL').value) || 0,
+                        ancho: parseFloat(ov.querySelector('#_pA').value) || 0,
+                        alto:  parseFloat(ov.querySelector('#_pH').value) || 0,
+                        peso:  parseFloat(ov.querySelector('#_pP').value) || 0,
+                    };
+                    ov.remove();
+                    if (onGuardar) onGuardar();
+                };
+                ov.addEventListener('click', ev => { if (ev.target === ov) ov.remove(); });
+                setTimeout(() => ov.querySelector('#_pL')?.focus(), 50);
+            }
+
+            // Inputs de medidas reutilizables por grupo
+            function mkMedidasInputs(pref) {
+                return `<div style="display:flex;gap:5px;align-items:flex-end;flex-wrap:wrap;padding:8px 12px;">
+                    <div><label style="font-size:0.44rem;color:#6b7280;display:block;">Largo cm</label><input data-pkg="largo" data-pref="${pref}" type="number" min="0" step="0.1" value="0" style="width:56px;padding:4px 6px;border-radius:5px;border:1px solid #d7dce4;font-size:0.55rem;"></div>
+                    <div><label style="font-size:0.44rem;color:#6b7280;display:block;">Ancho cm</label><input data-pkg="ancho" data-pref="${pref}" type="number" min="0" step="0.1" value="0" style="width:56px;padding:4px 6px;border-radius:5px;border:1px solid #d7dce4;font-size:0.55rem;"></div>
+                    <div><label style="font-size:0.44rem;color:#6b7280;display:block;">Alto cm</label><input data-pkg="alto" data-pref="${pref}" type="number" min="0" step="0.1" value="0" style="width:56px;padding:4px 6px;border-radius:5px;border:1px solid #d7dce4;font-size:0.55rem;"></div>
+                    <div><label style="font-size:0.44rem;color:#6b7280;display:block;">Peso kg</label><input data-pkg="peso" data-pref="${pref}" type="number" min="0" step="0.01" value="0" style="width:52px;padding:4px 6px;border-radius:5px;border:1px solid #d7dce4;font-size:0.55rem;"></div>
+                    <button data-aplicar="${pref}" type="button" style="padding:5px 10px;border-radius:6px;border:none;background:#f07a00;color:#fff;font-size:0.52rem;font-weight:800;cursor:pointer;white-space:nowrap;">✓ Aplicar a este grupo</button>
+                </div>`;
+            }
+
+            // Renderiza los grupos del tipo seleccionado
+            function renderEmpaque() {
+                const res = document.getElementById('prodEmpaqueVariantesResumen');
+                if (!res) return;
+                const sel = document.getElementById('prodPkgAgruparTipo');
+                const tiIdx = sel ? parseInt(sel.value) : 0;
+                const tipo = tipos[tiIdx];
+                if (!tipo) return;
+
+                let html = '';
+                tipo.valores.forEach((valor, vi) => {
+                    const matchCombos = combos.filter(c => c[tiIdx] === valor);
+                    const allOk = matchCombos.every(c => { const p=(variantesComboData[c.join('|')]||{}).pkg; return p&&(p.largo>0||p.peso>0); });
+                    const pref = `t${tiIdx}v${vi}`;
+                    html += `<div style="border:1px solid ${allOk?'#bbf7d0':'#fed7aa'};border-radius:8px;margin-bottom:8px;overflow:hidden;">
+                        <div style="background:${allOk?'#f0fdf4':'#fff8f0'};padding:7px 12px;display:flex;align-items:center;gap:8px;border-bottom:1px solid ${allOk?'#bbf7d0':'#fed7aa'};">
+                            <span style="font-size:0.6rem;font-weight:900;color:${allOk?'#15803d':'#92400e'};">${tipo.tipo} = ${valor}</span>
+                            <span style="font-size:0.46rem;color:#6b7280;">${matchCombos.length} variante${matchCombos.length>1?'s':''}</span>
+                            <span style="font-size:0.46rem;color:${allOk?'#16a34a':'#d97706'};">${allOk?'✅ todas configuradas':'⚠ faltan medidas'}</span>
+                        </div>
+                        ${mkMedidasInputs(pref)}
+                        <div style="padding:0 12px 8px;display:flex;flex-wrap:wrap;gap:4px;">`;
+                    matchCombos.forEach(combo => {
+                        const key = combo.join('|');
+                        const pkg = (variantesComboData[key]||{}).pkg;
+                        const ok = pkg&&(pkg.largo>0||pkg.peso>0);
+                        const med = ok ? `${pkg.largo}×${pkg.ancho}×${pkg.alto}cm ${pkg.peso}kg` : '⚠ sin medidas';
+                        html += `<button type="button" data-ind-key="${key}" style="font-size:0.47rem;padding:4px 9px;border-radius:8px;border:1px solid ${ok?'#86efac':'#fcd9b0'};background:${ok?'#dcfce7':'#fff8f0'};color:${ok?'#15803d':'#92400e'};cursor:pointer;line-height:1.5;" title="Clic para editar individualmente">${combo.join(' / ')}<br><span style="opacity:0.8;">${med}</span></button>`;
+                    });
+                    html += `</div></div>`;
+                });
+                res.innerHTML = html;
+
+                res.querySelectorAll('[data-ind-key]').forEach(btn => {
+                    btn.onclick = () => abrirPkgIndividual(btn.dataset.indKey, renderEmpaque);
+                });
+
+                res.querySelectorAll('[data-aplicar]').forEach(btn => {
+                    btn.onclick = () => {
+                        const pref = btn.dataset.aplicar;
+                        const vals = {};
+                        res.querySelectorAll(`[data-pref="${pref}"]`).forEach(inp => { vals[inp.dataset.pkg] = parseFloat(inp.value)||0; });
+                        if (!vals.largo && !vals.ancho && !vals.alto && !vals.peso) { alert('Ingresa al menos una medida.'); return; }
+                        const m = pref.match(/^t(\d+)v(\d+)$/);
+                        if (!m) return;
+                        const ti2 = parseInt(m[1]), vi2 = parseInt(m[2]);
+                        const val2 = tipos[ti2]?.valores[vi2];
+                        if (val2 === undefined) return;
+                        combos.forEach(combo => {
+                            if (combo[ti2] !== val2) return;
+                            const key = combo.join('|');
+                            if (!variantesComboData[key]) variantesComboData[key] = {};
+                            variantesComboData[key].pkg = { ...vals };
+                        });
+                        renderEmpaque();
+                    };
+                });
+            }
+
+            // Poblar selector de agrupación (ocultarlo si solo hay 1 tipo)
+            const selAgrupar = document.getElementById('prodPkgAgruparTipo');
+            const selAgruparWrap = selAgrupar?.closest('div[style*="display:flex"]');
+            if (selAgrupar) {
+                selAgrupar.innerHTML = tipos.map((t, i) => `<option value="${i}">${t.tipo}</option>`).join('');
+                selAgrupar.onchange = renderEmpaque;
+                // Ocultar el selector si solo hay un tipo de variante
+                const wrapSelector = document.getElementById('prodPkgAgruparTipo')?.parentElement;
+                if (wrapSelector) wrapSelector.style.display = tipos.length <= 1 ? 'none' : '';
+            }
+
+            renderEmpaque();
+        }
     };
 
     const validateProdCurrentStep = () => {
@@ -16988,24 +17339,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 return false;
             }
         }
-        if (cur.id === 'stock-compra') {
-            const nat = document.getElementById('prodFormTipo')?.value || 'stock';
-            if (['stock', 'fabricado', 'insumo'].includes(nat)) {
-                const pc = document.getElementById('prodFormPrecioCompra');
-                if (!pc?.value || Number(pc.value) <= 0) {
-                    pc?.focus();
-                    alert('El precio de compra es obligatorio y debe ser mayor a 0.');
-                    return false;
-                }
-            }
-        }
         if (cur.id === 'precios') {
             const nat = document.getElementById('prodFormTipo')?.value || 'stock';
-            if (nat === 'servicio') {
-                const pv = document.getElementById('prodFormVenta');
-                if (!pv?.value || Number(pv.value) <= 0) {
-                    pv?.focus();
-                    alert('El precio unitario es obligatorio para servicios y debe ser mayor a 0.');
+            const tieneVars = (typeof variantesDraft !== 'undefined') && variantesDraft.length > 0 && (typeof getVariantesCombinaciones === 'function') && getVariantesCombinaciones().length > 0;
+            if (!tieneVars) {
+                // Sin variantes: costo y precio obligatorios
+                if (['stock', 'fabricado', 'insumo'].includes(nat)) {
+                    const pc = document.getElementById('prodFormPrecioCompra');
+                    if (!pc?.value && pc?.value !== '0') {
+                        pc?.focus();
+                        alert('El costo de compra es obligatorio cuando el producto no tiene variantes.');
+                        return false;
+                    }
+                }
+                if (['stock', 'fabricado', 'insumo', 'servicio'].includes(nat)) {
+                    const pv = document.getElementById('prodFormVenta');
+                    if (!pv?.value || Number(pv.value) <= 0) {
+                        pv?.focus();
+                        alert('El precio de venta es obligatorio cuando el producto no tiene variantes.');
+                        return false;
+                    }
+                }
+            } else {
+                // Con variantes: verificar que al menos una tenga precio > 0
+                const precios = Object.values(variantesComboData).map(d => Number(d.precio||0)).filter(v => v > 0);
+                if (!precios.length) {
+                    alert('Define el precio de al menos una variante antes de continuar.');
+                    document.getElementById('prodFormVariantesBtn')?.click();
                     return false;
                 }
             }
@@ -17118,6 +17478,8 @@ document.addEventListener('DOMContentLoaded', () => {
     let calendarioAlertas = {};
     let calViewDate = new Date();
     let calSelectedDate = '';
+    let calRangeStart = '';
+    let calRangeEnd = '';
     let calScopeMode = 'selected';
     let calSearchTerm = '';
     let calUrgencyFilter = '';
@@ -19743,8 +20105,26 @@ document.addEventListener('DOMContentLoaded', () => {
             const cls = ['cal-day'];
             const iso = `${y}-${String(m + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
             const thisDate = new Date(y, m, d);
-            if (!calSelectedDate && thisDate.getTime() === today.getTime()) cls.push('today');
-            if (calSelectedDate && calSelectedDate === iso) cls.push('selected');
+            const rangeStartDate = calRangeStart ? parseISODateLocal(calRangeStart) : null;
+            const rangeEndDate = calRangeEnd ? parseISODateLocal(calRangeEnd) : null;
+            let rangeFrom = rangeStartDate;
+            let rangeTo = rangeEndDate;
+            if (rangeFrom && rangeTo && rangeFrom.getTime() > rangeTo.getTime()) {
+                [rangeFrom, rangeTo] = [rangeTo, rangeFrom];
+            }
+            if (calScopeMode === 'range' && rangeFrom && rangeTo) {
+                const ts = startOfDay(thisDate).getTime();
+                const startTs = startOfDay(rangeFrom).getTime();
+                const endTs = startOfDay(rangeTo).getTime();
+                if (ts >= startTs && ts <= endTs) {
+                    if (ts === startTs) cls.push('range-start');
+                    else if (ts === endTs) cls.push('range-end');
+                    else cls.push('in-range');
+                }
+            } else {
+                if (!calSelectedDate && thisDate.getTime() === today.getTime()) cls.push('today');
+                if (calSelectedDate && calSelectedDate === iso) cls.push('selected');
+            }
             cells.push(`<button type="button" class="${cls.join(' ')}" data-cal-date="${iso}"><div class="cal-topline"><span class="num">${d}</span>${count > 0 ? `<span class="cal-count-badge">${count}</span>` : ''}</div><div class="cal-dot-wrap">${dots}</div></button>`);
         }
 
@@ -19780,11 +20160,23 @@ document.addEventListener('DOMContentLoaded', () => {
                 const t = startOfDay(r.fechaEntregaDate).getTime();
                 return t >= today.getTime() && t <= plus15.getTime();
             });
-        } else if (calScopeMode === 'month') {
-            filtered = filtered.filter((r) => {
-                const d = r.fechaEntregaDate;
-                return d.getFullYear() === calViewDate.getFullYear() && d.getMonth() === calViewDate.getMonth();
-            });
+        } else if (calScopeMode === 'range') {
+            const start = calRangeStart ? parseISODateLocal(calRangeStart) : null;
+            const end = calRangeEnd ? parseISODateLocal(calRangeEnd) : null;
+            if (start && end) {
+                const startTs = startOfDay(start).getTime();
+                const endTs = startOfDay(end).getTime();
+                const from = startTs <= endTs ? startTs : endTs;
+                const to = startTs <= endTs ? endTs : startTs;
+                filtered = filtered.filter((r) => {
+                    const t = startOfDay(r.fechaEntregaDate).getTime();
+                    return t >= from && t <= to;
+                });
+            } else if (start) {
+                filtered = filtered.filter((r) => String(r.fechaEntrega || '').slice(0, 10) === calRangeStart);
+            } else {
+                filtered = [];
+            }
         } else if (calScopeMode === 'overdue') {
             filtered = filtered.filter((r) => Number(r.daysLeft) < 0);
         }
@@ -19831,36 +20223,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const emB = parseISODateLocal(b.fechaEmitida || '')?.getTime() || 0;
             return emA - emB;
         });
-
-        if (calFiltroFecha) {
-            if (calScopeMode === 'selected' && calSelectedDate) {
-                calFiltroFecha.style.display = 'inline-flex';
-                const d = parseISODateLocal(calSelectedDate);
-                const txt = d ? d.toLocaleDateString('es-MX') : calSelectedDate;
-                if (calFiltroFechaText) calFiltroFechaText.textContent = `Filtrado: ${txt}`;
-            } else if (calScopeMode === 'today') {
-                calFiltroFecha.style.display = 'inline-flex';
-                if (calFiltroFechaText) calFiltroFechaText.textContent = 'Filtrado: solo hoy';
-            } else if (calScopeMode === 'week') {
-                calFiltroFecha.style.display = 'inline-flex';
-                if (calFiltroFechaText) calFiltroFechaText.textContent = 'Filtrado: próximos 7 días';
-            } else if (calScopeMode === 'next15') {
-                calFiltroFecha.style.display = 'inline-flex';
-                if (calFiltroFechaText) calFiltroFechaText.textContent = 'Filtrado: próximos 15 días';
-            } else if (calScopeMode === 'month') {
-                calFiltroFecha.style.display = 'inline-flex';
-                if (calFiltroFechaText) {
-                    const txt = new Date(calViewDate.getFullYear(), calViewDate.getMonth(), 1)
-                        .toLocaleDateString('es-MX', { month: 'long', year: 'numeric' });
-                    calFiltroFechaText.textContent = `Filtrado: ${txt}`;
-                }
-            } else if (calScopeMode === 'overdue') {
-                calFiltroFecha.style.display = 'inline-flex';
-                if (calFiltroFechaText) calFiltroFechaText.textContent = 'Filtrado: solo vencidos';
-            } else {
-                calFiltroFecha.style.display = 'none';
-            }
-        }
 
         if (!filtered.length) {
             calListaBody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#6b7280;padding:14px;">No hay pedidos para esta vista.</td></tr>';
@@ -19953,6 +20315,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (calScopeMode === 'overdue') return 'Solo vencidos';
         if (calScopeMode === 'all') return 'Todos pendientes';
+        if (calScopeMode === 'range' && calRangeStart && calRangeEnd) {
+            const start = parseISODateLocal(calRangeStart);
+            const end = parseISODateLocal(calRangeEnd);
+            if (start && end) {
+                const s = start.toLocaleDateString('es-MX', { day: '2-digit', month: 'short' });
+                const e = end.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
+                return `${s} — ${e}`;
+            }
+        }
         if (calSelectedDate) {
             const d = parseISODateLocal(calSelectedDate);
             if (d) return d.toLocaleDateString('es-MX', { day: '2-digit', month: 'short', year: 'numeric' });
@@ -19961,8 +20332,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const syncCalendarioMiniControl = () => {
-        if (calFechaMiniLabel) calFechaMiniLabel.textContent = getCalendarioMiniLabel();
-        if (calScopeSelect) calScopeSelect.value = calScopeMode || 'selected';
+        if (calScopeSelect) calScopeSelect.value = calScopeMode === 'range' ? 'selected' : (calScopeMode || 'selected');
         document.querySelectorAll('.cal-mini-quick').forEach((btn) => {
             btn.classList.toggle('active', String(btn.dataset.calMiniScope || '') === String(calScopeMode || ''));
         });
@@ -20036,6 +20406,8 @@ document.addEventListener('DOMContentLoaded', () => {
         calViewDate = new Date();
         calMiniViewDate = new Date();
         calSelectedDate = todayISO();
+        calRangeStart = '';
+        calRangeEnd = '';
         calScopeMode = 'selected';
         calSearchTerm = '';
         calUrgencyFilter = '';
@@ -20043,7 +20415,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (calScopeSelect) calScopeSelect.value = calScopeMode;
         if (calSearchInput) calSearchInput.value = calSearchTerm;
         if (calProductoSelect) { calProductoSelect.innerHTML = '<option value="">— Todos los productos —</option>'; }
-        document.querySelectorAll('.cal-urgency-btn').forEach((b) => b.classList.toggle('active', b.dataset.calUrgency === ''));
+        if (calUrgencySelect) calUrgencySelect.value = '';
         closeCalendarioMiniPopup();
         popupCalendario.style.display = 'flex';
         popupCalendario.setAttribute('aria-hidden', 'false');
@@ -24058,7 +24430,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     foto: String(c.foto || '')
                 })).filter((c) => c.color) : [],
                 gfCobroTipo: row.gfCobroTipo === 'm-lineal' ? 'm-lineal' : 'm2',
-                gfAjusteAncho: ['metro', 'medio', 'sin'].includes(row.gfAjusteAncho) ? row.gfAjusteAncho : 'sin',
+                gfAjusteAncho: ['material', 'sin'].includes(row.gfAjusteAncho) ? row.gfAjusteAncho : 'sin',
                 gfPrecioGeneralM2: Math.max(0, Number(row.gfPrecioGeneralM2 || 0)),
                 gfPrecioRevM2: Math.max(0, Number(row.gfPrecioRevM2 || 0)),
                 gfPrecioGeneralML: Math.max(0, Number(row.gfPrecioGeneralML || 0)),
@@ -24612,6 +24984,7 @@ document.addEventListener('DOMContentLoaded', () => {
         variantesDraft = [];
         variantesComboData = {};
         if (typeof updateVariantesResumen === "function") updateVariantesResumen();
+        if (typeof syncVariantesCostoPrecio === "function") syncVariantesCostoPrecio();
         if (prodFormTitulo) prodFormTitulo.textContent = 'Agregar producto';
         if (prodFormCodigo) prodFormCodigo.value = '';
         if (prodFormTipo) prodFormTipo.value = 'stock';
@@ -24623,9 +24996,12 @@ document.addEventListener('DOMContentLoaded', () => {
         umPopulateSelectByGroup(document.getElementById('prodFormUMCompra'), defaultGrupo);
         umPopulateSelectByGroup(document.getElementById('prodFormUMVenta'), defaultGrupo);
         if (prodFormMaterial) prodFormMaterial.value = '';
-        if (prodFormMinima) prodFormMinima.value = String(Number(getConfigValue('productos', 'alertaBajaExistencia') || 0));
+        if (prodFormMinima) prodFormMinima.value = '0';
         if (prodFormExistencias) prodFormExistencias.value = '0';
         if (prodFormPrecioCompra) prodFormPrecioCompra.value = '0';
+        ['prodFormPkgLargo','prodFormPkgAncho','prodFormPkgAlto','prodFormPkgPeso'].forEach(id => { const el = document.getElementById(id); if (el) el.value = '0'; });
+        const _pkgVol = document.getElementById('prodFormPkgVol'); if (_pkgVol) _pkgVol.value = '0';
+        const _pkgInfo = document.getElementById('prodFormPkgVolInfo'); if (_pkgInfo) _pkgInfo.textContent = 'Peso volumétrico: 0 kg (÷5000)';
         { const psel = document.getElementById('prodFormProcesos'); if (psel) Array.from(psel.options).forEach(o => o.selected = false); }
         { const dp = document.getElementById('prodFormDesgastePorUso'); if (dp) dp.value = '1'; }
         if (prodFormProveedor) prodFormProveedor.value = '';
@@ -24667,6 +25043,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prodGfCostoML) prodGfCostoML.value = '0';
         if (prodGfAjusteAncho) prodGfAjusteAncho.value = 'sin';
         if (prodGfAjusteAlto) prodGfAjusteAlto.value = 'sin';
+        if (prodGfAnchoMaterial) prodGfAnchoMaterial.value = '';
+        if (prodGfAltoMaterial) prodGfAltoMaterial.value = '';
         gfTabuladorDraft = [];
         if (prodFormRevendedor) prodFormRevendedor.value = '0';
         if (prodFormVenta) prodFormVenta.value = '0';
@@ -24757,6 +25135,8 @@ document.addEventListener('DOMContentLoaded', () => {
         if (prodGfCostoML) prodGfCostoML.value = String(Number(row.gfCostoML || 0));
         if (prodGfAjusteAncho) prodGfAjusteAncho.value = row.gfAjusteAncho || 'sin';
         if (prodGfAjusteAlto) prodGfAjusteAlto.value = row.gfAjusteAlto || 'sin';
+        if (prodGfAnchoMaterial) prodGfAnchoMaterial.value = row.gfAnchoMaterial != null ? String(row.gfAnchoMaterial) : '';
+        if (prodGfAltoMaterial) prodGfAltoMaterial.value = row.gfAltoMaterial != null ? String(row.gfAltoMaterial) : '';
         gfTabuladorDraft = Array.isArray(row.gfTabuladorRangos) ? row.gfTabuladorRangos.map(r => ({...r})) : [];
         if (prodFormRevendedor) prodFormRevendedor.value = String(Number(row.precioRevendedor || 0));
         if (prodFormVenta) prodFormVenta.value = String(Number(row.precioVenta || 0));
@@ -24764,12 +25144,18 @@ document.addEventListener('DOMContentLoaded', () => {
         _prodPrecioVentaTocado = Number(row.precioVenta || 0) > 0;
         const _prodIvaCheck = document.getElementById('prodFormIncluyeIVA');
         if (_prodIvaCheck) _prodIvaCheck.checked = !!row.incluyeIVA;
+        const _setPkg = (id, val) => { const el = document.getElementById(id); if (el) el.value = String(Number(val||0)); };
+        _setPkg('prodFormPkgLargo', row.pkgLargo);
+        _setPkg('prodFormPkgAncho', row.pkgAncho);
+        _setPkg('prodFormPkgAlto',  row.pkgAlto);
+        _setPkg('prodFormPkgPeso',  row.pkgPeso);
         if (prodFormFotoPrincipal) prodFormFotoPrincipal.value = '';
         prodMainPhotoData = row.fotoPrincipal || '';
         prodColorDraftList = Array.isArray(row.coloresSubproductos) ? row.coloresSubproductos.map((c) => ({ ...c })) : [];
         variantesDraft = Array.isArray(row.variantes) ? row.variantes.map(t => ({tipo: t.tipo, valores: [...(t.valores||[])]})) : [];
         variantesComboData = (row.variantesCombo && typeof row.variantesCombo === "object") ? JSON.parse(JSON.stringify(row.variantesCombo)) : {};
         if (typeof updateVariantesResumen === "function") updateVariantesResumen();
+        if (typeof syncVariantesCostoPrecio === "function") syncVariantesCostoPrecio();
         prodPendingTabuladorId = row.tabuladorId || '';
         prodPendingTabuladorPrecios = Array.isArray(row.tabuladorDetalle) ? row.tabuladorDetalle.map((r) => ({
             precioRevendedor: Math.max(0, Number(r.precioRevendedor || 0)),
@@ -24812,8 +25198,10 @@ document.addEventListener('DOMContentLoaded', () => {
             variantes: variantesDraft.map(t => ({tipo: t.tipo, valores: [...t.valores]})),
             variantesCombo: typeof variantesComboData !== "undefined" ? JSON.parse(JSON.stringify(variantesComboData)) : {},
             gfCobroTipo: prodGfCobroTipo?.value === 'm-lineal' ? 'm-lineal' : 'm2',
-            gfAjusteAncho: ['metro', 'medio', 'sin'].includes(prodGfAjusteAncho?.value || '') ? prodGfAjusteAncho.value : 'sin',
-            gfAjusteAlto: ['metro', 'medio', 'sin'].includes(prodGfAjusteAlto?.value || '') ? prodGfAjusteAlto.value : 'sin',
+            gfAjusteAncho: ['material', 'sin'].includes(prodGfAjusteAncho?.value || '') ? prodGfAjusteAncho.value : 'sin',
+            gfAjusteAlto: ['material', 'sin'].includes(prodGfAjusteAlto?.value || '') ? prodGfAjusteAlto.value : 'sin',
+            gfAnchoMaterial: prodGfAnchoMaterial?.value !== '' ? Math.max(0, Number(prodGfAnchoMaterial.value)) : null,
+            gfAltoMaterial: prodGfAltoMaterial?.value !== '' ? Math.max(0, Number(prodGfAltoMaterial.value)) : null,
             gfTabuladorRangos: gfTabuladorDraft.map(r => ({...r})),
             gfPrecioGeneralM2: Math.max(0, Number(prodGfPrecioGeneralM2?.value || 0)),
             gfPrecioRevM2: Math.max(0, Number(prodGfPrecioRevM2?.value || 0)),
@@ -24831,6 +25219,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ubiNivel: (document.getElementById('prodFormUbiNivel')?.value || '').trim().toUpperCase(),
             ubiContenedor: (document.getElementById('prodFormUbiContenedor')?.value || '').trim().toUpperCase(),
             notasInternas: String(document.getElementById('prodFormNotasInternas')?.value || '').trim(),
+            pkgLargo: Math.max(0, Number(document.getElementById('prodFormPkgLargo')?.value || 0)),
+            pkgAncho: Math.max(0, Number(document.getElementById('prodFormPkgAncho')?.value || 0)),
+            pkgAlto:  Math.max(0, Number(document.getElementById('prodFormPkgAlto')?.value  || 0)),
+            pkgPeso:  Math.max(0, Number(document.getElementById('prodFormPkgPeso')?.value  || 0)),
             activo: document.getElementById('prodFormActivo')?.checked !== false,
             muestrarioAsociado: document.getElementById('prodFormMuestrarioAsociado')?.value || '',
             revisionesGratis: Math.max(0, Number(document.getElementById('prodFormRevisionesGratis')?.value || 2)),
@@ -24880,12 +25272,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         if (vacioMsg) vacioMsg.style.display = 'none';
         body.innerHTML = gfTabuladorDraft.map((row, i) => `
-            <tr style="border-bottom:1px solid #f3f4f6;">
-                <td style="padding:3px 6px;"><input type="number" min="0" step="0.01" value="${row.minM || 0}" data-gftab-min="${i}" style="width:70px;font-size:0.65rem;"></td>
-                <td style="padding:3px 6px;"><input type="number" min="0" step="0.01" value="${row.maxM != null ? row.maxM : ''}" placeholder="∞" data-gftab-max="${i}" style="width:70px;font-size:0.65rem;"></td>
-                <td style="padding:3px 6px;"><input type="number" min="0" step="0.01" value="${row.precioGeneral || 0}" data-gftab-gen="${i}" style="width:80px;font-size:0.65rem;"></td>
-                <td style="padding:3px 6px;"><input type="number" min="0" step="0.01" value="${row.precioRevendedor || 0}" data-gftab-rev="${i}" style="width:80px;font-size:0.65rem;"></td>
-                <td style="padding:3px 6px;"><button type="button" onclick="gfTabEliminarRango(${i})" style="font-size:0.6rem;padding:2px 7px;background:#fee2e2;color:#dc2626;border:none;border-radius:4px;cursor:pointer;">✕</button></td>
+            <tr style="border-bottom:1px solid #e5e7eb;background:${i%2===0?'#fff':'#f9fafb'};">
+                <td style="padding:5px 6px;"><input type="number" min="0" step="0.01" value="${row.minM || 0}" data-gftab-min="${i}" style="width:74px;font-size:0.68rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;color:#111827;background:#fff;"></td>
+                <td style="padding:5px 6px;"><input type="number" min="0" step="0.01" value="${row.maxM != null ? row.maxM : ''}" placeholder="∞" data-gftab-max="${i}" style="width:74px;font-size:0.68rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;color:#111827;background:#fff;"></td>
+                <td style="padding:5px 6px;"><input type="number" min="0" step="0.01" value="${row.precioGeneral || 0}" data-gftab-gen="${i}" style="width:84px;font-size:0.68rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;color:#111827;background:#fff;"></td>
+                <td style="padding:5px 6px;"><input type="number" min="0" step="0.01" value="${row.precioRevendedor || 0}" data-gftab-rev="${i}" style="width:84px;font-size:0.68rem;padding:4px 6px;border:1px solid #d1d5db;border-radius:5px;color:#111827;background:#fff;"></td>
+                <td style="padding:5px 6px;"><button type="button" onclick="gfTabEliminarRango(${i})" style="font-size:0.62rem;padding:3px 8px;background:#fee2e2;color:#dc2626;border:1px solid #fca5a5;border-radius:5px;cursor:pointer;font-weight:700;">✕</button></td>
             </tr>
         `).join('');
     };
@@ -25093,6 +25485,8 @@ document.addEventListener('DOMContentLoaded', () => {
         var estanteCfg = getAjustesAlmacenCfg();
         var nivelActivo = 1;
         var dragSrcId = null;
+        var initialRackHeight = null;
+        var initialRackWidth = null;
 
         function renderNiveles(){
             var panel = document.getElementById('almfNivelesPanel'); if(!panel) return;
@@ -25126,8 +25520,10 @@ document.addEventListener('DOMContentLoaded', () => {
             var gridWrap = grid.parentElement;
             var wrapW = Math.max(520, Number(gridWrap?.clientWidth || 900));
             var wrapH = Math.max(360, Number(gridWrap?.clientHeight || 560));
-            var rackWidth = Math.max(34, Math.floor((wrapW - 68 - (estanteCfg.racks * 4)) / Math.max(estanteCfg.racks, 1)));
-            var rackHeight = Math.max(44, Math.floor((wrapH - 40 - (estanteCfg.pasillos * 4)) / Math.max(estanteCfg.pasillos, 1)));
+            if (!initialRackWidth) initialRackWidth = Math.max(34, Math.floor((wrapW - 68 - (estanteCfg.racks * 4)) / Math.max(estanteCfg.racks, 1)));
+            if (!initialRackHeight) initialRackHeight = Math.max(44, Math.floor((wrapH - 40 - (estanteCfg.pasillos * 4)) / Math.max(estanteCfg.pasillos, 1)));
+            var rackWidth = initialRackWidth;
+            var rackHeight = initialRackHeight;
             var html = '<table style="border-collapse:separate;border-spacing:4px;width:100%;max-width:100%;table-layout:fixed;">';
             html += '<tr><td style="width:56px;font-size:0.48rem;color:#9ca3af;padding:2px 4px;font-weight:700;">PASILLO</td>';
             for(var r = 1; r <= estanteCfg.racks; r++){
@@ -27774,18 +28170,28 @@ document.addEventListener('DOMContentLoaded', () => {
             if (!btn) return;
             const date = String(btn.dataset.calDate || '').trim();
             if (!date) return;
-            calSelectedDate = date;
-            calScopeMode = 'selected';
-            if (calScopeSelect) calScopeSelect.value = 'selected';
+            if (calRangeStart && calRangeEnd) {
+                calRangeStart = date;
+                calRangeEnd = '';
+                calSelectedDate = date;
+                calScopeMode = 'selected';
+            } else if (calRangeStart && !calRangeEnd) {
+                if (calRangeStart === date) {
+                    calSelectedDate = date;
+                    calScopeMode = 'selected';
+                } else {
+                    calRangeEnd = date;
+                    calSelectedDate = '';
+                    calScopeMode = 'range';
+                }
+            } else {
+                calRangeStart = date;
+                calRangeEnd = '';
+                calSelectedDate = date;
+                calScopeMode = 'selected';
+            }
+            if (calScopeSelect) calScopeSelect.value = calScopeMode === 'range' ? 'selected' : calScopeMode;
             calMiniViewDate = parseISODateLocal(date) || new Date();
-            renderCalendarioUI();
-        });
-    }
-
-    if (calClearFilter) {
-        calClearFilter.addEventListener('click', () => {
-            calScopeMode = 'all';
-            if (calScopeSelect) calScopeSelect.value = 'all';
             renderCalendarioUI();
         });
     }
@@ -27895,13 +28301,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    document.querySelectorAll('.cal-urgency-btn').forEach((btn) => {
-        btn.addEventListener('click', () => {
-            calUrgencyFilter = String(btn.dataset.calUrgency || '');
-            document.querySelectorAll('.cal-urgency-btn').forEach((b) => b.classList.toggle('active', b.dataset.calUrgency === calUrgencyFilter));
+    if (calUrgencySelect) {
+        calUrgencySelect.addEventListener('change', () => {
+            calUrgencyFilter = String(calUrgencySelect.value || '').trim();
             renderCalendarioUI();
         });
-    });
+    }
 
     if (calListaBody) {
         calListaBody.addEventListener('click', (ev) => {
@@ -29096,14 +29501,27 @@ document.addEventListener('DOMContentLoaded', () => {
         renderVariantesTipos();
         renderVariantesTabla();
         updateVariantesBadges();
+        syncVariantesCostoPrecio();
     }
 
-    // Click outside types list collapses accordion
+    // Click outside types list collapses accordion — but NOT when clicking inside the preview table or controls
     if (popupVariantes) {
         popupVariantes.addEventListener("click", (e) => {
             const tiposLista = document.getElementById("varianteTiposLista");
             const tipoInput = document.getElementById("varianteNuevoTipo");
-            if (tiposLista && !tiposLista.contains(e.target) && e.target !== tipoInput && varianteTipoExpandido !== -1) {
+            const vistaPrevia = document.getElementById("varianteVistaPrevia");
+            const agruparSel = document.getElementById("varianteAgruparPor");
+            const guardarBtn = document.getElementById("varianteGuardar");
+            const cancelarBtn = document.getElementById("varianteCancelar");
+            const isInsideControls = (
+                (tiposLista && tiposLista.contains(e.target)) ||
+                e.target === tipoInput ||
+                (vistaPrevia && vistaPrevia.contains(e.target)) ||
+                e.target === agruparSel ||
+                e.target === guardarBtn ||
+                e.target === cancelarBtn
+            );
+            if (!isInsideControls && varianteTipoExpandido !== -1) {
                 varianteTipoExpandido = -1;
                 renderVariantesTipos();
             }
@@ -29132,14 +29550,15 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!cont) return;
         cont.querySelectorAll("tr[data-combo-key]").forEach(tr => {
             const key = tr.dataset.comboKey;
-            const fotoInput = tr.querySelector(".vc-foto");
             const existing = variantesComboData[key] || {};
             variantesComboData[key] = {
                 costo: Number(tr.querySelector(".vc-costo")?.value || 0),
                 precio: Number(tr.querySelector(".vc-precio")?.value || 0),
                 stock: Number(tr.querySelector(".vc-stock")?.value || 0),
                 foto: existing.foto || "",
-                codigoVar: tr.querySelector(".vc-codigo")?.value || existing.codigoVar || ""
+                codigoVar: tr.querySelector(".vc-codigo")?.value || existing.codigoVar || "",
+                umCompra: existing.umCompra || document.getElementById('prodFormUMCompra')?.value || "",
+                pkg: existing.pkg || null
             };
         });
     }
@@ -29193,6 +29612,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // Toggle accordion
         cont.querySelectorAll(".varianteTipoHeader").forEach(hdr => {
             hdr.onclick = (e) => {
+                e.stopPropagation();
                 if (e.target.closest(".varianteRemoveTipo")) return;
                 const ti = Number(hdr.dataset.tipo);
                 varianteTipoExpandido = (varianteTipoExpandido === ti) ? -1 : ti;
@@ -29228,9 +29648,10 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 50);
         }
         cont.querySelectorAll(".varianteAddVal").forEach(btn => {
-            btn.onclick = () => addValForTipo(btn.dataset.tipo);
+            btn.onclick = (e) => { e.stopPropagation(); addValForTipo(btn.dataset.tipo); };
         });
         cont.querySelectorAll(".varianteNuevoValor").forEach(input => {
+            input.addEventListener("click", (e) => e.stopPropagation());
             input.addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); addValForTipo(input.dataset.tipo); } });
         });
     }
@@ -29262,8 +29683,9 @@ document.addEventListener('DOMContentLoaded', () => {
         headers.forEach(h => { html += `<th style="padding:7px 8px;text-align:left;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;">${prodEscape(h)}</th>`; });
         html += '<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:110px;">Código</th>';
         html += '<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:44px;">Foto</th>';
-        html += '<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:78px;">Costo</th>';
-        html += '<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:78px;">Precio</th>';
+        const baseUMLbl = document.getElementById('prodFormUMCompra')?.value || '';
+        html += `<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:82px;">Costo<span style="display:block;font-size:0.44rem;font-weight:600;color:#f07a00;text-transform:none;">${baseUMLbl ? '/ '+baseUMLbl : ''}</span></th>`;
+        html += `<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:82px;">Precio<span style="display:block;font-size:0.44rem;font-weight:600;color:#f07a00;text-transform:none;">${baseUMLbl ? '/ '+baseUMLbl : ''}</span></th>`;
         html += '<th style="padding:7px 8px;text-align:center;font-size:0.54rem;font-weight:800;color:#6b7280;text-transform:uppercase;letter-spacing:.4px;border-bottom:2px solid #f07a00;position:sticky;top:0;background:#fff;z-index:1;width:64px;">Stock</th>';
         html += '</tr></thead><tbody>';
         const sorted = [...combos].sort((a, b) => (a[groupIdx] || "").localeCompare(b[groupIdx] || ""));
@@ -29302,6 +29724,16 @@ document.addEventListener('DOMContentLoaded', () => {
             rowNum++;
         });
         html += '</tbody></table>';
+        // Pie: promedio de costos de variantes (solo informativo, no toca el campo general)
+        const costosPie = Object.values(variantesComboData).map(d => Number(d.costo||0)).filter(v => v > 0);
+        if (costosPie.length) {
+            const prom = (costosPie.reduce((a,b)=>a+b,0)/costosPie.length).toFixed(2);
+            html += `<div style="padding:6px 10px;background:#fff8f0;border-top:2px solid #f07a00;font-size:0.55rem;color:#92400e;display:flex;align-items:center;gap:6px;">
+                <span style="font-weight:800;">Promedio de costo de variantes:</span>
+                <span id="vcCostoPromedio" style="font-weight:900;color:#d76700;">$${prom}</span>
+                <span style="color:#9ca3af;">(el campo "Precio de compra" del producto puede quedar en 0)</span>
+            </div>`;
+        }
         cont.innerHTML = html;
         cont.querySelectorAll(".vc-foto").forEach(input => {
             input.addEventListener("change", (e) => {
@@ -29320,6 +29752,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 reader.readAsDataURL(file);
             });
         });
+
+
+        // Actualizar promedio del pie en tiempo real sin tocar el campo general
+        function recalcPromedioPie() {
+            const costos = [...cont.querySelectorAll('tr[data-combo-key] .vc-costo')]
+                .map(i => parseFloat(i.value || 0)).filter(v => v > 0);
+            const el = cont.querySelector('#vcCostoPromedio');
+            if (!el) return;
+            if (costos.length) {
+                const prom = (costos.reduce((a,b)=>a+b,0)/costos.length).toFixed(2);
+                el.textContent = '$' + prom;
+            }
+        }
+        cont.querySelectorAll('.vc-costo').forEach(input => {
+            input.addEventListener('input', recalcPromedioPie);
+        });
     }
 
     function updateVariantesResumen() {
@@ -29327,6 +29775,36 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!variantesDraft.length) { variantesResumen.textContent = "Sin variantes configuradas"; return; }
         const combos = getVariantesCombinaciones();
         variantesResumen.textContent = variantesDraft.map(t => `${t.tipo}: ${t.valores.length}`).join(" | ") + ` (${combos.length} combinaciones)`;
+    }
+
+    function syncVariantesCostoPrecio() {
+        const tieneVariantes = variantesDraft.length > 0 && getVariantesCombinaciones().length > 0;
+        const costoInput  = document.getElementById('prodFormPrecioCompra');
+        const costoAviso  = document.getElementById('prodFormPrecioCompraAviso');
+        const ventaInput  = document.getElementById('prodFormVenta');
+        const ventaAviso  = document.getElementById('prodFormVentaAviso');
+        const revInput    = document.getElementById('prodFormRevendedor');
+        const revAviso    = document.getElementById('prodFormRevendedorAviso');
+
+        if (tieneVariantes) {
+            // Calcular promedio de costos de variantes y ponerlo en el campo (puede ser 0)
+            const costos = Object.values(variantesComboData).map(d => Number(d.costo||0)).filter(v => v > 0);
+            const prom = costos.length ? +(costos.reduce((a,b)=>a+b,0)/costos.length).toFixed(4) : 0;
+            if (costoInput) { costoInput.value = prom; costoInput.readOnly = true; costoInput.style.background = '#f3f4f6'; costoInput.style.color = '#6b7280'; }
+            if (costoAviso) costoAviso.style.display = 'block';
+            if (ventaInput) { ventaInput.value = 0; ventaInput.readOnly = true; ventaInput.style.background = '#f3f4f6'; ventaInput.style.color = '#6b7280'; }
+            if (ventaAviso) ventaAviso.style.display = 'block';
+            if (revInput)   { revInput.value = 0; revInput.readOnly = true; revInput.style.background = '#f3f4f6'; revInput.style.color = '#6b7280'; }
+            if (revAviso)   revAviso.style.display = 'block';
+        } else {
+            // Sin variantes: campos libres
+            if (costoInput) { costoInput.readOnly = false; costoInput.style.background = ''; costoInput.style.color = ''; }
+            if (costoAviso) costoAviso.style.display = 'none';
+            if (ventaInput) { ventaInput.readOnly = false; ventaInput.style.background = ''; ventaInput.style.color = ''; }
+            if (ventaAviso) ventaAviso.style.display = 'none';
+            if (revInput)   { revInput.readOnly = false; revInput.style.background = ''; revInput.style.color = ''; }
+            if (revAviso)   revAviso.style.display = 'none';
+        }
     }
 
     if (variantesBtn) variantesBtn.addEventListener("click", openVariantesPopup);
@@ -29366,7 +29844,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const varianteGuardar = document.getElementById("varianteGuardar");
     if (varianteGuardar) varianteGuardar.addEventListener("click", () => {
         saveComboDataFromTable();
+        // Validar que todas las variantes tengan precio > 0
+        const sinPrecio = Object.entries(variantesComboData).filter(([k,d]) => {
+            // solo keys que corresponden a combinaciones actuales
+            const combos = getVariantesCombinaciones();
+            return combos.some(c => comboKey(c) === k) && !(Number(d.precio||0) > 0);
+        });
+        if (sinPrecio.length) {
+            alert('Todas las variantes deben tener un precio mayor a 0 antes de guardar.\n\nVariantes sin precio: ' + sinPrecio.length);
+            return;
+        }
         updateVariantesResumen();
+        syncVariantesCostoPrecio();
         closeVariantesPopup();
     });
 
@@ -31985,6 +32474,410 @@ body { font-family: Arial, Helvetica, sans-serif; display: flex; flex-direction:
             saveConfiguracionesFromPopup();
         });
     }
+
+    // ── DATOS DEMO ──────────────────────────────────────────────────────────
+    const DEMO_CONFIG = {
+        // CAJA
+        configCajaNombre: 'Caja Principal',
+        configCajaId: 'CAJA-001',
+        configCajaMoneda: 'MXN',
+        configCajaCorteAutomatico: 'diario',
+        configCajaBancoReceptor: 'BBVA Bancomer',
+        configCajaCuentasBeneficiario: 'Impresiones Vistas SA\n4152 3131 9988 7766\nCLABE: 012180015226575897',
+        configCajaDisenadores: 'Ana López\nCarlos García\nMarta Ruiz',
+        configCajaFondoMinimo: '500',
+        configCajaFuentePredeterminada: 'efectivo',
+        configCajaMetodoEfectivo: true,
+        configCajaMetodoTarjeta: true,
+        configCajaMetodoTransferencia: true,
+        configCajaMetodoDeposito: false,
+        configCajaPermitirIngresoManual: true,
+        configCajaPermitirGastos: true,
+        // CLIENTES
+        configClientesCategoriaPorDefecto: 'regular',
+        configClientesCreditoMaximo: '5000',
+        configClientesAlertaBajaExistencia: '3',
+        configClientesAceptarOrdenesSinCliente: true,
+        // PRODUCTOS
+        configProductosUnidadPorDefecto: 'pieza',
+        configProductosMargenPorDefecto: '35',
+        configProductosAlertaBajaExistencia: '5',
+        configProductosActualizarPreciosAutomatico: true,
+        // PROVEEDORES
+        configProveedoresDiasCredito: '30',
+        configProveedoresMonedaPorDefecto: 'MXN',
+        configProveedoresAlertaSaldoPendiente: '1000',
+        configProveedoresAceptarSinEntre: false,
+        // INSUMOS
+        configInsumosUnidadPorDefecto: 'kg',
+        configInsumosStockMinimoAlerta: '10',
+        configInsumosAceptarComprasConStock: true,
+        configInsumosMostrarCostoProduccion: true,
+        // ALMACÉN
+        configAlmacenPasillos: '4',
+        configAlmacenRacks: '8',
+        configAlmacenNiveles: '5',
+        configAlmacenContenedores: '3',
+        configAlmacenStockMinimoAlerta: '20',
+        configAlmacenAceptarStockNegativo: false,
+        configAlmacenOverstockAlerta: true,
+        // REPORTES
+        configReportesRangoPorDefecto: 'mes',
+        configReportesFormatoMoneda: 'MXN',
+        configReportesAccion1: true,
+        configReportesAccion2: true,
+        // REPARTO
+        configRepartoSucursalNombre: 'Sucursal Centro',
+        configRepartoSucursalLat: '19.432608',
+        configRepartoSucursalLng: '-99.133209',
+        configRepartoSucursalMaps: 'https://maps.google.com/?q=19.432608,-99.133209',
+        configRepartoRutaEficiente: true,
+        configRepartoSoloVentasAdmin: false,
+        // CHECKPOINTS
+        configCheckpointTallerLat: '19.428000',
+        configCheckpointTallerLng: '-99.145000',
+        configCheckpointTallerQR: 'QR-TALLER-001',
+        configCheckpointTallerMaps: 'https://maps.google.com/?q=19.428000,-99.145000',
+        configCheckpointSucursalLat: '19.432608',
+        configCheckpointSucursalLng: '-99.133209',
+        configCheckpointSucursalQR: 'QR-SUC-001',
+        configCheckpointSucursalMaps: 'https://maps.google.com/?q=19.432608,-99.133209',
+        configCheckpointRadio: '150',
+        configParadaMinutos: '5',
+    };
+
+    function _demoDate(offsetDays) {
+        const d = new Date(); d.setDate(d.getDate() + (offsetDays||0)); return d.toISOString();
+    }
+    function _demoDateStr(offsetDays) {
+        const d = new Date(); d.setDate(d.getDate() + (offsetDays||0));
+        return d.toISOString().slice(0,10);
+    }
+
+    const DEMO_LOCALSTORAGE = {
+
+        // ── CLIENTES ────────────────────────────────────────────────────────
+        mock_clientes_modulo_v1: JSON.stringify([
+            { id:'CLI001', nombre:'María González', empresa:'', telefono:'5551234567', correo:'maria@demo.com', calle:'Av. Insurgentes', colonia:'Col. Roma', numero:'123', pais:'Mexico', ciudad:'CDMX', estado:'CDMX', cp:'06700', razonSocial:'', rfc:'GOMA800101AB1', referenciaBancaria:'', tipoCliente:'Público en general', deshabilitado:false, ubiDomicilio:'Av. Insurgentes 123, Col. Roma, CDMX', ubiNegocio:'Paseo de la Reforma 222, CDMX', ubiPuntoMedio:'', puntosMedios:[] },
+            { id:'CLI002', nombre:'Juan Pérez López', empresa:'', telefono:'5559876543', correo:'juan@demo.com', calle:'Calle Madero', colonia:'Col. Centro', numero:'45', pais:'Mexico', ciudad:'CDMX', estado:'CDMX', cp:'06000', razonSocial:'', rfc:'', referenciaBancaria:'', tipoCliente:'Público en general', deshabilitado:false, ubiDomicilio:'Calle Madero 45, Col. Centro, CDMX', ubiNegocio:'', ubiPuntoMedio:'', puntosMedios:[] },
+            { id:'CLI003', nombre:'El Buen Sabor', empresa:'Restaurante El Buen Sabor SA', telefono:'5553216540', correo:'elbuen@demo.com', calle:'Calle Donceles', colonia:'Col. Centro', numero:'80', pais:'Mexico', ciudad:'CDMX', estado:'CDMX', cp:'06010', razonSocial:'Restaurante El Buen Sabor SA de CV', rfc:'EBS910505XYZ', referenciaBancaria:'', tipoCliente:'Mayorista', deshabilitado:false, ubiDomicilio:'', ubiNegocio:'Calle Donceles 80, Col. Centro, CDMX', ubiPuntoMedio:'', puntosMedios:[] },
+            { id:'CLI004', nombre:'Lupita Torres', empresa:'', telefono:'5554445566', correo:'lupita@demo.com', calle:'Eje Central', colonia:'Col. Doctores', numero:'300', pais:'Mexico', ciudad:'CDMX', estado:'CDMX', cp:'06720', razonSocial:'', rfc:'', referenciaBancaria:'', tipoCliente:'Público en general', deshabilitado:false, ubiDomicilio:'Eje Central 300, Col. Doctores, CDMX', ubiNegocio:'', ubiPuntoMedio:'', puntosMedios:[] },
+            { id:'CLI005', nombre:'Impresos Rápidos', empresa:'Impresos Rápidos SA', telefono:'5556781234', correo:'impresosrapidos@demo.com', calle:'Av. Revolución', colonia:'Col. San Ángel', numero:'500', pais:'Mexico', ciudad:'CDMX', estado:'CDMX', cp:'01000', razonSocial:'Impresos Rápidos SA de CV', rfc:'IRA050101MNO', referenciaBancaria:'BBVA 4321', tipoCliente:'Revendedor', deshabilitado:false, ubiDomicilio:'', ubiNegocio:'Av. Revolución 500, Col. San Ángel, CDMX', ubiPuntoMedio:'Metro Barranca del Muerto', puntosMedios:['Metro Barranca del Muerto'] },
+        ]),
+
+        // ── PEDIDOS ─────────────────────────────────────────────────────────
+        mock_mis_pedidos_v1: JSON.stringify([
+            { id:'PED001', folio:'OT-001', tipo:'venta', cliente:'María González', clienteTelefono:'5551234567', telefono:'5551234567', metodoPago:'efectivo', comentarios:'Entregar en casa', vendedor:'admin', producto:'Playera Básica Blanca', medida:'M', material:'Algodón', cantidad:10, precio:180, inversion:900, ganancia:900, total:1800, anticipo:900, adeudoCliente:900, estatusProduccion:'en-produccion', estatus:'activo', lineas:[{producto:'Playera Básica Blanca',medida:'M',material:'Algodón',cantidad:10,precio:180}], fechaEntrega:_demoDateStr(3), descuento:0, impuestos:0, extrasVal:0, requiereEnvio:false, costoEnvio:0, costoInstalacion:0 },
+            { id:'PED002', folio:'OT-002', tipo:'venta', cliente:'El Buen Sabor', clienteTelefono:'5553216540', telefono:'5553216540', metodoPago:'transferencia', comentarios:'Factura requerida', vendedor:'admin', producto:'Gorra Bordada', medida:'Única', material:'Poliéster', cantidad:25, precio:220, inversion:2375, ganancia:2125, total:5500, anticipo:2750, adeudoCliente:2750, estatusProduccion:'pendiente', estatus:'activo', lineas:[{producto:'Gorra Bordada',medida:'Única',material:'Poliéster',cantidad:25,precio:220}], fechaEntrega:_demoDateStr(7), descuento:0, impuestos:0, extrasVal:0, requiereEnvio:true, costoEnvio:150, costoInstalacion:0 },
+            { id:'PED003', folio:'OT-003', tipo:'cotizacion', cliente:'Juan Pérez López', clienteTelefono:'5559876543', telefono:'5559876543', metodoPago:'efectivo', comentarios:'', vendedor:'admin', producto:'Sudadera con Capucha', medida:'L', material:'Fleece', cantidad:5, precio:350, inversion:750, ganancia:1000, total:1750, anticipo:0, adeudoCliente:1750, estatusProduccion:'pendiente', estatus:'cotizacion', lineas:[{producto:'Sudadera con Capucha',medida:'L',material:'Fleece',cantidad:5,precio:350}], fechaEntrega:_demoDateStr(14), descuento:0, impuestos:0, extrasVal:0, requiereEnvio:false, costoEnvio:0, costoInstalacion:0 },
+            { id:'PED004', folio:'OT-004', tipo:'venta', cliente:'Lupita Torres', clienteTelefono:'5554445566', telefono:'5554445566', metodoPago:'tarjeta', comentarios:'Urgente', vendedor:'admin', producto:'Calcetines Pack x6', medida:'Única', material:'Algodón', cantidad:20, precio:80, inversion:600, ganancia:1000, total:1600, anticipo:1600, adeudoCliente:0, estatusProduccion:'terminado', estatus:'activo', lineas:[{producto:'Calcetines Pack x6',medida:'Única',material:'Algodón',cantidad:20,precio:80}], fechaEntrega:_demoDateStr(-1), descuento:0, impuestos:0, extrasVal:0, requiereEnvio:false, costoEnvio:0, costoInstalacion:0 },
+            { id:'PED005', folio:'OT-005', tipo:'venta', cliente:'Impresos Rápidos', clienteTelefono:'5556781234', telefono:'5556781234', metodoPago:'transferencia', comentarios:'Pago quincenal', vendedor:'admin', producto:'Pantalón Mezclilla Slim', medida:'32', material:'Mezclilla', cantidad:15, precio:450, inversion:3000, ganancia:3750, total:6750, anticipo:3375, adeudoCliente:3375, estatusProduccion:'en-produccion', estatus:'activo', lineas:[{producto:'Pantalón Mezclilla Slim',medida:'32',material:'Mezclilla',cantidad:15,precio:450}], fechaEntrega:_demoDateStr(5), descuento:0, impuestos:0, extrasVal:0, requiereEnvio:true, costoEnvio:200, costoInstalacion:0 },
+        ]),
+
+        // ── PRODUCTOS ───────────────────────────────────────────────────────
+        mock_productos_v1: JSON.stringify([
+            { id:'PROD001', codigo:'PLY-BL-001', producto:'Playera Básica Blanca', medida:'M', material:'Algodón 100%', minima:1, existencias:120, precioCompra:90, naturaleza:'producto', procesos:[], desgastePorUso:0, insumosProceso:[], proveedor:'PROV001', descripcion:'Playera básica de algodón, cuello redondo', fotoPrincipal:'', coloresSubproductos:[{color:'Blanco',existencias:60,foto:''},{color:'Negro',existencias:40,foto:''},{color:'Gris',existencias:20,foto:''}], tabuladorId:'TAB001', tabuladorDetalle:[{tipo:'lt',min:'',max:'5',precioRevendedor:200,precioGeneral:220},{tipo:'range',min:'6',max:'12',precioRevendedor:185,precioGeneral:200},{tipo:'range',min:'13',max:'24',precioRevendedor:175,precioGeneral:190},{tipo:'range',min:'25',max:'49',precioRevendedor:165,precioGeneral:185},{tipo:'gte',min:'50',max:'',precioRevendedor:150,precioGeneral:175}], precioRevendedor:175, precioVenta:200, necesitaFabricacion:false, recetaInsumos:[], categoria:'Ropa', tipo:'stock', ubicacion:'A1-R1-N1', ubiPasillo:'A', ubiRack:'1', ubiNivel:'1', ubiContenedor:'1', notasInternas:'Proveedor principal: TextilMex', activo:true },
+            { id:'PROD002', codigo:'PAN-MEZ-001', producto:'Pantalón Mezclilla Slim', medida:'32', material:'Mezclilla 12oz', minima:1, existencias:60, precioCompra:200, naturaleza:'producto', procesos:[], desgastePorUso:0, insumosProceso:[], proveedor:'PROV002', descripcion:'Pantalón slim fit de mezclilla', fotoPrincipal:'', coloresSubproductos:[{color:'Azul Oscuro',existencias:35,foto:''},{color:'Negro',existencias:25,foto:''}], tabuladorId:'TAB001', tabuladorDetalle:[{tipo:'lt',min:'',max:'5',precioRevendedor:480,precioGeneral:520},{tipo:'range',min:'6',max:'12',precioRevendedor:460,precioGeneral:500},{tipo:'range',min:'13',max:'24',precioRevendedor:440,precioGeneral:480},{tipo:'range',min:'25',max:'49',precioRevendedor:420,precioGeneral:460},{tipo:'gte',min:'50',max:'',precioRevendedor:400,precioGeneral:450}], precioRevendedor:420, precioVenta:480, necesitaFabricacion:false, recetaInsumos:[], categoria:'Ropa', tipo:'stock', ubicacion:'A1-R2-N1', ubiPasillo:'A', ubiRack:'2', ubiNivel:'1', ubiContenedor:'1', notasInternas:'', activo:true },
+            { id:'PROD003', codigo:'SUD-CAP-001', producto:'Sudadera con Capucha', medida:'L', material:'Fleece 280g', minima:1, existencias:45, precioCompra:150, naturaleza:'producto', procesos:[], desgastePorUso:0, insumosProceso:[], proveedor:'PROV001', descripcion:'Sudadera con capucha y bolsillo canguro', fotoPrincipal:'', coloresSubproductos:[{color:'Gris Melange',existencias:20,foto:''},{color:'Negro',existencias:15,foto:''},{color:'Azul',existencias:10,foto:''}], tabuladorId:'TAB001', tabuladorDetalle:[{tipo:'lt',min:'',max:'5',precioRevendedor:380,precioGeneral:420},{tipo:'range',min:'6',max:'12',precioRevendedor:360,precioGeneral:400},{tipo:'range',min:'13',max:'24',precioRevendedor:340,precioGeneral:380},{tipo:'range',min:'25',max:'49',precioRevendedor:320,precioGeneral:365},{tipo:'gte',min:'50',max:'',precioRevendedor:300,precioGeneral:350}], precioRevendedor:340, precioVenta:380, necesitaFabricacion:false, recetaInsumos:[], categoria:'Ropa', tipo:'stock', ubicacion:'B1-R1-N2', ubiPasillo:'B', ubiRack:'1', ubiNivel:'2', ubiContenedor:'1', notasInternas:'', activo:true },
+            { id:'PROD004', codigo:'CAL-PK6-001', producto:'Calcetines Pack x6', medida:'Única', material:'Algodón/Poliéster', minima:6, existencias:200, precioCompra:30, naturaleza:'producto', procesos:[], desgastePorUso:0, insumosProceso:[], proveedor:'PROV002', descripcion:'Pack de 6 pares de calcetines', fotoPrincipal:'', coloresSubproductos:[], tabuladorId:'', tabuladorDetalle:[], precioRevendedor:65, precioVenta:80, necesitaFabricacion:false, recetaInsumos:[], categoria:'Accesorios', tipo:'stock', ubicacion:'B2-R3-N1', ubiPasillo:'B', ubiRack:'3', ubiNivel:'1', ubiContenedor:'2', notasInternas:'', activo:true },
+            { id:'PROD005', codigo:'GOR-BOR-001', producto:'Gorra Bordada', medida:'Única', material:'Poliéster/Algodón', minima:1, existencias:30, precioCompra:95, naturaleza:'producto', procesos:['Bordado'], desgastePorUso:0, insumosProceso:[{insumoId:'INS001',cantidad:5,desgaste:0}], proveedor:'PROV001', descripcion:'Gorra snapback con bordado personalizado', fotoPrincipal:'', coloresSubproductos:[{color:'Negro',existencias:15,foto:''},{color:'Blanco',existencias:10,foto:''},{color:'Rojo',existencias:5,foto:''}], tabuladorId:'TAB002', tabuladorDetalle:[{tipo:'lt',min:'',max:'5',precioRevendedor:240,precioGeneral:270},{tipo:'range',min:'6',max:'12',precioRevendedor:225,precioGeneral:255},{tipo:'range',min:'13',max:'24',precioRevendedor:210,precioGeneral:240},{tipo:'range',min:'25',max:'49',precioRevendedor:195,precioGeneral:225},{tipo:'gte',min:'50',max:'',precioRevendedor:180,precioGeneral:210}], precioRevendedor:210, precioVenta:240, necesitaFabricacion:true, recetaInsumos:[{insumoId:'INS001',cantidad:5,desgaste:0}], categoria:'Accesorios', tipo:'stock', ubicacion:'C1-R1-N1', ubiPasillo:'C', ubiRack:'1', ubiNivel:'1', ubiContenedor:'1', notasInternas:'Bordado incluido en precio', activo:true },
+        ]),
+        mock_productos_tabuladores_v1: JSON.stringify([
+            { id:'TAB001', nombre:'Tabulador Ropa', filas:[{tipo:'lt',min:'',max:'5',precioRevendedor:0,precioGeneral:0},{tipo:'range',min:'6',max:'12',precioRevendedor:0,precioGeneral:0},{tipo:'range',min:'13',max:'24',precioRevendedor:0,precioGeneral:0},{tipo:'range',min:'25',max:'49',precioRevendedor:0,precioGeneral:0},{tipo:'gte',min:'50',max:'',precioRevendedor:0,precioGeneral:0}] },
+            { id:'TAB002', nombre:'Tabulador Accesorios', filas:[{tipo:'lt',min:'',max:'5',precioRevendedor:0,precioGeneral:0},{tipo:'range',min:'6',max:'12',precioRevendedor:0,precioGeneral:0},{tipo:'range',min:'13',max:'24',precioRevendedor:0,precioGeneral:0},{tipo:'range',min:'25',max:'49',precioRevendedor:0,precioGeneral:0},{tipo:'gte',min:'50',max:'',precioRevendedor:0,precioGeneral:0}] },
+        ]),
+        mock_movimientos_stock_v1: JSON.stringify([
+            { id:'MSTO001', productoId:'PROD001', tipo:'entrada', cantidad:50, fecha:_demoDate(-10), notas:'Compra inicial' },
+            { id:'MSTO002', productoId:'PROD002', tipo:'entrada', cantidad:30, fecha:_demoDate(-8), notas:'Reposición stock' },
+            { id:'MSTO003', productoId:'PROD001', tipo:'salida', cantidad:10, fecha:_demoDate(-2), notas:'Pedido OT-001' },
+        ]),
+
+        // ── INSUMOS ─────────────────────────────────────────────────────────
+        mock_insumos_modulo_v1: JSON.stringify([
+            { id:'INS001', nombre:'Hilo de Bordado Negro', categoria:'Hilos', unidad:'metro', unidadCompra:'rollo', factorCompraBase:200, unidadVenta:'metro', factorVentaBase:1, ventaPublica:false, precioVentaPublico:0, contabilizarDesgaste:false, unidadDesgaste:'Usos', desgasteCicloActual:0, desgastePromedio:0, ciclosDesgaste:0, existencias:4000, minimo:500, costoUnitario:0.15, foto:'', notas:'Hilo para bordado a máquina' },
+            { id:'INS002', nombre:'Botones Dorados 20mm', categoria:'Mercería', unidad:'pieza', unidadCompra:'bolsa', factorCompraBase:100, unidadVenta:'pieza', factorVentaBase:1, ventaPublica:false, precioVentaPublico:0, contabilizarDesgaste:false, unidadDesgaste:'Usos', desgasteCicloActual:0, desgastePromedio:0, ciclosDesgaste:0, existencias:850, minimo:100, costoUnitario:0.8, foto:'', notas:'' },
+            { id:'INS003', nombre:'Tela de Algodón 100% Blanca', categoria:'Telas', unidad:'metro', unidadCompra:'rollo', factorCompraBase:50, unidadVenta:'metro', factorVentaBase:1, ventaPublica:false, precioVentaPublico:0, contabilizarDesgaste:false, unidadDesgaste:'Usos', desgasteCicloActual:0, desgastePromedio:0, ciclosDesgaste:0, existencias:120, minimo:20, costoUnitario:45, foto:'', notas:'160cm de ancho' },
+            { id:'INS004', nombre:'Tela Fleece Gris Melange', categoria:'Telas', unidad:'metro', unidadCompra:'rollo', factorCompraBase:30, unidadVenta:'metro', factorVentaBase:1, ventaPublica:false, precioVentaPublico:0, contabilizarDesgaste:false, unidadDesgaste:'Usos', desgasteCicloActual:0, desgastePromedio:0, ciclosDesgaste:0, existencias:60, minimo:15, costoUnitario:68, foto:'', notas:'280g/m2' },
+            { id:'INS005', nombre:'Etiquetas de Marca', categoria:'Etiquetas', unidad:'pieza', unidadCompra:'paquete', factorCompraBase:500, unidadVenta:'pieza', factorVentaBase:1, ventaPublica:false, precioVentaPublico:0, contabilizarDesgaste:false, unidadDesgaste:'Usos', desgasteCicloActual:0, desgastePromedio:0, ciclosDesgaste:0, existencias:2000, minimo:200, costoUnitario:0.5, foto:'', notas:'Etiquetas tejidas' },
+        ]),
+        mock_insumos_surtir_v1: JSON.stringify([
+            { insumoId:'INS003', nombre:'Tela de Algodón 100% Blanca', cantidadPendiente:30, fechaLimite:_demoDate(5), origenProductoId:'PROD001', origenProducto:'Playera Básica Blanca' },
+            { insumoId:'INS001', nombre:'Hilo de Bordado Negro', cantidadPendiente:200, fechaLimite:_demoDate(3), origenProductoId:'PROD005', origenProducto:'Gorra Bordada' },
+        ]),
+
+        // ── PROVEEDORES ─────────────────────────────────────────────────────
+        mock_proveedores_modulo_v1: JSON.stringify([
+            { id:'PROV001', nombre:'Carlos Mendoza', empresa:'TextilMex SA de CV', telefono:'5551112233', correo:'carlos@textilmex.com', creditoDias:30, saldoPendiente:3500, notas:'Proveedor principal de telas y confección' },
+            { id:'PROV002', nombre:'Rosa Ibáñez', empresa:'Distribuidora Fashions', telefono:'5554445566', correo:'rosa@fashions.com', creditoDias:15, saldoPendiente:0, notas:'Accesorios y complementos' },
+            { id:'PROV003', nombre:'Jorge Salinas', empresa:'Bordados Profesionales', telefono:'5557778899', correo:'jorge@bordados.com', creditoDias:0, saldoPendiente:800, notas:'Servicio de bordado y sublimación' },
+        ]),
+
+        // ── ALMACÉN ─────────────────────────────────────────────────────────
+        mock_almacen_modulo_v1: JSON.stringify([
+            { id:'ALM001', producto:'Playera Básica Blanca', stock:60, ubicacion:'A1-R1-N1', costoUnitario:90, notas:'Talla M' },
+            { id:'ALM002', producto:'Playera Básica Blanca', stock:60, ubicacion:'A1-R1-N2', costoUnitario:90, notas:'Talla L' },
+            { id:'ALM003', producto:'Pantalón Mezclilla Slim', stock:35, ubicacion:'A1-R2-N1', costoUnitario:200, notas:'Talla 32' },
+            { id:'ALM004', producto:'Pantalón Mezclilla Slim', stock:25, ubicacion:'A1-R2-N2', costoUnitario:200, notas:'Talla 34' },
+            { id:'ALM005', producto:'Sudadera con Capucha', stock:45, ubicacion:'B1-R1-N2', costoUnitario:150, notas:'Tallas mixtas' },
+        ]),
+        almf_ubicaciones_v1: JSON.stringify([
+            { id:'A1-R1-N1', pasillo:'A', rack:1, nivel:1, contenedor:1, productoId:'PROD001', cantidad:60, capacidadMax:100 },
+            { id:'A1-R1-N2', pasillo:'A', rack:1, nivel:2, contenedor:1, productoId:'PROD001', cantidad:60, capacidadMax:100 },
+            { id:'A1-R2-N1', pasillo:'A', rack:2, nivel:1, contenedor:1, productoId:'PROD002', cantidad:35, capacidadMax:80 },
+            { id:'B1-R1-N2', pasillo:'B', rack:1, nivel:2, contenedor:1, productoId:'PROD003', cantidad:45, capacidadMax:80 },
+            { id:'B2-R3-N1', pasillo:'B', rack:3, nivel:1, contenedor:2, productoId:'PROD004', cantidad:200, capacidadMax:500 },
+            { id:'C1-R1-N1', pasillo:'C', rack:1, nivel:1, contenedor:1, productoId:'PROD005', cantidad:30, capacidadMax:60 },
+        ]),
+        almf_movimientos_v1: JSON.stringify([
+            { id:'ALMM001', ubicacion:'A1-R1-N1', tipo:'entrada', cantidad:60, fecha:_demoDate(-10), notas:'Stock inicial', usuario:'admin' },
+            { id:'ALMM002', ubicacion:'A1-R2-N1', tipo:'entrada', cantidad:35, fecha:_demoDate(-10), notas:'Stock inicial', usuario:'admin' },
+            { id:'ALMM003', ubicacion:'A1-R1-N1', tipo:'salida', cantidad:10, fecha:_demoDate(-2), notas:'Pedido OT-001', usuario:'admin' },
+        ]),
+        almf_inventarios_v1: JSON.stringify([
+            { id:'INV001', fecha:_demoDate(-5), usuario:'admin', estado:'completado', diferencias:0, notas:'Inventario semanal' },
+        ]),
+
+        // ── CAJA ────────────────────────────────────────────────────────────
+        mock_caja_settings_v1: JSON.stringify({ nombre:'Caja Principal', id:'CAJA-001' }),
+        mock_caja_movs_v1: JSON.stringify([
+            { id:'MOV001', tipo:'ingreso', monto:1800, motivo:'VENTA ADICIONAL', fecha:_demoDate(-2), notas:'Pedido OT-001 anticipo', usuario:'admin' },
+            { id:'MOV002', tipo:'ingreso', monto:3375, motivo:'ANTICIPO DE CLIENTE', fecha:_demoDate(-1), notas:'Pedido OT-005 anticipo', usuario:'admin' },
+            { id:'MOV003', tipo:'gasto', monto:3500, motivo:'PAGO A PROVEEDOR', fecha:_demoDate(-1), notas:'TextilMex - telas', usuario:'admin' },
+            { id:'MOV004', tipo:'ingreso', monto:1600, motivo:'VENTA ADICIONAL', fecha:_demoDate(0), notas:'Pedido OT-004 saldo', usuario:'admin' },
+            { id:'MOV005', tipo:'gasto', monto:400, motivo:'GASTOS OPERATIVOS', fecha:_demoDate(0), notas:'Papelería y varios', usuario:'admin' },
+            { id:'MOV006', tipo:'ingreso', monto:2750, motivo:'ANTICIPO DE CLIENTE', fecha:_demoDate(0), notas:'Pedido OT-002 anticipo', usuario:'admin' },
+        ]),
+        mock_caja_aperturas_v1: JSON.stringify([
+            { id:'APE001', fecha:_demoDate(-2), montoApertura:500, usuario:'admin', estado:'cerrada', montoCierre:3875, diferencia:0 },
+            { id:'APE002', fecha:_demoDate(-1), montoApertura:500, usuario:'admin', estado:'cerrada', montoCierre:3875, diferencia:0 },
+            { id:'APE003', fecha:_demoDate(0), montoApertura:500, usuario:'admin', estado:'abierta', montoCierre:0, diferencia:0 },
+        ]),
+        caja_historial_turnos_v1: JSON.stringify([
+            { id:'TUR001', email:'admin@demo.com', usuario:'Admin Demo', fechaApertura:_demoDate(-2), montoApertura:500, fechaCierre:_demoDate(-2), montoCierre:3875, estado:'cerrado' },
+        ]),
+        caja_motivos_ingreso: JSON.stringify(['FONDO INICIAL','REPOSICIÓN DE FONDO','ANTICIPO DE CLIENTE','DEVOLUCIÓN','VENTA ADICIONAL','PRÉSTAMO','COBRO DE SALDO']),
+        caja_motivos_gasto: JSON.stringify(['COMPRA DE INSUMOS','SERVICIO / MANTENIMIENTO','PAGO A PROVEEDOR','GASTOS OPERATIVOS','PAPELERÍA','TRANSPORTE','SALARIO / NÓMINA','IMPUESTOS','BORDADO EXTERNO']),
+        caja_sucursales_list_v1: JSON.stringify(['PRINCIPAL','SUCURSAL NORTE']),
+
+        // ── REPARTIDORES ────────────────────────────────────────────────────
+        config_repartidores: JSON.stringify([
+            { id:'REP001', nombre:'Luis Hernández', activo:true, tel:'5557778899', zona:'Zona Norte' },
+            { id:'REP002', nombre:'Pedro Sánchez', activo:true, tel:'5556665544', zona:'Zona Sur' },
+            { id:'REP003', nombre:'Sofía Ramírez', activo:false, tel:'5554443322', zona:'Zona Centro' },
+            { id:'REP004', nombre:'Tomás Vega', activo:true, tel:'5551110011', zona:'Zona Oriente' },
+        ]),
+        config_zonas_reparto: JSON.stringify([
+            { nombre:'Zona Norte', color:'#3b82f6' },
+            { nombre:'Zona Sur', color:'#10b981' },
+            { nombre:'Zona Centro', color:'#f59e0b' },
+            { nombre:'Zona Oriente', color:'#ec4899' },
+        ]),
+        config_conceptos_visita: JSON.stringify([
+            { nombre:'Cliente no encontrado', tipo:'no_entrega' },
+            { nombre:'Dirección incorrecta', tipo:'no_entrega' },
+            { nombre:'Cliente canceló', tipo:'no_entrega' },
+            { nombre:'Reagendar para otro día', tipo:'reagendar' },
+            { nombre:'Entrega parcial', tipo:'parcial' },
+            { nombre:'Zona insegura', tipo:'no_entrega' },
+            { nombre:'Horario no disponible', tipo:'reagendar' },
+            { nombre:'Pedido dañado', tipo:'no_entrega' },
+        ]),
+        config_horarios_repartidores: JSON.stringify([
+            { rep:'REP001', entrada:'08:00', salida:'18:00', dias:'Lun-Vie' },
+            { rep:'REP002', entrada:'09:00', salida:'19:00', dias:'Lun-Sáb' },
+            { rep:'REP003', entrada:'08:00', salida:'16:00', dias:'Lun-Vie' },
+            { rep:'REP004', entrada:'10:00', salida:'20:00', dias:'Mar-Sáb' },
+        ]),
+        config_gastos_empleado: JSON.stringify([
+            { id:'GE001', repId:'REP001', concepto:'Gasolina', monto:350, fecha:_demoDate(-1), notas:'' },
+            { id:'GE002', repId:'REP002', concepto:'Caseta', monto:80, fecha:_demoDate(-1), notas:'Autopista' },
+        ]),
+        config_checks_asistencia: JSON.stringify([
+            { id:'CHK001', repId:'REP001', tipo:'entrada', fecha:_demoDate(0), hora:'08:05', lat:19.432608, lng:-99.133209 },
+            { id:'CHK002', repId:'REP002', tipo:'entrada', fecha:_demoDate(0), hora:'09:02', lat:19.432608, lng:-99.133209 },
+            { id:'CHK003', repId:'REP004', tipo:'entrada', fecha:_demoDate(0), hora:'10:08', lat:19.432608, lng:-99.133209 },
+        ]),
+        config_penalizaciones_rep: JSON.stringify([
+            { id:'PEN001', repId:'REP002', falta:'retardo', desc:'Llegó 25 min tarde', monto:50, fecha:_demoDate(-3) },
+        ]),
+        config_rutas_cerradas_rep: JSON.stringify({}),
+
+        // ── CONTROL DE ENTREGAS ─────────────────────────────────────────────
+        cr_autoasig: JSON.stringify({ activo:true, hora:'08:30', zonaRep:{ 'Zona Norte':'REP001', 'Zona Sur':'REP002', 'Zona Oriente':'REP004' } }),
+        cr_pen_rules: JSON.stringify([
+            { falta:'no_entrega', desc:'No entrega sin justificación', monto:100 },
+            { falta:'retardo', desc:'Retardo mayor a 30 min', monto:50 },
+            { falta:'falta', desc:'Falta injustificada', monto:200 },
+            { falta:'fuera_zona', desc:'Entrega fuera de zona asignada', monto:75 },
+            { falta:'queja', desc:'Queja documentada de cliente', monto:150 },
+        ]),
+        cr_alertas: JSON.stringify([
+            { id:'ALT001', tipo:'warning', mensaje:'REP002 lleva 45 min sin movimiento en Zona Sur', repartidor:'REP002', fecha:_demoDate(0), leida:false },
+            { id:'ALT002', tipo:'critica', mensaje:'Pedido OT-002 no entregado - cliente reporta ausencia', repartidor:'REP001', fecha:_demoDate(0), leida:false },
+            { id:'ALT003', tipo:'info', mensaje:'REP004 completó ruta de Zona Oriente exitosamente', repartidor:'REP004', fecha:_demoDate(0), leida:true },
+        ]),
+        cr_chat_messages: JSON.stringify({
+            'REP001': [
+                { from:'admin', text:'Luis, el pedido OT-001 tiene instrucciones especiales, revisa los comentarios', ts:_demoDate(0) },
+                { from:'Luis Hernández', text:'Entendido, ya lo vi. Estoy en camino', ts:_demoDate(0) },
+            ],
+            'REP002': [
+                { from:'admin', text:'Pedro, cliente OT-002 confirma que estará en casa de 2pm a 4pm', ts:_demoDate(0) },
+            ],
+        }),
+        cr_kilometraje: JSON.stringify([
+            { id:'KM001', repId:'REP001', km:42, fecha:_demoDate(-1), notas:'Ruta Zona Norte completa' },
+            { id:'KM002', repId:'REP002', km:38, fecha:_demoDate(-1), notas:'Ruta Zona Sur completa' },
+            { id:'KM003', repId:'REP001', km:15, fecha:_demoDate(0), notas:'Primeras entregas del día' },
+        ]),
+        cr_km_costo: '3.50',
+
+        // ── CALENDARIO ──────────────────────────────────────────────────────
+        mock_calendario_alertas_v1: JSON.stringify((()=>{
+            const obj = {};
+            obj[_demoDateStr(0)] = [
+                { id:'CAL001', tipo:'entrega', urgencia:'alta', producto:'Pedido OT-004 - Calcetines', notas:'Cliente espera hoy' },
+                { id:'CAL002', tipo:'produccion', urgencia:'media', producto:'OT-001 - Playeras en proceso', notas:'Revisar avance' },
+            ];
+            obj[_demoDateStr(3)] = [
+                { id:'CAL003', tipo:'entrega', urgencia:'alta', producto:'Pedido OT-001 - Playeras', notas:'Fecha compromiso' },
+            ];
+            obj[_demoDateStr(5)] = [
+                { id:'CAL004', tipo:'entrega', urgencia:'media', producto:'Pedido OT-005 - Pantalones', notas:'Coordinar con cliente' },
+            ];
+            obj[_demoDateStr(7)] = [
+                { id:'CAL005', tipo:'entrega', urgencia:'alta', producto:'Pedido OT-002 - Gorras', notas:'Requiere envío' },
+            ];
+            return obj;
+        })()),
+
+        // ── PRODUCCIÓN ──────────────────────────────────────────────────────
+        config_produccion_statuses: JSON.stringify([
+            { value:'pendiente', label:'Pendiente' },
+            { value:'en-produccion', label:'En Producción' },
+            { value:'pendiente-por-entregar', label:'Listo para Entregar' },
+            { value:'terminado', label:'Terminado' },
+            { value:'entregado', label:'Entregado' },
+        ]),
+
+        // ── DISEÑO ──────────────────────────────────────────────────────────
+        mock_design_sessions_v1: JSON.stringify({
+            'PED001': { user:'Ana López', ts: Date.now() - 3600000, timerStart: null },
+            'PED002': { user:'Carlos García', ts: Date.now() - 7200000, timerStart: Date.now() - 1800000 },
+        }),
+        mock_design_library_v1: JSON.stringify([
+            { id:'DLB001', nombre:'Logo Empresa v2', tipo:'vector', url:'', notas:'Versión oficial 2024', subidoPor:'Ana López', fecha:_demoDate(-15) },
+            { id:'DLB002', nombre:'Fondo Textura Mezclilla', tipo:'imagen', url:'', notas:'Para portadas de catálogo', subidoPor:'Carlos García', fecha:_demoDate(-10) },
+        ]),
+        mock_design_history_v1: JSON.stringify({
+            'PED001': [
+                { action:'Asignado a diseñador', user:'admin', ts:_demoDate(-2) },
+                { action:'En proceso de diseño', user:'Ana López', ts:_demoDate(-1) },
+            ],
+            'PED002': [
+                { action:'Asignado a diseñador', user:'admin', ts:_demoDate(-3) },
+            ],
+        }),
+        mock_design_kpis_v1: JSON.stringify({
+            'Ana López': { completadas:12, traspasadas:1, penalizaciones:0, tiempoTotal:43200000, inactividades:2 },
+            'Carlos García': { completadas:8, traspasadas:0, penalizaciones:1, tiempoTotal:36000000, inactividades:1 },
+            'Marta Ruiz': { completadas:15, traspasadas:2, penalizaciones:0, tiempoTotal:54000000, inactividades:0 },
+        }),
+        mock_design_transfer_req_v1: JSON.stringify([]),
+
+        // ── PAQUETERÍA Y ENVÍOS ─────────────────────────────────────────────
+        envio_paquetes_guardados: JSON.stringify([
+            { nombre:'Bolsa estándar', contenido:'Ropa doblada', largo:40, ancho:30, alto:5, peso:1 },
+            { nombre:'Caja pequeña', contenido:'Accesorios', largo:30, ancho:25, alto:20, peso:2 },
+            { nombre:'Caja mediana', contenido:'Pedido mixto', largo:50, ancho:40, alto:30, peso:5 },
+            { nombre:'Bolsa grande', contenido:'Pantalones', largo:60, ancho:45, alto:5, peso:3 },
+        ]),
+        puntos_medios_generales_v1: JSON.stringify([
+            { id:'PM001', nombre:'Metro Insurgentes', direccion:'Av. Insurgentes y Chapultepec, CDMX', coords:{ lat:19.4234, lng:-99.1599 } },
+            { id:'PM002', nombre:'Plaza Satélite', direccion:'Blvd. Manuel Ávila Camacho 1, Naucalpan', coords:{ lat:19.5052, lng:-99.2308 } },
+            { id:'PM003', nombre:'Walmart Pedregal', direccion:'Periférico Sur 3720, Pedregal, CDMX', coords:{ lat:19.3210, lng:-99.1908 } },
+        ]),
+        paqueterias_independientes_v1: JSON.stringify([
+            { id:'PAQ001', nombre:'Estafeta', logo:'', costo:120, diasEntrega:2, activo:true },
+            { id:'PAQ002', nombre:'DHL', logo:'', costo:180, diasEntrega:1, activo:true },
+            { id:'PAQ003', nombre:'FedEx', logo:'', costo:160, diasEntrega:1, activo:true },
+            { id:'PAQ004', nombre:'Correos de México', logo:'', costo:80, diasEntrega:5, activo:false },
+        ]),
+        paq_historial_costos_v1: JSON.stringify([
+            { id:'PHC001', paqueteria:'Estafeta', costo:120, fecha:_demoDate(-30), pedidoId:'PED002', peso:3, dimensiones:'50x40x30' },
+            { id:'PHC002', paqueteria:'DHL', costo:180, fecha:_demoDate(-15), pedidoId:'PED005', peso:5, dimensiones:'60x45x35' },
+        ]),
+
+        // ── CONFIGURACIÓN DEL SISTEMA ────────────────────────────────────────
+        mock_config_system_v1: JSON.stringify({
+            caja: { nombre:'Caja Principal', moneda:'MXN', fondoMinimo:500, corte:'diario', banco:'BBVA Bancomer', metodos:{ efectivo:true, tarjeta:true, transferencia:true, deposito:false } },
+            reparto: { sucursalNombre:'Sucursal Centro', sucursalLat:'19.432608', sucursalLng:'-99.133209', rutaEficiente:true, soloVentasAdmin:false },
+            checkpoints: { tallerLat:'19.428000', tallerLng:'-99.145000', tallerQR:'QR-TALLER-001', sucursalLat:'19.432608', sucursalLng:'-99.133209', sucursalQR:'QR-SUC-001', radio:150, paradaMinutos:5 },
+            alertas: { noEntrega:true, retardo:true, fueraZona:true, gasto:false, sinMovimiento:true, entregaCompleta:true },
+            autoAsignacion: { activo:true, hora:'08:30' },
+            almacen: { pasillos:4, racks:8, niveles:5, contenedores:3, stockMinimoAlerta:20, aceptarStockNegativo:false, overstockAlerta:true },
+            produccion: { statuses:['pendiente','en-produccion','pendiente-por-entregar','terminado','entregado'] },
+            disenadores: ['Ana López','Carlos García','Marta Ruiz'],
+        }),
+
+        // ── MUESTRARIO ───────────────────────────────────────────────────────
+        muestrario_product_config: JSON.stringify({
+            'Playera Básica Blanca': 'playera',
+            'Pantalón Mezclilla Slim': 'pantalon',
+            'Sudadera con Capucha': 'sudadera',
+            'Gorra Bordada': 'gorra',
+            'Calcetines Pack x6': 'calcetines',
+        }),
+    };
+
+    function setField(id, value) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        if (el.type === 'checkbox') { el.checked = !!value; el.dispatchEvent(new Event('change')); }
+        else { el.value = value; el.dispatchEvent(new Event('input')); el.dispatchEvent(new Event('change')); }
+    }
+
+    const DEMO_ALL_KEYS = Object.keys(DEMO_LOCALSTORAGE);
+
+    function cargarDatosDemo() {
+        if (!confirm('¿Cargar datos demo en TODOS los módulos del sistema?\n\nSe rellenarán los campos de configuración y se cargarán datos de ejemplo en: Clientes, Pedidos, Productos, Insumos, Proveedores, Almacén, Caja, Repartidores, Entregas, Calendario, Producción, Diseño, Paquetería y más.')) return;
+        // Campos directos del popup de configuración
+        Object.entries(DEMO_CONFIG).forEach(([id, val]) => setField(id, val));
+        // localStorage — todos los módulos
+        const data = typeof DEMO_LOCALSTORAGE === 'object' ? DEMO_LOCALSTORAGE : {};
+        Object.entries(data).forEach(([key, val]) => {
+            const resolved = typeof val === 'function' ? JSON.stringify(val()) : val;
+            localStorage.setItem(key, resolved);
+        });
+        // Guardar config del popup
+        if (typeof saveConfiguracionesFromPopup === 'function') saveConfiguracionesFromPopup();
+        const btn = document.getElementById('btnCargarDatosDemo');
+        if (btn) { const orig = btn.innerHTML; btn.innerHTML = '✅ Datos cargados — recarga la página'; btn.style.background = 'linear-gradient(135deg,#059669,#047857)'; setTimeout(() => { btn.innerHTML = orig; btn.style.background = 'linear-gradient(135deg,#7c3aed,#5b21b6)'; }, 4000); }
+        console.log('[DEMO] Datos demo cargados en ' + Object.keys(data).length + ' claves de localStorage.');
+    }
+
+    function quitarDatosDemo() {
+        if (!confirm('¿Borrar TODOS los datos demo?\n\nSe eliminarán los datos de ejemplo de todos los módulos: Clientes, Pedidos, Productos, Insumos, Proveedores, Almacén, Caja, Repartidores, Entregas, Calendario, Producción, Diseño, Paquetería y más.')) return;
+        // Vaciar campos del popup
+        Object.keys(DEMO_CONFIG).forEach(id => {
+            const el = document.getElementById(id);
+            if (!el) return;
+            if (el.type === 'checkbox') { el.checked = false; el.dispatchEvent(new Event('change')); }
+            else { el.value = ''; el.dispatchEvent(new Event('input')); el.dispatchEvent(new Event('change')); }
+        });
+        // Borrar todas las claves de localStorage de los módulos
+        DEMO_ALL_KEYS.forEach(key => localStorage.removeItem(key));
+        if (typeof saveConfiguracionesFromPopup === 'function') saveConfiguracionesFromPopup();
+        const btn = document.getElementById('btnQuitarDatosDemo');
+        if (btn) { const orig = btn.innerHTML; btn.innerHTML = '✅ Datos eliminados — recarga la página'; btn.style.background = 'linear-gradient(135deg,#059669,#047857)'; setTimeout(() => { btn.innerHTML = orig; btn.style.background = 'linear-gradient(135deg,#dc2626,#991b1b)'; }, 4000); }
+        console.log('[DEMO] Datos demo eliminados de ' + DEMO_ALL_KEYS.length + ' claves de localStorage.');
+    }
+
+    const btnCargarDemo = document.getElementById('btnCargarDatosDemo');
+    const btnQuitarDemo = document.getElementById('btnQuitarDatosDemo');
+    if (btnCargarDemo) btnCargarDemo.addEventListener('click', cargarDatosDemo);
+    if (btnQuitarDemo) btnQuitarDemo.addEventListener('click', quitarDatosDemo);
+    // ── FIN DATOS DEMO ───────────────────────────────────────────────────────
 
     // Tab switching
     document.querySelectorAll('.config-tab').forEach((tab) => {
@@ -36474,22 +37367,16 @@ document.addEventListener('DOMContentLoaded', function() {
 <style>
   #panelControlRepartidores { display:none; }
     #panelControlRepartidores .cr-body { display:flex; flex-direction:column; height:calc(100vh - 56px); min-height:0; overflow:hidden; }
-    #panelControlRepartidores .cr-sidebar { width:100%; min-width:0; background:#fff; border-bottom:1px solid #e5e5e5; display:flex; flex-direction:row; align-items:center; overflow-x:auto; overflow-y:hidden; transition:none; position:relative; padding:0 10px; gap:2px; flex-shrink:0; }
-    #panelControlRepartidores .cr-sidebar.collapsed { width:100%; min-width:0; }
+    #panelControlRepartidores .cr-sidebar { width:100%; min-width:0; background:#ffffff; border-bottom:2px solid #ff9900; display:flex; flex-direction:row; align-items:stretch; overflow-x:auto; overflow-y:hidden; position:relative; padding:0 8px; gap:0; flex-shrink:0; scrollbar-width:none; }
+    #panelControlRepartidores .cr-sidebar::-webkit-scrollbar { display:none; }
+    #panelControlRepartidores .cr-sidebar.collapsed { width:100%; }
     #panelControlRepartidores .cr-sidebar-toggle { display:none; }
-    #panelControlRepartidores .cr-sidebar-toggle:hover { background:#fff7ed; border-color:#fdba74; }
-    #panelControlRepartidores .cr-sidebar-toggle .line { display:block; width:14px; height:2px; background:#525252; border-radius:999px; margin:0; }
-    #panelControlRepartidores .cr-sidebar-toggle:focus-visible { outline:2px solid #fb923c; outline-offset:2px; }
-        #panelControlRepartidores .cr-sidebar-label { display:none; }
-        #panelControlRepartidores .cr-sidebar-btn { display:flex; align-items:center; gap:6px; padding:10px 12px; border:none; background:transparent; color:#555; font-size:0.58rem; font-weight:800; cursor:pointer; text-align:left; border-bottom:3px solid transparent; transition:all 0.15s; white-space:nowrap; min-height:40px; flex-shrink:0; }
-        #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn { justify-content:flex-start; gap:6px; padding:10px 12px; }
-        #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn span:not(.cr-ico) { display:inline; }
-        #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn #crPedNoEntAlert { display:inline-flex !important; }
-    #panelControlRepartidores .cr-sidebar-btn:hover { background:#fff8ee; color:#e68a00; }
-    #panelControlRepartidores .cr-sidebar-btn.active { background:#fff3e0; color:#ff9900; border-bottom-color:#ff9900; font-weight:900; }
-    #panelControlRepartidores .cr-sidebar.collapsed .cr-sidebar-btn.active { border-bottom-color:#ff9900; background:#fff3e0; }
-        #panelControlRepartidores .cr-sidebar-btn .cr-ico { font-size:0.95rem; width:auto; text-align:center; flex-shrink:0; }
-    #panelControlRepartidores .cr-main { flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; background:#f4f4f4; padding:10px; overflow:hidden; }
+    #panelControlRepartidores .cr-sidebar-label { display:none; }
+    #panelControlRepartidores .cr-sidebar-btn { display:flex; align-items:center; gap:6px; padding:10px 16px; border:none; background:transparent; color:#555; font-size:0.6rem; font-weight:800; cursor:pointer; text-align:center; border-bottom:3px solid transparent; transition:all 0.15s; white-space:nowrap; min-height:44px; flex-shrink:0; text-transform:uppercase; letter-spacing:0.04em; }
+    #panelControlRepartidores .cr-sidebar-btn:hover { background:rgba(255,153,0,0.1); color:#ff9900; }
+    #panelControlRepartidores .cr-sidebar-btn.active { background:rgba(255,153,0,0.12); color:#ff9900; border-bottom-color:#ff9900; font-weight:900; }
+    #panelControlRepartidores .cr-sidebar-btn .cr-ico { font-size:0.95rem; flex-shrink:0; }
+    #panelControlRepartidores .cr-main { flex:1; min-width:0; min-height:0; display:flex; flex-direction:column; background:#fff; padding:10px; overflow:hidden; }
     #panelControlRepartidores .cr-main > div:first-child { flex:1; min-height:0; overflow:hidden; display:flex; flex-direction:column; }
     #panelControlRepartidores .cr-section { display:none; flex:1; min-height:0; overflow:hidden; }
   #panelControlRepartidores .cr-section.active { display:flex; flex-direction:column; }
@@ -36542,9 +37429,7 @@ document.addEventListener('DOMContentLoaded', function() {
     .cr-fs-header .cr-fs-subtitle { font-size:0.48rem;color:#7a3e00; }
   .cr-fs-body { flex:1;overflow-y:auto;padding:16px; }
     @media (max-width: 1100px) {
-        #panelControlRepartidores .cr-sidebar { width:100%; min-width:0; padding:0 6px; }
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-btn span:not(.cr-ico) { display:none; }
-        #panelControlRepartidores .cr-sidebar .cr-sidebar-btn { justify-content:center; padding:8px 9px; }
+        #panelControlRepartidores .cr-sidebar-btn { padding:8px 12px; font-size:0.55rem; }
         #panelControlRepartidores .cr-main { padding:8px; }
     }
 </style>
@@ -36593,20 +37478,14 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
 
         <div class="cr-body">
-            <div class="cr-sidebar" id="crSidebar" style="background:#fff;">
-                                <button id="crSidebarToggle" class="cr-sidebar-toggle" title="Expandir menú" aria-label="Expandir menú" aria-expanded="false">
-                                    <span class="line"></span>
-                                    <span class="line"></span>
-                                    <span class="line"></span>
-                                </button>
-                <div class="cr-sidebar-label">Módulos</div>
-                <button class="cr-sidebar-btn active" data-cr-section="dashboard" title="Dashboard"><span>Dashboard</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="pedidos" title="Pedidos" style="position:relative;"><span>Pedidos</span><span id="crPedNoEntAlert" style="display:none;position:absolute;right:10px;top:8px;background:#dc2626;color:#fff;font-size:0.42rem;font-weight:900;padding:2px 6px;border-radius:999px;"></span></button>
-                <button class="cr-sidebar-btn" data-cr-section="mapa" title="Mapa y Rutas"><span>Mapa y Rutas</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="repartidores" title="Administrar rutas de entrega"><span>Administrar rutas</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="recoleccion" title="Recolección"><span>Recolección</span></button>
-                <button class="cr-sidebar-btn" data-cr-section="alertas" title="Alertas y Configuración"><span>Alertas y Configuración</span></button>
-            </div>
+            <nav class="cr-sidebar" id="crSidebar">
+                <button class="cr-sidebar-btn active" data-cr-section="dashboard">📊 <span>Dashboard</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="pedidos" style="position:relative;">📦 <span>Pedidos</span><span id="crPedNoEntAlert" style="display:none;position:absolute;top:8px;right:6px;background:#dc2626;color:#fff;font-size:0.42rem;font-weight:900;padding:2px 6px;border-radius:999px;"></span></button>
+                <button class="cr-sidebar-btn" data-cr-section="mapa">🗺️ <span>Mapa y Rutas</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="repartidores">🚴 <span>Repartidores</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="recoleccion">📥 <span>Recolección</span></button>
+                <button class="cr-sidebar-btn" data-cr-section="alertas">⚙️ <span>Configuración</span></button>
+            </nav>
             <!-- Main Content -->
       <div class="cr-main">
         <div id="crSubTabBar" style="display:none;flex-shrink:0;"></div>
@@ -36659,8 +37538,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <!-- ── REPARTIDORES + ALERTAS ── -->
             <div style="display:grid;grid-template-columns:3fr 2fr;gap:10px;align-items:start;">
               <div class="cr-card" style="padding:10px 12px;">
-                <div style="font-size:0.42rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Repartidores — peor a mejor</div>
-                <div id="crDashRepsTable"><div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:10px;">Sin datos</div></div>
+                <div style="font-size:0.42rem;font-weight:800;color:#94a3b8;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Repartidores — mejor a menor rendimiento</div>
+                <div id="crDashRepsTable" style="min-height:200px;display:flex;flex-direction:column;"><div style="text-align:center;color:#94a3b8;font-size:0.55rem;padding:10px;">Sin datos</div></div>
               </div>
               <div class="cr-card" style="padding:10px 12px;border-left:3px solid #ef4444;">
                 <div style="font-size:0.42rem;font-weight:800;color:#b91c1c;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Alertas activas</div>
@@ -40845,7 +41724,12 @@ document.addEventListener('DOMContentLoaded', function() {
             const d = _ubiData[tipo];
             const resId = tipo === 'domicilio' ? 'cliResUbiDomicilio' : tipo === 'negocio' ? 'cliResUbiNegocio' : 'cliResUbiPuntoMedio';
             const res = document.getElementById(resId);
-            if (res) res.textContent = (d && d.addr) ? d.addr : 'Sin registrar';
+            if (res) {
+                const hasAddr = !!(d && d.addr);
+                res.textContent = hasAddr ? d.addr : 'Sin registrar';
+                res.style.color = hasAddr ? '#e2e8f0' : '#94a3b8';
+                res.style.fontStyle = hasAddr ? 'normal' : 'italic';
+            }
             const hidId = tipo === 'domicilio' ? 'cliFormUbiDomicilio' : tipo === 'negocio' ? 'cliFormUbiNegocio' : 'cliFormUbiPuntoMedio';
             const hid = document.getElementById(hidId);
             if (hid) hid.value = (d && d.addr) || '';
@@ -41899,7 +42783,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     var fallas=allEntregas.filter(function(e){return e.repartidorId===r.id&&e.estado==='no_entregada';}).length;
                     var pct=asig>0?Math.round(entg/asig*100):0;
                     return {nombre:r.nombre,asig:asig,entg:entg,fallas:fallas,pct:pct};
-                }).sort(function(a,b){return a.pct-b.pct||b.fallas-a.fallas;});
+                }).sort(function(a,b){return b.pct-a.pct||b.fallas-a.fallas;});
                 repsTableEl.innerHTML='<table class="cr-table">'+
                     '<thead><tr><th>Repartidor</th><th style="text-align:center;">Asig.</th><th style="text-align:center;">Entg.</th><th style="text-align:center;">% Éxito</th><th style="text-align:center;">Estado</th></tr></thead>'+
                     '<tbody>'+repData.map(function(r){
